@@ -14,7 +14,7 @@
     </add>
   </xsl:template>
 
-  <xsl:template match="//bibl[@type='printedSource']">
+  <xsl:template match="bibl[@type='printedSource']">
     <field name="printedSource">
       <xsl:value-of select="title" />
     </field>
@@ -23,6 +23,12 @@
     </field>
     <field name="col">
       <xsl:value-of select="biblScope[@type='col']" />
+    </field>
+  </xsl:template>
+
+  <xsl:template match="entry">
+    <field name="internal_id">
+      <xsl:value-of select="@xml:id" />
     </field>
   </xsl:template>
 

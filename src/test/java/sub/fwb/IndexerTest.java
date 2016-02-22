@@ -40,5 +40,13 @@ public class IndexerTest {
         assertXpathEvaluatesTo("08", "//field[@name='volume']", result);
         assertXpathEvaluatesTo("1", "//field[@name='col']", result);
 	}
+	
+	@Test
+	public void shouldFindXmlId() throws Exception {
+		xslt.transform("src/test/resources/xmlId.xml", outputBaos);
+        String result = outputBaos.toString();
+		
+        assertXpathEvaluatesTo("some.id", "//field[@name='internal_id']", result);
+	}
 
 }
