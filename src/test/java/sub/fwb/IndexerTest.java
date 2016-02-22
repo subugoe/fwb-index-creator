@@ -1,10 +1,11 @@
 package sub.fwb;
 
-import static org.junit.Assert.*;
+import static org.custommonkey.xmlunit.XMLAssert.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -24,12 +25,20 @@ public class IndexerTest {
 		outputBaos = new ByteArrayOutputStream();
 	}
 
+	@After
+	public void afterEachTest() {
+        //System.out.println(outputBaos.toString());	
+	}
+	
 	@Test
-	public void test() throws Exception {
-        
-        xslt.transform("src/test/resources/test.xml", outputBaos);
+	public void shouldTransformPrintedSource() throws Exception {
+		xslt.transform("src/test/resources/printedSource.xml", outputBaos);
+        String result = outputBaos.toString();
 
-        System.out.println(outputBaos.toString());
+        assertXpathEvaluatesTo("artikel", "//field[@name='type']", result);
+        assertXpathEvaluatesTo("Some printed source", "//field[@name='printedSource']", result);
+        assertXpathEvaluatesTo("08", "//field[@name='volume']", result);
+        assertXpathEvaluatesTo("1", "//field[@name='col']", result);
 	}
 
 }
