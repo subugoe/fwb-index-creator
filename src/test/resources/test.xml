@@ -3,9 +3,7 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>
-                    my title
-                </title>
+                <title>my title</title>
             </titleStmt>
         </fileDesc>
     </teiHeader>
