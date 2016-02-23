@@ -9,8 +9,10 @@
     <add>
       <doc>
         <field name="type">artikel</field>
-        <xsl:apply-templates />
+        <xsl:apply-templates select="//teiHeader//sourceDesc/bibl" />
+        <xsl:apply-templates select="//body/entry" />
       </doc>
+      <xsl:apply-templates select="//body//sense" />
     </add>
   </xsl:template>
 
@@ -30,6 +32,15 @@
     <field name="internal_id">
       <xsl:value-of select="@xml:id" />
     </field>
+  </xsl:template>
+
+  <xsl:template match="sense">
+    <doc>
+      <field name="type">bedeutung</field>
+      <field name="definition_fulltext">
+        <xsl:value-of select="def" />
+      </field>
+    </doc>
   </xsl:template>
 
 </xsl:stylesheet>

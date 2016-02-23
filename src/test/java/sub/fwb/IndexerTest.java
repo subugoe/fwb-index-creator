@@ -48,5 +48,30 @@ public class IndexerTest {
 		
         assertXpathEvaluatesTo("some.id", "//field[@name='internal_id']", result);
 	}
+	
+	@Test
+	public void shouldTransformOneSense() throws Exception {
+		xslt.transform("src/test/resources/oneSense.xml", outputBaos);
+        String result = outputBaos.toString();
+		
+        assertXpathEvaluatesTo("1", "count(//field[text()='bedeutung'])", result);
+        assertXpathExists("//field[text()='Definition.']", result);
+	}
+	
+	@Test
+	public void shouldTransformTwoSenses() throws Exception {
+		xslt.transform("src/test/resources/twoSenses.xml", outputBaos);
+        String result = outputBaos.toString();
+		
+        assertXpathEvaluatesTo("2", "count(//field[text()='bedeutung'])", result);
+        assertXpathExists("//field[text()='Definition one.']", result);
+        assertXpathExists("//field[text()='Definition two.']", result);
+	}
+	
+	@Test
+	public void should() throws Exception {
+		//xslt.transform("/home/dennis/temp/i/i/in.in.s.7pr.xml", outputBaos);
+ 		
+ 	}
 
 }
