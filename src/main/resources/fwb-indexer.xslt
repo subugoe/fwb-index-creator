@@ -32,6 +32,30 @@
     <field name="internal_id">
       <xsl:value-of select="@xml:id" />
     </field>
+    <xsl:variable name="lemma" select="form[@type='lemma']/orth" />
+    <field name="lemma">
+      <xsl:value-of select="$lemma" />
+    </field>
+    <field name="lemma_normalized">
+      <xsl:choose>
+        <xsl:when test="ends-with($lemma, ',')">
+          <xsl:value-of select="substring-before($lemma, ',')" />
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$lemma" />
+        </xsl:otherwise>
+      </xsl:choose>
+    </field>
+    <field name="type_of_word">
+      <xsl:value-of select="dictScrap[@rend='artkopf']/gram[@type='wortart'][1]" />
+    </field>
+    <xsl:variable name="variants" select="dictScrap[@rend='artkopf']/hi[@rendition='it'][1]" />
+    <xsl:variable name="variants_tokenized" select="tokenize($variants, ',\s*')" />
+    <xsl:for-each select="$variants_tokenized">
+      <field name="notation_variant">
+        <xsl:value-of select="." />
+      </field>
+    </xsl:for-each>
   </xsl:template>
 
   <xsl:template match="sense">

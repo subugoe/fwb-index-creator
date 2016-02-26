@@ -2,7 +2,8 @@
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <text>
     <body>
-      <entry xml:id="some.id">
+      <entry>
+        <dictScrap rend="artkopf"> (auch <hi rendition="it">tesst, tesdt</hi>),</dictScrap>
       </entry>
     </body>
   </text>

@@ -42,11 +42,42 @@ public class IndexerTest {
 	}
 	
 	@Test
-	public void shouldFindXmlId() throws Exception {
-		xslt.transform("src/test/resources/xmlId.xml", outputBaos);
+	public void shouldFindArticleEntries() throws Exception {
+		xslt.transform("src/test/resources/articleEntries.xml", outputBaos);
         String result = outputBaos.toString();
 		
         assertXpathEvaluatesTo("some.id", "//field[@name='internal_id']", result);
+        assertXpathEvaluatesTo("test_lemma,", "//field[@name='lemma']", result);
+        assertXpathEvaluatesTo("test_lemma", "//field[@name='lemma_normalized']", result);
+        assertXpathEvaluatesTo("Pron.", "//field[@name='type_of_word']", result);
+	}
+	
+	@Test
+	public void shouldTransformLemmaWithoutComma() throws Exception {
+		xslt.transform("src/test/resources/lemmaWithoutComma.xml", outputBaos);
+        String result = outputBaos.toString();
+		
+        assertXpathEvaluatesTo("test_lemma", "//field[@name='lemma']", result);
+        assertXpathEvaluatesTo("test_lemma", "//field[@name='lemma_normalized']", result);
+	}
+	
+	@Test
+	public void shouldTransformOneVariant() throws Exception {
+		xslt.transform("src/test/resources/oneNotationVariant.xml", outputBaos);
+        String result = outputBaos.toString();
+		
+        assertXpathEvaluatesTo("1", "count(//field[@name='notation_variant'])", result);
+        assertXpathEvaluatesTo("tesst", "//field[@name='notation_variant']", result);
+	}
+	
+	@Test
+	public void shouldTransformTwoVariants() throws Exception {
+		xslt.transform("src/test/resources/twoNotationVariants.xml", outputBaos);
+        String result = outputBaos.toString();
+		
+        assertXpathEvaluatesTo("2", "count(//field[@name='notation_variant'])", result);
+        assertXpathEvaluatesTo("tesst", "//field[@name='notation_variant'][1]", result);
+        assertXpathEvaluatesTo("tesdt", "//field[@name='notation_variant'][2]", result);
 	}
 	
 	@Test
@@ -71,6 +102,16 @@ public class IndexerTest {
 	@Test
 	public void should() throws Exception {
 		//xslt.transform("/home/dennis/temp/i/i/in.in.s.7pr.xml", outputBaos);
+ 		
+ 	}
+	@Test
+	public void shouldRef() throws Exception {
+		//xslt.transform("/home/dennis/temp/i/i/it.it.s.9ref.xml", outputBaos);
+ 		
+ 	}
+	@Test
+	public void shouldArzeneien() throws Exception {
+		//xslt.transform("/home/dennis/Downloads/arzneien.arzneien.s.3v.xml", outputBaos);
  		
  	}
 
