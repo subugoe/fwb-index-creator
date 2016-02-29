@@ -11,6 +11,7 @@
         <field name="type">artikel</field>
         <xsl:apply-templates select="//teiHeader//sourceDesc/bibl" />
         <xsl:apply-templates select="//body/entry" />
+        <xsl:apply-templates select="//body/entry" mode="html_fulltext" />
       </doc>
       <xsl:apply-templates select="//body//sense" />
     </add>
@@ -59,6 +60,56 @@
     <field name="is_reference">
       <xsl:value-of select="not(sense)" />
     </field>
+  </xsl:template>
+
+  <xsl:template match="entry" mode="html_fulltext">
+    <field name="article_html">
+      <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+      <div class="article">
+        <xsl:apply-templates select="*" mode="html_fulltext" />
+      </div>
+      <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+    </field>
+  </xsl:template>
+
+  <xsl:template match="*" mode="html_fulltext">
+  </xsl:template>
+
+  <xsl:template match="form[@type='lemma']" mode="html_fulltext">
+    <div class="lemma">
+      <xsl:value-of select="orth" />
+    </div>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='artkopf']" mode="html_fulltext">
+    <div class="article_head">
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </div>
+  </xsl:template>
+
+  <xsl:template match="text()" mode="html_fulltext">
+    <xsl:value-of select="." />
+  </xsl:template>
+
+  <xsl:template match="hi[@rendition='it']" mode="html_fulltext">
+    <span class="italic">
+      <xsl:value-of select="." />
+    </span>
+  </xsl:template>
+
+  <xsl:template match="gram[@type='wortart']" mode="html_fulltext">
+    <span class="type_of_word">
+      <xsl:value-of select="." />
+    </span>
+  </xsl:template>
+
+  <xsl:template match="ref" mode="html_fulltext">
+    <a href="{@target}">
+      <xsl:value-of select="." />
+    </a>
+  </xsl:template>
+
+  <xsl:template match="sense" mode="html_fulltext">
   </xsl:template>
 
   <xsl:template match="sense">
