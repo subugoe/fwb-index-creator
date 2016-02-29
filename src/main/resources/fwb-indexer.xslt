@@ -56,6 +56,9 @@
         <xsl:value-of select="." />
       </field>
     </xsl:for-each>
+    <field name="is_reference">
+      <xsl:value-of select="not(sense)" />
+    </field>
   </xsl:template>
 
   <xsl:template match="sense">

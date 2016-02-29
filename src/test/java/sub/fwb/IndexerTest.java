@@ -81,6 +81,22 @@ public class IndexerTest {
 	}
 	
 	@Test
+	public void shouldRecognizeRefArticle() throws Exception {
+		xslt.transform("src/test/resources/articleRef.xml", outputBaos);
+        String result = outputBaos.toString();
+		
+        assertXpathEvaluatesTo("true", "//field[@name='is_reference']", result);
+	}
+	
+	@Test
+	public void shouldRecognizeNormalArticle() throws Exception {
+		xslt.transform("src/test/resources/articleNotRef.xml", outputBaos);
+        String result = outputBaos.toString();
+		
+        assertXpathEvaluatesTo("false", "//field[@name='is_reference']", result);
+	}
+	
+	@Test
 	public void shouldTransformOneSense() throws Exception {
 		xslt.transform("src/test/resources/oneSense.xml", outputBaos);
         String result = outputBaos.toString();
