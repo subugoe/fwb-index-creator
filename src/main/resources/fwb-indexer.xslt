@@ -110,7 +110,107 @@
   </xsl:template>
 
   <xsl:template match="sense" mode="html_fulltext">
+    <div class="sense">
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </div>
   </xsl:template>
+
+  <xsl:template match="def" mode="html_fulltext">
+    <div class="definition">
+      <xsl:apply-templates select="text()|*" mode="html_fulltext" />
+      <xsl:apply-templates select="following-sibling::dictScrap[@rend='wbv']"
+        mode="html_fulltext_once" />
+    </div>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='wbv']" mode="html_fulltext_once">
+    <span class="wbv">
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </span>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='bdv']" mode="html_fulltext">
+    <div class="bdv">
+      <span class="bdv-header">
+        <xsl:text>Bdv.: </xsl:text>
+      </span>
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </div>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='synt']" mode="html_fulltext">
+    <div class="synt">
+      <span class="synt-header">
+        <xsl:text>Synt. </xsl:text>
+      </span>
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </div>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='wbg']" mode="html_fulltext">
+    <div class="wbg">
+      <span class="wbg-header">
+        <xsl:text>Wbg. </xsl:text>
+      </span>
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </div>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='cit']" mode="html_fulltext">
+    <div class="cites">
+      <span class="cites-header">
+        <xsl:text>Quellenzitate: </xsl:text>
+      </span>
+      <xsl:apply-templates select="*" mode="html_fulltext" />
+    </div>
+  </xsl:template>
+
+  <xsl:template match="cit" mode="html_fulltext">
+    <div class="cite">
+      <xsl:apply-templates select="*" mode="html_fulltext" />
+    </div>
+  </xsl:template>
+
+  <xsl:template match="bibl" mode="html_fulltext">
+    <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    <xsl:if test="following-sibling::quote">
+      <xsl:text>: </xsl:text>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="name" mode="html_fulltext">
+    <span class="name">
+      <xsl:value-of select="." />
+    </span>
+  </xsl:template>
+
+  <xsl:template match="citedRange" mode="html_fulltext">
+    <span class="citedRange">
+      <xsl:value-of select="." />
+    </span>
+  </xsl:template>
+
+  <xsl:template match="region|date" mode="html_fulltext">
+    <span class="{local-name()}">
+      <xsl:value-of select="." />
+    </span>
+  </xsl:template>
+
+  <xsl:template match="quote" mode="html_fulltext">
+    <span class="quote">
+      <xsl:value-of select="*|text()" />
+    </span>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='bls']" mode="html_fulltext">
+    <div class="bls">
+      <span class="bls-header">
+        <xsl:text>Belegstellenangaben: </xsl:text>
+      </span>
+      <xsl:apply-templates select="*" mode="html_fulltext" />
+    </div>
+  </xsl:template>
+
 
   <xsl:template match="sense">
     <doc>
