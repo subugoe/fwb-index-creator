@@ -1,6 +1,9 @@
 package sub.fwb;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.xml.transform.stream.StreamSource;
@@ -17,9 +20,13 @@ public class Xslt {
     private Processor processor = new Processor(false);
     private XsltExecutable exe;
     
-	public Xslt(String xsltPath) throws SaxonApiException {
+	public Xslt(String xsltPath) throws SaxonApiException, FileNotFoundException {
+        this(new FileInputStream((new File(xsltPath))));
+	}
+	
+	public Xslt(InputStream xsltStream) throws SaxonApiException {
         XsltCompiler comp = processor.newXsltCompiler();
-        exe = comp.compile(new StreamSource(new File(xsltPath)));
+        exe = comp.compile(new StreamSource(xsltStream));
 	}
 	
 	public void transform(String inputXmlPath, OutputStream outputXmlStream) throws SaxonApiException {
