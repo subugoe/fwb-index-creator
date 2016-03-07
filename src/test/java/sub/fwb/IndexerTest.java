@@ -36,7 +36,7 @@ public class IndexerTest {
         String result = outputBaos.toString();
 
         assertXpathEvaluatesTo("artikel", "//field[@name='type']", result);
-        assertXpathEvaluatesTo("Some printed source", "//field[@name='printedSource']", result);
+        assertXpathEvaluatesTo("Some printed source", "//field[@name='printed_source']", result);
         assertXpathEvaluatesTo("08", "//field[@name='volume']", result);
         assertXpathEvaluatesTo("1", "//field[@name='col']", result);
 	}
