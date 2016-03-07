@@ -97,6 +97,24 @@ public class IndexerTest {
 	}
 	
 	@Test
+	public void shouldSetArticleId() throws Exception {
+		xslt.setParameter("currentArticleId", "123");
+		xslt.transform("src/test/resources/articleId.xml", outputBaos);
+        String result = outputBaos.toString();
+		
+        assertXpathEvaluatesTo("123", "//field[@name='id']", result);
+	}
+	
+	@Test
+	public void shouldSetSenseId() throws Exception {
+		xslt.setParameter("currentArticleId", "123");
+		xslt.transform("src/test/resources/senseId.xml", outputBaos);
+        String result = outputBaos.toString();
+		
+        assertXpathEvaluatesTo("123_1", "//doc[2]/field[@name='id']", result);
+	}
+	
+	@Test
 	public void shouldTransformOneSense() throws Exception {
 		xslt.transform("src/test/resources/oneSense.xml", outputBaos);
         String result = outputBaos.toString();
@@ -127,6 +145,7 @@ public class IndexerTest {
  	}
 	@Test
 	public void shouldArzeneien() throws Exception {
+		//xslt.setParameter("currentArticleId", "123");
 		//xslt.transform("/home/dennis/Downloads/arzneien.arzneien.s.3v.xml", outputBaos);
  		
  	}

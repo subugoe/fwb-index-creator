@@ -4,11 +4,16 @@
 
   <xsl:output method="xml" indent="yes" />
   <xsl:strip-space elements="*" />
+  
+  <xsl:param name="currentArticleId"/>
 
   <xsl:template match="/">
     <add>
       <doc>
         <field name="type">artikel</field>
+        <field name="id">
+          <xsl:value-of select="$currentArticleId" />
+        </field>
         <xsl:apply-templates select="//teiHeader//sourceDesc/bibl" />
         <xsl:apply-templates select="//body/entry" />
         <xsl:apply-templates select="//body/entry" mode="html_fulltext" />
@@ -18,7 +23,7 @@
   </xsl:template>
 
   <xsl:template match="bibl[@type='printedSource']">
-    <field name="printedSource">
+    <field name="printed_source">
       <xsl:value-of select="title" />
     </field>
     <field name="volume">
@@ -215,6 +220,11 @@
   <xsl:template match="sense">
     <doc>
       <field name="type">bedeutung</field>
+      <field name="id">
+        <xsl:value-of select="$currentArticleId" />
+        <xsl:text>_</xsl:text>
+        <xsl:value-of select="count(preceding-sibling::sense) + 1" />
+      </field>
       <field name="definition_fulltext">
         <xsl:value-of select="def" />
       </field>
