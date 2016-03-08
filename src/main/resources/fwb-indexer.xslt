@@ -38,7 +38,7 @@
     <field name="internal_id">
       <xsl:value-of select="@xml:id" />
     </field>
-    <xsl:variable name="lemma" select="form[@type='lemma']/orth" />
+    <xsl:variable name="lemma" select="normalize-space(form[@type='lemma']/orth)" />
     <field name="lemma">
       <xsl:value-of select="$lemma" />
     </field>
@@ -88,6 +88,12 @@
 
   <xsl:template match="dictScrap[@rend='artkopf']" mode="html_fulltext">
     <div class="article_head">
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </div>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='phras']" mode="html_fulltext">
+    <div class="phras">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
   </xsl:template>

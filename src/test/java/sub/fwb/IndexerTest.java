@@ -62,6 +62,15 @@ public class IndexerTest {
 	}
 	
 	@Test
+	public void shouldNormalizeLemmaWithSpace() throws Exception {
+		xslt.transform("src/test/resources/lemmaWithSpace.xml", outputBaos);
+        String result = outputBaos.toString();
+		
+        assertXpathEvaluatesTo("test_lemma,", "//field[@name='lemma']", result);
+        assertXpathEvaluatesTo("test_lemma", "//field[@name='lemma_normalized']", result);
+	}
+	
+	@Test
 	public void shouldTransformOneVariant() throws Exception {
 		xslt.transform("src/test/resources/oneNotationVariant.xml", outputBaos);
         String result = outputBaos.toString();
