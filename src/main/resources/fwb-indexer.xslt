@@ -86,6 +86,12 @@
     </div>
   </xsl:template>
 
+  <xsl:template match="form[@type='neblem']" mode="html_fulltext">
+    <span class="neblem">
+      <xsl:value-of select="orth" />
+    </span>
+  </xsl:template>
+
   <xsl:template match="dictScrap[@rend='artkopf']" mode="html_fulltext">
     <div class="article_head">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
@@ -94,6 +100,18 @@
 
   <xsl:template match="dictScrap[@rend='phras']" mode="html_fulltext">
     <div class="phras">
+      <span class="phras-header">
+        <xsl:text>Phras: </xsl:text>
+      </span>
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </div>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='ggs']" mode="html_fulltext">
+    <div class="ggs">
+      <span class="ggs-header">
+        <xsl:text>Ggs.: </xsl:text>
+      </span>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
   </xsl:template>
@@ -104,6 +122,12 @@
 
   <xsl:template match="hi[@rendition='it']" mode="html_fulltext">
     <span class="italic">
+      <xsl:value-of select="." />
+    </span>
+  </xsl:template>
+
+  <xsl:template match="hi[@rendition='hoch']" mode="html_fulltext">
+    <span class="higher_and_smaller">
       <xsl:value-of select="." />
     </span>
   </xsl:template>
@@ -138,6 +162,12 @@
     <span class="wbv">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </span>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='stw']" mode="html_fulltext">
+    <div class="stw">
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </div>
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='bdv']" mode="html_fulltext">
