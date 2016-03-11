@@ -27,7 +27,7 @@ public class IndexerTest {
 
 	@After
 	public void afterEachTest() {
-		//System.out.println(outputBaos.toString());
+		// System.out.println(outputBaos.toString());
 	}
 
 	@Test
@@ -144,18 +144,21 @@ public class IndexerTest {
 
 	@Test
 	public void should() throws Exception {
-		//xslt.transform("/home/dennis/temp/i/i/in.in.s.7pr.xml", outputBaos);
+		// xslt.transform("/home/dennis/temp/i/i/in.in.s.7pr.xml", outputBaos);
 
 	}
+
 	@Test
 	public void shouldRef() throws Exception {
-		//xslt.transform("/home/dennis/temp/i/i/it.it.s.9ref.xml", outputBaos);
+		// xslt.transform("/home/dennis/temp/i/i/it.it.s.9ref.xml", outputBaos);
 
 	}
+
 	@Test
 	public void shouldArzeneien() throws Exception {
-		//xslt.setParameter("currentArticleId", "123");
-		//xslt.transform("/home/dennis/Downloads/arzneien.arzneien.s.3v.xml", outputBaos);
+		// xslt.setParameter("currentArticleId", "123");
+		// xslt.transform("/home/dennis/Downloads/arzneien.arzneien.s.3v.xml",
+		// outputBaos);
 
 	}
 
