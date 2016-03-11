@@ -10,24 +10,40 @@ import java.util.Date;
 public class Main {
 
 	public static void main(String[] args) throws Exception {
-		
-		
+
+
 		if (args.length != 2) {
 			System.out.println("Syntax: java -jar indexer.jar <input-dir> <output-dir>");
 		} else {
 			File inputDir = new File(args[0]);
 			File outputDir = new File(args[1]);
-			
+
+			if (!outputDir.exists()) {
+				System.out.println("Creating directory: " + outputDir);
+				boolean result = false;
+
+				try{
+					outputDir.mkdir();
+					result = true;
+				}
+				catch(SecurityException se){
+					//handle it
+				}
+				if(result) {
+					System.out.println(outputDir + " created");
+				}
+			}
+
 			InputStream xsltStream = Main.class.getResourceAsStream("/fwb-indexer.xslt");
 			Xslt xslt = new Xslt(xsltStream);
-			
-			
+
+
 			long before = new Date().getTime();
 
 			ArrayList<File> allFiles = new ArrayList<File>();
 			fillWithFiles(allFiles, inputDir);
 			Collections.sort(allFiles);
-			
+
 			int i = 0;
 			for (File currentFile : allFiles) {
 				File previousFile = i>0 ? allFiles.get(i-1) : null;
@@ -36,14 +52,14 @@ public class Main {
 				xslt.transform(currentFile.getAbsolutePath(), new FileOutputStream(new File(outputDir, ""+(i+1)+".xml")));
 				i++;
 			}
-			
+
 			long after = new Date().getTime();
 			System.out.println("Took " + (after - before) + " milliseconds");
-			
+
 		}
 
 	}
-	
+
 	private static void fillWithFiles(ArrayList<File> allFiles, File currentDir) {
 		File[] currentDirChildren = currentDir.listFiles();
 		for (File child : currentDirChildren) {
