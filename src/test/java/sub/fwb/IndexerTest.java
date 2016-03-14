@@ -115,6 +115,22 @@ public class IndexerTest {
 	}
 
 	@Test
+	public void shouldSetPreviousAndNext() throws Exception {
+		xslt.setParameter("previousArticleId", "prev_id");
+		xslt.setParameter("nextArticleId", "next_id");
+		xslt.setParameter("previousLemma", "prev_lemma");
+		xslt.setParameter("nextLemma", "next_lemma");
+
+		xslt.transform("src/test/resources/articleId.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("prev_id", "//field[@name='article_previous_id']", result);
+		assertXpathEvaluatesTo("next_id", "//field[@name='article_next_id']", result);
+		assertXpathEvaluatesTo("prev_lemma", "//field[@name='article_previous_lemma']", result);
+		assertXpathEvaluatesTo("next_lemma", "//field[@name='article_next_lemma']", result);
+	}
+
+	@Test
 	public void shouldSetSenseId() throws Exception {
 		xslt.setParameter("currentArticleId", "123");
 		xslt.transform("src/test/resources/senseId.xml", outputBaos);

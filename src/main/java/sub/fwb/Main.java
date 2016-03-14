@@ -43,11 +43,19 @@ public class Main {
 
 			int i = 0;
 			for (File currentFile : allFiles) {
-				File previousFile = i > 0 ? allFiles.get(i - 1) : null;
-				File nextFile = i < allFiles.size() - 1 ? allFiles.get(i + 1) : null;
-				xslt.setParameter("currentArticleId", "" + (i + 1));
+				int currentId = i + 1;
+				if (i > 0) {
+					addFileParametersToXslt("previous", (currentId - 1) + "", allFiles.get(i - 1), xslt);
+				}
+				if (i < allFiles.size() - 1) {
+					addFileParametersToXslt("next", (currentId + 1) + "", allFiles.get(i + 1), xslt);
+				} else {
+					xslt.setParameter("nextArticleId", "");
+					xslt.setParameter("nextLemma", "");
+				}
+				xslt.setParameter("currentArticleId", currentId + "");
 				xslt.transform(currentFile.getAbsolutePath(),
-						new FileOutputStream(new File(outputDir, "" + (i + 1) + ".xml")));
+						new FileOutputStream(new File(outputDir, currentId + ".xml")));
 				i++;
 			}
 
@@ -68,6 +76,15 @@ public class Main {
 			}
 		}
 
+	}
+
+	private static void addFileParametersToXslt(String previousOrNext, String id, File file, Xslt xslt) {
+		xslt.setParameter(previousOrNext + "ArticleId", id);
+
+		String fileName = file.getName();
+		int indexOfFirstDot = fileName.indexOf('.');
+		String lemma = fileName.substring(0, indexOfFirstDot);
+		xslt.setParameter(previousOrNext + "Lemma", lemma);
 	}
 
 }
