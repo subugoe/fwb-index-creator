@@ -140,6 +140,15 @@ public class IndexerTest {
 	}
 
 	@Test
+	public void shouldSetArticleIdInSense() throws Exception {
+		xslt.setParameter("currentArticleId", "123");
+		xslt.transform("src/test/resources/senseId.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("123", "//doc[2]/field[@name='ref_id']", result);
+	}
+
+	@Test
 	public void shouldTransformOneSense() throws Exception {
 		xslt.transform("src/test/resources/oneSense.xml", outputBaos);
 		String result = outputBaos.toString();
