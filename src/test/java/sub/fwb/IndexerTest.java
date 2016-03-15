@@ -168,6 +168,17 @@ public class IndexerTest {
 	}
 
 	@Test
+	public void shouldFindRelatedArticlesInSense() throws Exception {
+		xslt.transform("src/test/resources/relatedArticles.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("2", "count(//field[@name='article_related_id'])", result);
+		assertXpathEvaluatesTo("2", "count(//field[@name='article_related_lemma'])", result);
+		assertXpathEvaluatesTo("related_id_1", "//field[@name='article_related_id'][1]", result);
+		assertXpathEvaluatesTo("lemma2", "//field[@name='article_related_lemma'][2]", result);
+	}
+
+	@Test
 	public void should() throws Exception {
 		// xslt.transform("/home/dennis/temp/i/i/in.in.s.7pr.xml", outputBaos);
 
