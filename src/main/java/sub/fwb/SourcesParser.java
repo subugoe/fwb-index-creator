@@ -2,10 +2,9 @@ package sub.fwb;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,22 +22,42 @@ public class SourcesParser {
 
 		XSSFSheet sheet = workbook.getSheetAt(0);
 
-		for (int i = 1; i < 6; i++) {
+		for (int i = 1; i < 1321; i++) {
 
 			Row r = sheet.getRow(i);
 
 			Cell c = r.getCell(2);
 			String wholeCell = c.getStringCellValue();
 
-			Pattern pattern = Pattern.compile("\\$c(.*?)#");
-			Matcher matcher = pattern.matcher(wholeCell);
-			String foundName = "";
-			if (matcher.find()) {
-				foundName = matcher.group(1);
-			}
+			String foundName = extractUsingRegex("\\$c(.*?)#", wholeCell).get(0);
+			System.out.println();
 			// System.out.println(foundName);
 
+			Cell biblioCell = r.getCell(15);
+			String biblio = biblioCell.getStringCellValue();
+			String hrsg = extractUsingRegex("[hH]rsg\\. v\\.\\s*(.*?\\w\\w)\\.", biblio).get(0);
+			System.out.println(i + 1 + ": " + hrsg);
+
+			List<String> years = extractUsingRegex("(\\w*\\s1\\d\\d\\d)", biblio);
+			for (String year : years) {
+				System.out.println(i + 1 + ": " + year);
+			}
 		}
+		workbook.close();
+	}
+
+	private List<String> extractUsingRegex(String regex, String s) {
+		List<String> results = new ArrayList<String>();
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(s);
+		while (matcher.find()) {
+			results.add(matcher.group(1));
+		}
+
+		if (results.isEmpty()) {
+			results.add("");
+		}
+		return results;
 	}
 
 }
