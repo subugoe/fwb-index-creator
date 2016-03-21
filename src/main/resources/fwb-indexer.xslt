@@ -63,7 +63,7 @@
     <field name="lemma_normalized">
       <xsl:choose>
         <xsl:when test="ends-with($lemma, ',')">
-          <xsl:value-of select="substring-before($lemma, ',')" />
+          <xsl:value-of select="normalize-space(substring-before($lemma, ','))" />
         </xsl:when>
         <xsl:otherwise>
           <xsl:value-of select="$lemma" />
@@ -96,6 +96,13 @@
   </xsl:template>
 
   <xsl:template match="*" mode="html_fulltext">
+    <missing>
+      <xsl:value-of select="local-name()" />
+      <xsl:text>, </xsl:text>
+      <xsl:value-of select="@rend" />
+      <xsl:text>: </xsl:text>
+      <xsl:value-of select="text()" />
+    </missing>
   </xsl:template>
 
   <xsl:template match="form[@type='lemma']" mode="html_fulltext">
@@ -111,14 +118,14 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='artkopf']" mode="html_fulltext">
-    <div class="article_head">
+    <div class="article-head">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='phras']" mode="html_fulltext">
     <div class="phras">
-      <span class="phras-header">
+      <span class="phras-begin">
         <xsl:text>Phras: </xsl:text>
       </span>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
@@ -127,7 +134,7 @@
 
   <xsl:template match="dictScrap[@rend='ggs']" mode="html_fulltext">
     <div class="ggs">
-      <span class="ggs-header">
+      <span class="ggs-begin">
         <xsl:text>Ggs.: </xsl:text>
       </span>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
@@ -145,15 +152,35 @@
   </xsl:template>
 
   <xsl:template match="hi[@rendition='hoch']" mode="html_fulltext">
-    <span class="higher_and_smaller">
+    <span class="higher-and-smaller">
       <xsl:value-of select="." />
     </span>
   </xsl:template>
 
-  <xsl:template match="gram[@type='wortart']" mode="html_fulltext">
-    <span class="type_of_word">
+  <xsl:template match="hi[@rendition='rect']" mode="html_fulltext">
+    <span class="rect">
       <xsl:value-of select="." />
     </span>
+  </xsl:template>
+
+  <xsl:template match="lb" mode="html_fulltext">
+    <xsl:text> / </xsl:text>
+  </xsl:template>
+
+  <xsl:template match="gram[@type='wortart']" mode="html_fulltext">
+    <span class="type-of-word">
+      <xsl:value-of select="." />
+    </span>
+  </xsl:template>
+
+  <xsl:template match="gram[@type='flex']" mode="html_fulltext">
+    <span class="flex">
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </span>
+  </xsl:template>
+
+  <xsl:template match="oRef" mode="html_fulltext">
+    <xsl:text>-</xsl:text>
   </xsl:template>
 
   <xsl:template match="ref" mode="html_fulltext">
@@ -182,6 +209,9 @@
     </span>
   </xsl:template>
 
+  <xsl:template match="dictScrap[@rend='wbv']" mode="html_fulltext">
+  </xsl:template>
+
   <xsl:template match="dictScrap[@rend='stw']" mode="html_fulltext">
     <div class="stw">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
@@ -190,7 +220,7 @@
 
   <xsl:template match="dictScrap[@rend='bdv']" mode="html_fulltext">
     <div class="bdv">
-      <span class="bdv-header">
+      <span class="bdv-begin">
         <xsl:text>Bdv.: </xsl:text>
       </span>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
@@ -199,7 +229,7 @@
 
   <xsl:template match="dictScrap[@rend='synt']" mode="html_fulltext">
     <div class="synt">
-      <span class="synt-header">
+      <span class="synt-begin">
         <xsl:text>Synt. </xsl:text>
       </span>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
@@ -208,7 +238,7 @@
 
   <xsl:template match="dictScrap[@rend='wbg']" mode="html_fulltext">
     <div class="wbg">
-      <span class="wbg-header">
+      <span class="wbg-begin">
         <xsl:text>Wbg. </xsl:text>
       </span>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
@@ -217,9 +247,25 @@
 
   <xsl:template match="dictScrap[@rend='cit']" mode="html_fulltext">
     <div class="cites">
-      <span class="cites-header">
+      <span class="cites-begin">
         <xsl:text>Quellenzitate: </xsl:text>
       </span>
+      <xsl:apply-templates select="*" mode="html_fulltext" />
+    </div>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='ref']" mode="html_fulltext">
+    <div class="dict-ref">
+      <span class="dict-ref-begin">
+        <xsl:text>Zur Sache: </xsl:text>
+      </span>
+      <xsl:apply-templates select="*" mode="html_fulltext" />
+    </div>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='sv']" mode="html_fulltext">
+    <div class="subvoce">
+      <xsl:text>‒</xsl:text>
       <xsl:apply-templates select="*" mode="html_fulltext" />
     </div>
   </xsl:template>
@@ -244,7 +290,7 @@
   </xsl:template>
 
   <xsl:template match="citedRange" mode="html_fulltext">
-    <span class="citedRange">
+    <span class="cited-range">
       <xsl:value-of select="." />
     </span>
   </xsl:template>
@@ -257,13 +303,13 @@
 
   <xsl:template match="quote" mode="html_fulltext">
     <span class="quote">
-      <xsl:value-of select="*|text()" />
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </span>
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='bls']" mode="html_fulltext">
     <div class="bls">
-      <span class="bls-header">
+      <span class="bls-begin">
         <xsl:text>Belegstellenangaben: </xsl:text>
       </span>
       <xsl:apply-templates select="*" mode="html_fulltext" />

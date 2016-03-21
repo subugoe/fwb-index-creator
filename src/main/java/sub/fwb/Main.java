@@ -55,7 +55,7 @@ public class Main {
 				}
 				xslt.setParameter("currentArticleId", currentId + "");
 				xslt.transform(currentFile.getAbsolutePath(),
-						new FileOutputStream(new File(outputDir, currentId + ".xml")));
+						new FileOutputStream(new File(outputDir, currentFile.getName())));
 				i++;
 			}
 
