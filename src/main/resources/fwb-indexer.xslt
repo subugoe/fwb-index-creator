@@ -126,7 +126,7 @@
   <xsl:template match="dictScrap[@rend='phras']" mode="html_fulltext">
     <div class="phras">
       <span class="phras-begin">
-        <xsl:text>Phras: </xsl:text>
+        <xsl:text>Phras.: </xsl:text>
       </span>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
