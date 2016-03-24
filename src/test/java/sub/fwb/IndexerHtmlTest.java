@@ -165,6 +165,33 @@ public class IndexerHtmlTest {
 		assertXpathExists("//span[@class='wbg-begin']", html);
 		assertXpathExists("//div[@class='dict-ref']", html);
 		assertXpathExists("//span[@class='dict-ref-begin']", html);
+		assertXpathExists("//div[@class='subvoce']", html);
+		assertXpathExists("//span[@class='subvoce-begin']", html);
+	}
+
+	@Test
+	public void shouldTransformCite() throws Exception {
+		xslt.transform("src/test/resources/html/cite.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString());
+
+		assertXpathExists("//div[@class='citations']", html);
+		assertXpathExists("//span[@class='citations-begin']", html);
+		assertXpathExists("//div[@class='citation']", html);
+		assertXpathEvaluatesTo("Name", "//span[@class='name']", html);
+		assertXpathEvaluatesTo("13, 20 ", "//span[@class='cited-range']", html);
+		assertXpathEvaluatesTo("Region", "//span[@class='region']", html);
+		assertXpathEvaluatesTo("1599", "//span[@class='date']", html);
+		assertXpathEvaluatesTo("Quote", "//span[@class='quote']", html);
+	}
+
+	@Test
+	public void shouldTransformBls() throws Exception {
+		xslt.transform("src/test/resources/html/bls.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString());
+
+		assertXpathExists("//div[@class='bls']", html);
+		assertXpathExists("//span[@class='bls-begin']", html);
+		assertXpathEvaluatesTo("Citation", "//div[@class='citation']", html);
 	}
 
 	private String extractHtmlField(String s) {
