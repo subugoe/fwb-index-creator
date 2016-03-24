@@ -246,8 +246,8 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='cit']" mode="html_fulltext">
-    <div class="cites">
-      <span class="cites-begin">
+    <div class="citations">
+      <span class="citations-begin">
         <xsl:text>Quellenzitate: </xsl:text>
       </span>
       <xsl:apply-templates select="*" mode="html_fulltext" />
@@ -259,19 +259,21 @@
       <span class="dict-ref-begin">
         <xsl:text>Zur Sache: </xsl:text>
       </span>
-      <xsl:apply-templates select="*" mode="html_fulltext" />
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='sv']" mode="html_fulltext">
     <div class="subvoce">
-      <xsl:text>‒</xsl:text>
-      <xsl:apply-templates select="*" mode="html_fulltext" />
+      <span class="subvoce-begin">
+        <xsl:text>‒ </xsl:text>
+      </span>
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
   </xsl:template>
 
   <xsl:template match="cit" mode="html_fulltext">
-    <div class="cite">
+    <div class="citation">
       <xsl:apply-templates select="*" mode="html_fulltext" />
     </div>
   </xsl:template>
