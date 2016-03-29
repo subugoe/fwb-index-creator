@@ -15,38 +15,39 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class SourcesParser {
 	
-	private String[] headers = {"sort", "sigle", "kraftliste", "", "", "", "", "", "", "", "pdf", "epdf", "online", "eonline", "permalink", "biblio", "citing", "syptom"};
+	private String[] headers = {"sort", "id", "kraftliste", "", "", "", "", "", "", "", "pdf", "epdf", "online", "eonline", "permalink", "biblio", "citing", "syptom"};
 
 	public void bla() throws IOException {
-		FileInputStream file = new FileInputStream(new File("/home/dennis/temp/FWB-Quellenliste2.xlsx"));
+		FileInputStream file = new FileInputStream(new File("/home/dennis/temp/FWB-Quellenliste.xlsx"));
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("<sheet>\n");
+		buffer.append("<add>\n");
 
 		XSSFWorkbook workbook = new XSSFWorkbook(file);
 
 		XSSFSheet sheet = workbook.getSheetAt(0);
 
-		for (int i = 1; i <= 49; i++) {
+		for (int i = 1; i <= sheet.getLastRowNum(); i++) {
 			
-			buffer.append("<entry>\n");
+			buffer.append("<doc>\n");
+			buffer.append("<field name=\"type\">werk</field>\n");
 			Row row = sheet.getRow(i);
 			for (int j = 0; j < headers.length; j++) {
 				Cell cell = row.getCell(j);
 				if (cell != null) {
-					buffer.append("<" + headers[j] + ">");
+					buffer.append("<field name=\"" + headers[j] + "\">");
 					if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
 						buffer.append(cell.getStringCellValue());
 					} else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-						buffer.append(cell.getNumericCellValue());
+						buffer.append(new Double(cell.getNumericCellValue()).intValue());
 					}
-					buffer.append("</" + headers[j] + ">\n");
+					buffer.append("</field>\n");
 				}
 				if (j == 2) {
 					j += 7;
 				}
 			}
 			
-			buffer.append("</entry>\n");
+			buffer.append("</doc>\n");
 			
 			
 			
@@ -76,7 +77,7 @@ public class SourcesParser {
 		}
 		workbook.close();
 		
-		buffer.append("</sheet>");
+		buffer.append("</add>");
 		System.out.println(buffer);
 	}
 
