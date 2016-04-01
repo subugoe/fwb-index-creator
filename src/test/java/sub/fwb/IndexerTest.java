@@ -193,7 +193,7 @@ public class IndexerTest {
 	@Test
 	public void shouldArzeneien() throws Exception {
 		// xslt.setParameter("currentArticleId", "123");
-		// xslt.transform("/home/dennis/Downloads/arzneien.arzneien.s.3v.xml",
+		// xslt.transform("/home/dennis/temp/i/arzneien.arzneien.s.3v.xml",
 		// outputBaos);
 
 	}

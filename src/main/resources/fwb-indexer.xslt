@@ -335,6 +335,7 @@
       </field>
       <xsl:apply-templates select="dictScrap[@rend='bdv']/ref" />
     </doc>
+    <xsl:apply-templates select=".//cit" />
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='bdv']/ref">
@@ -346,6 +347,30 @@
         <xsl:value-of select="." />
       </field>
     </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="cit">
+    <xsl:variable name="currentSenseId">
+      <xsl:value-of select="$currentArticleId" />
+      <xsl:text>_</xsl:text>
+      <xsl:value-of select="count(preceding-sibling::sense) + 1" />
+    </xsl:variable>
+    <doc>
+      <field name="type">quelle</field>
+      <field name="ref_id">
+        <xsl:value-of select="$currentSenseId" />
+      </field>
+      <field name="id">
+        <xsl:value-of select="$currentSenseId" />
+        <xsl:text>_</xsl:text>
+        <xsl:value-of select="count(preceding::cit) + 1" />
+      </field>
+      <field name="source_title">
+        <!--xsl:variable name="sigle" select="bibl/name/@n" / -->
+        <!--xsl:value-of xpath-default-namespace="" select="document('file:///tmp/excel.xml')//entry[sigle=$sigle]/biblio" 
+          / -->
+      </field>
+    </doc>
   </xsl:template>
 
 </xsl:stylesheet>

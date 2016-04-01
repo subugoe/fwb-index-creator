@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -18,7 +19,7 @@ public class SourcesParser {
 	private String[] headers = {"sort", "sigle", "kraftliste", "", "", "", "", "", "", "", "pdf", "epdf", "online", "eonline", "permalink", "biblio", "citing", "syptom"};
 
 	public void bla() throws IOException {
-		FileInputStream file = new FileInputStream(new File("/home/dennis/temp/FWB-Quellenliste2.xlsx"));
+		FileInputStream file = new FileInputStream(new File("/home/dennis/temp/FWB-Quellenliste.xlsx"));
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("<sheet>\n");
 
@@ -26,7 +27,8 @@ public class SourcesParser {
 
 		XSSFSheet sheet = workbook.getSheetAt(0);
 
-		for (int i = 1; i <= 49; i++) {
+//		for (int i = 1; i <= 49; i++) {
+		for (int i = 1; i <= sheet.getLastRowNum(); i++) {
 			
 			buffer.append("<entry>\n");
 			Row row = sheet.getRow(i);
@@ -35,9 +37,11 @@ public class SourcesParser {
 				if (cell != null) {
 					buffer.append("<" + headers[j] + ">");
 					if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+						buffer.append("<![CDATA[");
 						buffer.append(cell.getStringCellValue());
+						buffer.append("]]>");
 					} else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-						buffer.append(cell.getNumericCellValue());
+						buffer.append(new Double(cell.getNumericCellValue()).intValue());
 					}
 					buffer.append("</" + headers[j] + ">\n");
 				}
@@ -77,7 +81,8 @@ public class SourcesParser {
 		workbook.close();
 		
 		buffer.append("</sheet>");
-		System.out.println(buffer);
+		//System.out.println(buffer);
+		FileUtils.writeStringToFile(new File("/tmp/excel.xml"), buffer.toString(), "UTF-8");
 	}
 
 	private List<String> extractUsingRegex(String regex, String s) {
