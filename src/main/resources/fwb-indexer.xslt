@@ -12,6 +12,9 @@
   <xsl:param name="previousLemma" />
   <xsl:param name="nextLemma" />
 
+  <xsl:param name="sourcesListFile" />
+
+  <xsl:variable xpath-default-namespace="" name="sourcesList" select="document($sourcesListFile)/sheet" />
 
   <xsl:template match="/">
     <add>
@@ -286,7 +289,14 @@
   </xsl:template>
 
   <xsl:template match="name" mode="html_fulltext">
-    <span class="name">
+    <xsl:variable name="currentCitationId">
+      <xsl:value-of select="$currentArticleId" />
+      <xsl:text>_</xsl:text>
+      <xsl:value-of select="count(preceding::sense) + 1" />
+      <xsl:text>_</xsl:text>
+      <xsl:value-of select="count(preceding::cit) + 1" />
+    </xsl:variable>
+    <span class="name" onclick="{$currentCitationId}">
       <xsl:value-of select="." />
     </span>
   </xsl:template>
@@ -365,10 +375,22 @@
         <xsl:text>_</xsl:text>
         <xsl:value-of select="count(preceding::cit) + 1" />
       </field>
-      <field name="source_title">
-        <!--xsl:variable name="sigle" select="bibl/name/@n" / -->
-        <!--xsl:value-of xpath-default-namespace="" select="document('file:///tmp/excel.xml')//entry[sigle=$sigle]/biblio" 
-          / -->
+      <field name="source_html">
+        <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+        <div class="source">
+
+          <xsl:variable name="sigle" select="bibl/name/@n" />
+          <xsl:variable xpath-default-namespace="" name="sourceEntry"
+            select="$sourcesList/entry[sigle=$sigle]" />
+
+          <xsl:for-each select="$sourceEntry/*">
+            <div class="{local-name()}">
+              <xsl:value-of xpath-default-namespace="" select="text()" />
+            </div>
+          </xsl:for-each>
+
+        </div>
+        <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
       </field>
     </doc>
   </xsl:template>

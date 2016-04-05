@@ -11,31 +11,25 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 
-		if (args.length != 2) {
-			System.out.println("Syntax: java -jar indexer.jar <input-dir> <output-dir>");
+		if (args.length != 3) {
+			System.out.println("Syntax: java -jar indexer.jar <input-dir> <excel-file> <output-dir>");
 		} else {
 			File inputDir = new File(args[0]);
-			File outputDir = new File(args[1]);
+			File inputExcel = new File(args[1]);
+			File outputDir = new File(args[2]);
 
-			if (!outputDir.exists()) {
-				System.out.println("Creating directory: " + outputDir);
-				boolean result = false;
+			checkIfExists(outputDir);
+			
+			long before = new Date().getTime();
 
-				try {
-					outputDir.mkdir();
-					result = true;
-				} catch (SecurityException se) {
-					// handle it
-				}
-				if (result) {
-					System.out.println(outputDir + " created");
-				}
-			}
+			SourcesParser sourcesParser = new SourcesParser();
+			File sourcesListXml = new File(System.getProperty("java.io.tmpdir"), "sourcesList.xml");
+			sourcesParser.convertExcelToXml(inputExcel, sourcesListXml);
 
 			InputStream xsltStream = Main.class.getResourceAsStream("/fwb-indexer.xslt");
 			Xslt xslt = new Xslt(xsltStream);
+			xslt.setParameter("sourcesListFile", sourcesListXml.getAbsolutePath());
 
-			long before = new Date().getTime();
 
 			ArrayList<File> allFiles = new ArrayList<File>();
 			fillWithFiles(allFiles, inputDir);
@@ -64,6 +58,23 @@ public class Main {
 
 		}
 
+	}
+
+	private static void checkIfExists(File outputDir) {
+		if (!outputDir.exists()) {
+			System.out.println("Creating directory: " + outputDir);
+			boolean result = false;
+
+			try {
+				outputDir.mkdir();
+				result = true;
+			} catch (SecurityException se) {
+				// handle it
+			}
+			if (result) {
+				System.out.println(outputDir + " created");
+			}
+		}
 	}
 
 	private static void fillWithFiles(ArrayList<File> allFiles, File currentDir) {
