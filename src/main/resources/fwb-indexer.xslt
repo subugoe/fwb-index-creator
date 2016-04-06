@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+  xpath-default-namespace="http://www.tei-c.org/ns/1.0" xmlns:fwb="http://sub.fwb.de">
 
   <xsl:output method="xml" indent="yes" />
   <xsl:strip-space elements="*" />
@@ -383,16 +383,58 @@
           <xsl:variable xpath-default-namespace="" name="sourceEntry"
             select="$sourcesList/entry[sigle=$sigle]" />
 
-          <xsl:for-each select="$sourceEntry/*">
-            <div class="{local-name()}">
-              <xsl:value-of xpath-default-namespace="" select="text()" />
-            </div>
-          </xsl:for-each>
+          <xsl:sequence select="fwb:print-html-with-spans('Sigle: ', $sourceEntry/sigle)"
+            xpath-default-namespace="" />
+          <xsl:sequence select="fwb:print-html-with-spans('Bibliographie: ', $sourceEntry/biblio)"
+            xpath-default-namespace="" />
+          <xsl:sequence select="fwb:print-html-with-spans('Zitierweise: ', $sourceEntry/citing)"
+            xpath-default-namespace="" />
+          <xsl:sequence select="fwb:print-html-with-link('Permalink: ', $sourceEntry/permalink)"
+            xpath-default-namespace="" />
+          <xsl:sequence select="fwb:print-html-with-link('Digitalisat online: ', $sourceEntry/online)"
+            xpath-default-namespace="" />
+          <xsl:sequence select="fwb:print-html-with-spans('PDF: ', $sourceEntry/pdf)"
+            xpath-default-namespace="" />
 
         </div>
         <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
       </field>
     </doc>
   </xsl:template>
+
+  <xsl:function name="fwb:print-html-with-spans">
+    <xsl:param name="left" />
+    <xsl:param name="right" />
+    <xsl:if test="$right!=''">
+      <div>
+        <span class="column-left">
+          <xsl:value-of select="$left" />
+        </span>
+        <span class="column-right">
+          <xsl:value-of select="$right" />
+        </span>
+      </div>
+    </xsl:if>
+  </xsl:function>
+
+  <xsl:function name="fwb:print-html-with-link">
+    <xsl:param name="left" />
+    <xsl:param name="right" />
+    <xsl:if test="$right!=''">
+      <div>
+        <span class="column-left">
+          <xsl:value-of select="$left" />
+        </span>
+        <span class="column-right">
+          <a>
+            <xsl:attribute name="href">
+              <xsl:value-of select="$right" />
+            </xsl:attribute>
+            <xsl:value-of select="$right" />
+          </a>
+        </span>
+      </div>
+    </xsl:if>
+  </xsl:function>
 
 </xsl:stylesheet>
