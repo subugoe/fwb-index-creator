@@ -129,7 +129,7 @@
   <xsl:template match="dictScrap[@rend='phras']" mode="html_fulltext">
     <div class="phras">
       <span class="phras-begin">
-        <xsl:text>Phras.: </xsl:text>
+        <xsl:text>Phraseme: </xsl:text>
       </span>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
@@ -200,6 +200,12 @@
 
   <xsl:template match="def" mode="html_fulltext">
     <div class="definition">
+      <xsl:if test="count(//sense) gt 1">
+        <span class="sense-number">
+          <xsl:value-of select="count(preceding::sense) + 1" />
+          <xsl:text>. </xsl:text>
+        </span>
+      </xsl:if>
       <xsl:apply-templates select="text()|*" mode="html_fulltext" />
       <xsl:apply-templates select="following-sibling::dictScrap[@rend='wbv']"
         mode="html_fulltext_once" />
@@ -224,7 +230,7 @@
   <xsl:template match="dictScrap[@rend='bdv']" mode="html_fulltext">
     <div class="bdv">
       <span class="bdv-begin">
-        <xsl:text>Bdv.: </xsl:text>
+        <xsl:text>Bedeutungsverwandt: </xsl:text>
       </span>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
@@ -233,7 +239,7 @@
   <xsl:template match="dictScrap[@rend='synt']" mode="html_fulltext">
     <div class="synt">
       <span class="synt-begin">
-        <xsl:text>Synt. </xsl:text>
+        <xsl:text>Syntagmen: </xsl:text>
       </span>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
@@ -242,7 +248,7 @@
   <xsl:template match="dictScrap[@rend='wbg']" mode="html_fulltext">
     <div class="wbg">
       <span class="wbg-begin">
-        <xsl:text>Wbg. </xsl:text>
+        <xsl:text>Wortbildungen: </xsl:text>
       </span>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>

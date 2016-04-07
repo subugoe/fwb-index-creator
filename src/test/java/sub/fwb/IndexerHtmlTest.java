@@ -138,6 +138,16 @@ public class IndexerHtmlTest {
 	}
 
 	@Test
+	public void shouldInsertNumbersIfSeveralSenses() throws Exception {
+		xslt.transform("src/test/resources/html/twoSenses.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathExists("//div[@class='sense']", html);
+		assertXpathExists("//span[@class='sense-number' and text()='1. ']", html);
+		assertXpathExists("//span[@class='sense-number' and text()='2. ']", html);
+	}
+
+	@Test
 	public void shouldInsertSenseWithWbv() throws Exception {
 		xslt.transform("src/test/resources/html/senseWithWbv.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
