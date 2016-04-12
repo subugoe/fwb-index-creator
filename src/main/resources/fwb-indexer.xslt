@@ -12,10 +12,6 @@
   <xsl:param name="previousLemma" />
   <xsl:param name="nextLemma" />
 
-  <xsl:param name="sourcesListFile" />
-
-  <xsl:variable xpath-default-namespace="" name="sourcesList" select="document($sourcesListFile)/sheet" />
-
   <xsl:template match="/">
     <add>
       <doc>
@@ -381,7 +377,7 @@
         <xsl:text>_</xsl:text>
         <xsl:value-of select="count(preceding::cit) + 1" />
       </field>
-      <field name="source_html">
+      <!--field name="source_html">
         <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
         <div class="source">
 
@@ -404,7 +400,7 @@
 
         </div>
         <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
-      </field>
+      </field-->
     </doc>
   </xsl:template>
 

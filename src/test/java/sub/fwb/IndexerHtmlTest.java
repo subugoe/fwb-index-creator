@@ -205,17 +205,6 @@ public class IndexerHtmlTest {
 		assertXpathEvaluatesTo("Citation", "//div[@class='citation']", html);
 	}
 
-	@Test
-	public void shouldMakeHtmlForSource() throws Exception {
-		xslt.transform("src/test/resources/html/source.xml", outputBaos);
-		String html = extractHtmlField(outputBaos.toString(), 2);
-
-		assertXpathExists("/div[@class='source']", html);
-		assertXpathEvaluatesTo("Sigle: ", "//span[@class='column-left'][1]", html);
-		assertXpathEvaluatesTo("1", "//span[@class='column-right'][1]", html);
-		assertXpathEvaluatesTo("http://permatest.de", "//a[1]", html);
-	}
-
 	private String extractHtmlField(String s, int number) {
 		Pattern pattern = Pattern.compile("CDATA\\[(.*?)]]");
 		Matcher matcher = pattern.matcher(s.replaceAll("\\n", " "));
