@@ -346,8 +346,8 @@
         <xsl:value-of select="def" />
       </field>
       <xsl:apply-templates select="dictScrap[@rend='bdv']/ref" />
+      <xsl:apply-templates select=".//cit" />
     </doc>
-    <xsl:apply-templates select=".//cit" />
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='bdv']/ref">
@@ -361,47 +361,19 @@
     </xsl:if>
   </xsl:template>
 
-  <xsl:template match="cit">
-    <xsl:variable name="currentSenseId">
-      <xsl:value-of select="$currentArticleId" />
-      <xsl:text>_</xsl:text>
-      <xsl:value-of select="count(preceding-sibling::sense) + 1" />
-    </xsl:variable>
-    <doc>
-      <field name="type">quelle</field>
-      <field name="ref_id">
-        <xsl:value-of select="$currentSenseId" />
-      </field>
-      <field name="id">
-        <xsl:value-of select="$currentSenseId" />
-        <xsl:text>_</xsl:text>
-        <xsl:value-of select="count(preceding::cit) + 1" />
-      </field>
-      <!--field name="source_html">
-        <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
-        <div class="source">
+  <xsl:template match="cit[quote]">
+    <field name="definition_source_id">
+      <xsl:value-of select=".//name/@n" />
+    </field>
+    <field name="definition_source_citation">
+      <xsl:value-of select="quote" />
+    </field>
+  </xsl:template>
 
-          <xsl:variable name="sigle" select="bibl/name/@n" />
-          <xsl:variable xpath-default-namespace="" name="sourceEntry"
-            select="$sourcesList/entry[sigle=$sigle]" />
-
-          <xsl:sequence select="fwb:print-html-with-spans('Sigle: ', $sourceEntry/sigle)"
-            xpath-default-namespace="" />
-          <xsl:sequence select="fwb:print-html-with-spans('Bibliographie: ', $sourceEntry/biblio)"
-            xpath-default-namespace="" />
-          <xsl:sequence select="fwb:print-html-with-spans('Zitierweise: ', $sourceEntry/citing)"
-            xpath-default-namespace="" />
-          <xsl:sequence select="fwb:print-html-with-link('Permalink: ', $sourceEntry/permalink)"
-            xpath-default-namespace="" />
-          <xsl:sequence select="fwb:print-html-with-link('Digitalisat online: ', $sourceEntry/online)"
-            xpath-default-namespace="" />
-          <xsl:sequence select="fwb:print-html-with-spans('PDF: ', $sourceEntry/pdf)"
-            xpath-default-namespace="" />
-
-        </div>
-        <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
-      </field-->
-    </doc>
+  <xsl:template match="cit[not(quote)]">
+    <field name="definition_source_instance">
+      <xsl:value-of select=".//name/@n" />
+    </field>
   </xsl:template>
 
   <xsl:function name="fwb:print-html-with-spans">
