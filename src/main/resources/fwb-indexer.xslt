@@ -183,9 +183,21 @@
   </xsl:template>
 
   <xsl:template match="ref" mode="html_fulltext">
-    <a href="{@target}">
-      <xsl:value-of select="." />
-    </a>
+    <xsl:choose>
+      <xsl:when test="contains(@target, '#') and number(.)">
+        <xsl:variable name="linkStart" select="concat(substring-before(@target, '#'), '#')" />
+        <xsl:variable name="linkEnd" select="concat('sense', text())" />
+        <xsl:variable name="link" select="concat($linkStart, $linkEnd)" />
+        <a href="{$link}">
+          <xsl:value-of select="." />
+        </a>
+      </xsl:when>
+      <xsl:otherwise>
+        <a href="{@target}">
+          <xsl:value-of select="." />
+        </a>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="sense" mode="html_fulltext">
@@ -195,10 +207,12 @@
   </xsl:template>
 
   <xsl:template match="def" mode="html_fulltext">
-    <div class="definition">
+    <xsl:variable name="senseNumber" select="count(preceding::sense) + 1" />
+    <xsl:variable name="senseAnchor" select="concat('sense', $senseNumber)" />
+    <div id="{$senseAnchor}" class="definition">
       <xsl:if test="count(//sense) gt 1">
         <span class="sense-number">
-          <xsl:value-of select="count(preceding::sense) + 1" />
+          <xsl:value-of select="$senseNumber" />
           <xsl:text>. </xsl:text>
         </span>
       </xsl:if>
