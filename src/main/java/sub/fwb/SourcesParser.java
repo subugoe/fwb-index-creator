@@ -18,7 +18,7 @@ public class SourcesParser {
 	public void convertExcelToXml(File excelFile, File xmlResult) throws IOException {
 		FileInputStream file = new FileInputStream(excelFile);
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("<sheet>\n");
+		buffer.append("<add>\n");
 
 		XSSFWorkbook workbook = new XSSFWorkbook(file);
 
@@ -27,36 +27,71 @@ public class SourcesParser {
 		// for (int i = 1; i <= 49; i++) {
 		for (int i = 1; i <= sheet.getLastRowNum(); i++) {
 
-			buffer.append("<entry>\n");
+			buffer.append("<doc>\n");
 			Row row = sheet.getRow(i);
-			for (int j = 0; j < headers.length; j++) {
-				Cell cell = row.getCell(j);
-				if (cell != null && !isEmpty(cell)) {
-					buffer.append("<" + headers[j] + ">");
-					if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
-						buffer.append("<![CDATA[");
-						buffer.append(cell.getStringCellValue());
-						buffer.append("]]>");
-					} else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-						buffer.append(new Double(cell.getNumericCellValue()).intValue());
-					} else {
-						throw new RuntimeException(
-								"Unknown cell type: " + cell.getCellType() + ". Field: " + headers[j]);
-					}
-					buffer.append("</" + headers[j] + ">\n");
-				}
-				if (j == 2) {
-					j += 7;
-				}
+			buffer.append("<field name=\"type\">quelle</field>\n");
+			String sigle = asString(row.getCell(1));
+			buffer.append("<field name=\"id\">sigle_" + sigle + "</field>\n");
+			buffer.append("<field name=\"source_html\"><![CDATA[");
+			buffer.append("<div class=\"source-details\">\n");
+
+			appendSpan("Sigle: ", sigle, buffer);
+			appendSpan("Bibliographie: ", asString(row.getCell(15)), buffer);
+			appendSpan("Zitierweise: ", asString(row.getCell(16)), buffer);
+			String permalink = asString(row.getCell(14));
+			if (!permalink.isEmpty()) {
+				appendLink("Permalink: ", permalink, buffer);
+			}
+			String online = asString(row.getCell(12));
+			if (!online.isEmpty()) {
+				appendLink("Digitalisat online: ", online, buffer);
+			}
+			String pdf = asString(row.getCell(10));
+			if (!pdf.isEmpty()) {
+				appendSpan("PDF: ", pdf, buffer);
 			}
 
-			buffer.append("</entry>\n");
+			buffer.append("</div>\n");
+			buffer.append("]]></field>\n");
+			buffer.append("</doc>\n");
 
 		}
 		workbook.close();
 
-		buffer.append("</sheet>");
+		buffer.append("</add>");
 		FileUtils.writeStringToFile(xmlResult, buffer.toString(), "UTF-8");
+	}
+
+	private String asString(Cell cell) {
+		String result = "";
+		if (cell != null && !isEmpty(cell)) {
+			if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+				result += cell.getStringCellValue();
+			} else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+				result += new Double(cell.getNumericCellValue()).intValue();
+			} else {
+				throw new RuntimeException("Unknown cell type: " + cell.getCellType() + ".");
+			}
+		}
+		return result;
+	}
+
+	private void appendSpan(String left, String right, StringBuffer buffer) {
+		buffer.append("  <div class=\"row\">\n");
+		buffer.append("  <span class=\"column-left\">" + left + "</span>\n");
+		buffer.append("  <span class=\"column-right\">" + right + "</span>\n");
+		buffer.append("  </div>\n");
+	}
+
+	private void appendLink(String left, String right, StringBuffer buffer) {
+		buffer.append("  <div class=\"row\">\n");
+		buffer.append("  <span class=\"column-left\">" + left + "</span>\n");
+		buffer.append("  <span class=\"column-right\">" + asHref(right) + "</span>\n");
+		buffer.append("  </div>\n");
+	}
+
+	private String asHref(String link) {
+		return "<a href=\"" + link + "\">" + link + "</a>";
 	}
 
 	private boolean isEmpty(Cell cell) {
