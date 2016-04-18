@@ -306,15 +306,12 @@
 
   <xsl:template match="name" mode="html_fulltext">
     <xsl:variable name="currentCitationId">
-      <xsl:value-of select="$currentArticleId" />
-      <xsl:text>_</xsl:text>
-      <xsl:value-of select="count(preceding::sense) + 1" />
-      <xsl:text>_</xsl:text>
-      <xsl:value-of select="count(preceding::cit) + 1" />
+      <xsl_text>source_</xsl_text>
+      <xsl:value-of select="@n" />
     </xsl:variable>
-    <span class="name" onclick="{$currentCitationId}">
+    <a class="name citation-source_link" href="/source/{$currentCitationId}">
       <xsl:value-of select="." />
-    </span>
+    </a>
   </xsl:template>
 
   <xsl:template match="citedRange" mode="html_fulltext">
@@ -377,6 +374,7 @@
 
   <xsl:template match="cit[quote]">
     <field name="definition_source_id">
+      <xsl:text>source_</xsl:text>
       <xsl:value-of select=".//name/@n" />
     </field>
     <field name="definition_source_citation">
@@ -386,6 +384,7 @@
 
   <xsl:template match="cit[not(quote)]">
     <field name="definition_source_instance">
+      <xsl:text>source_</xsl:text>
       <xsl:value-of select=".//name/@n" />
     </field>
   </xsl:template>

@@ -183,9 +183,9 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/citations.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("11", "//field[@name='definition_source_id']", result);
+		assertXpathEvaluatesTo("source_11", "//field[@name='definition_source_id']", result);
 		assertXpathEvaluatesTo("A quote.", "//field[@name='definition_source_citation']", result);
-		assertXpathEvaluatesTo("22", "//field[@name='definition_source_instance']", result);
+		assertXpathEvaluatesTo("source_22", "//field[@name='definition_source_instance']", result);
 	}
 
 	@Test

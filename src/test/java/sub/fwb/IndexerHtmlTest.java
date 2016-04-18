@@ -188,7 +188,7 @@ public class IndexerHtmlTest {
 		assertXpathExists("//div[@class='citations']", html);
 		assertXpathExists("//span[@class='citations-begin']", html);
 		assertXpathExists("//div[@class='citation']", html);
-		assertXpathEvaluatesTo("Name", "//span[@class='name']", html);
+		assertXpathEvaluatesTo("Name", "//a[@class='name citation-source_link']", html);
 		assertXpathEvaluatesTo("13, 20 ", "//span[@class='cited-range']", html);
 		assertXpathEvaluatesTo("Region", "//span[@class='region']", html);
 		assertXpathEvaluatesTo("1599", "//span[@class='date']", html);
