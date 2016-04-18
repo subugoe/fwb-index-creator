@@ -202,7 +202,7 @@ public class IndexerHtmlTest {
 
 		assertXpathExists("//div[@class='bls']", html);
 		assertXpathExists("//span[@class='bls-begin']", html);
-		assertXpathEvaluatesTo("Citation", "//div[@class='citation']", html);
+		assertXpathExists("//div[@class='citation']", html);
 	}
 
 	@Test

@@ -11,15 +11,20 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 
-		if (args.length != 2) {
-			System.out.println("Syntax: java -jar indexer.jar <input-dir> <output-dir>");
+		if (args.length != 3) {
+			System.out.println("Syntax: java -jar indexer.jar <input-dir> <excel-file> <output-dir>");
 		} else {
 			File inputDir = new File(args[0]);
-			File outputDir = new File(args[1]);
+			File inputExcel = new File(args[1]);
+			File outputDir = new File(args[2]);
 
 			checkIfExists(outputDir);
-			
+
 			long before = new Date().getTime();
+
+			SourcesParser sourcesParser = new SourcesParser();
+			File sourcesXml = new File(outputDir, "0-sources.xml");
+			sourcesParser.convertExcelToXml(inputExcel, sourcesXml);
 
 			InputStream xsltStream = Main.class.getResourceAsStream("/fwb-indexer.xslt");
 			Xslt xslt = new Xslt(xsltStream);

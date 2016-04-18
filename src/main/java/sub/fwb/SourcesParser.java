@@ -18,6 +18,7 @@ public class SourcesParser {
 	public void convertExcelToXml(File excelFile, File xmlResult) throws IOException {
 		FileInputStream file = new FileInputStream(excelFile);
 		StringBuffer buffer = new StringBuffer();
+		buffer.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		buffer.append("<add>\n");
 
 		XSSFWorkbook workbook = new XSSFWorkbook(file);
@@ -31,7 +32,7 @@ public class SourcesParser {
 			Row row = sheet.getRow(i);
 			buffer.append("<field name=\"type\">quelle</field>\n");
 			String sigle = asString(row.getCell(1));
-			buffer.append("<field name=\"id\">sigle_" + sigle + "</field>\n");
+			buffer.append("<field name=\"id\">source_" + sigle + "</field>\n");
 			buffer.append("<field name=\"source_html\"><![CDATA[");
 			buffer.append("<div class=\"source-details\">\n");
 
@@ -77,14 +78,14 @@ public class SourcesParser {
 	}
 
 	private void appendSpan(String left, String right, StringBuffer buffer) {
-		buffer.append("  <div class=\"row\">\n");
+		buffer.append("  <div class=\"source-details-row\">\n");
 		buffer.append("  <span class=\"column-left\">" + left + "</span>\n");
 		buffer.append("  <span class=\"column-right\">" + right + "</span>\n");
 		buffer.append("  </div>\n");
 	}
 
 	private void appendLink(String left, String right, StringBuffer buffer) {
-		buffer.append("  <div class=\"row\">\n");
+		buffer.append("  <div class=\"source-details-row\">\n");
 		buffer.append("  <span class=\"column-left\">" + left + "</span>\n");
 		buffer.append("  <span class=\"column-right\">" + asHref(right) + "</span>\n");
 		buffer.append("  </div>\n");
