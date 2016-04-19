@@ -29,11 +29,6 @@ public class IndexerHtmlTest {
 		outputBaos = new ByteArrayOutputStream();
 	}
 
-	@After
-	public void afterEachTest() {
-		// System.out.println(outputBaos.toString());
-	}
-
 	@Test
 	public void shouldMakeHtmlField() throws Exception {
 		xslt.transform("src/test/resources/html/articleField.xml", outputBaos);
@@ -181,7 +176,7 @@ public class IndexerHtmlTest {
 	}
 
 	@Test
-	public void shouldTransformCite() throws Exception {
+	public void shouldTransformCitation() throws Exception {
 		xslt.transform("src/test/resources/html/cite.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
@@ -193,6 +188,15 @@ public class IndexerHtmlTest {
 		assertXpathEvaluatesTo("Region", "//span[@class='region']", html);
 		assertXpathEvaluatesTo("1599", "//span[@class='date']", html);
 		assertXpathEvaluatesTo("Quote", "//span[@class='quote']", html);
+	}
+
+	@Test
+	public void shouldNotMakeLinkInDefinition() throws Exception {
+		xslt.transform("src/test/resources/html/definitionWithName.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("", "//a", html);
+		assertXpathEvaluatesTo("Meier", "//span[@class='name']", html);
 	}
 
 	@Test
@@ -212,6 +216,11 @@ public class IndexerHtmlTest {
 
 		assertXpathEvaluatesTo("sense1", "//div[@class='definition']/@id", html);
 		assertXpathEvaluatesTo("mylemma#sense2", "//a/@href", html);
+	}
+
+	@After
+	public void afterEachTest() {
+		// System.out.println(outputBaos.toString());
 	}
 
 	private String extractHtmlField(String s, int number) {

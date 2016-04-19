@@ -307,7 +307,7 @@
     </xsl:if>
   </xsl:template>
 
-  <xsl:template match="name" mode="html_fulltext">
+  <xsl:template match="cit/bibl/name" mode="html_fulltext">
     <xsl:variable name="currentCitationId">
       <xsl_text>source_</xsl_text>
       <xsl:value-of select="@n" />
@@ -315,6 +315,12 @@
     <a class="name citation-source_link" href="/source/{$currentCitationId}">
       <xsl:value-of select="." />
     </a>
+  </xsl:template>
+
+  <xsl:template match="name" mode="html_fulltext">
+    <span class="name">
+      <xsl:value-of select="." />
+    </span>
   </xsl:template>
 
   <xsl:template match="citedRange" mode="html_fulltext">

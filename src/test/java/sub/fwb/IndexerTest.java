@@ -25,11 +25,6 @@ public class IndexerTest {
 		outputBaos = new ByteArrayOutputStream();
 	}
 
-	@After
-	public void afterEachTest() {
-		// System.out.println(outputBaos.toString());
-	}
-
 	@Test
 	public void shouldTransformPrintedSource() throws Exception {
 		xslt.transform("src/test/resources/printedSource.xml", outputBaos);
@@ -188,9 +183,15 @@ public class IndexerTest {
 		assertXpathEvaluatesTo("source_22", "//field[@name='definition_source_instance']", result);
 	}
 
+	@After
+	public void afterEachTest() {
+		// System.out.println(outputBaos.toString());
+	}
+
 	@Test
 	public void should() throws Exception {
-		// xslt.transform("/home/dennis/temp/i/i/in.in.s.7pr.xml", outputBaos);
+		// xslt.transform("/home/dennis/temp/in_tei/i/imb/imbis.imbis.s.0m.xml",
+		// outputBaos);
 
 	}
 
