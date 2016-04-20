@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,20 +46,26 @@ public class SourcesParser {
 			buffer.append("<field name=\"source_html\"><![CDATA[");
 			buffer.append("<div class=\"source-details\">\n");
 
-			appendSpan("Sigle: ", sigle, buffer);
-			appendSpan("Bibliographie: ", asString(row.getCell(15)), buffer);
-			appendSpan("Zitierweise: ", asString(row.getCell(16)), buffer);
+			appendRowOfSpans("Sigle: ", sigle, buffer);
+			appendRowOfSpans("Bibliographie: ", asString(row.getCell(15)), buffer);
+			appendRowOfSpans("Zitierweise: ", asString(row.getCell(16)), buffer);
+
+			Map<String, String> links = new HashMap<String, String>();
 			String permalink = asString(row.getCell(14));
 			if (!permalink.isEmpty()) {
-				appendLink("Permalink: ", permalink, buffer);
+				links.put("Permalink", permalink);
 			}
-			String online = asString(row.getCell(12));
-			if (!online.isEmpty()) {
-				appendLink("Digitalisat online: ", online, buffer);
+			String digi = asString(row.getCell(12));
+			if (!digi.isEmpty()) {
+				links.put("Digitalisat online", digi);
 			}
 			String pdf = asString(row.getCell(10));
 			if (!pdf.isEmpty()) {
-				appendSpan("PDF: ", pdf, buffer);
+				links.put("PDF", pdf);
+			}
+
+			if (!links.isEmpty()) {
+				appendRowWithLinks(links, buffer);
 			}
 
 			buffer.append("</div>\n");
@@ -87,7 +95,7 @@ public class SourcesParser {
 		}
 		String stronglist = asString(row.getCell(2));
 		String entryValue = extractUsingRegex("\\$c(.*?)#", stronglist).get(0);
-		buffer.append("<field name=\"" + fieldName + "\">" + entryValue + "</field>\n");
+		buffer.append("<field name=\"" + fieldName + "\"><![CDATA[" + entryValue + "]]></field>\n");
 	}
 
 	private String asString(Cell cell) {
@@ -104,22 +112,29 @@ public class SourcesParser {
 		return result;
 	}
 
-	private void appendSpan(String left, String right, StringBuffer buffer) {
+	private void appendRowOfSpans(String left, String right, StringBuffer buffer) {
 		buffer.append("  <div class=\"source-details-row\">\n");
 		buffer.append("  <span class=\"column-left\">" + left + "</span>\n");
 		buffer.append("  <span class=\"column-right\">" + right + "</span>\n");
 		buffer.append("  </div>\n");
 	}
 
-	private void appendLink(String left, String right, StringBuffer buffer) {
+	private void appendRowWithLinks(Map<String, String> links, StringBuffer buffer) {
 		buffer.append("  <div class=\"source-details-row\">\n");
-		buffer.append("  <span class=\"column-left\">" + left + "</span>\n");
-		buffer.append("  <span class=\"column-right\">" + asHref(right) + "</span>\n");
+		buffer.append("    <span class=\"column-left\">Links: </span>\n");
+		buffer.append("    <span class=\"column-right\">");
+		for (Map.Entry<String, String> entry : links.entrySet()) {
+			buffer.append(asHref(entry.getKey(), entry.getValue()));
+		}
+		buffer.append("    </span>\n");
 		buffer.append("  </div>\n");
 	}
 
-	private String asHref(String link) {
-		return "<a href=\"" + link + "\">" + link + "</a>";
+	private String asHref(String label, String reference) {
+		if (reference == null || reference.isEmpty()) {
+			return "";
+		}
+		return "<a class=\"source-details_link\" href=\"" + reference + "\">" + label + "</a>";
 	}
 
 	private boolean isEmpty(Cell cell) {
