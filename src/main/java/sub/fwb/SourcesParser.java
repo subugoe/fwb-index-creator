@@ -3,8 +3,13 @@ package sub.fwb;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.ss.formula.EvaluationWorkbook.ExternalSheetRange;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -13,7 +18,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class SourcesParser {
 
 	private String[] headers = { "sort", "sigle", "kraftliste", "", "", "", "", "", "", "", "pdf", "epdf", "online",
-			"eonline", "permalink", "biblio", "citing", "syptom" };
+			"eonline", "permalink", "biblio", "citing", "syptom", "name", "sinnwelt", "kategorien" };
 
 	public void convertExcelToXml(File excelFile, File xmlResult) throws IOException {
 		FileInputStream file = new FileInputStream(excelFile);
@@ -33,6 +38,9 @@ public class SourcesParser {
 			buffer.append("<field name=\"type\">quelle</field>\n");
 			String sigle = asString(row.getCell(1));
 			buffer.append("<field name=\"id\">source_" + sigle + "</field>\n");
+
+			appendFromStronglist(row, buffer);
+
 			buffer.append("<field name=\"source_html\"><![CDATA[");
 			buffer.append("<div class=\"source-details\">\n");
 
@@ -61,6 +69,25 @@ public class SourcesParser {
 
 		buffer.append("</add>");
 		FileUtils.writeStringToFile(xmlResult, buffer.toString(), "UTF-8");
+	}
+
+	private void appendFromStronglist(Row row, StringBuffer buffer) {
+		String entryKind = asString(row.getCell(18));
+		String fieldName = "";
+		if ("1".equals(entryKind)) {
+			fieldName = "source_author";
+		} else if ("2".equals(entryKind)) {
+			fieldName = "source_author_secondary";
+		} else if ("3".equals(entryKind)) {
+			fieldName = "source_herausgeber";
+		} else if ("4".equals(entryKind)) {
+			fieldName = "source_title";
+		} else {
+			return;
+		}
+		String stronglist = asString(row.getCell(2));
+		String entryValue = extractUsingRegex("\\$c(.*?)#", stronglist).get(0);
+		buffer.append("<field name=\"" + fieldName + "\">" + entryValue + "</field>\n");
 	}
 
 	private String asString(Cell cell) {
@@ -102,6 +129,20 @@ public class SourcesParser {
 			return true;
 		}
 		return false;
+	}
+
+	private List<String> extractUsingRegex(String regex, String s) {
+		List<String> results = new ArrayList<String>();
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(s);
+		while (matcher.find()) {
+			results.add(matcher.group(1));
+		}
+
+		if (results.isEmpty()) {
+			results.add("");
+		}
+		return results;
 	}
 
 }
