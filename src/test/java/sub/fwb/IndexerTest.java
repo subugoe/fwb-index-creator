@@ -126,12 +126,13 @@ public class IndexerTest {
 	}
 
 	@Test
-	public void shouldSetSenseId() throws Exception {
+	public void shouldSetSenseIdAndNumber() throws Exception {
 		xslt.setParameter("currentArticleId", "123");
 		xslt.transform("src/test/resources/senseId.xml", outputBaos);
 		String result = outputBaos.toString();
 
 		assertXpathEvaluatesTo("123_1", "//doc[2]/field[@name='id']", result);
+		assertXpathEvaluatesTo("1", "//doc[2]/field[@name='sense_number']", result);
 	}
 
 	@Test

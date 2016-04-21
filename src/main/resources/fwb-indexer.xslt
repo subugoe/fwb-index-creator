@@ -353,15 +353,19 @@
 
 
   <xsl:template match="sense">
+    <xsl:variable name="currentSenseId" select="count(preceding-sibling::sense) + 1" />
     <doc>
       <field name="type">bedeutung</field>
       <field name="id">
         <xsl:value-of select="$currentArticleId" />
         <xsl:text>_</xsl:text>
-        <xsl:value-of select="count(preceding-sibling::sense) + 1" />
+        <xsl:value-of select="$currentSenseId" />
       </field>
       <field name="ref_id">
         <xsl:value-of select="$currentArticleId" />
+      </field>
+      <field name="sense_number">
+        <xsl:value-of select="$currentSenseId" />
       </field>
       <field name="definition_fulltext">
         <xsl:value-of select="def" />
