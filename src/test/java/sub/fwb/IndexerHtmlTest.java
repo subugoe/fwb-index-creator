@@ -191,12 +191,12 @@ public class IndexerHtmlTest {
 	}
 
 	@Test
-	public void shouldNotMakeLinkInDefinition() throws Exception {
+	public void shouldMakeLinkInDefinition() throws Exception {
 		xslt.transform("src/test/resources/html/definitionWithName.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("", "//a", html);
-		assertXpathEvaluatesTo("Meier", "//span[@class='name']", html);
+		assertXpathEvaluatesTo("", "//span", html);
+		assertXpathEvaluatesTo("Meier", "//a[@class='name citation-source_link']", html);
 	}
 
 	@Test

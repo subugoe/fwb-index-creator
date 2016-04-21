@@ -308,7 +308,7 @@
     </xsl:if>
   </xsl:template>
 
-  <xsl:template match="cit/bibl/name" mode="html_fulltext">
+  <xsl:template match="bibl/name[@n]" mode="html_fulltext">
     <xsl:variable name="currentCitationId">
       <xsl_text>source_</xsl_text>
       <xsl:value-of select="@n" />

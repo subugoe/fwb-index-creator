@@ -6,7 +6,7 @@
         <sense>
           <dictScrap rend="cit">
             <cit>
-              <bibl xml:space="preserve"><name>Name</name> Text <citedRange>13, 20 </citedRange>(<region>Region</region> <date>1599</date>)</bibl>
+              <bibl xml:space="preserve"><name n="123">Name</name> Text <citedRange>13, 20 </citedRange>(<region>Region</region> <date>1599</date>)</bibl>
               <quote>Quote</quote>
             </cit>
           </dictScrap>
