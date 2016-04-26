@@ -193,6 +193,12 @@
           <xsl:value-of select="." />
         </a>
       </xsl:when>
+      <xsl:when test="matches(@target, '_s\d+$') and number(.)">
+        <xsl:variable name="link" select="replace(@target, '_s\d+$', concat('#sense', text()))" />
+        <a href="{$link}">
+          <xsl:value-of select="." />
+        </a>
+      </xsl:when>
       <xsl:otherwise>
         <a href="{@target}">
           <xsl:value-of select="." />

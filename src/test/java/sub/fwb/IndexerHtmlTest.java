@@ -215,7 +215,8 @@ public class IndexerHtmlTest {
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
 		assertXpathEvaluatesTo("sense1", "//div[@class='definition']/@id", html);
-		assertXpathEvaluatesTo("mylemma#sense2", "//a/@href", html);
+		assertXpathEvaluatesTo("mylemma#sense2", "//a[1]/@href", html);
+		assertXpathEvaluatesTo("mysecondlemma.s.1f#sense12", "//a[2]/@href", html);
 	}
 
 	@After
