@@ -187,7 +187,8 @@ public class IndexerHtmlTest {
 		assertXpathEvaluatesTo("13, 20 ", "//span[@class='cited-range']", html);
 		assertXpathEvaluatesTo("Region", "//span[@class='region']", html);
 		assertXpathEvaluatesTo("1599", "//span[@class='date']", html);
-		assertXpathEvaluatesTo("Quote", "//span[@class='quote']", html);
+		assertXpathExists("//span[@class='quote']", html);
+		assertXpathEvaluatesTo("Miller", "//a[@href='/source/source_xyu']", html);
 	}
 
 	@Test

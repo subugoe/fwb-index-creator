@@ -147,7 +147,7 @@
 
   <xsl:template match="hi[@rendition='it']" mode="html_fulltext">
     <span class="italic">
-      <xsl:value-of select="." />
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </span>
   </xsl:template>
 
@@ -159,7 +159,7 @@
 
   <xsl:template match="hi[@rendition='rect']" mode="html_fulltext">
     <span class="rect">
-      <xsl:value-of select="." />
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </span>
   </xsl:template>
 
@@ -395,7 +395,7 @@
   <xsl:template match="cit[quote]">
     <field name="definition_source_id">
       <xsl:text>source_</xsl:text>
-      <xsl:value-of select=".//name/@n" />
+      <xsl:value-of select="./bibl/name/@n" />
     </field>
     <field name="definition_source_citation">
       <xsl:value-of select="quote" />
@@ -405,7 +405,7 @@
   <xsl:template match="cit[not(quote)]">
     <field name="definition_source_instance">
       <xsl:text>source_</xsl:text>
-      <xsl:value-of select=".//name/@n" />
+      <xsl:value-of select="./bibl/name/@n" />
     </field>
   </xsl:template>
 
