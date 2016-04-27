@@ -13,6 +13,8 @@
   <xsl:param name="previousLemma" />
   <xsl:param name="nextLemma" />
 
+  <xsl:param name="wordTypes" />
+
   <xsl:template match="/">
     <add>
       <doc>
@@ -71,7 +73,9 @@
       </xsl:choose>
     </field>
     <field name="type_of_word">
-      <xsl:value-of select="dictScrap[@rend='artkopf']/gram[@type='wortart'][1]" />
+      <xsl:variable name="wordTypeId" select="fwb:getWordTypeId(@xml:id)" />
+      <xsl:variable name="typeValueWithTail" select="substring-after($wordTypes, concat($wordTypeId, ':'))" />
+      <xsl:value-of select="substring-before($typeValueWithTail, '###')" />
     </field>
     <xsl:variable name="variants" select="dictScrap[@rend='artkopf']/hi[@rendition='it'][1]" />
     <xsl:variable name="variants_tokenized" select="tokenize($variants, ',\s*')" />
@@ -84,6 +88,17 @@
       <xsl:value-of select="not(sense)" />
     </field>
   </xsl:template>
+
+  <xsl:function name="fwb:getWordTypeId">
+    <xsl:param name="internalArticleId" />
+    <xsl:if test="$internalArticleId != ''">
+      <xsl:analyze-string select="$internalArticleId" regex="\.(\d[a-z]+)">
+        <xsl:matching-substring>
+          <xsl:sequence select="regex-group(1)" />
+        </xsl:matching-substring>
+      </xsl:analyze-string>
+    </xsl:if>
+  </xsl:function>
 
   <xsl:template match="entry" mode="html_fulltext">
     <field name="article_html">

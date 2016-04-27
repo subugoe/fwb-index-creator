@@ -6,10 +6,6 @@
         <form type="lemma">
           <orth>test_lemma,</orth>
         </form>
-        <dictScrap rend="artkopf">
-          <gram type="wortart">Pron.</gram>
-          some text.
-        </dictScrap>
       </entry>
     </body>
   </text>

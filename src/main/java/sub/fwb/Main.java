@@ -11,12 +11,13 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 
-		if (args.length != 3) {
-			System.out.println("Syntax: java -jar indexer.jar <input-dir> <excel-file> <output-dir>");
+		if (args.length != 4) {
+			System.out.println("Syntax: java -jar indexer.jar <input-dir> <excel-file> <wordtypes-file> <output-dir>");
 		} else {
 			File inputDir = new File(args[0]);
 			File inputExcel = new File(args[1]);
-			File outputDir = new File(args[2]);
+			File inputWordTypes = new File(args[2]);
+			File outputDir = new File(args[3]);
 
 			checkIfExists(outputDir);
 
@@ -28,6 +29,10 @@ public class Main {
 
 			InputStream xsltStream = Main.class.getResourceAsStream("/fwb-indexer.xslt");
 			Xslt xslt = new Xslt(xsltStream);
+
+			WordTypesGenerator wordTyper = new WordTypesGenerator();
+			String wordTypesList = wordTyper.prepareForXslt(inputWordTypes);
+			xslt.setParameter("wordTypes", wordTypesList);
 
 			ArrayList<File> allFiles = new ArrayList<File>();
 			fillWithFiles(allFiles, inputDir);

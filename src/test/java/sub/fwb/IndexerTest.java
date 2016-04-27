@@ -3,6 +3,7 @@ package sub.fwb;
 import static org.custommonkey.xmlunit.XMLAssert.*;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.OutputStream;
 
 import org.junit.After;
@@ -44,7 +45,6 @@ public class IndexerTest {
 		assertXpathEvaluatesTo("some.id", "//field[@name='internal_id']", result);
 		assertXpathEvaluatesTo("test_lemma,", "//field[@name='lemma']", result);
 		assertXpathEvaluatesTo("test_lemma", "//field[@name='lemma_normalized']", result);
-		assertXpathEvaluatesTo("Pron.", "//field[@name='type_of_word']", result);
 	}
 
 	@Test
@@ -198,6 +198,12 @@ public class IndexerTest {
 
 	@Test
 	public void shouldRef() throws Exception {
+		// File f = new File("/home/dennis/temp/wortarten.txt");
+		// WordTypesGenerator gen = new WordTypesGenerator();
+		//
+		// String result = gen.prepareForXslt(f);
+		// xslt.setParameter("wordTypes", result);
+		//
 		// xslt.transform("/home/dennis/temp/i/i/it.it.s.9ref.xml", outputBaos);
 
 	}
