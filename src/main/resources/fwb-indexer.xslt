@@ -316,9 +316,6 @@
   <xsl:template match="cit" mode="html_fulltext">
     <div class="citation">
       <xsl:apply-templates select="*" mode="html_fulltext" />
-      <div class="source-detail-info">
-        <xsl:comment />
-      </div>
     </div>
   </xsl:template>
 
