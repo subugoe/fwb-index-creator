@@ -88,13 +88,26 @@ public class IndexerHtmlTest {
 	}
 
 	@Test
+	public void shouldInsertRa() throws Exception {
+		xslt.transform("src/test/resources/html/ra.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathExists("//div[@class='ra']", html);
+		assertXpathExists("//span[@class='ra-begin']", html);
+	}
+
+	@Test
 	public void shouldInsertHighlightings() throws Exception {
 		xslt.transform("src/test/resources/html/highlightings.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
 		assertXpathEvaluatesTo("italic", "//span[@class='italic']", html);
 		assertXpathEvaluatesTo("hoch", "//span[@class='higher-and-smaller']", html);
+		assertXpathEvaluatesTo("tief", "//span[@class='deep']", html);
 		assertXpathEvaluatesTo("rect", "//span[@class='rect']", html);
+		assertXpathEvaluatesTo("sc", "//span[@class='sc']", html);
+		assertXpathEvaluatesTo("bold", "//span[@class='b']", html);
+		assertXpathEvaluatesTo("wide", "//span[@class='wide']", html);
 	}
 
 	@Test

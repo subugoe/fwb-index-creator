@@ -156,6 +156,15 @@
     </div>
   </xsl:template>
 
+  <xsl:template match="dictScrap[@rend='ra']" mode="html_fulltext">
+    <div class="ra">
+      <span class="ra-begin">
+        <xsl:text>Redensart: </xsl:text>
+      </span>
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </div>
+  </xsl:template>
+
   <xsl:template match="text()" mode="html_fulltext">
     <xsl:value-of select="." />
   </xsl:template>
@@ -172,8 +181,32 @@
     </span>
   </xsl:template>
 
+  <xsl:template match="hi[@rendition='tief']" mode="html_fulltext">
+    <span class="deep">
+      <xsl:value-of select="." />
+    </span>
+  </xsl:template>
+
   <xsl:template match="hi[@rendition='rect']" mode="html_fulltext">
     <span class="rect">
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </span>
+  </xsl:template>
+
+  <xsl:template match="hi[@rendition='sc']" mode="html_fulltext">
+    <span class="sc">
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </span>
+  </xsl:template>
+
+  <xsl:template match="hi[@rendition='b']" mode="html_fulltext">
+    <span class="b">
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </span>
+  </xsl:template>
+
+  <xsl:template match="hi[@rendition='wide']" mode="html_fulltext">
+    <span class="wide">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </span>
   </xsl:template>
