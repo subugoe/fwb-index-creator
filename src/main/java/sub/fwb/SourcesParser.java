@@ -46,7 +46,6 @@ public class SourcesParser {
 			buffer.append("<field name=\"source_html\"><![CDATA[");
 			buffer.append("<div class=\"source-details\">\n");
 
-			appendRowOfSpans("Sigle: ", sigle, buffer);
 			appendRowOfSpans("Bibliographie: ", asString(row.getCell(15)), buffer);
 			appendRowOfSpans("Zitierweise: ", asString(row.getCell(16)), buffer);
 
