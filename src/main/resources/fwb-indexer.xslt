@@ -81,8 +81,10 @@
     <xsl:variable name="variants" select="dictScrap[@rend='artkopf']/hi[@rendition='it'][1]" />
     <xsl:sequence select="fwb:addFieldsFromTokens('notation_variant', $variants)" />
     <!-- make fields <field name="neblem"> -->
-    <xsl:variable name="neblems" select="dictScrap[@rend='artkopf']/form[@type='neblem']/orth" />
-    <xsl:sequence select="fwb:addFieldsFromTokens('neblem', $neblems)" />
+    <xsl:variable name="neblemAreas" select="dictScrap[@rend='artkopf']/form[@type='neblem']/orth" />
+    <xsl:for-each select="$neblemAreas">
+      <xsl:sequence select="fwb:addFieldsFromTokens('neblem', .)" />
+    </xsl:for-each>
     <field name="is_reference">
       <xsl:value-of select="not(sense)" />
     </field>

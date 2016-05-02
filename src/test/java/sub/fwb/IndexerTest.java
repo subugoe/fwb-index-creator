@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class IndexerTest {
@@ -192,6 +193,17 @@ public class IndexerTest {
 		assertXpathEvaluatesTo("neblem1", "//field[@name='neblem'][1]", result);
 		assertXpathEvaluatesTo("neblem2", "//field[@name='neblem'][2]", result);
 		assertXpathEvaluatesTo("2", "count(//field[@name='neblem'])", result);
+	}
+
+	@Test
+	public void shouldAddNeblemsFromTwoAreas() throws Exception {
+		xslt.transform("src/test/resources/neblemAreas.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("neblem1", "//field[@name='neblem'][1]", result);
+		assertXpathEvaluatesTo("neblem2", "//field[@name='neblem'][2]", result);
+		assertXpathEvaluatesTo("neblem3", "//field[@name='neblem'][3]", result);
+		assertXpathEvaluatesTo("3", "count(//field[@name='neblem'])", result);
 	}
 
 	@After
