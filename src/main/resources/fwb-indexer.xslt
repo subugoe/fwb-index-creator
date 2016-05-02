@@ -77,13 +77,12 @@
       <xsl:variable name="typeValueWithTail" select="substring-after($wordTypes, concat($wordTypeId, ':'))" />
       <xsl:value-of select="substring-before($typeValueWithTail, '###')" />
     </field>
+    <!-- make fields <field name="notation_variant"> -->
     <xsl:variable name="variants" select="dictScrap[@rend='artkopf']/hi[@rendition='it'][1]" />
-    <xsl:variable name="variants_tokenized" select="tokenize($variants, ',\s*')" />
-    <xsl:for-each select="$variants_tokenized">
-      <field name="notation_variant">
-        <xsl:value-of select="." />
-      </field>
-    </xsl:for-each>
+    <xsl:sequence select="fwb:addFieldsFromTokens('notation_variant', $variants)" />
+    <!-- make fields <field name="neblem"> -->
+    <xsl:variable name="neblems" select="dictScrap[@rend='artkopf']/form[@type='neblem']/orth" />
+    <xsl:sequence select="fwb:addFieldsFromTokens('neblem', $neblems)" />
     <field name="is_reference">
       <xsl:value-of select="not(sense)" />
     </field>
@@ -98,6 +97,19 @@
         </xsl:matching-substring>
       </xsl:analyze-string>
     </xsl:if>
+  </xsl:function>
+
+  <xsl:function name="fwb:addFieldsFromTokens">
+    <xsl:param name="fieldName" />
+    <xsl:param name="commaTokens" />
+    <xsl:variable name="arrayOfTokens" select="tokenize($commaTokens, ',\s*')" />
+    <xsl:for-each select="$arrayOfTokens">
+      <xsl:if test=". != ''">
+        <field name="{$fieldName}">
+          <xsl:value-of select="." />
+        </field>
+      </xsl:if>
+    </xsl:for-each>
   </xsl:function>
 
   <xsl:template match="entry" mode="html_fulltext">

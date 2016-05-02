@@ -184,6 +184,16 @@ public class IndexerTest {
 		assertXpathEvaluatesTo("source_22", "//field[@name='definition_source_instance']", result);
 	}
 
+	@Test
+	public void shouldAddNeblems() throws Exception {
+		xslt.transform("src/test/resources/neblem.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("neblem1", "//field[@name='neblem'][1]", result);
+		assertXpathEvaluatesTo("neblem2", "//field[@name='neblem'][2]", result);
+		assertXpathEvaluatesTo("2", "count(//field[@name='neblem'])", result);
+	}
+
 	@After
 	public void afterEachTest() {
 		// System.out.println(outputBaos.toString());
