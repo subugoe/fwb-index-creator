@@ -92,8 +92,8 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/ra.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathExists("//div[@class='ra']", html);
-		assertXpathExists("//span[@class='ra-begin']", html);
+		assertXpathExists("//div[@class='redensart']", html);
+		assertXpathExists("//span[@class='redensart-begin']", html);
 	}
 
 	@Test
@@ -105,8 +105,8 @@ public class IndexerHtmlTest {
 		assertXpathEvaluatesTo("hoch", "//span[@class='higher-and-smaller']", html);
 		assertXpathEvaluatesTo("tief", "//span[@class='deep']", html);
 		assertXpathEvaluatesTo("rect", "//span[@class='rect']", html);
-		assertXpathEvaluatesTo("sc", "//span[@class='sc']", html);
-		assertXpathEvaluatesTo("bold", "//span[@class='b']", html);
+		assertXpathEvaluatesTo("sc", "//span[@class='small-capitals']", html);
+		assertXpathEvaluatesTo("bold", "//span[@class='bold']", html);
 		assertXpathEvaluatesTo("wide", "//span[@class='wide']", html);
 	}
 

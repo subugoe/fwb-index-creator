@@ -157,8 +157,8 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='ra']" mode="html_fulltext">
-    <div class="ra">
-      <span class="ra-begin">
+    <div class="redensart">
+      <span class="redensart-begin">
         <xsl:text>Redensart: </xsl:text>
       </span>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
@@ -194,13 +194,13 @@
   </xsl:template>
 
   <xsl:template match="hi[@rendition='sc']" mode="html_fulltext">
-    <span class="sc">
+    <span class="small-capitals">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </span>
   </xsl:template>
 
   <xsl:template match="hi[@rendition='b']" mode="html_fulltext">
-    <span class="b">
+    <span class="bold">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </span>
   </xsl:template>
