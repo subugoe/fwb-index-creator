@@ -146,6 +146,14 @@ public class IndexerHtmlTest {
 	}
 
 	@Test
+	public void shouldIgnoreSemanticsOfSenseWithBedzif() throws Exception {
+		xslt.transform("src/test/resources/html/senseWithBedzif.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("", "//div[@class='sense']", html);
+	}
+
+	@Test
 	public void shouldInsertNumbersIfSeveralSenses() throws Exception {
 		xslt.transform("src/test/resources/html/twoSenses.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);

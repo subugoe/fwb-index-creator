@@ -269,6 +269,10 @@
     </xsl:choose>
   </xsl:template>
 
+  <xsl:template match="sense[@rend='bedzif']" mode="html_fulltext">
+    <xsl:apply-templates mode="html_fulltext" />
+  </xsl:template>
+
   <xsl:template match="sense" mode="html_fulltext">
     <div class="sense">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
