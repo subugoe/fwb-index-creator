@@ -37,8 +37,8 @@
         <xsl:apply-templates select="//teiHeader//sourceDesc/bibl" />
         <xsl:apply-templates select="//body/entry" />
         <xsl:apply-templates select="//body/entry" mode="html_fulltext" />
+        <xsl:apply-templates select="//body//sense" />
       </doc>
-      <xsl:apply-templates select="//body//sense" />
     </add>
   </xsl:template>
 

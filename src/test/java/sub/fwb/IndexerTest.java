@@ -132,8 +132,8 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/senseId.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("123_1", "//doc[2]/field[@name='id']", result);
-		assertXpathEvaluatesTo("1", "//doc[2]/field[@name='sense_number']", result);
+		assertXpathEvaluatesTo("123_1", "//doc/doc/field[@name='id']", result);
+		assertXpathEvaluatesTo("1", "//doc/doc/field[@name='sense_number']", result);
 	}
 
 	@Test
@@ -142,7 +142,7 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/senseId.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("123", "//doc[2]/field[@name='ref_id']", result);
+		assertXpathEvaluatesTo("123", "//doc/doc/field[@name='ref_id']", result);
 	}
 
 	@Test
