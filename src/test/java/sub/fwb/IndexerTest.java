@@ -223,6 +223,15 @@ public class IndexerTest {
 		assertXpathExists("//field[@name='sense_phraseme']", result);
 	}
 
+	@Test
+	public void shouldAddGgs() throws Exception {
+		xslt.transform("src/test/resources/sense_ggs.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("ggs1", "//field[@name='sense_antonym'][1]", result);
+		assertXpathEvaluatesTo("", "//field[@name='sense_antonym'][2]", result);
+	}
+
 	@After
 	public void afterEachTest() {
 		// System.out.println(outputBaos.toString());
