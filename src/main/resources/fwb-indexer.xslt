@@ -444,6 +444,9 @@
       <xsl:apply-templates select="dictScrap[@rend='bdv']/ref" />
       <xsl:apply-templates select="dictScrap[@rend='sv']/ref" />
       <xsl:apply-templates select=".//cit" />
+      <field name="sense_phraseme">
+        <xsl:value-of select="dictScrap[@rend='phras']" />
+      </field>
     </doc>
   </xsl:template>
 

@@ -215,6 +215,14 @@ public class IndexerTest {
 		assertXpathEvaluatesTo("", "//field[@name='sense_subvoce'][2]", result);
 	}
 
+	@Test
+	public void shouldAddPhraseme() throws Exception {
+		xslt.transform("src/test/resources/sense_phraseme.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathExists("//field[@name='sense_phraseme']", result);
+	}
+
 	@After
 	public void afterEachTest() {
 		// System.out.println(outputBaos.toString());
