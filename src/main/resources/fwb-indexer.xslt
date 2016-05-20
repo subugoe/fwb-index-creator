@@ -440,6 +440,7 @@
         <xsl:value-of select="def" />
       </field>
       <xsl:apply-templates select="dictScrap[@rend='bdv']/ref" />
+      <xsl:apply-templates select="dictScrap[@rend='sv']/ref" />
       <xsl:apply-templates select=".//cit" />
     </doc>
   </xsl:template>
@@ -450,6 +451,14 @@
         <xsl:value-of select="@target" />
       </field>
       <field name="article_related_lemma">
+        <xsl:value-of select="." />
+      </field>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='sv']/ref">
+    <xsl:if test="not(number(.))">
+      <field name="sense_subvoce">
         <xsl:value-of select="." />
       </field>
     </xsl:if>

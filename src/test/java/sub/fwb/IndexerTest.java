@@ -206,6 +206,15 @@ public class IndexerTest {
 		assertXpathEvaluatesTo("3", "count(//field[@name='neblem'])", result);
 	}
 
+	@Test
+	public void shouldAddSubvoce() throws Exception {
+		xslt.transform("src/test/resources/sense_subvoce.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("sub1", "//field[@name='sense_subvoce'][1]", result);
+		assertXpathEvaluatesTo("", "//field[@name='sense_subvoce'][2]", result);
+	}
+
 	@After
 	public void afterEachTest() {
 		// System.out.println(outputBaos.toString());
