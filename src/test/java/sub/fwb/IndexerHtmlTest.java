@@ -241,6 +241,15 @@ public class IndexerHtmlTest {
 		assertXpathEvaluatesTo("mysecondlemma.s.1f#sense12", "//a[2]/@href", html);
 	}
 
+	@Test
+	public void shouldDecideIfLinkIsItalic() throws Exception {
+		xslt.transform("src/test/resources/html/refsItalicOrNot.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("lemma", "//span[@class='italic']/a", html);
+		assertXpathEvaluatesTo("1", "//div/a", html);
+	}
+
 	@After
 	public void afterEachTest() {
 		// System.out.println(outputBaos.toString());

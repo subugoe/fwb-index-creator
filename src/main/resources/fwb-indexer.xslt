@@ -262,9 +262,11 @@
         </a>
       </xsl:when>
       <xsl:otherwise>
-        <a href="{@target}">
-          <xsl:value-of select="." />
-        </a>
+        <span class="italic">
+          <a href="{@target}">
+            <xsl:value-of select="." />
+          </a>
+        </span>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
