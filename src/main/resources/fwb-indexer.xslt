@@ -465,6 +465,16 @@
           <xsl:value-of select="dictScrap[@rend='synt']" />
         </field>
       </xsl:if>
+      <xsl:if test="dictScrap[@rend='stw']">
+        <field name="sense_symptom_value">
+          <xsl:value-of select="dictScrap[@rend='stw']" />
+        </field>
+      </xsl:if>
+      <xsl:if test="dictScrap[@rend='wbg']">
+        <field name="sense_word_formation">
+          <xsl:value-of select="dictScrap[@rend='wbg']" />
+        </field>
+      </xsl:if>
     </doc>
   </xsl:template>
 

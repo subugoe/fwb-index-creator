@@ -256,6 +256,22 @@ public class IndexerTest {
 		assertXpathExists("//field[@name='sense_syntagma']", result);
 	}
 
+	@Test
+	public void shouldAddSymptomValue() throws Exception {
+		xslt.transform("src/test/resources/sense_symptomValue.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathExists("//field[@name='sense_symptom_value']", result);
+	}
+
+	@Test
+	public void shouldAddWordFormation() throws Exception {
+		xslt.transform("src/test/resources/sense_wordFormation.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathExists("//field[@name='sense_word_formation']", result);
+	}
+
 	@After
 	public void afterEachTest() {
 		// System.out.println(outputBaos.toString());
