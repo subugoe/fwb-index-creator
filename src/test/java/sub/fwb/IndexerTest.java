@@ -240,6 +240,14 @@ public class IndexerTest {
 		assertXpathEvaluatesTo("This is a saying.", "//field[@name='sense_saying']", result);
 	}
 
+	@Test
+	public void shouldAddRelatedReference() throws Exception {
+		xslt.transform("src/test/resources/sense_relatedReference.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathExists("//field[@name='sense_related_reference']", result);
+	}
+
 	@After
 	public void afterEachTest() {
 		// System.out.println(outputBaos.toString());
