@@ -232,6 +232,14 @@ public class IndexerTest {
 		assertXpathEvaluatesTo("", "//field[@name='sense_antonym'][2]", result);
 	}
 
+	@Test
+	public void shouldAddSaying() throws Exception {
+		xslt.transform("src/test/resources/sense_saying.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("This is a saying.", "//field[@name='sense_saying']", result);
+	}
+
 	@After
 	public void afterEachTest() {
 		// System.out.println(outputBaos.toString());

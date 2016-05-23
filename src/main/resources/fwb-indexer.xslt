@@ -450,6 +450,11 @@
           <xsl:value-of select="dictScrap[@rend='phras']" />
         </field>
       </xsl:if>
+      <xsl:if test="dictScrap[@rend='ra']">
+        <field name="sense_saying">
+          <xsl:value-of select="dictScrap[@rend='ra']" />
+        </field>
+      </xsl:if>
     </doc>
   </xsl:template>
 
