@@ -475,6 +475,11 @@
           <xsl:value-of select="dictScrap[@rend='wbg']" />
         </field>
       </xsl:if>
+      <xsl:if test="dictScrap[@rend='wbv']">
+        <field name="sense_word_reference">
+          <xsl:value-of select="dictScrap[@rend='wbv']" />
+        </field>
+      </xsl:if>
     </doc>
   </xsl:template>
 

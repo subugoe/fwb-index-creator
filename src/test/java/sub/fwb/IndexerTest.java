@@ -272,6 +272,14 @@ public class IndexerTest {
 		assertXpathExists("//field[@name='sense_word_formation']", result);
 	}
 
+	@Test
+	public void shouldAddWordReference() throws Exception {
+		xslt.transform("src/test/resources/sense_wordFormation.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathExists("//field[@name='sense_word_reference']", result);
+	}
+
 	@After
 	public void afterEachTest() {
 		// System.out.println(outputBaos.toString());
