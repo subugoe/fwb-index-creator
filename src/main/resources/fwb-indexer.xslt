@@ -460,6 +460,11 @@
           <xsl:value-of select="dictScrap[@rend='ref']" />
         </field>
       </xsl:if>
+      <xsl:if test="dictScrap[@rend='synt']">
+        <field name="sense_syntagma">
+          <xsl:value-of select="dictScrap[@rend='synt']" />
+        </field>
+      </xsl:if>
     </doc>
   </xsl:template>
 

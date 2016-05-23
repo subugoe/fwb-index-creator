@@ -248,6 +248,14 @@ public class IndexerTest {
 		assertXpathExists("//field[@name='sense_related_reference']", result);
 	}
 
+	@Test
+	public void shouldAddSyntagma() throws Exception {
+		xslt.transform("src/test/resources/sense_syntagma.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathExists("//field[@name='sense_syntagma']", result);
+	}
+
 	@After
 	public void afterEachTest() {
 		// System.out.println(outputBaos.toString());
