@@ -164,7 +164,7 @@
   <xsl:template match="dictScrap[@rend='ggs']" mode="html_fulltext">
     <div class="ggs">
       <span class="ggs-begin">
-        <xsl:text>Ggs.: </xsl:text>
+        <xsl:text>Gegensätze: </xsl:text>
       </span>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
