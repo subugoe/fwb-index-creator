@@ -44,7 +44,7 @@ public class IndexerTest {
 		String result = outputBaos.toString();
 
 		assertXpathEvaluatesTo("some.id", "//field[@name='internal_id']", result);
-		assertXpathEvaluatesTo("test_lemma,", "//field[@name='lemma']", result);
+		assertXpathEvaluatesTo("test_lemma", "//field[@name='lemma']", result);
 		assertXpathEvaluatesTo("test_lemma", "//field[@name='lemma_normalized']", result);
 	}
 
@@ -62,7 +62,7 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/lemmaWithSpace.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("test_lemma,", "//field[@name='lemma']", result);
+		assertXpathEvaluatesTo("test_lemma", "//field[@name='lemma']", result);
 		assertXpathEvaluatesTo("test_lemma", "//field[@name='lemma_normalized']", result);
 	}
 

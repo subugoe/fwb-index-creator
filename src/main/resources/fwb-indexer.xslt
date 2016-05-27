@@ -60,7 +60,14 @@
     </field>
     <xsl:variable name="lemma" select="normalize-space(form[@type='lemma']/orth)" />
     <field name="lemma">
-      <xsl:value-of select="$lemma" />
+      <xsl:choose>
+        <xsl:when test="ends-with($lemma, ',')">
+          <xsl:value-of select="normalize-space(substring-before($lemma, ','))" />
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$lemma" />
+        </xsl:otherwise>
+      </xsl:choose>
     </field>
     <field name="lemma_normalized">
       <xsl:choose>
