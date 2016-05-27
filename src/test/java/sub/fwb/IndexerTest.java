@@ -233,11 +233,19 @@ public class IndexerTest {
 	}
 
 	@Test
-	public void shouldAddSaying() throws Exception {
+	public void shouldAddSayingAsPhraseme() throws Exception {
 		xslt.transform("src/test/resources/sense_saying.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("This is a saying.", "//field[@name='sense_saying']", result);
+		assertXpathEvaluatesTo("This is a saying.", "//field[@name='sense_phraseme']", result);
+	}
+
+	@Test
+	public void shouldAddBothSayingAndPhraseme() throws Exception {
+		xslt.transform("src/test/resources/sense_sayingAndPhraseme.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("This is a saying. This is a phraseme.", "//field[@name='sense_phraseme']", result);
 	}
 
 	@Test
