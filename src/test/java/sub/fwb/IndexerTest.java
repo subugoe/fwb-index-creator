@@ -64,25 +64,6 @@ public class IndexerTest {
 	}
 
 	@Test
-	public void shouldTransformOneVariant() throws Exception {
-		xslt.transform("src/test/resources/oneNotationVariant.xml", outputBaos);
-		String result = outputBaos.toString();
-
-		assertXpathEvaluatesTo("1", "count(//field[@name='notation_variant'])", result);
-		assertXpathEvaluatesTo("tesst", "//field[@name='notation_variant']", result);
-	}
-
-	@Test
-	public void shouldTransformTwoVariants() throws Exception {
-		xslt.transform("src/test/resources/twoNotationVariants.xml", outputBaos);
-		String result = outputBaos.toString();
-
-		assertXpathEvaluatesTo("2", "count(//field[@name='notation_variant'])", result);
-		assertXpathEvaluatesTo("tesst", "//field[@name='notation_variant'][1]", result);
-		assertXpathEvaluatesTo("tesdt", "//field[@name='notation_variant'][2]", result);
-	}
-
-	@Test
 	public void shouldRecognizeRefArticle() throws Exception {
 		xslt.transform("src/test/resources/articleRef.xml", outputBaos);
 		String result = outputBaos.toString();

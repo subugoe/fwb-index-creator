@@ -74,9 +74,6 @@
       <xsl:variable name="typeValueWithTail" select="substring-after($wordTypes, concat($wordTypeId, ':'))" />
       <xsl:value-of select="substring-before($typeValueWithTail, '###')" />
     </field>
-    <!-- make fields <field name="notation_variant"> -->
-    <xsl:variable name="variants" select="dictScrap[@rend='artkopf']/hi[@rendition='it'][1]" />
-    <xsl:sequence select="fwb:addFieldsFromTokens('notation_variant', $variants)" />
     <!-- make fields <field name="neblem"> -->
     <xsl:variable name="neblemAreas" select="dictScrap[@rend='artkopf']/form[@type='neblem']/orth" />
     <xsl:for-each select="$neblemAreas">
