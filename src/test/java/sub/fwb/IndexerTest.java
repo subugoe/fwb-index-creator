@@ -45,7 +45,6 @@ public class IndexerTest {
 
 		assertXpathEvaluatesTo("some.id", "//field[@name='internal_id']", result);
 		assertXpathEvaluatesTo("test_lemma", "//field[@name='lemma']", result);
-		assertXpathEvaluatesTo("test_lemma", "//field[@name='lemma_normalized']", result);
 	}
 
 	@Test
@@ -54,7 +53,6 @@ public class IndexerTest {
 		String result = outputBaos.toString();
 
 		assertXpathEvaluatesTo("test_lemma", "//field[@name='lemma']", result);
-		assertXpathEvaluatesTo("test_lemma", "//field[@name='lemma_normalized']", result);
 	}
 
 	@Test
@@ -63,7 +61,6 @@ public class IndexerTest {
 		String result = outputBaos.toString();
 
 		assertXpathEvaluatesTo("test_lemma", "//field[@name='lemma']", result);
-		assertXpathEvaluatesTo("test_lemma", "//field[@name='lemma_normalized']", result);
 	}
 
 	@Test

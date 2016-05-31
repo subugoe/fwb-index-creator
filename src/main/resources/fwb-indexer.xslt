@@ -69,16 +69,6 @@
         </xsl:otherwise>
       </xsl:choose>
     </field>
-    <field name="lemma_normalized">
-      <xsl:choose>
-        <xsl:when test="ends-with($lemma, ',')">
-          <xsl:value-of select="normalize-space(substring-before($lemma, ','))" />
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="$lemma" />
-        </xsl:otherwise>
-      </xsl:choose>
-    </field>
     <field name="type_of_word">
       <xsl:variable name="wordTypeId" select="fwb:getWordTypeId(@xml:id)" />
       <xsl:variable name="typeValueWithTail" select="substring-after($wordTypes, concat($wordTypeId, ':'))" />
