@@ -36,6 +36,7 @@
         </field>
         <xsl:apply-templates select="//teiHeader//sourceDesc/bibl" />
         <xsl:apply-templates select="//body/entry" />
+        <!--xsl:apply-templates select="//body/entry" mode="fulltext" /-->
         <xsl:apply-templates select="//body/entry" mode="html_fulltext" />
         <xsl:apply-templates select="//body//sense" />
       </doc>
@@ -107,6 +108,12 @@
       </xsl:if>
     </xsl:for-each>
   </xsl:function>
+
+  <!--xsl:template match="entry" mode="fulltext">
+    <field name="article_fulltext">
+      <xsl:apply-templates select="*" mode="fulltext" />
+    </field>
+  </xsl:template-->
 
   <xsl:template match="entry" mode="html_fulltext">
     <field name="article_html">
@@ -250,7 +257,7 @@
         </a>
       </xsl:when>
       <xsl:when test="matches(@target, '_s\d+$') and number(.)">
-        <xsl:variable name="link" select="replace(@target, '_s\d+$', concat('#sense', text()))" />
+        <xsl:variable name="link" select="concat('#sense', text())" />
         <a href="{$link}">
           <xsl:value-of select="." />
         </a>
