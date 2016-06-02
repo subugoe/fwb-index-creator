@@ -36,7 +36,7 @@
         </field>
         <xsl:apply-templates select="//teiHeader//sourceDesc/bibl" />
         <xsl:apply-templates select="//body/entry" />
-        <!--xsl:apply-templates select="//body/entry" mode="fulltext" /-->
+        <xsl:apply-templates select="//body/entry" mode="fulltext" />
         <xsl:apply-templates select="//body/entry" mode="html_fulltext" />
         <xsl:apply-templates select="//body//sense" />
       </doc>
@@ -109,11 +109,16 @@
     </xsl:for-each>
   </xsl:function>
 
-  <!--xsl:template match="entry" mode="fulltext">
+  <xsl:template match="entry" mode="fulltext">
     <field name="article_fulltext">
       <xsl:apply-templates select="*" mode="fulltext" />
     </field>
-  </xsl:template-->
+  </xsl:template>
+
+  <xsl:template match="text()" mode="fulltext">
+    <xsl:value-of select="." />
+    <xsl:text> </xsl:text>
+  </xsl:template>
 
   <xsl:template match="entry" mode="html_fulltext">
     <field name="article_html">

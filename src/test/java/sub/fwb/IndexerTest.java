@@ -266,6 +266,14 @@ public class IndexerTest {
 		assertXpathExists("//field[@name='sense_word_reference']", result);
 	}
 
+	@Test
+	public void shouldTakeFulltextOfWholeArticle() throws Exception {
+		xslt.transform("src/test/resources/fulltext.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("Müller A quote. Meier ", "//field[@name='article_fulltext']", result);
+	}
+
 	@After
 	public void afterEachTest() {
 		// System.out.println(outputBaos.toString());
