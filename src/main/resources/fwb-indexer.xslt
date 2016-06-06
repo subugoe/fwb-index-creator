@@ -22,7 +22,7 @@
         <field name="id">
           <xsl:value-of select="$currentArticleId" />
         </field>
-        <field name="article_previous_id">
+        <!--field name="article_previous_id">
           <xsl:value-of select="$previousArticleId" />
         </field>
         <field name="article_previous_lemma">
@@ -33,7 +33,7 @@
         </field>
         <field name="article_next_lemma">
           <xsl:value-of select="$nextLemma" />
-        </field>
+        </field-->
         <xsl:apply-templates select="//teiHeader//sourceDesc/bibl" />
         <xsl:apply-templates select="//body/entry" />
         <xsl:apply-templates select="//body/entry" mode="fulltext" />
