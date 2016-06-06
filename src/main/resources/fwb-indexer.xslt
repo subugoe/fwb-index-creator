@@ -116,8 +116,10 @@
   </xsl:template>
 
   <xsl:template match="text()" mode="fulltext">
+    <xsl:if test="matches(., '^[\d\w].*')">
+      <xsl:text> </xsl:text>
+    </xsl:if>
     <xsl:value-of select="." />
-    <xsl:text> </xsl:text>
   </xsl:template>
 
   <xsl:template match="entry" mode="html_fulltext">

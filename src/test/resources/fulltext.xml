@@ -7,12 +7,12 @@
           <dictScrap rend="cit">
             <cit>
               <bibl xml:space="preserve"><name n="11">Müller</name></bibl>
-              <quote>A quote.</quote>
+              <quote>2: A quote.</quote>
             </cit>
           </dictScrap>
           <dictScrap rend="bls">
             <cit>
-              <bibl xml:space="preserve"><name n="22">Meier</name></bibl>
+              <bibl xml:space="preserve"><name n="22">Ärmel</name>.</bibl>
             </cit>
           </dictScrap>
         </sense>

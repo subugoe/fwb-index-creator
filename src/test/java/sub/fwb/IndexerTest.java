@@ -271,7 +271,7 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/fulltext.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("Müller A quote. Meier ", "//field[@name='article_fulltext']", result);
+		assertXpathEvaluatesTo(" " +  "Müller" + " " + "2: A quote." + " " + "Ärmel.", "//field[@name='article_fulltext']", result);
 	}
 
 	@After
