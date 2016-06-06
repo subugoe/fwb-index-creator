@@ -11,7 +11,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.poi.ss.formula.EvaluationWorkbook.ExternalSheetRange;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -43,7 +42,7 @@ public class SourcesParser {
 
 			appendFromStronglist(row, buffer);
 
-			buffer.append("<field name=\"source_html\"><![CDATA[");
+			buffer.append("<field name=\"source_html\" boost=\"55\"><![CDATA[");
 			buffer.append("<div class=\"source-details\">\n");
 
 			appendRowOfSpans("Bibliographie: ", asString(row.getCell(15)), buffer);
