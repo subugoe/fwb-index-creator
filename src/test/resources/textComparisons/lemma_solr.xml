@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<add>
+   <doc>
+      <field name="type">artikel</field>
+      <field name="id"/>
+      <field name="internal_id"/>
+      <field name="lemma" boost="100">testlemma</field>
+      <field name="type_of_word" boost="20"/>
+      <field name="is_reference">true</field>
+      <field name="article_fulltext"> testlemma</field>
+      <field name="article_html"><![CDATA[<div class="article">
+            <div class="lemma">testlemma</div>
+         </div>]]></field>
+   </doc>
+</add>

@@ -21,7 +21,6 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.12</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>xmlunit</groupId>
@@ -84,11 +83,6 @@
                   <mainClass>sub.fwb.Main</mainClass>
                 </transformer>
               </transformers>
-              <artifactSet>
-                <excludes>
-                  <exclude>junit:junit</exclude>
-                </excludes>
-              </artifactSet>
             </configuration>
           </execution>
         </executions>
