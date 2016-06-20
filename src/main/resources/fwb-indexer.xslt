@@ -22,18 +22,10 @@
         <field name="id">
           <xsl:value-of select="$currentArticleId" />
         </field>
-        <!--field name="article_previous_id">
-          <xsl:value-of select="$previousArticleId" />
-        </field>
-        <field name="article_previous_lemma">
-          <xsl:value-of select="$previousLemma" />
-        </field>
-        <field name="article_next_id">
-          <xsl:value-of select="$nextArticleId" />
-        </field>
-        <field name="article_next_lemma">
-          <xsl:value-of select="$nextLemma" />
-        </field-->
+        <!--field name="article_previous_id"> <xsl:value-of select="$previousArticleId" /> </field> <field 
+          name="article_previous_lemma"> <xsl:value-of select="$previousLemma" /> </field> <field name="article_next_id"> 
+          <xsl:value-of select="$nextArticleId" /> </field> <field name="article_next_lemma"> <xsl:value-of select="$nextLemma" 
+          /> </field -->
         <xsl:apply-templates select="//teiHeader//sourceDesc/bibl" />
         <xsl:apply-templates select="//body/entry" />
         <xsl:apply-templates select="//body/entry" mode="fulltext" />
@@ -78,7 +70,14 @@
     <!-- make fields <field name="neblem"> -->
     <xsl:variable name="neblemAreas" select="dictScrap[@rend='artkopf']/form[@type='neblem']/orth" />
     <xsl:for-each select="$neblemAreas">
-      <xsl:sequence select="fwb:addFieldsFromTokens('neblem', '70', .)" />
+      <xsl:choose>
+        <xsl:when test=". = $neblemAreas[1]">
+          <xsl:sequence select="fwb:addFieldsFromTokens('neblem', '70', .)" />
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:sequence select="fwb:addFieldsFromTokens('neblem', '1', .)" />
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:for-each>
     <field name="is_reference">
       <xsl:value-of select="not(sense)" />
@@ -102,11 +101,22 @@
     <xsl:param name="commaTokens" />
     <xsl:variable name="arrayOfTokens" select="tokenize($commaTokens, ',\s*')" />
     <xsl:for-each select="$arrayOfTokens">
-      <xsl:if test=". != ''">
-        <field name="{$fieldName}" boost="{$boostValue}">
-          <xsl:value-of select="." />
-        </field>
-      </xsl:if>
+      <xsl:choose>
+        <xsl:when test=". = $arrayOfTokens[1]">
+          <xsl:if test=". != ''">
+            <field name="{$fieldName}" boost="{$boostValue}">
+              <xsl:value-of select="." />
+            </field>
+          </xsl:if>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:if test=". != ''">
+            <field name="{$fieldName}" boost="1">
+              <xsl:value-of select="." />
+            </field>
+          </xsl:if>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:for-each>
   </xsl:function>
 
