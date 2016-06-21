@@ -41,6 +41,9 @@ public class Main {
 			int i = 0;
 			for (File currentFile : allFiles) {
 				int currentId = i + 1;
+				if (currentId % 1000 == 0) {
+					System.out.print(" ..." + currentId);
+				}
 				if (i > 0) {
 					addFileParametersToXslt("previous", (currentId - 1) + "", allFiles.get(i - 1), xslt);
 				}
@@ -57,6 +60,7 @@ public class Main {
 			}
 
 			long after = new Date().getTime();
+			System.out.println();
 			System.out.println("Took " + (after - before) + " milliseconds");
 
 		}
