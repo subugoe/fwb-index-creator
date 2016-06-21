@@ -105,6 +105,7 @@ public class IndexerTest {
 		assertXpathEvaluatesTo("next_lemma", "//field[@name='article_next_lemma']", result);
 	}
 
+	@Ignore
 	@Test
 	public void shouldSetSenseIdAndNumber() throws Exception {
 		xslt.setParameter("currentArticleId", "123");
@@ -115,6 +116,7 @@ public class IndexerTest {
 		assertXpathEvaluatesTo("1", "//doc/doc/field[@name='sense_number']", result);
 	}
 
+	@Ignore
 	@Test
 	public void shouldSetArticleIdInSense() throws Exception {
 		xslt.setParameter("currentArticleId", "123");
@@ -124,6 +126,7 @@ public class IndexerTest {
 		assertXpathEvaluatesTo("123", "//doc/doc/field[@name='ref_id']", result);
 	}
 
+	@Ignore
 	@Test
 	public void shouldTransformOneSense() throws Exception {
 		xslt.transform("src/test/resources/oneSense.xml", outputBaos);
@@ -133,6 +136,7 @@ public class IndexerTest {
 		assertXpathExists("//field[text()='Definition.']", result);
 	}
 
+	@Ignore
 	@Test
 	public void shouldTransformTwoSenses() throws Exception {
 		xslt.transform("src/test/resources/twoSenses.xml", outputBaos);

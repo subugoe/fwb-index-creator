@@ -32,6 +32,8 @@ public class SolrTester {
 		SolrQuery solrQuery = new SolrQuery(query);
 		solrQuery.setRequestHandler("/select");
 		solrQuery.set("fl", "lemma,score");
+		solrQuery.set("rows", "50");
+		solrQuery.set("qf", "lemma^100 neblem^90 definition_fulltext^70");
 
 		QueryResponse response = solrServer.query(solrQuery);
 
@@ -60,10 +62,21 @@ public class SolrTester {
 		askSolr("imbs +article_fulltext:*imbs*");
 
 		assertEquals(22, results());
-
 		assertEquals("imbs", lemma(1));
 		assertEquals("imbis", lemma(2));
 		assertEquals("anheimsch", lemma(3));
+
+	}
+
+	@Test
+	public void imbis() throws Exception {
+
+		askSolr("imbis *imbis* +article_fulltext:*imbis*");
+
+//		assertEquals(22, results());
+//		assertEquals("imbs", lemma(1));
+//		assertEquals("imbis", lemma(2));
+//		assertEquals("anheimsch", lemma(3));
 
 	}
 
