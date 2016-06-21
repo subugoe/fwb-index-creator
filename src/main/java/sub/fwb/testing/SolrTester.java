@@ -1,51 +1,70 @@
 package sub.fwb.testing;
 
 import static org.junit.Assert.*;
-import static org.custommonkey.xmlunit.XMLAssert.*;
 
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.impl.HttpSolrServer;
+import org.apache.solr.client.solrj.impl.XMLResponseParser;
+import org.apache.solr.client.solrj.request.RequestWriter;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class SolrTester {
+	private HttpSolrServer solrServer = new HttpSolrServer("http://localhost:8983/solr/fwb");
+	private SolrDocumentList docList;
 
 	@Before
 	public void setUp() throws Exception {
+		solrServer.setRequestWriter(new RequestWriter());
+		solrServer.setParser(new XMLResponseParser());
+	}
+
+	private void askSolr(String query) throws Exception {
+		SolrQuery solrQuery = new SolrQuery(query);
+		solrQuery.setRequestHandler("/select");
+		solrQuery.set("fl", "lemma,score");
+
+		QueryResponse response = solrServer.query(solrQuery);
+
+		docList = response.getResults();
+	}
+
+	private String lemma(int resultNumber) {
+		return (String) docList.get(resultNumber - 1).getFieldValue("lemma");
+	}
+
+	private long results() {
+		return docList.getNumFound();
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		System.out.println(docList.getNumFound() + " results");
+		for (SolrDocument doc : docList) {
+			System.out.println(doc.getFieldValue("lemma") + "\t" + doc.getFieldValue("score"));
+		}
 	}
 
 	@Test
 	public void imbs() throws Exception {
-		String xml = askSolr(
-				"q=(lemma%3Aimbs+neblem%3Aimbs+article_fulltext%3Aimbs+article_fulltext%3A*imbs*+)+AND+article_fulltext%3A*imbs*+%0A&sort=score+desc%2Clemma+asc&rows=10&fl=lemma%2Cscore%2Cneblem&wt=xml&indent=true&hl=off&omitHeader=true");
 
-		assertXpathEvaluatesTo("imbs", "//doc[1]/str", xml);
-		assertXpathEvaluatesTo("imbis", "//doc[2]/str", xml);
-		assertXpathEvaluatesTo("anheimsch", "//doc[3]/str", xml);
-	}
+		askSolr("imbs +article_fulltext:*imbs*");
 
+		assertEquals(22, results());
 
-	
-	
-	
-	
-	private String askSolr(String query) throws IOException {
-		
-		URL queryUrl = new URL("http://localhost:8983/solr/fwb/select?" + query);
-		URLConnection connection = queryUrl.openConnection();
+		assertEquals("imbs", lemma(1));
+		assertEquals("imbis", lemma(2));
+		assertEquals("anheimsch", lemma(3));
 
-		String s = IOUtils.toString(connection.getInputStream());
-
-		System.out.println(s);
-		return s;
 	}
 
 }
