@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema name="fwb" version="1.5">
+
+  <similarity class="sub.fwb.FwbSimilarity" />
+
+  <fields>
+    <!-- all types -->
+    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
+    <!-- bezieht sich immer auf das feld id des uebergeordneten Solr-Dokuments -->
+    <field name="ref_id" type="string" indexed="true" stored="true" required="false" multiValued="false" />
+    <!-- artikel / bedeutung / quelle -->
+    <field name="type" type="string" indexed="true" stored="true" required="true" multiValued="false" />
+
+    <!-- Artikel (type=artikel) -->
+    <field name="printed_source" type="string" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="volume" type="string" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="col" type="string" indexed="true" stored="true" required="false" multiValued="false" />
+    <!-- ID aus dem TEI -->
+    <field name="internal_id" type="string" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="lemma" type="text_de" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="type_of_word" type="string" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="neblem" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="neblem_exact" type="text_de_exact" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="ethymology" type="text_de" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="head_comment" type="text_de" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="article_version" type="string" indexed="false" stored="true" required="false" multiValued="false" />
+    <field name="article_html" type="text_de" indexed="true" stored="true" required="false" multiValued="false"
+       termVectors="true"
+       termPositions="true"
+       termOffsets="true" />
+    <field name="article_fulltext" type="text_de" indexed="true" stored="true" required="false" multiValued="false" />
+    <!-- true bei Artikeln die *.ref* -->
+    <field name="is_reference" type="boolean" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="unblocking_date" type="date" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="article_next_id" type="string" indexed="false" stored="true" required="false" multiValued="false" />
+    <field name="article_next_lemma" type="string" indexed="false" stored="true" required="false" multiValued="false" />
+    <field name="article_previous_id" type="string" indexed="false" stored="true" required="false" multiValued="false" />
+    <field name="article_previous_lemma" type="string" indexed="false" stored="true" required="false" multiValued="false" />
+
+
+    <!-- Bedeutung ( type=bedeutung) -->
+    <field name="definition_fulltext" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="sense_number" type="int" indexed="true" stored="true" required="false" multiValued="false" />
+    <!-- referenzierte Quellenangabe -->
+    <field name="definition_source_id" type="string" indexed="false" stored="true" required="false" multiValued="true" />
+    <field name="definition_source_citation" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <!-- Belegstelle -->
+    <field name="definition_source_instance" type="string" indexed="false" stored="true" required="false" multiValued="true" />
+    <!-- Bedeutungsverwandte -->
+    <field name="article_related_id" type="string" indexed="false" stored="true" required="false" multiValued="true" />
+    <field name="article_related_lemma" type="string" indexed="true" stored="true" required="false" multiValued="true" />
+
+    <field name="sense_subvoce" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="sense_subvoce_exact" type="text_de_exact" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="sense_antonym" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="sense_antonym_exact" type="text_de_exact" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="sense_phraseme" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="sense_related_reference" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="sense_syntagma" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="sense_symptom_value" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="sense_word_formation" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="sense_word_reference" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+
+    <!-- Bibliographie -->
+    <field name="source_page" type="string" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="source_short" type="string" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="source_title" type="text_de" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="source_date_display" type="text_de" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="source_date" type="date" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="source_author" type="string" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="source_author_secondary" type="string" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="source_author_display" type="string" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="source_herausgeber" type="string" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="source_html" type="text_de" indexed="true" stored="true" required="false" multiValued="false" />
+
+
+    <!-- transaction log -->
+    <field name="_version_" type="long" indexed="true" stored="true" />
+    <!-- enable nested documents -->
+    <field name="_root_" type="string" indexed="true" stored="false" />
+
+    <!-- suggester und facetten -->
+    <dynamicField name="*_suggest" type="phrase_suggest" indexed="true" stored="true" multiValued="true" required="false" />
+    <dynamicField name="*_facet" type="string" indexed="true" stored="true" multiValued="true" required="false" />
+    <dynamicField name="*_exact" type="text_de_exact" indexed="true" stored="true" required="false" termVectors="true" termOffsets="true" />
+
+  </fields>
+
+  <uniqueKey>id</uniqueKey>
+
+  <copyField source="lemma" dest="all_suggest" />
+
+  <!--copyField source="article_html" dest="article_html_exact" />
+  <copyField source="article_fulltext" dest="article_fulltext_exact" />
+  <copyField source="definition_fulltext" dest="definition_fulltext_exact" />
+  <copyField source="lemma" dest="lemma_exact" />
+  <copyField source="neblem" dest="neblem_exact" />
+  <copyField source="sense_subvoce" dest="sense_subvoce_exact" />
+  <copyField source="sense_antonym" dest="sense_antonym_exact" />
+  <copyField source="sense_phraseme" dest="sense_phraseme_exact" />
+  <copyField source="sense_related_reference" dest="sense_related_reference_exact" />
+  <copyField source="sense_syntagma" dest="sense_syntagma_exact" />
+  <copyField source="sense_symptom_value" dest="sense_symptom_value_exact" />
+  <copyField source="sense_word_formation" dest="sense_word_formation_exact" />
+  <copyField source="sense_word_reference" dest="sense_word_reference_exact" /-->
+
+  <types>
+    <fieldType name="umlauts" class="solr.TextField">
+      <analyzer>
+        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+        <filter class="sub.fwb.UmlautFilterFactory" />
+      </analyzer>
+    </fieldType>
+    <!-- boolean type: "true" or "false" -->
+    <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" />
+    <fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0" />
+    <fieldType name="int" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0" />
+    <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0" />
+    <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="false" />
+    <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <Filter class="solr.MappingCharFilterFactory" mapping="mapping-ISOLatin1Accent.txt" />
+        <charFilter class="solr.HTMLStripCharFilterFactory" />
+        <tokenizer class="solr.StandardTokenizerFactory" />
+        <!-- <filter class="solr.SynonymFilterFactory" synonyms="s.txt" ignoreCase="true" expand="true"/> -->
+        <!-- <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true"/> -->
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.HyphenatedWordsFilterFactory" />
+        <filter class="solr.RemoveDuplicatesTokenFilterFactory" />
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory" />
+        <filter class="solr.LowerCaseFilterFactory" />
+      </analyzer>
+    </fieldType>
+
+    <fieldType name="text_de" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <Filter class="solr.MappingCharFilterFactory" mapping="mapping-ISOLatin1Accent.txt" />
+        <charFilter class="solr.HTMLStripCharFilterFactory" />
+        <tokenizer class="solr.StandardTokenizerFactory" />
+        <!-- <filter class="solr.SynonymFilterFactory" synonyms="s.txt" ignoreCase="true" expand="true"/> -->
+        <!--filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords_dt.txt" enablePositionIncrements="true" /-->
+        <filter class="solr.LowerCaseFilterFactory" />
+        <!--filter class="solr.HyphenatedWordsFilterFactory" /-->
+        <filter class="sub.fwb.UmlautFilterFactory" />
+        <!--filter class="solr.RemoveDuplicatesTokenFilterFactory" /-->
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory" />
+        <filter class="solr.LowerCaseFilterFactory" />
+      </analyzer>
+    </fieldType>
+
+    <fieldType name="text_de_exact" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <charFilter class="solr.HTMLStripCharFilterFactory" />
+        <tokenizer class="solr.StandardTokenizerFactory" />
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory" />
+      </analyzer>
+    </fieldType>
+
+    <!-- From: http://svn.apache.org/repos/asf/lucene/dev/branches/lucene_solr_4_3/solr/core/src/test-files/solr/collection1/conf/schema-phrasesuggest.xml -->
+    <fieldtype name="phrase_suggest" class="solr.TextField">
+      <analyzer>
+        <tokenizer class="solr.KeywordTokenizerFactory" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="([^\p{L}\p{M}\p{N}\p{Cs}]*[\p{L}\p{M}\p{N}\p{Cs}\_]+:)|([^\p{L}\p{M}\p{N}\p{Cs}])+"
+          replacement=" " replace="all" />
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.TrimFilterFactory" />
+      </analyzer>
+    </fieldtype>
+
+    <fieldType name="textSpell" class="solr.TextField" positionIncrementGap="100" omitNorms="true">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory" />
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords_dt.txt" />
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.StandardFilterFactory" />
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory" />
+        <!-- <filter class="solr.SynonymFilterFactory" synonyms="s.txt" ignoreCase="true" expand="true" /> -->
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords_dt.txt" />
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.StandardFilterFactory" />
+      </analyzer>
+    </fieldType>
+
+  </types>
+</schema>
