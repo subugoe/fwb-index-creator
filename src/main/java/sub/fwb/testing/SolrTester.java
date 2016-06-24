@@ -1,12 +1,7 @@
 package sub.fwb.testing;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
-
-import org.apache.commons.io.IOUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.impl.XMLResponseParser;
@@ -16,6 +11,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class SolrTester {
@@ -77,21 +73,19 @@ public class SolrTester {
 
 		assertEquals(26, results());
 		assertEquals("imbis", lemma(1));
-		assertEquals("abendimbis", lemma(2));
-		assertEquals("imbisgast", lemma(3));
+		assertEquals("imbisgast", lemma(2));
+		assertEquals("imbiskost", lemma(3));
 	}
 	
 	@Test
 	public void gericht() throws Exception {
-		// bug??
-		// kamergericht	271.0
-		// achtgericht	271.0
+
 		askSolr("gericht *gericht* +article_fulltext:*gericht*");
 
-//		assertEquals(26, results());
-//		assertEquals("imbs", lemma(1));
-//		assertEquals("imbis", lemma(2));
-//		assertEquals("anheimsch", lemma(3));
+		assertEquals(1823, results());
+		assertEquals("landgericht", lemma(1));
+		assertEquals("lehengericht", lemma(2));
+		assertEquals("kaufgericht", lemma(3));
 	}
 	
 	@Test
@@ -107,13 +101,13 @@ public class SolrTester {
 
 	@Test
 	public void essen() throws Exception {
-		// todo
+		
 		askSolr("essen *essen* +article_fulltext:*essen*");
 
-//		assertEquals(26, results());
-//		assertEquals("imbis", lemma(1));
-//		assertEquals("abendimbis", lemma(2));
-//		assertEquals("imbisgast", lemma(3));
+		assertEquals(2410, results());
+		assertEquals("geniessen", lemma(1));
+		assertEquals("befressen", lemma(2));
+		assertEquals("ge|essen", lemma(3));
 	}
 	
 	@Test
@@ -136,5 +130,17 @@ public class SolrTester {
 		assertEquals("berg", lemma(3));
 	}
 	
+	@Ignore
+	@Test
+	public void complexPhrase() throws Exception {
+
+//		askSolr("{!complexphrase inOrder=true}\"imbi* ward\" {!complexphrase inOrder=true}+article_fulltext:\"imbi* ward\"");
+
+//		assertEquals(24, results());
+//		assertEquals("abziehen", lemma(1));
+//		assertEquals("abrechen", lemma(2));
+//		assertEquals("abschlagen", lemma(3));
+	}
+
 
 }
