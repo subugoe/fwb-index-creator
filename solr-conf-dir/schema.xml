@@ -17,7 +17,10 @@
     <field name="col" type="string" indexed="true" stored="true" required="false" multiValued="false" />
     <!-- ID aus dem TEI -->
     <field name="internal_id" type="string" indexed="true" stored="true" required="false" multiValued="false" />
-    <field name="lemma" type="text_de" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="lemma" type="text_de_for_lemma" indexed="true" stored="true" required="false" multiValued="false" 
+       termVectors="true"
+       termPositions="true"
+       termOffsets="true" />
     <field name="type_of_word" type="string" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="neblem" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="neblem_exact" type="text_de_exact" indexed="true" stored="true" required="false" multiValued="true" />
@@ -109,6 +112,7 @@
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="sub.fwb.UmlautFilterFactory" />
+        <filter class="sub.fwb.LemmaNormalizeFilterFactory" />
       </analyzer>
     </fieldType>
     <!-- boolean type: "true" or "false" -->
@@ -148,6 +152,19 @@
       </analyzer>
       <analyzer type="query">
         <tokenizer class="solr.StandardTokenizerFactory" />
+        <filter class="solr.LowerCaseFilterFactory" />
+      </analyzer>
+    </fieldType>
+
+    <fieldType name="text_de_for_lemma" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="sub.fwb.UmlautFilterFactory" />
+        <filter class="sub.fwb.LemmaNormalizeFilterFactory" />
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory" />
       </analyzer>
     </fieldType>
