@@ -46,7 +46,7 @@
     <field name="sense_number" type="int" indexed="true" stored="true" required="false" multiValued="false" />
     <!-- referenzierte Quellenangabe -->
     <field name="definition_source_id" type="string" indexed="false" stored="true" required="false" multiValued="true" />
-    <field name="definition_source_citation" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="definition_source_citation" type="text_old_german" indexed="true" stored="true" required="false" multiValued="true" />
     <!-- Belegstelle -->
     <field name="definition_source_instance" type="string" indexed="false" stored="true" required="false" multiValued="true" />
     <!-- Bedeutungsverwandte -->
@@ -120,6 +120,20 @@
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.PatternReplaceFilterFactory" pattern="a" replacement="e" />
         <filter class="solr.PatternReplaceFilterFactory" pattern="b" replacement="p" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="ch" replacement="k" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="c" replacement="k" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="g" replacement="k" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="q" replacement="k" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="th" replacement="t" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="d" replacement="t" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="f" replacement="v" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="u" replacement="v" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="w" replacement="v" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="j" replacement="i" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="y" replacement="i" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="ß" replacement="s" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="ss" replacement="s" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="sz" replacement="s" />
       </analyzer>
     </fieldType>
     <!-- boolean type: "true" or "false" -->
@@ -159,6 +173,50 @@
       <analyzer type="query">
         <tokenizer class="solr.StandardTokenizerFactory" />
         <filter class="solr.LowerCaseFilterFactory" />
+      </analyzer>
+    </fieldType>
+
+    <fieldType name="text_old_german" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory" />
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="a" replacement="e" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="b" replacement="p" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="ch" replacement="k" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="c" replacement="k" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="g" replacement="k" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="q" replacement="k" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="th" replacement="t" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="d" replacement="t" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="f" replacement="v" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="u" replacement="v" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="w" replacement="v" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="j" replacement="i" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="y" replacement="i" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="ß" replacement="s" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="ss" replacement="s" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="sz" replacement="s" />
+        <filter class="sub.fwb.UmlautFilterFactory" file="umlaut_mappings_old_german.txt" />
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory" />
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="a" replacement="e" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="b" replacement="p" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="ch" replacement="k" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="c" replacement="k" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="g" replacement="k" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="q" replacement="k" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="th" replacement="t" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="d" replacement="t" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="f" replacement="v" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="u" replacement="v" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="w" replacement="v" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="j" replacement="i" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="y" replacement="i" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="ß" replacement="s" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="ss" replacement="s" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="sz" replacement="s" />
       </analyzer>
     </fieldType>
 
