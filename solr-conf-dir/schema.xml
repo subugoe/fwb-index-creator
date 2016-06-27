@@ -111,8 +111,15 @@
     <fieldType name="umlauts" class="solr.TextField">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-        <filter class="sub.fwb.UmlautFilterFactory" />
+        <filter class="sub.fwb.UmlautFilterFactory" file="umlaut_mappings.txt" />
         <filter class="sub.fwb.LemmaNormalizeFilterFactory" />
+      </analyzer>
+    </fieldType>
+    <fieldType name="replace" class="solr.TextField">
+      <analyzer>
+        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+        <filter class="solr.PatternReplaceFilterFactory" pattern="a" replacement="e" />
+        <filter class="solr.PatternReplaceFilterFactory" pattern="b" replacement="p" />
       </analyzer>
     </fieldType>
     <!-- boolean type: "true" or "false" -->
@@ -140,14 +147,13 @@
 
     <fieldType name="text_de" class="solr.TextField" positionIncrementGap="100">
       <analyzer type="index">
-        <Filter class="solr.MappingCharFilterFactory" mapping="mapping-ISOLatin1Accent.txt" />
         <charFilter class="solr.HTMLStripCharFilterFactory" />
         <tokenizer class="solr.StandardTokenizerFactory" />
         <!-- <filter class="solr.SynonymFilterFactory" synonyms="s.txt" ignoreCase="true" expand="true"/> -->
         <!--filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords_dt.txt" enablePositionIncrements="true" /-->
         <filter class="solr.LowerCaseFilterFactory" />
         <!--filter class="solr.HyphenatedWordsFilterFactory" /-->
-        <filter class="sub.fwb.UmlautFilterFactory" />
+        <filter class="sub.fwb.UmlautFilterFactory" file="umlaut_mappings.txt" />
         <!--filter class="solr.RemoveDuplicatesTokenFilterFactory" /-->
       </analyzer>
       <analyzer type="query">
@@ -160,7 +166,7 @@
       <analyzer type="index">
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory" />
-        <filter class="sub.fwb.UmlautFilterFactory" />
+        <filter class="sub.fwb.UmlautFilterFactory" file="umlaut_mappings.txt" />
         <filter class="sub.fwb.LemmaNormalizeFilterFactory" />
       </analyzer>
       <analyzer type="query">
