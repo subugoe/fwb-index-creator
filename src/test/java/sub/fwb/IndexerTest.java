@@ -279,7 +279,8 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/fulltext.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo(" " +  "Müller" + " " + "2: A quote." + " " + "Ärmel.", "//field[@name='article_fulltext']", result);
+		assertXpathEvaluatesTo(" " + "Müller" + " " + "2: A quote." + " " + "Ärmel.",
+				"//field[@name='article_fulltext']", result);
 	}
 
 	@After
@@ -307,9 +308,9 @@ public class IndexerTest {
 	}
 
 	@Test
-	public void shouldArzeneien() throws Exception {
-		// xslt.setParameter("currentArticleId", "123");
-		// xslt.transform("/home/dennis/temp/i/arzneien.arzneien.s.3v.xml",
+	public void shouldMakeTestFile() throws Exception {
+		// xslt.setParameter("currentArticleId", "testId");
+		// xslt.transform("/home/dennis/temp/test.xml",
 		// outputBaos);
 
 	}
