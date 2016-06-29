@@ -31,7 +31,10 @@
        termVectors="true"
        termPositions="true"
        termOffsets="true" />
-    <field name="article_fulltext" type="text_de" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="article_fulltext" type="text_de" indexed="true" stored="true" required="false" multiValued="false"
+       termVectors="true"
+       termPositions="true"
+       termOffsets="true" />
     <!-- true bei Artikeln die *.ref* -->
     <field name="is_reference" type="boolean" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="unblocking_date" type="date" indexed="true" stored="true" required="false" multiValued="false" />
@@ -189,7 +192,7 @@
       </analyzer>
       <analyzer type="query">
         <tokenizer class="solr.StandardTokenizerFactory" />
-        <filter class="sub.fwb.UmlautFilterFactory" file="old_german_mappings.txt" />
+        <!--filter class="sub.fwb.UmlautFilterFactory" file="old_german_mappings.txt" /-->
         <filter class="solr.LowerCaseFilterFactory" />
       </analyzer>
     </fieldType>
