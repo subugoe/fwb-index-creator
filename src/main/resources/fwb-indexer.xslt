@@ -22,10 +22,18 @@
         <field name="id">
           <xsl:value-of select="$currentArticleId" />
         </field>
-        <!--field name="article_previous_id"> <xsl:value-of select="$previousArticleId" /> </field> <field 
-          name="article_previous_lemma"> <xsl:value-of select="$previousLemma" /> </field> <field name="article_next_id"> 
-          <xsl:value-of select="$nextArticleId" /> </field> <field name="article_next_lemma"> <xsl:value-of select="$nextLemma" 
-          /> </field -->
+        <field name="article_previous_id">
+          <xsl:value-of select="$previousArticleId" />
+        </field>
+        <field name="article_previous_lemma">
+          <xsl:value-of select="$previousLemma" />
+        </field>
+        <field name="article_next_id">
+          <xsl:value-of select="$nextArticleId" />
+        </field>
+        <field name="article_next_lemma">
+          <xsl:value-of select="$nextLemma" />
+        </field>
         <xsl:apply-templates select="//teiHeader//sourceDesc/bibl" />
         <xsl:apply-templates select="//body/entry" />
         <xsl:apply-templates select="//body/entry" mode="fulltext" />
