@@ -36,11 +36,15 @@ public class SolrTester {
 				solrQueryString += inputValue + " *" + inputValue + "* " + "+article_fulltext:*" + inputValue + "* ";
 			}
 		}
-		SolrQuery solrQuery = new SolrQuery(solrQueryString);
+		askSolrByQuery(solrQueryString);
+	}
+
+	private void askSolrByQuery(String query) throws SolrServerException {
+		SolrQuery solrQuery = new SolrQuery(query);
 		solrQuery.setRequestHandler("/select");
 		solrQuery.set("fl", "lemma,score");
 		solrQuery.set("rows", "500");
-		//solrQuery.set("tie", "0.01");
+		// solrQuery.set("tie", "0.01");
 		solrQuery.set("qf",
 				"lemma^10000 neblem^1000 definition_fulltext^70 article_related_lemma^60 "
 						+ "definition_source_citation^55 sense_phraseme^45 sense_word_reference^45 "
