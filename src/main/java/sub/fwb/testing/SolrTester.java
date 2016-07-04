@@ -39,7 +39,7 @@ public class SolrTester {
 		askSolrByQuery(solrQueryString);
 	}
 
-	private void askSolrByQuery(String query) throws SolrServerException {
+	private void askSolrByQuery(String query) throws Exception {
 		SolrQuery solrQuery = new SolrQuery(query);
 		solrQuery.setRequestHandler("/select");
 		solrQuery.set("fl", "lemma,score");
@@ -64,7 +64,7 @@ public class SolrTester {
 		return docList.getNumFound();
 	}
 
-	private void assertBestResultsContainWordPart(String wordPart) throws SolrServerException {
+	private void assertBestResultsContainWordPart(String wordPart) throws Exception {
 		SolrQuery solrQuery = new SolrQuery("lemma:*" + wordPart + "*");
 		solrQuery.setRequestHandler("/select");
 		solrQuery.set("fl", "lemma");
