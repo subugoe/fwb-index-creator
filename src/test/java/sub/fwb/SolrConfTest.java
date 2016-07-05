@@ -2,90 +2,49 @@ package sub.fwb;
 
 import static org.junit.Assert.assertEquals;
 
-import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
-import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.core.CoreContainer;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import sub.fwb.testing.SolrState;
+
 public class SolrConfTest {
 
-	private static EmbeddedSolrServer solr;
-	private SolrDocumentList docList;
+	private static SolrState solr;
 
 	@BeforeClass
 	public static void beforeAllTests() throws Exception {
 		CoreContainer container = new CoreContainer("solr");
 		container.load();
-
-		solr = new EmbeddedSolrServer(container, "fwb");
+		EmbeddedSolrServer solrEmbedded = new EmbeddedSolrServer(container, "fwb");
+		solr = new SolrState(solrEmbedded);
 	}
 
 	@After
-	public void tearDown() throws Exception {
-		solr.deleteByQuery("*:*");
-		solr.commit();
-
-		printResults();
-	}
-
-	private void printResults() {
-		System.out.println();
-		System.out.println(docList.getNumFound() + " results");
-		for (int i = 0; i < 20; i++) {
-			if (i < docList.getNumFound()) {
-				SolrDocument doc = docList.get(i);
-				System.out.println(doc.getFieldValue("lemma") + "\t" + doc.getFieldValue("score"));
-			}
-		}
-	}
-
-	private void addToSolr(String[][] documentFields) throws Exception {
-		SolrInputDocument newDoc = new SolrInputDocument();
-		for (String[] docField : documentFields) {
-			newDoc.addField(docField[0], docField[1]);
-		}
-		if (!newDoc.containsKey("id")) {
-			newDoc.addField("id", "1234");
-		}
-		if (!newDoc.containsKey("type")) {
-			newDoc.addField("type", "artikel");
-		}
-		solr.add(newDoc);
-		solr.commit();
-	}
-
-	private void askSolrByQuery(String query) throws Exception {
-		SolrQuery solrQuery = new SolrQuery(query);
-		solrQuery.setRequestHandler("/select");
-		solrQuery.set("fl", "*,score");
-		QueryResponse response = solr.query(solrQuery);
-
-		docList = response.getResults();
-	}
-
-	private String lemma(int resultNumber) {
-		return (String) docList.get(resultNumber - 1).getFieldValue("lemma");
-	}
-
-	private long results() {
-		return docList.getNumFound();
+	public void afterEach() throws Exception {
+		solr.clean();
+		solr.printResults();
 	}
 
 	@Test
 	public void shouldFindWithoutPipe() throws Exception {
 		String[][] docAdd = { { "lemma", "my|lemma" } };
-		addToSolr(docAdd);
+		solr.addDocument(docAdd);
 
-		askSolrByQuery("lemma:mylemma");
+		solr.askByQuery("lemma:mylemma");
 		
 		assertEquals(1, results());
 		assertEquals("my|lemma", lemma(1));
+	}
+
+	private String lemma(int resultNumber) {
+		return solr.lemma(resultNumber);
+	}
+
+	private long results() {
+		return solr.results();
 	}
 
 }
