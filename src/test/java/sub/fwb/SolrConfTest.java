@@ -29,6 +29,29 @@ public class SolrConfTest {
 	}
 
 	@Test
+	public void shouldFindPipe() throws Exception {
+		String[][] doc = { { "article_fulltext", "test |" } };
+		solr.addDocument(doc);
+
+		solr.askByQuery("article_fulltext:|");
+		
+		assertEquals(1, results());
+	}
+
+	@Test
+	public void shouldIgnoreSpecialChars() throws Exception {
+		String[][] doc = { { "article_fulltext", "& test1, ›test2‹" } };
+		solr.addDocument(doc);
+
+		solr.askByQuery("article_fulltext:test1");
+		assertEquals(1, results());
+		solr.askByQuery("article_fulltext:test2");
+		assertEquals(1, results());
+		solr.askByQuery("article_fulltext:&");
+		assertEquals(0, results());
+	}
+
+	@Test
 	public void shouldFindWithoutPipe() throws Exception {
 		String[][] doc = { { "lemma", "my|lemma" } };
 		solr.addDocument(doc);

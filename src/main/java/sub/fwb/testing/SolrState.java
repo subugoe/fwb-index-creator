@@ -84,6 +84,9 @@ public class SolrState {
 		if (!newDoc.containsKey("type")) {
 			newDoc.addField("type", "artikel");
 		}
+		if (!newDoc.containsKey("lemma")) {
+			newDoc.addField("lemma", "mylemma");
+		}
 		solrServerClient.add(newDoc);
 		solrServerClient.commit();
 	}
