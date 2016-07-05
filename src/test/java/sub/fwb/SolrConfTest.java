@@ -30,8 +30,8 @@ public class SolrConfTest {
 
 	@Test
 	public void shouldFindWithoutPipe() throws Exception {
-		String[][] docAdd = { { "lemma", "my|lemma" } };
-		solr.addDocument(docAdd);
+		String[][] doc = { { "lemma", "my|lemma" } };
+		solr.addDocument(doc);
 
 		solr.askByQuery("lemma:mylemma");
 		
