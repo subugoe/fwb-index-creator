@@ -7,7 +7,7 @@
 
 <!-- This is a stripped down config file used for a simple example... It is *not* a good example to work from. -->
 <config>
-  <luceneMatchVersion>LUCENE_54</luceneMatchVersion>
+  <luceneMatchVersion>LUCENE_46</luceneMatchVersion>
   <lib path="conf/fwb-solr-mods.jar" />
   <!-- The DirectoryFactory to use for indexes. solr.StandardDirectoryFactory, the default, is filesystem based. solr.RAMDirectoryFactory is memory based, 
     not persistent, and doesn't work with replication. -->
@@ -66,6 +66,7 @@
   <requestHandler name="standard" class="solr.StandardRequestHandler" default="true" />
   <requestHandler name="/analysis/field" startup="lazy" class="solr.FieldAnalysisRequestHandler" />
   <requestHandler name="/update" class="solr.UpdateRequestHandler" />
+  <requestHandler name="/admin/file" class="solr.admin.ShowFileRequestHandler"/>
 
   <requestHandler name="/select" class="solr.SearchHandler">
     <lst name="defaults">
