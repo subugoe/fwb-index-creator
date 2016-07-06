@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import sub.fwb.testing.SolrState;
 
-public class SolrConfTest {
+public class EmbeddedSolrTest {
 
 	private static SolrState solr;
 

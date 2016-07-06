@@ -7,7 +7,7 @@
 
 <!-- This is a stripped down config file used for a simple example... It is *not* a good example to work from. -->
 <config>
-  <luceneMatchVersion>LUCENE_46</luceneMatchVersion>
+  <luceneMatchVersion>LUCENE_54</luceneMatchVersion>
   <lib path="conf/fwb-solr-mods.jar" />
   <!-- The DirectoryFactory to use for indexes. solr.StandardDirectoryFactory, the default, is filesystem based. solr.RAMDirectoryFactory is memory based, 
     not persistent, and doesn't work with replication. -->
@@ -16,7 +16,7 @@
 
 
   <enableLazyFieldLoading>true</enableLazyFieldLoading>
-  <maxBooleanClauses>1026</maxBooleanClauses>
+  <maxBooleanClauses>4096</maxBooleanClauses>
 
   <!-- realtime get handler, guaranteed to return the latest stored fields of any document, without the need to commit or open a new searcher. The current 
     implementation relies on the updateLog feature being enabled. -->
