@@ -29,12 +29,22 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
+	public void shouldDeleteNonbreakingSpace() throws Exception {
+		String[][] doc = { { "article_fulltext", "test abc" } };
+		solr.addDocument(doc);
+
+		solr.askByQuery("article_fulltext:test");
+
+		assertEquals(1, results());
+	}
+
+	@Test
 	public void shouldFindPipe() throws Exception {
 		String[][] doc = { { "article_fulltext", "test |" } };
 		solr.addDocument(doc);
 
 		solr.askByQuery("article_fulltext:|");
-		
+
 		assertEquals(1, results());
 	}
 
@@ -57,7 +67,7 @@ public class EmbeddedSolrTest {
 		solr.addDocument(doc);
 
 		solr.askByQuery("lemma:mylemma");
-		
+
 		assertEquals(1, results());
 		assertEquals("my|lemma", lemma(1));
 	}
