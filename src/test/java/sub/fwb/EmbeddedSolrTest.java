@@ -6,6 +6,7 @@ import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
 import org.junit.After;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import sub.fwb.testing.SolrState;
@@ -26,6 +27,28 @@ public class EmbeddedSolrTest {
 	public void afterEach() throws Exception {
 		solr.clean();
 		solr.printResults();
+	}
+
+	@Ignore
+	@Test
+	public void shouldFindPartialAlternativeSpellings() throws Exception {
+		String[][] doc = { { "definition_source_citation", "wvnde" } };
+		solr.addDocument(doc);
+
+		solr.askByQuery("definition_source_citation:*unt*");
+
+		assertEquals(1, results());
+	}
+
+	@Ignore
+	@Test
+	public void shouldFindAlternativeSpellings() throws Exception {
+		String[][] doc = { { "definition_source_citation", "vnd katze" } };
+		solr.addDocument(doc);
+
+		solr.askByQuery("definition_source_citation:(+und +unt +vnt +vnd +katze +chatze +qatze +catze +gedza)");
+
+		assertEquals(1, results());
 	}
 
 	@Test

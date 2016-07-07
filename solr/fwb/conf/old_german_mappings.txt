@@ -1,6 +1,0 @@
-a:e
-e:a
-u:v
-v:u
-t:d
-d:t

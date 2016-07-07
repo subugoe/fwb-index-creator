@@ -71,20 +71,18 @@
   <requestHandler name="/select" class="solr.SearchHandler">
     <lst name="defaults">
       <str name="echoParams">all</str>
-      <!-- Spell checking defaults -->
-      <str name="spellcheck">on</str>
-      <str name="spellcheck.extendedResults">false</str>
-      <str name="spellcheck.count">10</str>
-      <str name="spellcheck.alternativeTermCount">2</str>
-      <str name="spellcheck.maxResultsForSuggest">5</str>
-      <str name="spellcheck.collate">true</str>
-      <str name="spellcheck.collateExtendedResults">true</str>
-      <str name="spellcheck.maxCollationTries">5</str>
-      <str name="spellcheck.maxCollations">3</str>
       <str name="defType">edismax</str>
       <str name="qf">lemma^10000 neblem^1000 definition_fulltext^70 article_related_lemma^60 definition_source_citation^55 sense_phraseme^45 sense_word_reference^45 sense_antonym^25 sense_symptom_value^40 sense_syntagma^10 sense_word_formation^20 sense_related_reference^20</str>
       <str name="df">article_html</str>
-      <str name="sort">score desc</str>
+    </lst>
+  </requestHandler>
+
+  <requestHandler name="/selecthl" class="solr.SearchHandler">
+    <lst name="defaults">
+      <str name="echoParams">all</str>
+      <str name="defType">edismax</str>
+      <str name="qf">lemma^10000 neblem^1000 definition_fulltext^70 article_related_lemma^60 definition_source_citation^55 sense_phraseme^45 sense_word_reference^45 sense_antonym^25 sense_symptom_value^40 sense_syntagma^10 sense_word_formation^20 sense_related_reference^20</str>
+      <str name="df">article_html</str>
       <!-- Highlighting -->
       <str name="hl">on</str>
       <str name="hl.fl">article_html</str>
