@@ -52,6 +52,16 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
+	public void shouldFindUmlaut() throws Exception {
+		String[][] doc = { { "article_fulltext", "bär" } };
+		solr.addDocument(doc);
+
+		solr.askByQuery("article_fulltext:bar");
+
+		assertEquals(1, results());
+	}
+
+	@Test
 	public void shouldDeleteNonbreakingSpace() throws Exception {
 		String[][] doc = { { "article_fulltext", "test abc" } };
 		solr.addDocument(doc);

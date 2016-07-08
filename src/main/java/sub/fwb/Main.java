@@ -38,10 +38,11 @@ public class Main {
 			fillWithFiles(allFiles, inputDir);
 			Collections.sort(allFiles);
 
+			System.out.println("Generating index files:");
 			int i = 0;
 			for (File currentFile : allFiles) {
 				int currentId = i + 1;
-				if (currentId % 1000 == 0) {
+				if (currentId % 2000 == 0) {
 					System.out.print(" ..." + currentId);
 				}
 				if (i > 0) {
