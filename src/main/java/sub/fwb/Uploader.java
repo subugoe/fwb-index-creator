@@ -3,6 +3,7 @@ package sub.fwb;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -29,30 +30,25 @@ public class Uploader {
 	private List<SolrInputDocument> allDocs = new ArrayList<>();
 	private final int MAX_DOCS = 2000;
 	private SolrClient solr;
-	
+
 	private Set<String> ids = new HashSet<>();
-	
+
 	public Uploader(String solrUrl) {
 		solr = new HttpSolrClient(solrUrl);
 	}
 
-	public static void main(String[] args) throws SolrServerException, IOException {
-		File inputDir = new File(args[0]);
-		String solrUrl = args[1];
-		File[] xmls = inputDir.listFiles();
-		Uploader uploader = new Uploader(solrUrl);
-		uploader.cleanSolr();
-		System.out.println("Uploading files:");
-		for (File x : xmls) {
-			uploader.add(x);
-		}
-		uploader.commitToSolr();
-	}
-	
 	public void add(File file) throws SolrServerException, IOException {
+		InputStream is = new FileInputStream(file);
+		try {
+			add(is);
+		} finally {
+			is.close();
+		}
+	}
+
+	public void add(InputStream is) throws SolrServerException, IOException {
 		XMLInputFactory factory = XMLInputFactory.newInstance();
 
-		FileInputStream is = new FileInputStream(file);
 		try {
 			eventReader = factory.createXMLEventReader(is);
 
@@ -76,8 +72,6 @@ public class Uploader {
 
 		} catch (XMLStreamException e) {
 			throw new IllegalArgumentException("Error reading XML", e);
-		} finally {
-			is.close();
 		}
 
 		if (allDocs.size() >= MAX_DOCS) {
@@ -97,7 +91,7 @@ public class Uploader {
 			if (nextEvent.isCharacters()) {
 				String fieldValue = nextEvent.asCharacters().getData();
 				currentSolrDoc.addField(fieldName, fieldValue);
-				
+
 				if (fieldName.equals("id")) {
 					if (ids.contains(fieldValue)) {
 						// System.out.println("double id: " + fieldValue);
@@ -106,14 +100,14 @@ public class Uploader {
 				}
 			}
 		}
-		
+
 	}
 
 	private void handleEndElement(EndElement endTag) {
 		String name = endTag.getName().getLocalPart();
 		if ("doc".equals(name)) {
 			allDocs.add(currentSolrDoc);
-		}		
+		}
 	}
 
 	private void flushDocs() throws SolrServerException, IOException {
@@ -124,22 +118,29 @@ public class Uploader {
 			System.out.print(" ..." + ids.size());
 		}
 	}
-	
+
 	public void cleanSolr() {
 		try {
 			solr.deleteByQuery("*:*");
+		} catch (SolrServerException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void commitToSolr() {
+		try {
+			flushDocs();
 			solr.commit();
 		} catch (SolrServerException | IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void commitToSolr() {
+
+	public void rollbackChanges() {
 		try {
-			flushDocs();
-			solr.commit();
 			System.out.println();
-			System.out.println("Done");
+			System.out.println("Performing a rollback due to errors.");
+			solr.rollback();
 		} catch (SolrServerException | IOException e) {
 			e.printStackTrace();
 		}
