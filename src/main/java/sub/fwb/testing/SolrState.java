@@ -12,7 +12,7 @@ public class SolrState {
 	private SolrClient solrServerClient;
 	private String solrQueryString = "";
 	private SolrDocumentList docList;
-	
+
 	public SolrState(SolrClient newSolrThing) {
 		solrServerClient = newSolrThing;
 	}
@@ -30,8 +30,12 @@ public class SolrState {
 	}
 
 	public void askByQuery(String query) throws Exception {
+		askByQuery(query, "/select");
+	}
+
+	public void askByQuery(String query, String requestHandler) throws Exception {
 		SolrQuery solrQuery = new SolrQuery(query);
-		solrQuery.setRequestHandler("/select");
+		solrQuery.setRequestHandler(requestHandler);
 		solrQuery.set("fl", "lemma,score");
 		solrQuery.set("rows", "500");
 		// solrQuery.set("tie", "0.01");
@@ -72,7 +76,7 @@ public class SolrState {
 			}
 		}
 	}
-	
+
 	public void addDocument(String[][] documentFields) throws Exception {
 		SolrInputDocument newDoc = new SolrInputDocument();
 		for (String[] docField : documentFields) {
@@ -90,10 +94,10 @@ public class SolrState {
 		solrServerClient.add(newDoc);
 		solrServerClient.commit();
 	}
-	
+
 	public void clean() throws Exception {
 		solrServerClient.deleteByQuery("*:*");
 		solrServerClient.commit();
 	}
-	
+
 }

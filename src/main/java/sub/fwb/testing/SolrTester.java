@@ -39,6 +39,14 @@ public class SolrTester {
 	}
 
 	@Test
+	public void maxClauseCountOver1024() throws Exception {
+
+		solr.askByQuery("article_fulltext:*e*", "/selecthl");
+
+		assertEquals(34678, results());
+	}
+
+	@Test
 	public void imbs() throws Exception {
 
 		solr.ask("imbs");
