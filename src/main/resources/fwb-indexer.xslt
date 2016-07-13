@@ -371,7 +371,7 @@
       <span class="citations-begin">
         <xsl:text>Quellenzitate: </xsl:text>
       </span>
-      <xsl:apply-templates select="*" mode="html_fulltext" />
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
   </xsl:template>
 
@@ -445,7 +445,7 @@
       <span class="bls-begin">
         <xsl:text>Belegstellenangaben: </xsl:text>
       </span>
-      <xsl:apply-templates select="*" mode="html_fulltext" />
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
   </xsl:template>
 
