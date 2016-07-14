@@ -50,7 +50,8 @@ public class TeiHtmlComparator {
 		teiString = teiString.replace("<quote>", ": ");
 		teiString = teiString.replace("<lb/>", " / ");
 		teiString = teiString.replace("> <", "");
-		teiString = teiString.replace("Zur Sache: ", "");
+		// need to replace the accidental occurrences
+		teiString = teiString.replaceAll("(Zur Sache: |Syntagmen: |Redensart: |Phraseme: )", "");
 		teiString = removeTags(teiString);
 		teiString = teiString.replaceAll("\\s+", " ").trim();
 
@@ -61,15 +62,15 @@ public class TeiHtmlComparator {
 		solrString = solrString.replaceAll("<span class=\"sense-number\">.*?</span>", "");
 		solrString = solrString.replaceAll("<span class=\"subvoce-begin\">.*?</span>", "");
 		solrString = solrString.replace("> <", "");
-		solrString = removeTags(solrString);
 		solrString = solrString.replaceAll(
-				"(Bedeutungsverwandt: |Syntagmen: |Quellenzitate: |Belegstellenangaben: |Gegensätze: |Phraseme: |Wortbildungen: |Zur Sache: )",
+				"(Bedeutungsverwandt: |Syntagmen: |Quellenzitate: |Belegstellenangaben: |Gegensätze: |Phraseme: |Wortbildungen: |Zur Sache: |Redensart: )",
 				"");
+		solrString = removeTags(solrString);
 
-		System.out.println(teiString);
-		System.out.println(solrString);
+//		System.out.println(teiString);
+//		System.out.println(solrString);
 
-		assertEquals(teiString, solrString);
+		assertEquals("File: " + tei.getName(), teiString, solrString);
 	}
 
 	private String extract(String regex, String s) {
