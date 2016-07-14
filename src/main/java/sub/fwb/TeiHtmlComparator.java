@@ -2,7 +2,6 @@ package sub.fwb;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,35 +10,6 @@ import org.apache.commons.io.FileUtils;
 import static org.junit.Assert.assertEquals;
 
 public class TeiHtmlComparator {
-
-	public static void main(String[] args) throws IOException {
-		File teiDir = new File(args[0]);
-		File solrXmlDir = new File(args[1]);
-		new TeiHtmlComparator().compareAll(teiDir, solrXmlDir);
-	}
-
-	private void compareAll(File teiDir, File solrXmlDir) throws IOException {
-		ArrayList<File> allFiles = new ArrayList<File>();
-		fillListWithFiles(allFiles, teiDir);
-		int i = 0;
-		for (File tei : allFiles) {
-			i++;
-			System.out.println(i);
-			File solrXml = new File(solrXmlDir, tei.getName());
-			compareTexts(tei, solrXml);
-		}
-	}
-
-	private void fillListWithFiles(ArrayList<File> allFiles, File currentDir) {
-		File[] currentDirChildren = currentDir.listFiles();
-		for (File child : currentDirChildren) {
-			if (child.isFile() && child.getName().endsWith("xml")) {
-				allFiles.add(child);
-			} else if (child.isDirectory()) {
-				fillListWithFiles(allFiles, child);
-			}
-		}
-	}
 
 	public void compareTexts(File tei, File solrXml) throws IOException {
 
@@ -67,10 +37,15 @@ public class TeiHtmlComparator {
 				"");
 		solrString = removeTags(solrString);
 
-//		System.out.println(teiString);
-//		System.out.println(solrString);
+		// System.out.println(teiString);
+		// System.out.println(solrString);
 
-		assertEquals("File: " + tei.getName(), teiString, solrString);
+		try {
+			assertEquals("File: " + tei.getName(), teiString, solrString);
+		} catch (AssertionError e) {
+			System.out.println();
+			throw e;
+		}
 	}
 
 	private String extract(String regex, String s) {

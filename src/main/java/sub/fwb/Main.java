@@ -25,6 +25,7 @@ public class Main {
 	private boolean terminated = false;
 	private CommandLine parsedOptions;
 	private boolean convertToIndexFiles = false;
+	private boolean compareTeiAndIndexFiles = false;
 	private boolean uploadIndexFiles = false;
 
 	private File teiInputDir;
@@ -53,6 +54,11 @@ public class Main {
 			makeSureThatExists(solrXmlDir);
 			convertAll();
 		}
+		if (compareTeiAndIndexFiles) {
+			teiInputDir = new File(parsedOptions.getOptionValue("teidir"));
+			solrXmlDir = new File(parsedOptions.getOptionValue("solrxmldir"));
+			compareAll();
+		}
 		if (uploadIndexFiles) {
 			solrXmlDir = new File(parsedOptions.getOptionValue("solrxmldir"));
 			solrUrl = parsedOptions.getOptionValue("solr");
@@ -70,19 +76,27 @@ public class Main {
 
 	private void initOptions(String[] args) throws UnsupportedEncodingException {
 		options.addOption("help", false, "Print help");
-		options.addOption("convert", false, "Convert TEIs to Solr XMLs - use alone or together with -upload");
-		options.addOption("upload", false, "Upload Solr XMLs to Solr - use alone or together with -convert");
-		options.addOption("teidir", true, "Input directory with TEI files - use with -convert");
-		options.addOption("excel", true, "File containing sources - use with -convert");
-		options.addOption("wordtypes", true, "Text file containing word type mappings - use with -convert");
-		options.addOption("solrxmldir", true, "Output directory for Solr index files - use with -convert or -upload");
-		options.addOption("solr", true, "URL of the Solr core - use with -upload");
+		options.addOption("convert", false, "Convert TEIs to Solr XMLs");
+		options.addOption("compare", false, "Compare text from TEIs to Solr XMLs");
+		options.addOption("upload", false, "Upload Solr XMLs to Solr");
+		options.addOption("teidir", true, "Input directory with TEI files - use with: -convert, -compare");
+		options.addOption("excel", true, "File containing sources - use with: -convert");
+		options.addOption("wordtypes", true, "Text file containing word type mappings - use with: -convert");
+		options.addOption("solrxmldir", true,
+				"Output directory for Solr index files - use with: -convert, -compare, -upload");
+		options.addOption("solr", true, "URL of the Solr core - use with: -upload");
 		CommandLineParser parser = new DefaultParser();
 		try {
 			parsedOptions = parser.parse(options, args);
 		} catch (ParseException e) {
 			System.out.println("Illegal arguments.");
 			System.out.println();
+			printHelp();
+			terminated = true;
+			return;
+		}
+
+		if (parsedOptions.hasOption("help")) {
 			printHelp();
 			terminated = true;
 			return;
@@ -101,6 +115,17 @@ public class Main {
 				terminated = true;
 			}
 		}
+		compareTeiAndIndexFiles = parsedOptions.hasOption("compare");
+		if (compareTeiAndIndexFiles) {
+			boolean allRequiredPresent = true;
+			allRequiredPresent &= parsedOptions.hasOption("teidir");
+			allRequiredPresent &= parsedOptions.hasOption("solrxmldir");
+
+			if (!allRequiredPresent) {
+				System.out.println("Missing required arguments for comparing.");
+				terminated = true;
+			}
+		}
 		uploadIndexFiles = parsedOptions.hasOption("upload");
 		if (uploadIndexFiles) {
 			boolean allRequiredPresent = true;
@@ -112,7 +137,7 @@ public class Main {
 				terminated = true;
 			}
 		}
-		if (!convertToIndexFiles && !uploadIndexFiles) {
+		if (!convertToIndexFiles && !compareTeiAndIndexFiles && !uploadIndexFiles) {
 			printHelp();
 			terminated = true;
 		}
@@ -174,15 +199,35 @@ public class Main {
 		}
 	}
 
+	private void compareAll() throws IOException {
+		if (convertToIndexFiles) {
+			System.out.println();
+			System.out.println();
+		}
+		System.out.println("Comparing text from TEIs to index files:");
+		TeiHtmlComparator comparator = new TeiHtmlComparator();
+		ArrayList<File> allFiles = new ArrayList<File>();
+		fillListWithFiles(allFiles, teiInputDir);
+		int i = 0;
+		for (File tei : allFiles) {
+			i++;
+			System.out.print(i + " / " + allFiles.size());
+			File solrXml = new File(solrXmlDir, tei.getName());
+			comparator.compareTexts(tei, solrXml);
+			System.out.print("\r");
+		}
+	}
+
 	private void uploadAll() {
 		Uploader uploader = new Uploader(solrUrl);
 		try {
 			File[] xmls = solrXmlDir.listFiles();
 			uploader.cleanSolr();
-			if (convertToIndexFiles) {
+			if (compareTeiAndIndexFiles || convertToIndexFiles) {
+				System.out.println();
 				System.out.println();
 			}
-			System.out.println("Uploading files:");
+			System.out.println("Uploading documents:");
 			for (File x : xmls) {
 				uploader.add(x);
 			}
@@ -217,8 +262,9 @@ public class Main {
 		OutputStreamWriter osw = new OutputStreamWriter(System.out, "UTF8");
 		PrintWriter pw = new PrintWriter(osw);
 		HelpFormatter formatter = new HelpFormatter();
-		formatter.printHelp(pw, HelpFormatter.DEFAULT_WIDTH, "java -jar indexer.jar -convert -upload <options>", "",
-				options, HelpFormatter.DEFAULT_LEFT_PAD, HelpFormatter.DEFAULT_DESC_PAD, "");
+		formatter.printHelp(pw, HelpFormatter.DEFAULT_WIDTH,
+				"java -jar fwb-indexer.jar -convert -compare -upload <options> (any combination of -convert and/or -compare and/or -upload is possible)",
+				"", options, HelpFormatter.DEFAULT_LEFT_PAD, HelpFormatter.DEFAULT_DESC_PAD, "");
 		pw.close();
 	}
 
