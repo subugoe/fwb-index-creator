@@ -76,6 +76,7 @@
       <str name="defType">edismax</str>
       <str name="qf">lemma^10000 neblem^1000 definition_fulltext^70 article_related_lemma^60 definition_source_citation^55 sense_phraseme^45 sense_word_reference^45 sense_antonym^25 sense_symptom_value^40 sense_syntagma^10 sense_word_formation^20 sense_related_reference^20</str>
       <str name="df">article_html</str>
+      <str name="tie">0.01</str>
     </lst>
   </requestHandler>
 
