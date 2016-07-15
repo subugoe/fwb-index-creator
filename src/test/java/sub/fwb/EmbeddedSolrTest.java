@@ -1,6 +1,7 @@
 package sub.fwb;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.*;
 
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
@@ -29,7 +30,19 @@ public class EmbeddedSolrTest {
 		solr.printResults();
 	}
 
-	@Ignore
+	@Test
+	public void shouldHighlightArticleAndCitationDifferently() throws Exception {
+		String[][] doc = { { "article_fulltext", "und vnd" }, { "definition_source_citation", "und vnd" } };
+		solr.addDocument(doc);
+
+		solr.askWithHighlighting("und");
+
+		assertEquals(1, results());
+		assertHighlighted("article_fulltext", "und");
+		assertNotHighlighted("article_fulltext", "vnd");
+		assertHighlighted("definition_source_citation", "und", "vnd");
+	}
+
 	@Test
 	public void shouldFindPartialAlternativeSpellings() throws Exception {
 		String[][] doc = { { "definition_source_citation", "wvnde" } };
@@ -111,6 +124,26 @@ public class EmbeddedSolrTest {
 
 	private long results() {
 		return solr.results();
+	}
+
+	private void assertHighlighted(String fieldName, String... words) {
+		assertHighlighted(true, fieldName, words);
+	}
+
+	private void assertNotHighlighted(String fieldName, String... words) {
+		assertHighlighted(false, fieldName, words);
+	}
+
+	private void assertHighlighted(boolean forReal, String fieldName, String... words) {
+		String hlText = solr.getHighlightings().get("1234").get(fieldName).get(0);
+		for (String word : words) {
+			String hlWord = "<em>" + word + "</em>";
+			if (forReal) {
+				assertThat(hlText, containsString(hlWord));
+			} else {
+				assertThat(hlText, not(containsString(hlWord)));
+			}
+		}
 	}
 
 }

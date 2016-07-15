@@ -1,5 +1,8 @@
 package sub.fwb.testing;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -12,12 +15,21 @@ public class SolrState {
 	private SolrClient solrServerClient;
 	private String solrQueryString = "";
 	private SolrDocumentList docList;
+	private Map<String, Map<String, List<String>>> highlightings;
 
 	public SolrState(SolrClient newSolrThing) {
 		solrServerClient = newSolrThing;
 	}
 
+	public void askWithHighlighting(String... userInputs) throws Exception {
+		ask(true, userInputs);
+	}
+
 	public void ask(String... userInputs) throws Exception {
+		ask(false, userInputs);
+	}
+
+	public void ask(boolean withHighlighting, String... userInputs) throws Exception {
 		solrQueryString = "";
 		for (String inputValue : userInputs) {
 			if (inputValue.startsWith("\"")) {
@@ -26,32 +38,43 @@ public class SolrState {
 				solrQueryString += inputValue + " *" + inputValue + "* " + "+article_fulltext:*" + inputValue + "* ";
 			}
 		}
-		askByQuery(solrQueryString);
+		askByQuery(withHighlighting, solrQueryString);
 	}
 
 	public void askByQuery(String query) throws Exception {
 		askByQuery(query, "/select");
 	}
 
+	public void askByQuery(boolean withHighlighting, String query) throws Exception {
+		askByQuery(withHighlighting, query, "/select");
+	}
+
 	public void askByQuery(String query, String requestHandler) throws Exception {
+		askByQuery(false, query, requestHandler);
+	}
+
+	public void askByQuery(boolean withHighlighting, String query, String requestHandler) throws Exception {
 		SolrQuery solrQuery = new SolrQuery(query);
 		solrQuery.setRequestHandler(requestHandler);
 		solrQuery.set("fl", "lemma,score");
 		solrQuery.set("rows", "500");
-		// solrQuery.set("tie", "0.01");
-		solrQuery.set("qf",
-				"lemma^10000 neblem^1000 definition_fulltext^70 article_related_lemma^60 "
-						+ "definition_source_citation^55 sense_phraseme^45 sense_word_reference^45 "
-						+ "sense_antonym^25 sense_symptom_value^40 sense_syntagma^10 sense_word_formation^20 "
-						+ "sense_related_reference^20");
+		if (withHighlighting) {
+			solrQuery.set("hl", "on");
+			solrQuery.set("hl.fl", "article_fulltext,definition_source_citation");
+		}
 
 		QueryResponse response = solrServerClient.query(solrQuery);
 
 		docList = response.getResults();
+		highlightings = response.getHighlighting();
 	}
 
 	public String lemma(int resultNumber) {
 		return (String) docList.get(resultNumber - 1).getFieldValue("lemma");
+	}
+
+	public Map<String, Map<String, List<String>>> getHighlightings() {
+		return highlightings;
 	}
 
 	public long results() {

@@ -145,7 +145,7 @@
       <analyzer type="index">
         <tokenizer class="solr.StandardTokenizerFactory" />
         <filter class="solr.LowerCaseFilterFactory" />
-        <!--filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="a" replacement="e" />
+        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="a" replacement="e" />
         <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="b" replacement="p" />
         <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="ch" replacement="k" />
         <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="c" replacement="k" />
@@ -160,13 +160,13 @@
         <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="y" replacement="i" />
         <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="ß" replacement="s" />
         <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="ss" replacement="s" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="sz" replacement="s" /-->
+        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="sz" replacement="s" />
         <!--filter class="sub.fwb.UmlautFilterFactory" file="umlaut_mappings_citations.txt" /-->
       </analyzer>
       <analyzer type="query">
         <tokenizer class="solr.StandardTokenizerFactory" />
         <filter class="solr.LowerCaseFilterFactory" />
-        <!--filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="a" replacement="e" />
+        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="a" replacement="e" />
         <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="b" replacement="p" />
         <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="ch" replacement="k" />
         <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="c" replacement="k" />
@@ -181,7 +181,7 @@
         <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="y" replacement="i" />
         <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="ß" replacement="s" />
         <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="ss" replacement="s" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="sz" replacement="s" /-->
+        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="sz" replacement="s" />
       </analyzer>
     </fieldType>
 
