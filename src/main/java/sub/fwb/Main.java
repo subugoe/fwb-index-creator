@@ -66,7 +66,7 @@ public class Main {
 		int i = 0;
 		for (File currentFile : allFiles) {
 			int currentId = i + 1;
-			if (currentId % 2000 == 0) {
+			if (currentId % 2000 == 0 || currentId == allFiles.size()) {
 				System.out.print(" ..." + currentId);
 			}
 			if (i > 0) {

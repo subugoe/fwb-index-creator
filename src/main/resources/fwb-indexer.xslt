@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xpath-default-namespace="http://www.tei-c.org/ns/1.0" xmlns:fwb="http://sub.fwb.de"
-  exclude-result-prefixes="fwb">
+  xmlns:saxon="http://saxon.sf.net/" exclude-result-prefixes="fwb">
 
-  <xsl:output method="xml" indent="yes" />
+  <xsl:output method="xml" indent="yes" saxon:suppress-indentation="div span a" />
   <xsl:strip-space elements="*" />
 
   <xsl:param name="previousArticleId" />
