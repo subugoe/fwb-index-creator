@@ -7,7 +7,6 @@ import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
 import org.junit.After;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import sub.fwb.testing.SolrState;
@@ -35,7 +34,8 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "article_fulltext", "und vnd" }, { "definition_source_citation", "und vnd" } };
 		solr.addDocument(doc);
 
-		solr.askWithHighlighting("und");
+		String[][] extraParams = { { "hl", "on" }, { "hl.fl", "article_fulltext,definition_source_citation" } };
+		solr.ask(extraParams, "und");
 
 		assertEquals(1, results());
 		assertHighlighted("article_fulltext", "und");
@@ -53,7 +53,6 @@ public class EmbeddedSolrTest {
 		assertEquals(1, results());
 	}
 
-	@Ignore
 	@Test
 	public void shouldFindAlternativeSpellings() throws Exception {
 		String[][] doc = { { "definition_source_citation", "vnd katze" } };

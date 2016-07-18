@@ -21,15 +21,11 @@ public class SolrState {
 		solrServerClient = newSolrThing;
 	}
 
-	public void askWithHighlighting(String... userInputs) throws Exception {
-		ask(true, userInputs);
-	}
-
 	public void ask(String... userInputs) throws Exception {
-		ask(false, userInputs);
+		ask(new String[][]{}, userInputs);
 	}
 
-	public void ask(boolean withHighlighting, String... userInputs) throws Exception {
+	public void ask(String[][] extraParams, String... userInputs) throws Exception {
 		solrQueryString = "";
 		for (String inputValue : userInputs) {
 			if (inputValue.startsWith("\"")) {
@@ -38,31 +34,29 @@ public class SolrState {
 				solrQueryString += inputValue + " *" + inputValue + "* " + "+article_fulltext:*" + inputValue + "* ";
 			}
 		}
-		askByQuery(withHighlighting, solrQueryString);
+		askByQuery(extraParams, solrQueryString);
 	}
 
 	public void askByQuery(String query) throws Exception {
 		askByQuery(query, "/select");
 	}
 
-	public void askByQuery(boolean withHighlighting, String query) throws Exception {
-		askByQuery(withHighlighting, query, "/select");
+	public void askByQuery(String[][] extraParams, String query) throws Exception {
+		askByQuery(extraParams, query, "/select");
 	}
 
 	public void askByQuery(String query, String requestHandler) throws Exception {
-		askByQuery(false, query, requestHandler);
+		askByQuery(new String[][]{}, query, requestHandler);
 	}
 
-	public void askByQuery(boolean withHighlighting, String query, String requestHandler) throws Exception {
+	public void askByQuery(String[][] extraParams, String query, String requestHandler) throws Exception {
 		SolrQuery solrQuery = new SolrQuery(query);
 		solrQuery.setRequestHandler(requestHandler);
 		solrQuery.set("fl", "lemma,score");
 		solrQuery.set("rows", "500");
-		if (withHighlighting) {
-			solrQuery.set("hl", "on");
-			solrQuery.set("hl.fl", "article_fulltext,definition_source_citation");
+		for (String[] parameter : extraParams) {
+			solrQuery.set(parameter[0], parameter[1]);
 		}
-
 		QueryResponse response = solrServerClient.query(solrQuery);
 
 		docList = response.getResults();
