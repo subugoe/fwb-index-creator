@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.junit.After;
@@ -36,6 +37,20 @@ public class SolrTester {
 		// assertEquals("abziehen", lemma(1));
 		// assertEquals("abrechen", lemma(2));
 		// assertEquals("abschlagen", lemma(3));
+	}
+
+	@Test
+	public void es() throws Exception {
+
+		solr.askByQuery("article_fulltext:es");
+
+//		String s = "";
+//		for (int i = 1; i <= results(); i++) {
+//			s += lemma(i) + "\n";
+//		}
+//		FileUtils.writeStringToFile(new java.io.File("/home/dennis/html.txt"), s);
+
+		assertEquals(4107, results());
 	}
 
 	@Test
