@@ -135,10 +135,14 @@
   </xsl:template>
 
   <xsl:template match="text()" mode="fulltext">
-    <xsl:if test="matches(., '^[\d\w].*')">
+    <xsl:value-of select="replace(., '\p{Z}+', ' ')" />
+    <xsl:variable name="tag" select="local-name(parent::*)" />
+    <xsl:variable name="tagsFollowedBySpace" select="($tag = 'orth' or $tag = 'dictScrap' or $tag = 'def' or $tag = 'bibl' or $tag = 'quote') and not(following-sibling::*)" />
+    <xsl:variable name="afterLastCitedRange" select="$tag = 'citedRange' and not(parent::*/following-sibling::*)" />
+    <xsl:variable name="beforeLineBreak" select="local-name(following-sibling::*[1]) = 'lb'" />
+    <xsl:if test="$tagsFollowedBySpace or $afterLastCitedRange or $beforeLineBreak">
       <xsl:text> </xsl:text>
     </xsl:if>
-    <xsl:value-of select="replace(., '\p{Z}+', ' ')" />
   </xsl:template>
 
   <xsl:template match="entry" mode="html_fulltext">

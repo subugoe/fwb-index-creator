@@ -279,7 +279,16 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/fulltext.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo(" " + "Müller" + " " + "2: A quote." + " " + "Ärmel.",
+		assertXpathEvaluatesTo("Müller," + " " + "2: A quote." + " " + "Ärmel." + " ",
+				"//field[@name='article_fulltext']", result);
+	}
+
+	@Test
+	public void shouldInsertSpacesIntoFulltext() throws Exception {
+		xslt.transform("src/test/resources/fulltext_spaces.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("mylemma, die. definition. Name, 346, 35 (reg., M. 14. Jh.) A quote. before space after space. line break. ",
 				"//field[@name='article_fulltext']", result);
 	}
 

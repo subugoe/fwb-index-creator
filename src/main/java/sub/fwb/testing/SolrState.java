@@ -1,5 +1,6 @@
 package sub.fwb.testing;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,6 +69,9 @@ public class SolrState {
 	}
 
 	public Map<String, Map<String, List<String>>> getHighlightings() {
+		if (highlightings == null) {
+			highlightings = new HashMap<>();
+		}
 		return highlightings;
 	}
 
