@@ -30,6 +30,20 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
+	public void shouldHighlightChristDifferently() throws Exception {
+		String[][] doc = { { "article_fulltext", "christ krist" }, { "definition_source_citation", "christ krist" } };
+		solr.addDocument(doc);
+
+		String[][] extraParams = { { "hl", "on" }, { "hl.fl", "article_fulltext,definition_source_citation" } };
+		solr.ask(extraParams, "christ");
+
+		assertEquals(1, results());
+		assertHighlighted("article_fulltext", "christ");
+		assertNotHighlighted("article_fulltext", "krist");
+		assertHighlighted("definition_source_citation", "christ", "krist");
+	}
+
+	@Test
 	public void shouldHighlightArticleAndCitationDifferently() throws Exception {
 		String[][] doc = { { "article_fulltext", "und vnd" }, { "definition_source_citation", "und vnd" } };
 		solr.addDocument(doc);
