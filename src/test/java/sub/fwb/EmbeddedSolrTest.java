@@ -34,7 +34,7 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "article_fulltext", "christ krist" }, { "definition_source_citation", "christ krist" } };
 		solr.addDocument(doc);
 
-		String[][] extraParams = { { "hl", "on" }, { "hl.fl", "article_fulltext,definition_source_citation" } };
+		String[][] extraParams = { { "hl", "on" } };
 		solr.ask(extraParams, "christ");
 
 		assertEquals(1, results());
@@ -48,7 +48,7 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "article_fulltext", "und vnd" }, { "definition_source_citation", "und vnd" } };
 		solr.addDocument(doc);
 
-		String[][] extraParams = { { "hl", "on" }, { "hl.fl", "article_fulltext,definition_source_citation" } };
+		String[][] extraParams = { { "hl", "on" } };
 		solr.ask(extraParams, "und");
 
 		assertEquals(1, results());
