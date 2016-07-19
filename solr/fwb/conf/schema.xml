@@ -143,6 +143,7 @@
 
     <fieldType name="text_old_german" class="solr.TextField" positionIncrementGap="100">
       <analyzer type="index">
+        <charFilter class="solr.HTMLStripCharFilterFactory" />
         <tokenizer class="solr.StandardTokenizerFactory" />
         <filter class="solr.LowerCaseFilterFactory" />
         <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="a" replacement="e" />

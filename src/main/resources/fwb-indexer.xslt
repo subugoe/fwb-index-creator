@@ -439,7 +439,9 @@
   </xsl:template>
 
   <xsl:template match="quote" mode="html_fulltext">
-    <span class="quote">
+    <xsl:variable name="quoteNr" select="count(preceding::quote) + 1" />
+    <xsl:variable name="quoteId" select="concat('quote',$quoteNr)" />
+    <span class="quote" id="{$quoteId}">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </span>
   </xsl:template>
@@ -542,7 +544,9 @@
       <xsl:value-of select="./bibl/name/@n" />
     </field>
     <field name="definition_source_citation" boost="1">
-      <xsl:value-of select="quote" />
+      <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+      <xsl:apply-templates select="quote" mode="html_fulltext" />
+      <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
     </field>
   </xsl:template>
 

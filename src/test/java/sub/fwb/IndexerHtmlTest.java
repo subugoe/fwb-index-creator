@@ -208,7 +208,16 @@ public class IndexerHtmlTest {
 		assertXpathEvaluatesTo("13, 20 ", "//span[@class='cited-range']", html);
 		assertXpathEvaluatesTo("Region", "//span[@class='region']", html);
 		assertXpathEvaluatesTo("1599", "//span[@class='date']", html);
-		assertXpathExists("//span[@class='quote']", html);
+		assertXpathExists("//span[@class='quote' and @id='quote1']", html);
+		assertXpathEvaluatesTo("Miller", "//a[@href='/source/source_xyu']", html);
+	}
+
+	@Test
+	public void shouldMakeHtmlQuote() throws Exception {
+		xslt.transform("src/test/resources/html/cite.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 2);
+
+		assertXpathExists("//span[@class='quote' and @id='quote1']", html);
 		assertXpathEvaluatesTo("Miller", "//a[@href='/source/source_xyu']", html);
 	}
 

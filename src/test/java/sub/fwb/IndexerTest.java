@@ -164,7 +164,6 @@ public class IndexerTest {
 		String result = outputBaos.toString();
 
 		assertXpathEvaluatesTo("source_11", "//field[@name='definition_source_id']", result);
-		assertXpathEvaluatesTo("A quote.", "//field[@name='definition_source_citation']", result);
 		assertXpathEvaluatesTo("source_22", "//field[@name='definition_source_instance']", result);
 	}
 
