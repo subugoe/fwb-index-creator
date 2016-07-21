@@ -9,6 +9,12 @@ import java.util.Collections;
 import java.util.Date;
 
 import org.apache.solr.client.solrj.SolrServerException;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
+
+import sub.fwb.testing.SolrTester;
+import sub.fwb.testing.TeiHtmlComparator;
 
 public class Main {
 
@@ -35,14 +41,20 @@ public class Main {
 		if (o.uploadIndexFiles) {
 			uploadAll();
 		}
+		if (o.executeTestSearches) {
+			runTests();
+		}
 
 		long after = new Date().getTime();
 		long millis = after - before;
 		long minutes = millis / 1000 / 60;
 		long seconds = (millis - minutes * 60 * 1000) / 1000;
+		String potentialZero = seconds < 10 ? "0" : "";
+
 		System.out.println();
 		System.out.println();
-		System.out.println("Took " + minutes + ":" + seconds + " minutes (" + millis + " milliseconds)");
+		System.out
+				.println("Took " + minutes + ":" + potentialZero + seconds + " minutes (" + millis + " milliseconds)");
 	}
 
 	private void convertAll() throws Exception {
@@ -121,6 +133,21 @@ public class Main {
 		} catch (SolrServerException | IOException e) {
 			e.printStackTrace();
 			uploader.rollbackChanges();
+		}
+	}
+
+	private void runTests() {
+		if (o.compareTeiAndIndexFiles || o.convertToIndexFiles || o.uploadIndexFiles) {
+			System.out.println();
+			System.out.println();
+		}
+		System.out.println("Running test queries:");
+		System.setProperty("SOLR_URL_FOR_TESTS", o.solrUrl);
+		JUnitCore junit = new JUnitCore();
+		Result testResult = junit.run(SolrTester.class);
+		for (Failure fail : testResult.getFailures()) {
+			System.out.println();
+			System.out.println("FAILURE in " + fail.getTestHeader() + ": " + fail.getMessage());
 		}
 	}
 

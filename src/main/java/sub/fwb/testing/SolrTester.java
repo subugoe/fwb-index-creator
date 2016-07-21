@@ -17,13 +17,18 @@ public class SolrTester {
 
 	@BeforeClass
 	public static void beforeAllTests() throws Exception {
-		SolrClient solrServerClient = new HttpSolrClient("http://localhost:8983/solr/fwb");
+		String solrUrl = System.getProperty("SOLR_URL_FOR_TESTS", "http://localhost:8983/solr/fwb");
+		SolrClient solrServerClient = new HttpSolrClient(solrUrl);
 		solr = new SolrState(solrServerClient);
 	}
 
 	@After
 	public void afterEach() throws Exception {
-		solr.printResults();
+		if (System.getProperty("SOLR_URL_FOR_TESTS") != null) {
+			solr.printQueryString();
+		} else {
+			solr.printResults();
+		}
 	}
 
 	@Ignore

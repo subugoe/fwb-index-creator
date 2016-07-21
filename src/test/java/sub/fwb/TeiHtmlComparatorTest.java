@@ -10,6 +10,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import sub.fwb.testing.TeiHtmlComparator;
+
 public class TeiHtmlComparatorTest {
 
 	@Before

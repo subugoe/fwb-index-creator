@@ -23,19 +23,19 @@ public class SolrState {
 	}
 
 	public void ask(String... userInputs) throws Exception {
-		ask(new String[][]{}, userInputs);
+		ask(new String[][] {}, userInputs);
 	}
 
 	public void ask(String[][] extraParams, String... userInputs) throws Exception {
-		solrQueryString = "";
+		String generatedSolrQuery = "";
 		for (String inputValue : userInputs) {
 			if (inputValue.startsWith("\"")) {
-				solrQueryString += inputValue + " " + "+article_fulltext:" + inputValue + " ";
+				generatedSolrQuery += inputValue + " " + "+article_fulltext:" + inputValue + " ";
 			} else {
-				solrQueryString += inputValue + " *" + inputValue + "* " + "+article_fulltext:*" + inputValue + "* ";
+				generatedSolrQuery += inputValue + " *" + inputValue + "* " + "+article_fulltext:*" + inputValue + "* ";
 			}
 		}
-		askByQuery(extraParams, solrQueryString);
+		askByQuery(extraParams, generatedSolrQuery);
 	}
 
 	public void askByQuery(String query) throws Exception {
@@ -47,10 +47,11 @@ public class SolrState {
 	}
 
 	public void askByQuery(String query, String requestHandler) throws Exception {
-		askByQuery(new String[][]{}, query, requestHandler);
+		askByQuery(new String[][] {}, query, requestHandler);
 	}
 
 	public void askByQuery(String[][] extraParams, String query, String requestHandler) throws Exception {
+		solrQueryString = query;
 		SolrQuery solrQuery = new SolrQuery(query);
 		solrQuery.setRequestHandler(requestHandler);
 		solrQuery.set("fl", "lemma,score");
@@ -92,12 +93,16 @@ public class SolrState {
 		System.out.println();
 		System.out.println(solrQueryString);
 		System.out.println(docList.getNumFound() + " results");
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 4; i++) {
 			if (i < docList.getNumFound()) {
 				SolrDocument doc = docList.get(i);
 				System.out.println(doc.getFieldValue("lemma") + "\t" + doc.getFieldValue("score"));
 			}
 		}
+	}
+
+	public void printQueryString() {
+		System.out.println(solrQueryString);
 	}
 
 	public void addDocument(String[][] documentFields) throws Exception {

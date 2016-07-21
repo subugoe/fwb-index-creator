@@ -1,4 +1,4 @@
-package sub.fwb;
+package sub.fwb.testing;
 
 import java.io.File;
 import java.io.IOException;

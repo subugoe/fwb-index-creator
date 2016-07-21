@@ -20,6 +20,7 @@ public class CmdOptions {
 	public boolean convertToIndexFiles = false;
 	public boolean compareTeiAndIndexFiles = false;
 	public boolean uploadIndexFiles = false;
+	public boolean executeTestSearches = false;
 
 	public File teiInputDir;
 	public File inputExcel;
@@ -32,12 +33,13 @@ public class CmdOptions {
 		options.addOption("convert", false, "Convert TEIs to Solr XMLs");
 		options.addOption("compare", false, "Compare text from TEIs to Solr XMLs");
 		options.addOption("upload", false, "Upload Solr XMLs to Solr");
+		options.addOption("test", false, "Execute some test searches on the Solr index");
 		options.addOption("teidir", true, "Input directory with TEI files - use with: -convert, -compare");
 		options.addOption("excel", true, "File containing sources - use with: -convert");
 		options.addOption("wordtypes", true, "Text file containing word type mappings - use with: -convert");
 		options.addOption("solrxmldir", true,
 				"Output directory for Solr index files - use with: -convert, -compare, -upload");
-		options.addOption("solr", true, "URL of the Solr core - use with: -upload");
+		options.addOption("solr", true, "URL of the Solr core - use with: -upload, -test");
 		CommandLineParser parser = new DefaultParser();
 		try {
 			parsedOptions = parser.parse(options, args);
@@ -102,7 +104,19 @@ public class CmdOptions {
 			solrXmlDir = new File(parsedOptions.getOptionValue("solrxmldir"));
 			solrUrl = parsedOptions.getOptionValue("solr");
 		}
-		if (!convertToIndexFiles && !compareTeiAndIndexFiles && !uploadIndexFiles) {
+		executeTestSearches = parsedOptions.hasOption("test");
+		if (executeTestSearches) {
+			boolean allRequiredPresent = true;
+			allRequiredPresent &= parsedOptions.hasOption("solr");
+
+			if (!allRequiredPresent) {
+				System.out.println("Missing required arguments for testing.");
+				incorrectOptions = true;
+				return;
+			}
+			solrUrl = parsedOptions.getOptionValue("solr");
+		}
+		if (!convertToIndexFiles && !compareTeiAndIndexFiles && !uploadIndexFiles && !executeTestSearches) {
 			printHelp();
 			incorrectOptions = true;
 			return;
@@ -124,7 +138,7 @@ public class CmdOptions {
 		PrintWriter pw = new PrintWriter(osw);
 		HelpFormatter formatter = new HelpFormatter();
 		formatter.printHelp(pw, HelpFormatter.DEFAULT_WIDTH,
-				"java -jar fwb-indexer.jar -convert -compare -upload <options> (any combination of -convert and/or -compare and/or -upload is possible)",
+				"java -jar fwb-indexer.jar -convert -compare -upload -test <options> (any combination of -convert and/or -compare and/or -upload and/or -test is possible)",
 				"", options, HelpFormatter.DEFAULT_LEFT_PAD, HelpFormatter.DEFAULT_DESC_PAD, "");
 		pw.close();
 	}
