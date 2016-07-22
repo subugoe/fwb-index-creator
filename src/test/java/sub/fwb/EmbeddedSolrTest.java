@@ -30,6 +30,16 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
+	public void shouldRemoveCombinedLetter() throws Exception {
+		String[][] doc = { { "definition_source_citation", "svͤlen" } };
+		solr.addDocument(doc);
+
+		solr.askByQuery("definition_source_citation:svlen");
+
+		assertEquals(1, results());
+	}
+
+	@Test
 	public void shouldHighlightChristDifferently() throws Exception {
 		String[][] doc = { { "article_fulltext", "christ krist" }, { "definition_source_citation", "christ krist" } };
 		solr.addDocument(doc);

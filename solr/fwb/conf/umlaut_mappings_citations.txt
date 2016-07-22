@@ -29,23 +29,15 @@
 ç:c
 ъ:b
 
-# for old citations
-oͤ:o
+# only for old citations
 v́:v
-aͤ:a
 ÿ:y
-u͂:u
 ů:u
-aͧ:a
-uͥ:u
-oͮ:o
 ï:i
 ŷ:y
 ǔ:u
-ıͤ:i
+ı:i
 ē:e
-eͣ:e
-wͦ:w
 ý:y
 ã:a
 õ:o
@@ -59,8 +51,6 @@ ŭ:u
 ū:u
 ė:e
 m̃:m
-Γͤ:f
-γͤ:f
 ŭ:u
 ẽ:e
 ũ:u
@@ -101,3 +91,31 @@ g̮:g
 ạ:a
 ṙ:r
 ľ:l
+Γ:g
+γ:g
+
+# combining letters over other letters
+
+# 'e', e. g. in oͤ
+\u0364:
+
+# '~', e. g. in u͂
+\u0342:
+
+# 'u', e. g. in aͧ
+\u0367:
+
+# 'i', e. g. in uͥ
+\u0365:
+
+# 'v', e. g. in oͮ
+\u036e:
+
+# 'a', e. g. in eͣ
+\u0363:
+
+# 'o', e. g. in wͦ
+\u0366:
+
+# ':', e. g. in u֔
+\u0594:
