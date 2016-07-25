@@ -60,6 +60,15 @@ public class SolrTester {
 	}
 
 	@Test
+	public void negatedQueryShouldCoverAllTerms() throws Exception {
+
+		solr.askByQuery(
+				"article_html:/.*[^\\|()\\[\\]\\-⁽⁾a-z0-9äöüßoͤúv́aͤñÿu͂Øůaͧuͥóoͮàïêŷǔıͤēëâôeͣîûwͦýãæáéòõœv̈èu̇ŭāōùēīíūėm̃Γͤŭẽũśŏǒǎǔẅẹìǹăṣẏẙẹσĕĩẃåg̮ńỹěçṅȳňṡćęъčẘịǧḥṁạṙľu֔b].*/");
+
+		assertEquals(0, results());
+	}
+
+	@Test
 	public void maxClauseCountOver1024() throws Exception {
 
 		solr.askByQuery("article_fulltext:*e*", "/selecthl");
