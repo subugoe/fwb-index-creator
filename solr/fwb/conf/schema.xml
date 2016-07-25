@@ -162,7 +162,7 @@
         <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="ß" replacement="s" />
         <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="ss" replacement="s" />
         <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="sz" replacement="s" />
-        <filter class="sub.fwb.UmlautFilterFactory" file="umlaut_mappings_citations.txt" />
+        <filter class="sub.fwb.UmlautFilterFactory" file="umlaut_mappings_for_quotes.txt" />
       </analyzer>
       <analyzer type="query">
         <tokenizer class="solr.StandardTokenizerFactory" />

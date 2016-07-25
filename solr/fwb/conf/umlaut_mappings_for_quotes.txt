@@ -1,3 +1,4 @@
+# for all words
 ä:a
 Ä:A
 ö:o
@@ -5,7 +6,6 @@
 ü:u
 Ü:U
 ß:s
-
 ú:u
 ñ:n
 Ø:0
@@ -29,7 +29,7 @@
 ç:c
 ъ:b
 
-# only for old citations
+# only for old quotes
 ÿ:y
 ů:u
 ï:i
@@ -82,7 +82,7 @@
 Γ:g
 γ:g
 
-# combining letters over or under other letters
+# combining letters/accents over or under other letters
 
 # 'e', e. g. in oͤ
 U+0364:
