@@ -31,17 +31,17 @@ public class EmbeddedSolrTest {
 
 	@Test
 	public void shouldRemoveCombinedLetter() throws Exception {
-		String[][] doc = { { "definition_source_citation", "svͤlen" } };
+		String[][] doc = { { "zitat", "svͤlen" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("definition_source_citation:svlen");
+		solr.askByQuery("zitat:svlen");
 
 		assertEquals(1, results());
 	}
 
 	@Test
 	public void shouldHighlightChristDifferently() throws Exception {
-		String[][] doc = { { "article_fulltext", "christ krist" }, { "definition_source_citation", "christ krist" } };
+		String[][] doc = { { "article_fulltext", "christ krist" }, { "zitat", "christ krist" } };
 		solr.addDocument(doc);
 
 		String[][] extraParams = { { "hl", "on" } };
@@ -50,12 +50,12 @@ public class EmbeddedSolrTest {
 		assertEquals(1, results());
 		assertHighlighted("article_fulltext", "christ");
 		assertNotHighlighted("article_fulltext", "krist");
-		assertHighlighted("definition_source_citation", "christ", "krist");
+		assertHighlighted("zitat", "christ", "krist");
 	}
 
 	@Test
 	public void shouldHighlightArticleAndCitationDifferently() throws Exception {
-		String[][] doc = { { "article_fulltext", "und vnd" }, { "definition_source_citation", "und vnd" } };
+		String[][] doc = { { "article_fulltext", "und vnd" }, { "zitat", "und vnd" } };
 		solr.addDocument(doc);
 
 		String[][] extraParams = { { "hl", "on" } };
@@ -64,25 +64,25 @@ public class EmbeddedSolrTest {
 		assertEquals(1, results());
 		assertHighlighted("article_fulltext", "und");
 		assertNotHighlighted("article_fulltext", "vnd");
-		assertHighlighted("definition_source_citation", "und", "vnd");
+		assertHighlighted("zitat", "und", "vnd");
 	}
 
 	@Test
 	public void shouldFindPartialAlternativeSpellings() throws Exception {
-		String[][] doc = { { "definition_source_citation", "wvnde" } };
+		String[][] doc = { { "zitat", "wvnde" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("definition_source_citation:*unt*");
+		solr.askByQuery("zitat:*unt*");
 
 		assertEquals(1, results());
 	}
 
 	@Test
 	public void shouldFindAlternativeSpellings() throws Exception {
-		String[][] doc = { { "definition_source_citation", "vnd katze" } };
+		String[][] doc = { { "zitat", "vnd katze" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("definition_source_citation:(+und +unt +vnt +vnd +katze +chatze +qatze +catze +gedza)");
+		solr.askByQuery("zitat:(+und +unt +vnt +vnd +katze +chatze +qatze +catze +gedza)");
 
 		assertEquals(1, results());
 	}

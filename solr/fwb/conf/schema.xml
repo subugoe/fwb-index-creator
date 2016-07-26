@@ -24,7 +24,9 @@
     <field name="type_of_word" type="string" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="neblem" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="neblem_exact" type="text_de_exact" indexed="true" stored="true" required="false" multiValued="true" />
+    <!-- remove -->
     <field name="ethymology" type="text_de" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="etym" type="text_de" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="head_comment" type="text_de" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="article_version" type="string" indexed="false" stored="true" required="false" multiValued="false" />
     <field name="article_html" type="text_de" indexed="true" stored="true" required="false" multiValued="false"
@@ -43,32 +45,58 @@
     <field name="article_previous_id" type="string" indexed="false" stored="true" required="false" multiValued="false" />
     <field name="article_previous_lemma" type="string" indexed="false" stored="true" required="false" multiValued="false" />
 
-
-    <!-- Bedeutung ( type=bedeutung) -->
+    <!-- remove -->
     <field name="definition_fulltext" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+
+    <field name="def" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="sense_number" type="int" indexed="true" stored="true" required="false" multiValued="false" />
     <!-- referenzierte Quellenangabe -->
     <field name="definition_source_id" type="string" indexed="false" stored="true" required="false" multiValued="true" />
+    <!-- remove -->
     <field name="definition_source_citation" type="text_old_german" indexed="true" stored="true" required="false" multiValued="true"
+       termVectors="true"
+       termPositions="true"
+       termOffsets="true" />
+    <field name="zitat" type="text_old_german" indexed="true" stored="true" required="false" multiValued="true"
        termVectors="true"
        termPositions="true"
        termOffsets="true" />
     <!-- Belegstelle -->
     <field name="definition_source_instance" type="string" indexed="false" stored="true" required="false" multiValued="true" />
-    <!-- Bedeutungsverwandte -->
-    <field name="article_related_id" type="string" indexed="false" stored="true" required="false" multiValued="true" />
-    <field name="article_related_lemma" type="string" indexed="true" stored="true" required="false" multiValued="true" />
 
+    <!-- remove -->
+    <field name="article_related_id" type="string" indexed="false" stored="true" required="false" multiValued="true" />
+    <field name="bdv_id" type="string" indexed="false" stored="true" required="false" multiValued="true" />
+    <!-- remove -->
+    <field name="article_related_lemma" type="string" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="bdv" type="string" indexed="true" stored="true" required="false" multiValued="true" />
+
+    <!-- remove -->
     <field name="sense_subvoce" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="subvoce" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="sense_subvoce_exact" type="text_de_exact" indexed="true" stored="true" required="false" multiValued="true" />
+    <!-- remove -->
     <field name="sense_antonym" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="ggs" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="sense_antonym_exact" type="text_de_exact" indexed="true" stored="true" required="false" multiValued="true" />
+    <!-- remove -->
     <field name="sense_phraseme" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="phras" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <!-- remove -->
     <field name="sense_related_reference" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="zursache" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <!-- remove -->
     <field name="sense_syntagma" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="synt" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <!-- remove -->
     <field name="sense_symptom_value" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="swt" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <!-- remove -->
     <field name="sense_word_formation" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="wbg" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <!-- remove -->
     <field name="sense_word_reference" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="wbv" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
 
     <!-- Bibliographie -->
     <field name="source_page" type="string" indexed="true" stored="true" required="false" multiValued="false" />
@@ -100,17 +128,17 @@
 
   <!--copyField source="article_html" dest="article_html_exact" />
   <copyField source="article_fulltext" dest="article_fulltext_exact" />
-  <copyField source="definition_fulltext" dest="definition_fulltext_exact" />
+  <copyField source="def" dest="def_exact" />
   <copyField source="lemma" dest="lemma_exact" />
   <copyField source="neblem" dest="neblem_exact" />
-  <copyField source="sense_subvoce" dest="sense_subvoce_exact" />
-  <copyField source="sense_antonym" dest="sense_antonym_exact" />
-  <copyField source="sense_phraseme" dest="sense_phraseme_exact" />
-  <copyField source="sense_related_reference" dest="sense_related_reference_exact" />
-  <copyField source="sense_syntagma" dest="sense_syntagma_exact" />
-  <copyField source="sense_symptom_value" dest="sense_symptom_value_exact" />
-  <copyField source="sense_word_formation" dest="sense_word_formation_exact" />
-  <copyField source="sense_word_reference" dest="sense_word_reference_exact" /-->
+  <copyField source="subvoce" dest="sense_subvoce_exact" />
+  <copyField source="ggs" dest="sense_antonym_exact" />
+  <copyField source="phras" dest="phras_exact" />
+  <copyField source="zursache" dest="zursache_exact" />
+  <copyField source="synt" dest="synt_exact" />
+  <copyField source="swt" dest="swt_exact" />
+  <copyField source="wbg" dest="wbg_exact" />
+  <copyField source="wbv" dest="wbv_exact" /-->
 
   <types>
     <fieldType name="umlauts" class="solr.TextField">

@@ -56,7 +56,7 @@ public class SolrState {
 		solrQuery.setRequestHandler(requestHandler);
 		solrQuery.set("fl", "lemma,score");
 		solrQuery.set("rows", "500");
-		solrQuery.set("hl.fl", "article_fulltext,definition_source_citation");
+		solrQuery.set("hl.fl", "article_fulltext,zitat");
 		solrQuery.set("hl.requireFieldMatch", "true");
 		for (String[] parameter : extraParams) {
 			solrQuery.set(parameter[0], parameter[1]);

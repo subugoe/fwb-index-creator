@@ -471,7 +471,7 @@
       <field name="sense_number">
         <xsl:value-of select="$currentSenseId" />
       </field-->
-      <field name="definition_fulltext" boost="1">
+      <field name="def" boost="1">
         <xsl:value-of select="def" />
       </field>
       <xsl:apply-templates select="dictScrap[@rend='bdv']/ref" />
@@ -479,32 +479,32 @@
       <xsl:apply-templates select="dictScrap[@rend='ggs']/ref" />
       <xsl:apply-templates select=".//cit" />
       <xsl:if test="dictScrap[@rend='phras' or @rend='ra']">
-        <field name="sense_phraseme" boost="1">
+        <field name="phras" boost="1">
           <xsl:value-of select="dictScrap[@rend='phras' or @rend='ra']" />
         </field>
       </xsl:if>
       <xsl:if test="dictScrap[@rend='ref']">
-        <field name="sense_related_reference" boost="1">
+        <field name="zursache" boost="1">
           <xsl:value-of select="dictScrap[@rend='ref']" />
         </field>
       </xsl:if>
       <xsl:if test="dictScrap[@rend='synt']">
-        <field name="sense_syntagma" boost="1">
+        <field name="synt" boost="1">
           <xsl:value-of select="dictScrap[@rend='synt']" />
         </field>
       </xsl:if>
       <xsl:if test="dictScrap[@rend='stw']">
-        <field name="sense_symptom_value" boost="1">
+        <field name="swt" boost="1">
           <xsl:value-of select="dictScrap[@rend='stw']" />
         </field>
       </xsl:if>
       <xsl:if test="dictScrap[@rend='wbg']">
-        <field name="sense_word_formation" boost="1">
+        <field name="wbg" boost="1">
           <xsl:value-of select="dictScrap[@rend='wbg']" />
         </field>
       </xsl:if>
       <xsl:if test="dictScrap[@rend='wbv']">
-        <field name="sense_word_reference" boost="1">
+        <field name="wbv" boost="1">
           <xsl:value-of select="dictScrap[@rend='wbv']" />
         </field>
       </xsl:if>
@@ -513,10 +513,10 @@
 
   <xsl:template match="dictScrap[@rend='bdv']/ref">
     <xsl:if test="not(number(.))">
-      <field name="article_related_id">
+      <field name="bdv_id">
         <xsl:value-of select="@target" />
       </field>
-      <field name="article_related_lemma" boost="1">
+      <field name="bdv" boost="1">
         <xsl:value-of select="." />
       </field>
     </xsl:if>
@@ -524,7 +524,7 @@
 
   <xsl:template match="dictScrap[@rend='sv']/ref">
     <xsl:if test="not(number(.))">
-      <field name="sense_subvoce" boost="1">
+      <field name="subvoce" boost="1">
         <xsl:value-of select="." />
       </field>
     </xsl:if>
@@ -532,7 +532,7 @@
 
   <xsl:template match="dictScrap[@rend='ggs']/ref">
     <xsl:if test="not(number(.))">
-      <field name="sense_antonym" boost="1">
+      <field name="ggs" boost="1">
         <xsl:value-of select="." />
       </field>
     </xsl:if>
@@ -543,7 +543,7 @@
       <xsl:text>source_</xsl:text>
       <xsl:value-of select="./bibl/name/@n" />
     </field>
-    <field name="definition_source_citation" boost="1">
+    <field name="zitat" boost="1">
       <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
       <xsl:apply-templates select="quote" mode="html_fulltext" />
       <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>

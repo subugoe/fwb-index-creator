@@ -152,10 +152,10 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/relatedArticles.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("2", "count(//field[@name='article_related_id'])", result);
-		assertXpathEvaluatesTo("2", "count(//field[@name='article_related_lemma'])", result);
-		assertXpathEvaluatesTo("related_id_1", "//field[@name='article_related_id'][1]", result);
-		assertXpathEvaluatesTo("lemma2", "//field[@name='article_related_lemma'][2]", result);
+		assertXpathEvaluatesTo("2", "count(//field[@name='bdv_id'])", result);
+		assertXpathEvaluatesTo("2", "count(//field[@name='bdv'])", result);
+		assertXpathEvaluatesTo("related_id_1", "//field[@name='bdv_id'][1]", result);
+		assertXpathEvaluatesTo("lemma2", "//field[@name='bdv'][2]", result);
 	}
 
 	@Test
@@ -196,8 +196,8 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/sense_subvoce.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("sub1", "//field[@name='sense_subvoce'][1]", result);
-		assertXpathEvaluatesTo("", "//field[@name='sense_subvoce'][2]", result);
+		assertXpathEvaluatesTo("sub1", "//field[@name='subvoce'][1]", result);
+		assertXpathEvaluatesTo("", "//field[@name='subvoce'][2]", result);
 	}
 
 	@Test
@@ -205,7 +205,7 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/sense_phraseme.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathExists("//field[@name='sense_phraseme']", result);
+		assertXpathExists("//field[@name='phras']", result);
 	}
 
 	@Test
@@ -213,8 +213,8 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/sense_ggs.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("ggs1", "//field[@name='sense_antonym'][1]", result);
-		assertXpathEvaluatesTo("", "//field[@name='sense_antonym'][2]", result);
+		assertXpathEvaluatesTo("ggs1", "//field[@name='ggs'][1]", result);
+		assertXpathEvaluatesTo("", "//field[@name='ggs'][2]", result);
 	}
 
 	@Test
@@ -222,7 +222,7 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/sense_saying.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("This is a saying.", "//field[@name='sense_phraseme']", result);
+		assertXpathEvaluatesTo("This is a saying.", "//field[@name='phras']", result);
 	}
 
 	@Test
@@ -230,7 +230,7 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/sense_sayingAndPhraseme.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("This is a saying. This is a phraseme.", "//field[@name='sense_phraseme']", result);
+		assertXpathEvaluatesTo("This is a saying. This is a phraseme.", "//field[@name='phras']", result);
 	}
 
 	@Test
@@ -238,7 +238,7 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/sense_relatedReference.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathExists("//field[@name='sense_related_reference']", result);
+		assertXpathExists("//field[@name='zursache']", result);
 	}
 
 	@Test
@@ -246,7 +246,7 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/sense_syntagma.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathExists("//field[@name='sense_syntagma']", result);
+		assertXpathExists("//field[@name='synt']", result);
 	}
 
 	@Test
@@ -254,7 +254,7 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/sense_symptomValue.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathExists("//field[@name='sense_symptom_value']", result);
+		assertXpathExists("//field[@name='swt']", result);
 	}
 
 	@Test
@@ -262,7 +262,7 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/sense_wordFormation.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathExists("//field[@name='sense_word_formation']", result);
+		assertXpathExists("//field[@name='wbg']", result);
 	}
 
 	@Test
@@ -270,7 +270,7 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/sense_wordFormation.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathExists("//field[@name='sense_word_reference']", result);
+		assertXpathExists("//field[@name='wbv']", result);
 	}
 
 	@Test
