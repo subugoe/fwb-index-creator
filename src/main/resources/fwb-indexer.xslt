@@ -59,11 +59,14 @@
     <field name="internal_id">
       <xsl:value-of select="@xml:id" />
     </field>
-    <xsl:variable name="lemma" select="normalize-space(form[@type='lemma']/orth)" />
+    <xsl:variable name="lemma" select="normalize-space(replace(form[@type='lemma']/orth,'\p{Z}+', ' '))" />
     <field name="lemma" boost="1">
       <xsl:choose>
         <xsl:when test="ends-with($lemma, ',')">
           <xsl:value-of select="normalize-space(substring-before($lemma, ','))" />
+        </xsl:when>
+        <xsl:when test="ends-with($lemma, '.')">
+          <xsl:value-of select="normalize-space(substring-before($lemma, '.'))" />
         </xsl:when>
         <xsl:otherwise>
           <xsl:value-of select="$lemma" />

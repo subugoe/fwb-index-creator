@@ -291,6 +291,22 @@ public class IndexerTest {
 				"//field[@name='artikel_text']", result);
 	}
 
+	@Test
+	public void shouldRemoveSpecialSpaceInLemma() throws Exception {
+		xslt.transform("src/test/resources/lemmaWithSpecialSpace.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("test_lemma", "//field[@name='lemma']", result);
+	}
+
+	@Test
+	public void shouldRemovePeriodInLemma() throws Exception {
+		xslt.transform("src/test/resources/lemmaWithPeriod.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("test_lemma", "//field[@name='lemma']", result);
+	}
+
 	@After
 	public void afterEachTest() {
 		// System.out.println(outputBaos.toString());
