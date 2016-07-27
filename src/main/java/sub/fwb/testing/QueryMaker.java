@@ -14,21 +14,21 @@ public class QueryMaker {
 			//query += starRight(word, "lemma", "neblem");
 			//query += starsBothSides(word, "lemma", "neblem");
 
-			query += exactMatch(word, "article_fulltext");
-			query += starsBothSides(word, "article_fulltext");
+			query += exactMatch(word, "artikel_text");
+			query += starsBothSides(word, "artikel_text");
 		}
 		for (String phrase : searchPhrases) {
 			query += "lemma:\"" + phrase + "\" neblem:\"" + phrase + "\" ";
-			query += "article_fulltext:\"" + phrase + "\" ";
+			query += "artikel_text:\"" + phrase + "\" ";
 		}
 		
 		query += ") ";
 
 		for (String word : searchWords) {
-			query += "AND article_fulltext:*" + word + "* ";
+			query += "AND artikel_text:*" + word + "* ";
 		}
 		for (String phrase : searchPhrases) {
-			query += "AND article_fulltext:\"" + phrase + "\" ";
+			query += "AND artikel_text:\"" + phrase + "\" ";
 		}
 
 		System.out.println(query);

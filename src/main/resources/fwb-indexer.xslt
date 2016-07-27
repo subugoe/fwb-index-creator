@@ -70,7 +70,7 @@
         </xsl:otherwise>
       </xsl:choose>
     </field>
-    <field name="type_of_word" boost="1">
+    <field name="wortart" boost="1">
       <xsl:variable name="wordTypeId" select="fwb:getWordTypeId(@xml:id)" />
       <xsl:variable name="typeValueWithTail" select="substring-after($wordTypes, concat($wordTypeId, ':'))" />
       <xsl:value-of select="substring-before($typeValueWithTail, '###')" />
@@ -129,7 +129,7 @@
   </xsl:function>
 
   <xsl:template match="entry" mode="fulltext">
-    <field name="article_fulltext">
+    <field name="artikel_text">
       <xsl:apply-templates select="*" mode="fulltext" />
     </field>
   </xsl:template>
@@ -146,7 +146,7 @@
   </xsl:template>
 
   <xsl:template match="entry" mode="html_fulltext">
-    <field name="article_html">
+    <field name="artikel">
       <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
       <div class="article">
         <xsl:apply-templates select="*" mode="html_fulltext" />

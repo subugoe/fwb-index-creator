@@ -28,7 +28,7 @@ public class TeiHtmlComparator {
 		String solrString = FileUtils.readFileToString(solrXml);
 		solrString = solrString.replaceAll("\n\\s*", "");
 
-		solrString = extract("<field name=\"article_html\"><!\\[CDATA\\[(.*?)\\]\\]>", solrString);
+		solrString = extract("<field name=\"artikel\"><!\\[CDATA\\[(.*?)\\]\\]>", solrString);
 		solrString = solrString.replaceAll("<span class=\"sense-number\">.*?</span>", "");
 		solrString = solrString.replaceAll("<span class=\"subvoce-begin\">.*?</span>", "");
 		solrString = solrString.replace("> <", "");

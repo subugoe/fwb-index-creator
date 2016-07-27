@@ -30,9 +30,9 @@ public class SolrState {
 		String generatedSolrQuery = "";
 		for (String inputValue : userInputs) {
 			if (inputValue.startsWith("\"")) {
-				generatedSolrQuery += inputValue + " " + "+article_fulltext:" + inputValue + " ";
+				generatedSolrQuery += inputValue + " " + "+artikel_text:" + inputValue + " ";
 			} else {
-				generatedSolrQuery += inputValue + " *" + inputValue + "* " + "+article_fulltext:*" + inputValue + "* ";
+				generatedSolrQuery += inputValue + " *" + inputValue + "* " + "+artikel_text:*" + inputValue + "* ";
 			}
 		}
 		askByQuery(extraParams, generatedSolrQuery);
@@ -56,7 +56,7 @@ public class SolrState {
 		solrQuery.setRequestHandler(requestHandler);
 		solrQuery.set("fl", "lemma,score");
 		solrQuery.set("rows", "500");
-		solrQuery.set("hl.fl", "article_fulltext,zitat");
+		solrQuery.set("hl.fl", "artikel_text,zitat");
 		solrQuery.set("hl.requireFieldMatch", "true");
 		for (String[] parameter : extraParams) {
 			solrQuery.set(parameter[0], parameter[1]);

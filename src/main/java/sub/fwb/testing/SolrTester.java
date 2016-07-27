@@ -36,7 +36,7 @@ public class SolrTester {
 	public void complexPhrase() throws Exception {
 
 		// solr.ask("{!complexphrase inOrder=true}\"imbi* ward\" {!complexphrase
-		// inOrder=true}+article_fulltext:\"imbi* ward\"");
+		// inOrder=true}+artikel_text:\"imbi* ward\"");
 
 		// assertEquals(24, results());
 		// assertEquals("abziehen", lemma(1));
@@ -47,7 +47,7 @@ public class SolrTester {
 	@Test
 	public void es() throws Exception {
 
-		solr.askByQuery("article_fulltext:es");
+		solr.askByQuery("artikel_text:es");
 
 		// String s = "";
 		// for (int i = 1; i <= results(); i++) {
@@ -63,7 +63,7 @@ public class SolrTester {
 	public void negatedQueryShouldCoverAllTerms() throws Exception {
 
 		solr.askByQuery(
-				"article_html:/.*[^\\|()\\[\\]\\-⁽⁾a-z0-9äöüßoͤúv́aͤñÿu͂Øůaͧuͥóoͮàïêŷǔıͤēëâôeͣîûwͦýãæáéòõœv̈èu̇ŭāōùēīíūėm̃Γͤŭẽũśŏǒǎǔẅẹìǹăṣẏẙẹσĕĩẃåg̮ńỹěçṅȳňṡćęъčẘịǧḥṁạṙľu֔b].*/");
+				"artikel:/.*[^\\|()\\[\\]\\-⁽⁾a-z0-9äöüßoͤúv́aͤñÿu͂Øůaͧuͥóoͮàïêŷǔıͤēëâôeͣîûwͦýãæáéòõœv̈èu̇ŭāōùēīíūėm̃Γͤŭẽũśŏǒǎǔẅẹìǹăṣẏẙẹσĕĩẃåg̮ńỹěçṅȳňṡćęъčẘịǧḥṁạṙľu֔b].*/");
 
 		assertEquals(0, results());
 	}
@@ -71,7 +71,7 @@ public class SolrTester {
 	@Test
 	public void maxClauseCountOver1024() throws Exception {
 
-		solr.askByQuery("article_fulltext:*e*", "/selecthl");
+		solr.askByQuery("artikel_text:*e*", "/selecthl");
 
 		assertEquals(34678, results());
 	}

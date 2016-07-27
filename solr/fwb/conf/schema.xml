@@ -21,7 +21,9 @@
        termVectors="true"
        termPositions="true"
        termOffsets="true" />
+    <!-- remove -->
     <field name="type_of_word" type="string" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="wortart" type="string" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="neblem" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="neblem_exact" type="text_de_exact" indexed="true" stored="true" required="false" multiValued="true" />
     <!-- remove -->
@@ -29,11 +31,21 @@
     <field name="etym" type="text_de" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="head_comment" type="text_de" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="article_version" type="string" indexed="false" stored="true" required="false" multiValued="false" />
+    <!-- remove -->
     <field name="article_html" type="text_de" indexed="true" stored="true" required="false" multiValued="false"
        termVectors="true"
        termPositions="true"
        termOffsets="true" />
+    <field name="artikel" type="text_de" indexed="true" stored="true" required="false" multiValued="false"
+       termVectors="true"
+       termPositions="true"
+       termOffsets="true" />
+    <!-- remove -->
     <field name="article_fulltext" type="text_de" indexed="true" stored="true" required="false" multiValued="false"
+       termVectors="true"
+       termPositions="true"
+       termOffsets="true" />
+    <field name="artikel_text" type="text_de" indexed="true" stored="true" required="false" multiValued="false"
        termVectors="true"
        termPositions="true"
        termOffsets="true" />
@@ -125,9 +137,15 @@
   <uniqueKey>id</uniqueKey>
 
   <copyField source="lemma" dest="all_suggest" />
+    <!-- remove -->
+  <copyField source="artikel" dest="article_html" />
+    <!-- remove -->
+  <copyField source="wortart" dest="type_of_word" />
+    <!-- remove -->
+  <copyField source="artikel_text" dest="article_fulltext" />
 
-  <!--copyField source="article_html" dest="article_html_exact" />
-  <copyField source="article_fulltext" dest="article_fulltext_exact" />
+  <!--copyField source="artikel" dest="artikel_exact" />
+  <copyField source="artikel_text" dest="artikel_text_exact" />
   <copyField source="def" dest="def_exact" />
   <copyField source="lemma" dest="lemma_exact" />
   <copyField source="neblem" dest="neblem_exact" />

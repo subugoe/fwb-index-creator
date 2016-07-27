@@ -41,29 +41,29 @@ public class EmbeddedSolrTest {
 
 	@Test
 	public void shouldHighlightChristDifferently() throws Exception {
-		String[][] doc = { { "article_fulltext", "christ krist" }, { "zitat", "christ krist" } };
+		String[][] doc = { { "artikel_text", "christ krist" }, { "zitat", "christ krist" } };
 		solr.addDocument(doc);
 
 		String[][] extraParams = { { "hl", "on" } };
 		solr.ask(extraParams, "christ");
 
 		assertEquals(1, results());
-		assertHighlighted("article_fulltext", "christ");
-		assertNotHighlighted("article_fulltext", "krist");
+		assertHighlighted("artikel_text", "christ");
+		assertNotHighlighted("artikel_text", "krist");
 		assertHighlighted("zitat", "christ", "krist");
 	}
 
 	@Test
 	public void shouldHighlightArticleAndCitationDifferently() throws Exception {
-		String[][] doc = { { "article_fulltext", "und vnd" }, { "zitat", "und vnd" } };
+		String[][] doc = { { "artikel_text", "und vnd" }, { "zitat", "und vnd" } };
 		solr.addDocument(doc);
 
 		String[][] extraParams = { { "hl", "on" } };
 		solr.ask(extraParams, "und");
 
 		assertEquals(1, results());
-		assertHighlighted("article_fulltext", "und");
-		assertNotHighlighted("article_fulltext", "vnd");
+		assertHighlighted("artikel_text", "und");
+		assertNotHighlighted("artikel_text", "vnd");
 		assertHighlighted("zitat", "und", "vnd");
 	}
 
@@ -89,44 +89,44 @@ public class EmbeddedSolrTest {
 
 	@Test
 	public void shouldFindUmlaut() throws Exception {
-		String[][] doc = { { "article_fulltext", "bär" } };
+		String[][] doc = { { "artikel_text", "bär" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("article_fulltext:bar");
+		solr.askByQuery("artikel_text:bar");
 
 		assertEquals(1, results());
 	}
 
 	@Test
 	public void shouldDeleteNonbreakingSpace() throws Exception {
-		String[][] doc = { { "article_fulltext", "test abc" } };
+		String[][] doc = { { "artikel_text", "test abc" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("article_fulltext:test");
+		solr.askByQuery("artikel_text:test");
 
 		assertEquals(1, results());
 	}
 
 	@Test
 	public void shouldFindPipe() throws Exception {
-		String[][] doc = { { "article_fulltext", "test |" } };
+		String[][] doc = { { "artikel_text", "test |" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("article_fulltext:|");
+		solr.askByQuery("artikel_text:|");
 
 		assertEquals(1, results());
 	}
 
 	@Test
 	public void shouldIgnoreSpecialChars() throws Exception {
-		String[][] doc = { { "article_fulltext", "& test1, ›test2‹" } };
+		String[][] doc = { { "artikel_text", "& test1, ›test2‹" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("article_fulltext:test1");
+		solr.askByQuery("artikel_text:test1");
 		assertEquals(1, results());
-		solr.askByQuery("article_fulltext:test2");
+		solr.askByQuery("artikel_text:test2");
 		assertEquals(1, results());
-		solr.askByQuery("article_fulltext:&");
+		solr.askByQuery("artikel_text:&");
 		assertEquals(0, results());
 	}
 

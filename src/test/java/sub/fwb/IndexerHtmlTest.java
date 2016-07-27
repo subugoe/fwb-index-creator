@@ -34,7 +34,7 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/articleField.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathExists("//field[@name='article_html']", result);
+		assertXpathExists("//field[@name='artikel']", result);
 	}
 
 	@Test

@@ -279,7 +279,7 @@ public class IndexerTest {
 		String result = outputBaos.toString();
 
 		assertXpathEvaluatesTo("Müller," + " " + "2: A quote." + " " + "Ärmel." + " ",
-				"//field[@name='article_fulltext']", result);
+				"//field[@name='artikel_text']", result);
 	}
 
 	@Test
@@ -288,7 +288,7 @@ public class IndexerTest {
 		String result = outputBaos.toString();
 
 		assertXpathEvaluatesTo("mylemma, die. definition. Name, 346, 35 (reg., M. 14. Jh.) A quote. before space after space. line break. ",
-				"//field[@name='article_fulltext']", result);
+				"//field[@name='artikel_text']", result);
 	}
 
 	@After
