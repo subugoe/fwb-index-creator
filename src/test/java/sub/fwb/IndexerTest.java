@@ -175,7 +175,6 @@ public class IndexerTest {
 		assertXpathEvaluatesTo("neblem1", "//field[@name='neblem'][1]", result);
 		assertXpathEvaluatesTo("neblem2", "//field[@name='neblem'][2]", result);
 		assertXpathEvaluatesTo("2", "count(//field[@name='neblem'])", result);
-		assertXpathEvaluatesTo("1", "//field[@name='neblem'][2]/@boost", result);
 	}
 
 	@Test
@@ -187,8 +186,6 @@ public class IndexerTest {
 		assertXpathEvaluatesTo("neblem2", "//field[@name='neblem'][2]", result);
 		assertXpathEvaluatesTo("neblem3", "//field[@name='neblem'][3]", result);
 		assertXpathEvaluatesTo("3", "count(//field[@name='neblem'])", result);
-		assertXpathEvaluatesTo("1", "//field[@name='neblem'][2]/@boost", result);
-		assertXpathEvaluatesTo("1", "//field[@name='neblem'][3]/@boost", result);
 	}
 
 	@Test

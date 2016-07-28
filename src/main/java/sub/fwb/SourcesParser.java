@@ -42,7 +42,7 @@ public class SourcesParser {
 
 			appendFromStronglist(row, buffer);
 
-			buffer.append("<field name=\"source_html\" boost=\"55\"><![CDATA[");
+			buffer.append("<field name=\"source_html\"><![CDATA[");
 			buffer.append("<div class=\"source-details\">\n");
 
 			appendRowOfSpans("Bibliographie: ", asString(row.getCell(15)), buffer);
