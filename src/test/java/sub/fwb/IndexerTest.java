@@ -307,6 +307,14 @@ public class IndexerTest {
 		assertXpathEvaluatesTo("test_lemma", "//field[@name='lemma']", result);
 	}
 
+	@Test
+	public void shouldCreateHomonym() throws Exception {
+		xslt.transform("src/test/resources/homonym.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("2", "//field[@name='homonym']", result);
+	}
+
 	@After
 	public void afterEachTest() {
 		// System.out.println(outputBaos.toString());

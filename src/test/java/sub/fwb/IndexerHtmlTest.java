@@ -259,6 +259,22 @@ public class IndexerHtmlTest {
 		assertXpathEvaluatesTo("1", "//div/a", html);
 	}
 
+	@Test
+	public void shouldCreateHomonymForLemma() throws Exception {
+		xslt.transform("src/test/resources/homonym.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("2", "//span[@class='homonym']", html);
+	}
+
+	@Test
+	public void shouldNotCreateHomonymForLemma() throws Exception {
+		xslt.transform("src/test/resources/html/withoutHomonym.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("", "//span[@class='homonym']", html);
+	}
+
 	@After
 	public void afterEachTest() {
 		// System.out.println(outputBaos.toString());

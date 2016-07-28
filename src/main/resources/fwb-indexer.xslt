@@ -59,6 +59,11 @@
     <field name="internal_id">
       <xsl:value-of select="@xml:id" />
     </field>
+    <xsl:if test="@n">
+      <field name="homonym">
+        <xsl:value-of select="@n" />
+      </field>
+    </xsl:if>
     <xsl:variable name="lemma" select="normalize-space(replace(form[@type='lemma']/orth,'\p{Z}+', ' '))" />
     <field name="lemma" boost="1">
       <xsl:choose>
@@ -169,7 +174,13 @@
   </xsl:template>
 
   <xsl:template match="form[@type='lemma']" mode="html_fulltext">
+    <xsl:variable name="homonym" select="ancestor::entry/@n" />
     <div class="lemma">
+      <xsl:if test="$homonym">
+        <span class="homonym">
+          <xsl:value-of select="$homonym" />
+        </span>
+      </xsl:if>
       <xsl:value-of select="orth" />
     </div>
   </xsl:template>
