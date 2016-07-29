@@ -144,6 +144,8 @@
   <copyField source="wortart" dest="type_of_word" />
     <!-- remove -->
   <copyField source="artikel_text" dest="article_fulltext" />
+    <!-- remove -->
+  <copyField source="def" dest="definition_fulltext" />
 
   <!--copyField source="artikel" dest="artikel_exact" />
   <copyField source="artikel_text" dest="artikel_text_exact" />
