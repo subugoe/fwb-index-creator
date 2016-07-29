@@ -21,7 +21,9 @@ import javax.xml.stream.events.XMLEvent;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.request.CoreAdminRequest;
 import org.apache.solr.common.SolrInputDocument;
+import org.apache.solr.common.params.CoreAdminParams.CoreAdminAction;
 
 public class Uploader {
 
@@ -30,11 +32,13 @@ public class Uploader {
 	private List<SolrInputDocument> allDocs = new ArrayList<>();
 	private final int MAX_DOCS = 2000;
 	private SolrClient solr;
+	private String coreUrl;
 
 	private Set<String> ids = new HashSet<>();
 
 	public Uploader(String solrUrl) {
 		solr = new HttpSolrClient(solrUrl);
+		coreUrl = solrUrl;
 	}
 
 	public void add(File file) throws SolrServerException, IOException {
@@ -119,21 +123,22 @@ public class Uploader {
 		}
 	}
 
-	public void cleanSolr() {
-		try {
-			solr.deleteByQuery("*:*");
-		} catch (SolrServerException | IOException e) {
-			e.printStackTrace();
-		}
+	public void cleanSolr() throws SolrServerException, IOException {
+		solr.deleteByQuery("*:*");
 	}
 
-	public void commitToSolr() {
-		try {
-			flushDocs();
-			solr.commit();
-		} catch (SolrServerException | IOException e) {
-			e.printStackTrace();
-		}
+	public void reloadCore() throws SolrServerException, IOException {
+		String urlWithoutCore = coreUrl.replaceAll("/[^/]+$", "");
+		String coreName = coreUrl.replaceAll("^.*/", "");
+		CoreAdminRequest adminRequest = new CoreAdminRequest();
+		adminRequest.setAction(CoreAdminAction.RELOAD);
+		adminRequest.setCoreName(coreName);
+		adminRequest.process(new HttpSolrClient(urlWithoutCore));
+	}
+
+	public void commitToSolr() throws SolrServerException, IOException {
+		flushDocs();
+		solr.commit();
 	}
 
 	public void rollbackChanges() {

@@ -125,6 +125,8 @@ public class Main {
 				System.out.println();
 				System.out.println();
 			}
+			System.out.println("Reloading the core.");
+			uploader.reloadCore();
 			System.out.println("Uploading documents:");
 			for (File x : xmls) {
 				uploader.add(x);
