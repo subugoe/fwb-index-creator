@@ -29,6 +29,16 @@ public class EmbeddedSolrTest {
 		solr.printResults();
 	}
 
+	//@Test
+	public void should() throws Exception {
+		String[][] doc = { { "zitat", "new" } };
+		solr.addDocument(doc);
+
+		solr.askByQuery("zitat:old", "/search");
+
+		assertEquals(1, results());
+	}
+
 	@Test
 	public void shouldRemoveCombinedLetter() throws Exception {
 		String[][] doc = { { "zitat", "svͤlen" } };
