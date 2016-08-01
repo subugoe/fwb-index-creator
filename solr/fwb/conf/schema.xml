@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema name="fwb" version="1.5">
 
-  <similarity class="sub.fwb.FwbSimilarity" />
+  <similarity class="sub.fwb.SimplifiedSimilarity" />
 
   <fields>
     <!-- all types -->
@@ -195,43 +195,43 @@
         <charFilter class="solr.HTMLStripCharFilterFactory" />
         <tokenizer class="solr.StandardTokenizerFactory" />
         <filter class="solr.LowerCaseFilterFactory" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="a" replacement="e" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="b" replacement="p" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="ch" replacement="k" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="c" replacement="k" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="g" replacement="k" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="q" replacement="k" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="th" replacement="t" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="d" replacement="t" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="f" replacement="v" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="u" replacement="v" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="w" replacement="v" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="j" replacement="i" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="y" replacement="i" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="ß" replacement="s" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="ss" replacement="s" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="sz" replacement="s" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="a" replacement="e" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="b" replacement="p" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="ch" replacement="k" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="c" replacement="k" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="g" replacement="k" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="q" replacement="k" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="th" replacement="t" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="d" replacement="t" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="f" replacement="v" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="u" replacement="v" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="w" replacement="v" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="j" replacement="i" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="y" replacement="i" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="ß" replacement="s" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="ss" replacement="s" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="sz" replacement="s" />
         <filter class="sub.fwb.UmlautFilterFactory" file="umlaut_mappings_for_quotes.txt" />
       </analyzer>
       <analyzer type="query">
         <tokenizer class="solr.StandardTokenizerFactory" />
         <filter class="solr.LowerCaseFilterFactory" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="a" replacement="e" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="b" replacement="p" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="ch" replacement="k" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="c" replacement="k" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="g" replacement="k" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="q" replacement="k" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="th" replacement="t" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="d" replacement="t" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="f" replacement="v" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="u" replacement="v" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="w" replacement="v" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="j" replacement="i" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="y" replacement="i" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="ß" replacement="s" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="ss" replacement="s" />
-        <filter class="sub.fwb.FwbPatternReplaceFilterFactory" pattern="sz" replacement="s" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="a" replacement="e" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="b" replacement="p" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="ch" replacement="k" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="c" replacement="k" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="g" replacement="k" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="q" replacement="k" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="th" replacement="t" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="d" replacement="t" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="f" replacement="v" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="u" replacement="v" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="w" replacement="v" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="j" replacement="i" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="y" replacement="i" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="ß" replacement="s" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="ss" replacement="s" />
+        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="sz" replacement="s" />
       </analyzer>
     </fieldType>
 
