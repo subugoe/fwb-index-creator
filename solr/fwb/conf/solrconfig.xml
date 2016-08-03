@@ -17,7 +17,7 @@
 
   <query>
     <enableLazyFieldLoading>true</enableLazyFieldLoading>
-    <maxBooleanClauses>4096</maxBooleanClauses>
+    <maxBooleanClauses>20000</maxBooleanClauses>
   </query>
 
   <!-- realtime get handler, guaranteed to return the latest stored fields of any document, without the need to commit or open a new searcher. The current 
@@ -72,12 +72,19 @@
 
   <requestHandler name="/search" class="sub.fwb.QueryModifyingSearchHandler">
     <lst name="defaults">
+      <str name="omitHeader">true</str>
       <str name="echoParams">all</str>
       <str name="defType">edismax</str>
       <str name="qf">lemma^10000 neblem^1000 def^70 bdv^60 zitat^55 phras^45 wbv^45 ggs^25 swt^40 synt^10 wbg^20 zursache^20 subvoce^5</str>
       <str name="df">artikel</str>
       <str name="tie">0.01</str>
-      <!--str name="hl.requireFieldMatch">true</str-->
+      <str name="facet">true</str>
+      <str name="facet.field">wortart</str>
+      <str name="hl">true</str>
+      <str name="hl.fl">artikel_text</str>
+      <str name="wt">json</str>
+      <str name="json.nl">flat</str>
+      <str name="fl">lemma,homonym,wortart,internal_id</str>
     </lst>
   </requestHandler>
 
