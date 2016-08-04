@@ -40,6 +40,16 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
+	public void shouldReplaceAccentedLetter() throws Exception {
+		String[][] doc = { { "zitat", "únser" } };
+		solr.addDocument(doc);
+
+		solr.askByQuery("zitat:unser");
+
+		assertEquals(1, results());
+	}
+
+	@Test
 	public void shouldRemoveCombinedLetter() throws Exception {
 		String[][] doc = { { "zitat", "svͤlen" } };
 		solr.addDocument(doc);

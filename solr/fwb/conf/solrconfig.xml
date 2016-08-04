@@ -86,6 +86,9 @@
       <str name="json.nl">flat</str>
       <str name="fl">lemma,homonym,wortart,internal_id</str>
     </lst>
+    <!--lst name="invariants">
+      <str name="fl">lemma,homonym,wortart,internal_id,type_of_word,id</str>
+    </lst-->
   </requestHandler>
 
   <requestHandler name="/select" class="solr.SearchHandler">

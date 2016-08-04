@@ -195,6 +195,7 @@
         <charFilter class="solr.HTMLStripCharFilterFactory" />
         <tokenizer class="solr.StandardTokenizerFactory" />
         <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="sub.fwb.UmlautFilterFactory" file="umlaut_mappings_for_quotes.txt" />
         <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="a" replacement="e" />
         <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="b" replacement="p" />
         <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="ch" replacement="k" />
@@ -211,7 +212,6 @@
         <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="ß" replacement="s" />
         <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="ss" replacement="s" />
         <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="sz" replacement="s" />
-        <filter class="sub.fwb.UmlautFilterFactory" file="umlaut_mappings_for_quotes.txt" />
       </analyzer>
       <analyzer type="query">
         <tokenizer class="solr.StandardTokenizerFactory" />
