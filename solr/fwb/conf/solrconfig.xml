@@ -72,7 +72,7 @@
 
   <requestHandler name="/search" class="sub.fwb.QueryModifyingSearchHandler">
     <lst name="defaults">
-      <str name="omitHeader">true</str>
+      <str name="omitHeader">false</str>
       <str name="echoParams">all</str>
       <str name="defType">edismax</str>
       <str name="qf">lemma^10000 neblem^1000 def^70 bdv^60 zitat^55 phras^45 wbv^45 ggs^25 swt^40 synt^10 wbg^20 zursache^20 subvoce^5</str>
@@ -89,6 +89,39 @@
     <!--lst name="invariants">
       <str name="fl">lemma,homonym,wortart,internal_id,type_of_word,id</str>
     </lst-->
+  </requestHandler>
+
+  <requestHandler name="/article-hl" class="sub.fwb.HlQueryModifyingSearchHandler">
+    <lst name="defaults">
+      <str name="omitHeader">false</str>
+      <str name="echoParams">all</str>
+      <str name="defType">edismax</str>
+      <str name="qf">lemma^10000 neblem^1000 def^70 bdv^60 zitat^55 phras^45 wbv^45 ggs^25 swt^40 synt^10 wbg^20 zursache^20 subvoce^5</str>
+      <str name="df">artikel</str>
+      <str name="hl">true</str>
+      <str name="hl.fl">artikel,zitat</str>
+      <str name="hl.fragsize">0</str>
+      <str name="hl.simple.pre"><![CDATA[<em class="highlight">]]></str>
+      <str name="hl.simple.post"><![CDATA[</em>]]></str>
+      <str name="hl.requireFieldMatch">true</str>
+      <str name="hl.maxAnalyzedChars">-1</str>
+      <str name="hl.preserveMulti">true</str>
+      <str name="wt">json</str>
+      <str name="json.nl">flat</str>
+      <str name="fl">id,internal_id,def</str>
+    </lst>
+  </requestHandler>
+
+  <requestHandler name="/article" class="solr.SearchHandler">
+    <lst name="defaults">
+      <str name="omitHeader">false</str>
+      <str name="echoParams">all</str>
+      <str name="defType">edismax</str>
+      <str name="df">artikel</str>
+      <str name="wt">json</str>
+      <str name="json.nl">flat</str>
+      <str name="fl">artikelid,internal_id,def</str>
+    </lst>
   </requestHandler>
 
   <requestHandler name="/select" class="solr.SearchHandler">
