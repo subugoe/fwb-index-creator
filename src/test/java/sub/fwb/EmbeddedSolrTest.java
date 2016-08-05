@@ -40,6 +40,16 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
+	public void shouldSearchInCitations() throws Exception {
+		String[][] doc = { { "zitat", "únser" } };
+		solr.addDocument(doc);
+
+		solr.askByQuery("unser", "/search");
+
+		assertEquals(1, results());
+	}
+
+	@Test
 	public void shouldReplaceAccentedLetter() throws Exception {
 		String[][] doc = { { "zitat", "únser" } };
 		solr.addDocument(doc);
