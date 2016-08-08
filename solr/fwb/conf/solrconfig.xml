@@ -103,7 +103,7 @@
       <str name="hl.fragsize">0</str>
       <str name="hl.simple.pre"><![CDATA[<em class="highlight">]]></str>
       <str name="hl.simple.post"><![CDATA[</em>]]></str>
-      <str name="hl.requireFieldMatch">true</str>
+      <!--str name="hl.requireFieldMatch">true</str-->
       <str name="hl.maxAnalyzedChars">-1</str>
       <str name="hl.preserveMulti">true</str>
       <str name="wt">json</str>

@@ -1,4 +1,4 @@
-# Index generator for FWB (Frühneuhochdeutsches Wörterbusch)
+# Index generator for FWB (Frühneuhochdeutsches Wörterbuch)
 
 ## Description
 
