@@ -77,6 +77,15 @@ public class SolrTester {
 	}
 
 	@Test
+	public void dashLach() throws Exception {
+
+		solr.askByQuery("-lach", "/search");
+
+		assertEquals(5, results());
+		assertEquals("-lach", lemma(1));
+	}
+
+	@Test
 	public void imbs() throws Exception {
 
 		solr.ask("imbs");

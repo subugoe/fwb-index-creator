@@ -30,16 +30,6 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
-	public void shouldFindWithLeadingDash() throws Exception {
-		String[][] doc = { { "artikel", "-lach" } };
-		solr.addDocument(doc);
-
-		solr.askByQuery("-lach", "/search");
-
-		assertEquals(1, results());
-	}
-
-	@Test
 	public void shouldRemoveDash() throws Exception {
 		String[][] doc = { { "artikel", "legatar(-ius)" } };
 		solr.addDocument(doc);
