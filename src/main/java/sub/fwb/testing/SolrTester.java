@@ -56,7 +56,7 @@ public class SolrTester {
 		// FileUtils.writeStringToFile(new
 		// java.io.File("/home/dennis/html.txt"), s);
 
-		assertEquals(4172, results());
+		assertEquals(4182, results());
 	}
 
 	@Test
