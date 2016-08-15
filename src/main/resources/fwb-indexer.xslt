@@ -543,6 +543,9 @@
       <xsl:apply-templates select="quote" mode="html_fulltext" />
       <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
     </field>
+    <field name="zitat_text">
+      <xsl:value-of select="quote//text()" />
+    </field>
   </xsl:template>
 
   <xsl:template match="cit[not(quote)]">

@@ -74,6 +74,9 @@
     <lst name="defaults">
       <str name="omitHeader">false</str>
       <str name="echoParams">all</str>
+    </lst>
+    <lst name="invariants">
+      <str name="fl">lemma,homonym,wortart,internal_id,type_of_word,id</str>
       <str name="defType">edismax</str>
       <str name="qf">lemma^10000 neblem^1000 def^70 bdv^60 zitat^55 phras^45 wbv^45 ggs^25 swt^40 synt^10 wbg^20 zursache^20 subvoce^5</str>
       <str name="df">artikel</str>
@@ -81,15 +84,16 @@
       <str name="facet">true</str>
       <str name="facet.field">wortart</str>
       <str name="hl">true</str>
-      <str name="hl.fl">artikel_text</str>
+      <str name="hl.fl">artikel_text,zitat_text</str>
       <str name="wt">json</str>
       <str name="json.nl">flat</str>
-      <str name="fl">lemma,homonym,wortart,internal_id</str>
     </lst>
-    <!--lst name="invariants">
-      <str name="fl">lemma,homonym,wortart,internal_id,type_of_word,id</str>
-    </lst-->
+    <arr name="last-components">
+      <str>adapt-snippet-highlight</str>
+    </arr>
   </requestHandler>
+
+  <searchComponent name="adapt-snippet-highlight" class="sub.fwb.HlSnippetAdaptingComponent" />
 
   <requestHandler name="/article-hl" class="sub.fwb.HlQueryModifyingSearchHandler">
     <lst name="defaults">

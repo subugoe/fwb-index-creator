@@ -39,14 +39,15 @@ public class EmbeddedSolrTest {
 		assertEquals(1, results());
 	}
 
-	//@Test
-	public void should() throws Exception {
-		String[][] doc = { { "zitat", "new" } };
+	@Test
+	public void shouldHighlightQuote() throws Exception {
+		String[][] doc = { { "zitat", "und" }, { "zitat_text", "und" }, { "artikel_text", "und" } , { "artikel", "und" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("zitat:old", "/search");
+		solr.askByQuery("vnd", "/search");
 
 		assertEquals(1, results());
+		assertHighlighted("artikel_text", "und");
 	}
 
 	@Test
@@ -84,7 +85,7 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "artikel_text", "christ krist" }, { "zitat", "christ krist" } };
 		solr.addDocument(doc);
 
-		String[][] extraParams = { { "hl", "on" } };
+		String[][] extraParams = { { "hl", "on" }, { "hl.requireFieldMatch", "true" } };
 		solr.ask(extraParams, "christ");
 
 		assertEquals(1, results());
