@@ -166,7 +166,7 @@
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="sub.fwb.UmlautFilterFactory" file="umlaut_mappings.txt" />
-        <filter class="sub.fwb.LemmaNormalizeFilterFactory" />
+        <filter class="sub.fwb.LemmaNormalizingFilterFactory" />
       </analyzer>
     </fieldType>
 
@@ -182,7 +182,7 @@
         <tokenizer class="solr.PatternTokenizerFactory" pattern="[‒&amp;&lt;&gt;&quot;\p{Z}\s”∣%«»‛\$⅓⅙⅔·⅕#˄˚\{\}\\¼¾©@‚°=½§…℔*₰¶⸗˺˹„“+–\/?!;›‹\.,’·‘:]+" />
         <filter class="solr.LowerCaseFilterFactory" />
         <filter class="sub.fwb.UmlautFilterFactory" file="umlaut_mappings.txt" />
-        <filter class="sub.fwb.LemmaNormalizeFilterFactory" />
+        <filter class="sub.fwb.LemmaNormalizingFilterFactory" />
       </analyzer>
       <analyzer type="query">
         <tokenizer class="solr.PatternTokenizerFactory" pattern="[‒&amp;&lt;&gt;&quot;\p{Z}\s”∣%«»‛\$⅓⅙⅔·⅕#˄˚\{\}\\¼¾©@‚°=½§…℔*₰¶⸗˺˹„“+–\/?!;›‹\.,’·‘:]+" />
@@ -196,42 +196,42 @@
         <tokenizer class="solr.StandardTokenizerFactory" />
         <filter class="solr.LowerCaseFilterFactory" />
         <filter class="sub.fwb.UmlautFilterFactory" file="umlaut_mappings_for_quotes.txt" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="a" replacement="e" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="b" replacement="p" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="ch" replacement="k" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="c" replacement="k" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="g" replacement="k" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="q" replacement="k" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="th" replacement="t" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="d" replacement="t" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="f" replacement="v" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="u" replacement="v" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="w" replacement="v" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="j" replacement="i" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="y" replacement="i" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="ß" replacement="s" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="ss" replacement="s" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="sz" replacement="s" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="a" replacement="e" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="b" replacement="p" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="ch" replacement="k" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="c" replacement="k" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="g" replacement="k" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="q" replacement="k" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="th" replacement="t" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="d" replacement="t" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="f" replacement="v" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="u" replacement="v" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="w" replacement="v" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="j" replacement="i" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="y" replacement="i" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="ß" replacement="s" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="ss" replacement="s" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="sz" replacement="s" />
       </analyzer>
       <analyzer type="query">
         <tokenizer class="solr.StandardTokenizerFactory" />
         <filter class="solr.LowerCaseFilterFactory" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="a" replacement="e" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="b" replacement="p" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="ch" replacement="k" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="c" replacement="k" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="g" replacement="k" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="q" replacement="k" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="th" replacement="t" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="d" replacement="t" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="f" replacement="v" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="u" replacement="v" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="w" replacement="v" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="j" replacement="i" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="y" replacement="i" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="ß" replacement="s" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="ss" replacement="s" />
-        <filter class="sub.fwb.IndexAndQueryTimePatternReplaceFilterFactory" pattern="sz" replacement="s" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="a" replacement="e" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="b" replacement="p" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="ch" replacement="k" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="c" replacement="k" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="g" replacement="k" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="q" replacement="k" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="th" replacement="t" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="d" replacement="t" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="f" replacement="v" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="u" replacement="v" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="w" replacement="v" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="j" replacement="i" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="y" replacement="i" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="ß" replacement="s" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="ss" replacement="s" />
+        <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="sz" replacement="s" />
       </analyzer>
     </fieldType>
 
