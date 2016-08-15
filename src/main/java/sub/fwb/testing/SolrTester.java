@@ -177,11 +177,6 @@ public class SolrTester {
 		assertBestResultsContainWordPart("christ");
 	}
 
-	// @Test
-	public void deleteAllDocuments() throws Exception {
-		solr.clean();
-	}
-
 	private String lemma(int resultNumber) {
 		return solr.lemma(resultNumber);
 	}
