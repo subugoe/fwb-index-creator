@@ -22,27 +22,13 @@
        termVectors="true"
        termPositions="true"
        termOffsets="true" />
-    <!-- remove -->
-    <field name="type_of_word" type="string" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="wortart" type="string" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="neblem" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="neblem_exact" type="text_de_exact" indexed="true" stored="true" required="false" multiValued="true" />
-    <!-- remove -->
-    <field name="ethymology" type="text_de" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="etym" type="text_de" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="head_comment" type="text_de" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="article_version" type="string" indexed="false" stored="true" required="false" multiValued="false" />
-    <!-- remove -->
-    <field name="article_html" type="text_de" indexed="true" stored="true" required="false" multiValued="false"
-       termVectors="true"
-       termPositions="true"
-       termOffsets="true" />
     <field name="artikel" type="text_de" indexed="true" stored="true" required="false" multiValued="false"
-       termVectors="true"
-       termPositions="true"
-       termOffsets="true" />
-    <!-- remove -->
-    <field name="article_fulltext" type="text_de" indexed="true" stored="true" required="false" multiValued="false"
        termVectors="true"
        termPositions="true"
        termOffsets="true" />
@@ -58,18 +44,10 @@
     <field name="article_previous_id" type="string" indexed="false" stored="true" required="false" multiValued="false" />
     <field name="article_previous_lemma" type="string" indexed="false" stored="true" required="false" multiValued="false" />
 
-    <!-- remove -->
-    <field name="definition_fulltext" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
-
     <field name="def" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="sense_number" type="int" indexed="true" stored="true" required="false" multiValued="false" />
     <!-- referenzierte Quellenangabe -->
     <field name="definition_source_id" type="string" indexed="false" stored="true" required="false" multiValued="true" />
-    <!-- remove -->
-    <field name="definition_source_citation" type="text_old_german" indexed="true" stored="true" required="false" multiValued="true"
-       termVectors="true"
-       termPositions="true"
-       termOffsets="true" />
     <field name="zitat" type="text_old_german" indexed="true" stored="true" required="false" multiValued="true"
        termVectors="true"
        termPositions="true"
@@ -77,38 +55,18 @@
     <!-- Belegstelle -->
     <field name="definition_source_instance" type="string" indexed="false" stored="true" required="false" multiValued="true" />
 
-    <!-- remove -->
-    <field name="article_related_id" type="string" indexed="false" stored="true" required="false" multiValued="true" />
     <field name="bdv_id" type="string" indexed="false" stored="true" required="false" multiValued="true" />
-    <!-- remove -->
-    <field name="article_related_lemma" type="string" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="bdv" type="string" indexed="true" stored="true" required="false" multiValued="true" />
 
-    <!-- remove -->
-    <field name="sense_subvoce" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="subvoce" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="sense_subvoce_exact" type="text_de_exact" indexed="true" stored="true" required="false" multiValued="true" />
-    <!-- remove -->
-    <field name="sense_antonym" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="ggs" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="sense_antonym_exact" type="text_de_exact" indexed="true" stored="true" required="false" multiValued="true" />
-    <!-- remove -->
-    <field name="sense_phraseme" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="phras" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
-    <!-- remove -->
-    <field name="sense_related_reference" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="zursache" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
-    <!-- remove -->
-    <field name="sense_syntagma" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="synt" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
-    <!-- remove -->
-    <field name="sense_symptom_value" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="swt" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
-    <!-- remove -->
-    <field name="sense_word_formation" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="wbg" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
-    <!-- remove -->
-    <field name="sense_word_reference" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="wbv" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
 
     <!-- Bibliographie -->
@@ -138,14 +96,6 @@
   <uniqueKey>id</uniqueKey>
 
   <copyField source="lemma" dest="all_suggest" />
-    <!-- remove -->
-  <copyField source="artikel" dest="article_html" />
-    <!-- remove -->
-  <copyField source="wortart" dest="type_of_word" />
-    <!-- remove -->
-  <copyField source="artikel_text" dest="article_fulltext" />
-    <!-- remove -->
-  <copyField source="def" dest="definition_fulltext" />
 
   <!--copyField source="artikel" dest="artikel_exact" />
   <copyField source="artikel_text" dest="artikel_text_exact" />
