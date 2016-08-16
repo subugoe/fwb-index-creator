@@ -48,7 +48,10 @@
     <field name="sense_number" type="int" indexed="true" stored="true" required="false" multiValued="false" />
     <!-- referenzierte Quellenangabe -->
     <field name="definition_source_id" type="string" indexed="false" stored="true" required="false" multiValued="true" />
-    <field name="zitat_text" type="text_old_german" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="zitat_text" type="text_old_german" indexed="true" stored="true" required="false" multiValued="true"
+       termVectors="true"
+       termPositions="true"
+       termOffsets="true" />
     <field name="zitat" type="text_old_german" indexed="true" stored="true" required="false" multiValued="true"
        termVectors="true"
        termPositions="true"

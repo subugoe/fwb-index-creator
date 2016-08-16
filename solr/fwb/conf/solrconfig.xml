@@ -85,11 +85,6 @@
    -->
 
   <requestHandler name="/search" class="sub.fwb.QueryModifyingSearchHandler">
-    <lst name="defaults">
-      <str name="omitHeader">false</str>
-      <str name="echoParams">all</str>
-      <str name="hl">true</str>
-    </lst>
     <lst name="invariants">
       <str name="qf">lemma^10000 neblem^1000 def^70 bdv^60 zitat^55 phras^45 wbv^45 ggs^25 swt^40 synt^10 wbg^20 zursache^20 subvoce^5</str>
       <str name="tie">0.01</str>
@@ -99,8 +94,13 @@
       <str name="facet">true</str>
       <str name="facet.field">wortart</str>
       <str name="hl.fl">artikel_text,zitat_text</str>
+    </lst>
+    <lst name="defaults">
+      <str name="omitHeader">false</str>
+      <str name="echoParams">all</str>
       <str name="wt">json</str>
       <str name="json.nl">flat</str>
+      <str name="hl">true</str>
     </lst>
     <arr name="last-components">
       <str>adapt-snippet-highlight</str>
@@ -113,16 +113,16 @@
     <lst name="invariants">
       <str name="qf">lemma^10000 neblem^1000 def^70 bdv^60 zitat^55 phras^45 wbv^45 ggs^25 swt^40 synt^10 wbg^20 zursache^20 subvoce^5</str>
       <str name="tie">0.01</str>
-      <str name="fl">lemma,homonym,wortart,internal_id,type_of_word,id</str>
+      <str name="fl">lemma,homonym,wortart,internal_id,id</str>
       <str name="defType">edismax</str>
       <str name="hl">false</str>
       <str name="facet">false</str>
-      <str name="wt">json</str>
-      <str name="json.nl">flat</str>
     </lst>
     <lst name="defaults">
       <str name="omitHeader">false</str>
       <str name="echoParams">all</str>
+      <str name="wt">json</str>
+      <str name="json.nl">flat</str>
     </lst>
   </requestHandler>
 
