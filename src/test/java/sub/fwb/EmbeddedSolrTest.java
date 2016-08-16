@@ -40,6 +40,17 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
+	public void shouldNotHighlightTes() throws Exception {
+		String[][] doc = { { "zitat", "das" }, { "zitat_text", "das" }, { "artikel_text", "tes das" } , { "artikel", "tes das" } };
+		solr.addDocument(doc);
+
+		solr.askByQuery("das", "/search");
+
+		assertEquals(1, results());
+		assertNotHighlighted("artikel_text", "tes");
+	}
+
+	@Test
 	public void shouldHighlightQuote() throws Exception {
 		String[][] doc = { { "zitat", "und" }, { "zitat_text", "und" }, { "artikel_text", "und" } , { "artikel", "und" } };
 		solr.addDocument(doc);
