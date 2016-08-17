@@ -23,7 +23,7 @@ public class TeiHtmlComparator {
 		// need to replace the accidental occurrences
 		teiString = teiString.replaceAll("(Zur Sache: |Syntagmen: |Redensart: |Phraseme: )", "");
 		teiString = removeTags(teiString);
-		teiString = teiString.replaceAll("\\s+", " ").trim();
+		teiString = teiString.replaceAll("\\s+", "").trim();
 
 		String solrString = FileUtils.readFileToString(solrXml);
 		solrString = solrString.replaceAll("\n\\s*", "");
@@ -37,6 +37,7 @@ public class TeiHtmlComparator {
 				"(Bedeutungsverwandt: |Syntagmen: |Quellenzitate: |Belegstellenangaben: |Gegensätze: |Phraseme: |Wortbildungen: |Zur Sache: |Redensart: )",
 				"");
 		solrString = removeTags(solrString);
+		solrString = solrString.replaceAll("\\s+", "").trim();
 
 		// System.out.println(teiString);
 		// System.out.println(solrString);

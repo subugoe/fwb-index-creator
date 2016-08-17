@@ -170,6 +170,7 @@
     <span class="neblem">
       <xsl:value-of select="orth" />
     </span>
+    <xsl:text> </xsl:text>
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='artkopf']" mode="html_fulltext">
