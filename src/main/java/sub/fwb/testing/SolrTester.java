@@ -56,7 +56,7 @@ public class SolrTester {
 		// FileUtils.writeStringToFile(new
 		// java.io.File("/home/dennis/html.txt"), s);
 
-		assertEquals(4182, results());
+		assertEquals(4446, results());
 	}
 
 	@Test
@@ -73,7 +73,7 @@ public class SolrTester {
 
 		solr.askByQuery("artikel_text:*e*", "/selecthl");
 
-		assertEquals(34678, results());
+		assertEquals(40578, results());
 	}
 
 	@Test
@@ -90,7 +90,7 @@ public class SolrTester {
 
 		solr.ask("imbs");
 
-		assertEquals(22, results());
+		assertEquals(23, results());
 		assertEquals("imbs", lemma(1));
 		assertEquals("imbis", lemma(2));
 		assertBestResultsContainWordPart("imbs");
@@ -111,7 +111,7 @@ public class SolrTester {
 
 		solr.ask("gericht");
 
-		assertEquals(1823, results());
+		assertEquals(1950, results());
 		assertEquals("landgericht", lemma(1));
 		assertBestResultsContainWordPart("gericht");
 	}
@@ -131,7 +131,7 @@ public class SolrTester {
 
 		solr.ask("essen");
 
-		assertEquals(2414, results());
+		assertEquals(2551, results());
 		assertEquals("geniessen", lemma(1));
 		assertBestResultsContainWordPart("essen");
 	}
@@ -161,7 +161,7 @@ public class SolrTester {
 
 		solr.ask("leben");
 
-		assertEquals(1498, results());
+		assertEquals(1602, results());
 		assertEquals("leben", lemma(1));
 		assertEquals("leben", lemma(2));
 		assertBestResultsContainWordPart("leben");
@@ -172,7 +172,7 @@ public class SolrTester {
 
 		solr.ask("christ");
 
-		assertEquals(1448, results());
+		assertEquals(1563, results());
 		assertEquals("christ", lemma(1));
 		assertBestResultsContainWordPart("christ");
 	}
