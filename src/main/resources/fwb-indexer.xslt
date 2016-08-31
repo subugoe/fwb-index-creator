@@ -438,7 +438,9 @@
     <xsl:variable name="quoteNr" select="count(preceding::quote) + 1" />
     <xsl:variable name="quoteId" select="concat('quote',$quoteNr)" />
     <span class="quote" id="{$quoteId}">
+      <xsl:comment>start <xsl:value-of select="$quoteId" /></xsl:comment>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+      <xsl:comment>end <xsl:value-of select="$quoteId" /></xsl:comment>
     </span>
   </xsl:template>
 

@@ -165,7 +165,7 @@ public class IndexerTest {
 
 		assertXpathEvaluatesTo("source_11", "//field[@name='definition_source_id']", result);
 		assertXpathEvaluatesTo("source_22", "//field[@name='definition_source_instance']", result);
-		assertXpathEvaluatesTo("<span class=\"quote\" id=\"quote1\">A quote.</span>", "//field[@name='zitat']", result);
+		assertXpathEvaluatesTo("<span class=\"quote\" id=\"quote1\"><!--start quote1-->A quote.<!--end quote1--></span>", "//field[@name='zitat']", result);
 		assertXpathEvaluatesTo("A quote.", "//field[@name='zitat_text']", result);
 	}
 
