@@ -83,13 +83,25 @@
       <xsl:variable name="typeValueWithTail" select="substring-after($wordTypes, concat($wordTypeId, ':'))" />
       <xsl:value-of select="substring-before($typeValueWithTail, '###')" />
     </field>
-    <!-- make fields <field name="neblem"> -->
+    <xsl:apply-templates select="dictScrap[@rend='artkopf']/form[@type='neblem']" />
     <xsl:variable name="neblemAreas" select="dictScrap[@rend='artkopf']/form[@type='neblem']/orth" />
     <xsl:for-each select="$neblemAreas">
-      <xsl:sequence select="fwb:addFieldsFromTokens('neblem', .)" />
+        <xsl:if test=". != ''">
+          <field name="neblem_text">
+            <xsl:value-of select="." />
+          </field>
+        </xsl:if>
     </xsl:for-each>
     <field name="is_reference">
       <xsl:value-of select="not(sense)" />
+    </field>
+  </xsl:template>
+
+  <xsl:template match="form[@type='neblem']">
+    <field name="neblem">
+      <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+      <xsl:apply-templates select="." mode="html_fulltext" />
+      <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
     </field>
   </xsl:template>
 
@@ -102,19 +114,6 @@
         </xsl:matching-substring>
       </xsl:analyze-string>
     </xsl:if>
-  </xsl:function>
-
-  <xsl:function name="fwb:addFieldsFromTokens">
-    <xsl:param name="fieldName" />
-    <xsl:param name="commaTokens" />
-    <xsl:variable name="arrayOfTokens" select="tokenize($commaTokens, ',\s*')" />
-    <xsl:for-each select="$arrayOfTokens">
-      <xsl:if test=". != ''">
-        <field name="{$fieldName}">
-          <xsl:value-of select="." />
-        </field>
-      </xsl:if>
-    </xsl:for-each>
   </xsl:function>
 
   <xsl:template match="entry" mode="fulltext">
@@ -167,8 +166,12 @@
   </xsl:template>
 
   <xsl:template match="form[@type='neblem']" mode="html_fulltext">
+    <xsl:variable name="neblemNr" select="count(preceding::form[@type='neblem']) + 1" />
+    <xsl:variable name="neblemId" select="concat('neblem',$neblemNr)" />
     <span class="neblem">
+      <xsl:comment>start <xsl:value-of select="$neblemId" /></xsl:comment>
       <xsl:value-of select="orth" />
+      <xsl:comment>end <xsl:value-of select="$neblemId" /></xsl:comment>
     </span>
     <xsl:text> </xsl:text>
   </xsl:template>

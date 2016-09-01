@@ -174,9 +174,18 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/neblem.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("neblem1", "//field[@name='neblem'][1]", result);
-		assertXpathEvaluatesTo("neblem2", "//field[@name='neblem'][2]", result);
-		assertXpathEvaluatesTo("2", "count(//field[@name='neblem'])", result);
+		assertXpathEvaluatesTo("<span class=\"neblem\"><!--start neblem1-->neblem1, neblem2,<!--end neblem1--></span> ", "//field[@name='neblem'][1]", result);
+		assertXpathEvaluatesTo("1", "count(//field[@name='neblem'])", result);
+	}
+
+	@Test
+	public void shouldAddNeblemTextsFromTwoAreas() throws Exception {
+		xslt.transform("src/test/resources/neblemAreas.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("neblem1, neblem2,", "//field[@name='neblem_text'][1]", result);
+		assertXpathEvaluatesTo("neblemarea2", "//field[@name='neblem_text'][2]", result);
+		assertXpathEvaluatesTo("2", "count(//field[@name='neblem_text'])", result);
 	}
 
 	@Test
@@ -184,10 +193,9 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/neblemAreas.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("neblem1", "//field[@name='neblem'][1]", result);
-		assertXpathEvaluatesTo("neblem2", "//field[@name='neblem'][2]", result);
-		assertXpathEvaluatesTo("neblem3", "//field[@name='neblem'][3]", result);
-		assertXpathEvaluatesTo("3", "count(//field[@name='neblem'])", result);
+		assertXpathEvaluatesTo("<span class=\"neblem\"><!--start neblem1-->neblem1, neblem2,<!--end neblem1--></span> ", "//field[@name='neblem'][1]", result);
+		assertXpathEvaluatesTo("<span class=\"neblem\"><!--start neblem2-->neblemarea2<!--end neblem2--></span> ", "//field[@name='neblem'][2]", result);
+		assertXpathEvaluatesTo("2", "count(//field[@name='neblem'])", result);
 	}
 
 	@Test
@@ -316,7 +324,7 @@ public class IndexerTest {
 
 	@After
 	public void afterEachTest() {
-		// System.out.println(outputBaos.toString());
+		 System.out.println(outputBaos.toString());
 	}
 
 	@Test
