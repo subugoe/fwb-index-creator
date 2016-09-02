@@ -315,6 +315,7 @@
     <xsl:variable name="senseNumber" select="count(preceding::sense) + 1" />
     <xsl:variable name="senseAnchor" select="concat('sense', $senseNumber)" />
     <div id="{$senseAnchor}" class="definition">
+      <xsl:comment>start <xsl:value-of select="$senseAnchor" /></xsl:comment>
       <xsl:if test="count(//sense) gt 1">
         <span class="sense-number">
           <xsl:value-of select="$senseNumber" />
@@ -324,6 +325,7 @@
       <xsl:apply-templates select="text()|*" mode="html_fulltext" />
       <xsl:apply-templates select="following-sibling::dictScrap[@rend='wbv']"
         mode="html_fulltext_once" />
+      <xsl:comment>end <xsl:value-of select="$senseAnchor" /></xsl:comment>
     </div>
   </xsl:template>
 
@@ -473,6 +475,11 @@
         <xsl:value-of select="$currentSenseId" />
       </field-->
       <field name="def">
+        <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+        <xsl:apply-templates select="def" mode="html_fulltext" />
+        <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+      </field>
+      <field name="def_text">
         <xsl:value-of select="def" />
       </field>
       <xsl:apply-templates select="dictScrap[@rend='bdv']/ref" />

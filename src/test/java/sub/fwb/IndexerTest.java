@@ -126,25 +126,27 @@ public class IndexerTest {
 		assertXpathEvaluatesTo("123", "//doc/doc/field[@name='ref_id']", result);
 	}
 
-	@Ignore
 	@Test
 	public void shouldTransformOneSense() throws Exception {
 		xslt.transform("src/test/resources/oneSense.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("1", "count(//field[text()='bedeutung'])", result);
-		assertXpathExists("//field[text()='Definition.']", result);
+		assertXpathEvaluatesTo("Definition.", "//field[@name='def_text']", result);
 	}
 
-	@Ignore
 	@Test
 	public void shouldTransformTwoSenses() throws Exception {
 		xslt.transform("src/test/resources/twoSenses.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("2", "count(//field[text()='bedeutung'])", result);
-		assertXpathExists("//field[text()='Definition one.']", result);
-		assertXpathExists("//field[text()='Definition two.']", result);
+		assertXpathEvaluatesTo("Definition one.", "//field[@name='def_text'][1]", result);
+		assertXpathEvaluatesTo("Definition two.", "//field[@name='def_text'][2]", result);
+		assertXpathEvaluatesTo(
+				"<div id=\"sense1\" class=\"definition\"><!--start sense1--><span class=\"sense-number\">1. </span>Definition one.<!--end sense1--></div>",
+				"//field[@name='def'][1]", result);
+		assertXpathEvaluatesTo(
+				"<div id=\"sense2\" class=\"definition\"><!--start sense2--><span class=\"sense-number\">2. </span>Definition two.<!--end sense2--></div>",
+				"//field[@name='def'][2]", result);
 	}
 
 	@Test
@@ -165,7 +167,9 @@ public class IndexerTest {
 
 		assertXpathEvaluatesTo("source_11", "//field[@name='definition_source_id']", result);
 		assertXpathEvaluatesTo("source_22", "//field[@name='definition_source_instance']", result);
-		assertXpathEvaluatesTo("<span class=\"quote\" id=\"quote1\"><!--start quote1-->A quote.<!--end quote1--></span>", "//field[@name='zitat']", result);
+		assertXpathEvaluatesTo(
+				"<span class=\"quote\" id=\"quote1\"><!--start quote1-->A quote.<!--end quote1--></span>",
+				"//field[@name='zitat']", result);
 		assertXpathEvaluatesTo("A quote.", "//field[@name='zitat_text']", result);
 	}
 
@@ -174,7 +178,8 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/neblem.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("<span class=\"neblem\"><!--start neblem1-->neblem1, neblem2,<!--end neblem1--></span> ", "//field[@name='neblem'][1]", result);
+		assertXpathEvaluatesTo("<span class=\"neblem\"><!--start neblem1-->neblem1, neblem2,<!--end neblem1--></span> ",
+				"//field[@name='neblem'][1]", result);
 		assertXpathEvaluatesTo("1", "count(//field[@name='neblem'])", result);
 	}
 
@@ -193,8 +198,10 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/neblemAreas.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("<span class=\"neblem\"><!--start neblem1-->neblem1, neblem2,<!--end neblem1--></span> ", "//field[@name='neblem'][1]", result);
-		assertXpathEvaluatesTo("<span class=\"neblem\"><!--start neblem2-->neblemarea2<!--end neblem2--></span> ", "//field[@name='neblem'][2]", result);
+		assertXpathEvaluatesTo("<span class=\"neblem\"><!--start neblem1-->neblem1, neblem2,<!--end neblem1--></span> ",
+				"//field[@name='neblem'][1]", result);
+		assertXpathEvaluatesTo("<span class=\"neblem\"><!--start neblem2-->neblemarea2<!--end neblem2--></span> ",
+				"//field[@name='neblem'][2]", result);
 		assertXpathEvaluatesTo("2", "count(//field[@name='neblem'])", result);
 	}
 
@@ -285,8 +292,8 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/fulltext.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("Müller," + " " + "2: A quote." + " " + "Ärmel." + " ",
-				"//field[@name='artikel_text']", result);
+		assertXpathEvaluatesTo("Müller," + " " + "2: A quote." + " " + "Ärmel." + " ", "//field[@name='artikel_text']",
+				result);
 	}
 
 	@Test
@@ -294,7 +301,8 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/fulltext_spaces.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("mylemma, die. definition. Name, 346, 35 (reg., M. 14. Jh.) A quote. before space after space. line break. ",
+		assertXpathEvaluatesTo(
+				"mylemma, die. definition. Name, 346, 35 (reg., M. 14. Jh.) A quote. before space after space. line break. ",
 				"//field[@name='artikel_text']", result);
 	}
 
@@ -324,7 +332,7 @@ public class IndexerTest {
 
 	@After
 	public void afterEachTest() {
-		 System.out.println(outputBaos.toString());
+		System.out.println(outputBaos.toString());
 	}
 
 	@Test

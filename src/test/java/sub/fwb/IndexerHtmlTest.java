@@ -215,7 +215,7 @@ public class IndexerHtmlTest {
 	@Test
 	public void shouldMakeHtmlQuote() throws Exception {
 		xslt.transform("src/test/resources/html/cite.xml", outputBaos);
-		String html = extractHtmlField(outputBaos.toString(), 2);
+		String html = extractHtmlField(outputBaos.toString(), 1);
 
 		assertXpathExists("//span[@class='quote' and @id='quote1']", html);
 		assertXpathEvaluatesTo("Miller", "//a[@href='/source/source_xyu']", html);
