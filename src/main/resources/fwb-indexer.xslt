@@ -339,8 +339,12 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='stw']" mode="html_fulltext">
+    <xsl:variable name="stwNumber" select="count(preceding::dictScrap[@rend='stw']) + 1" />
+    <xsl:variable name="stwId" select="concat('stw', $stwNumber)" />
     <div class="stw">
+      <xsl:comment>start <xsl:value-of select="$stwId" /></xsl:comment>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+      <xsl:comment>end <xsl:value-of select="$stwId" /></xsl:comment>
     </div>
   </xsl:template>
 
@@ -506,9 +510,16 @@
         </field>
       </xsl:if>
       <xsl:if test="dictScrap[@rend='stw']">
-        <field name="swt">
-          <xsl:value-of select="dictScrap[@rend='stw']" />
-        </field>
+        <xsl:for-each select="dictScrap[@rend='stw']">
+          <field name="stw">
+            <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+            <xsl:apply-templates select="." mode="html_fulltext" />
+            <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+          </field>
+          <field name="stw_text">
+            <xsl:value-of select="." />
+          </field>
+        </xsl:for-each>
       </xsl:if>
       <xsl:if test="dictScrap[@rend='wbg']">
         <field name="wbg">

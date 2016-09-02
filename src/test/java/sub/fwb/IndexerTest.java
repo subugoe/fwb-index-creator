@@ -264,11 +264,23 @@ public class IndexerTest {
 	}
 
 	@Test
+	public void shouldAddTwoSymptomValues() throws Exception {
+		xslt.transform("src/test/resources/sense_symptomValuesTwo.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("2", "count(//field[@name='stw'])", result);
+		assertXpathEvaluatesTo("<div class=\"stw\"><!--start stw1-->This is a symptom value.<!--end stw1--></div>",
+				"//field[@name='stw'][1]", result);
+		assertXpathEvaluatesTo("<div class=\"stw\"><!--start stw2-->Second symptom value.<!--end stw2--></div>",
+				"//field[@name='stw'][2]", result);
+	}
+
+	@Test
 	public void shouldAddSymptomValue() throws Exception {
 		xslt.transform("src/test/resources/sense_symptomValue.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathExists("//field[@name='swt']", result);
+		assertXpathExists("//field[@name='stw']", result);
 	}
 
 	@Test
