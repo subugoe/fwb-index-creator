@@ -363,11 +363,15 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='wbg']" mode="html_fulltext">
+    <xsl:variable name="wbgNumber" select="count(preceding::dictScrap[@rend='wbg']) + 1" />
+    <xsl:variable name="wbgId" select="concat('wbg', $wbgNumber)" />
     <div class="wbg">
+      <xsl:comment>start <xsl:value-of select="$wbgId" /></xsl:comment>
       <span class="wbg-begin">
         <xsl:text>Wortbildungen: </xsl:text>
       </span>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+      <xsl:comment>end <xsl:value-of select="$wbgId" /></xsl:comment>
     </div>
   </xsl:template>
 
@@ -508,6 +512,11 @@
       </xsl:if>
       <xsl:if test="dictScrap[@rend='wbg']">
         <field name="wbg">
+          <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+          <xsl:apply-templates select="dictScrap[@rend='wbg']" mode="html_fulltext" />
+          <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+        </field>
+        <field name="wbg_text">
           <xsl:value-of select="dictScrap[@rend='wbg']" />
         </field>
       </xsl:if>

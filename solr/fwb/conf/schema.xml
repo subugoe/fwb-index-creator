@@ -73,6 +73,7 @@
     <field name="synt" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="swt" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="wbg" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="wbg_text" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="wbv" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
 
     <!-- Bibliographie -->
