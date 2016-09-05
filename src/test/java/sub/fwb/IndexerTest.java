@@ -154,10 +154,8 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/relatedArticles.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("2", "count(//field[@name='bdv_id'])", result);
-		assertXpathEvaluatesTo("2", "count(//field[@name='bdv'])", result);
-		assertXpathEvaluatesTo("related_id_1", "//field[@name='bdv_id'][1]", result);
-		assertXpathEvaluatesTo("lemma2", "//field[@name='bdv'][2]", result);
+		assertXpathEvaluatesTo("1", "count(//field[@name='bdv'])", result);
+		assertXpathEvaluatesTo("lemma1 lemma2", "//field[@name='bdv_text']", result);
 	}
 
 	@Test
@@ -236,7 +234,7 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/sense_saying.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("This is a saying.", "//field[@name='phras']", result);
+		assertXpathEvaluatesTo("This is a saying.", "//field[@name='phras_text']", result);
 	}
 
 	@Test
@@ -244,7 +242,8 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/sense_sayingAndPhraseme.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("This is a saying. This is a phraseme.", "//field[@name='phras']", result);
+		assertXpathEvaluatesTo("This is a phraseme.", "//field[@name='phras_text'][1]", result);
+		assertXpathEvaluatesTo("This is a saying.", "//field[@name='phras_text'][2]", result);
 	}
 
 	@Test
@@ -252,7 +251,7 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/sense_relatedReference.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathExists("//field[@name='zursache']", result);
+		assertXpathEvaluatesTo("some name 1, 41–43 (s. v. lemma).", "//field[@name='zursache_text']", result);
 	}
 
 	@Test
@@ -288,7 +287,7 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/sense_wordFormation.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathExists("//field[@name='wbg']", result);
+		assertXpathEvaluatesTo("formation ›meaning‹.", "//field[@name='wbg_text']", result);
 	}
 
 	@Test

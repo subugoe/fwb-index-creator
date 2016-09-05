@@ -56,7 +56,7 @@ public class SolrState {
 		solrQuery.setRequestHandler(requestHandler);
 		solrQuery.set("fl", "lemma,score");
 		solrQuery.set("rows", "500");
-		solrQuery.set("hl.fl", "artikel_text,zitat,zitat_text");
+		solrQuery.set("hl.fl", "artikel_text,zitat,zitat_text,bdv");
 		for (String[] parameter : extraParams) {
 			solrQuery.set(parameter[0], parameter[1]);
 		}

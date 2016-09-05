@@ -183,11 +183,15 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='phras']" mode="html_fulltext">
+    <xsl:variable name="phrasNr" select="count(preceding::dictScrap[@rend='phras']) + 1" />
+    <xsl:variable name="phrasId" select="concat('phras',$phrasNr)" />
     <div class="phras">
+      <xsl:comment>start <xsl:value-of select="$phrasId" /></xsl:comment>
       <span class="phras-begin">
         <xsl:text>Phraseme: </xsl:text>
       </span>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+      <xsl:comment>end <xsl:value-of select="$phrasId" /></xsl:comment>
     </div>
   </xsl:template>
 
@@ -201,11 +205,15 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='ra']" mode="html_fulltext">
+    <xsl:variable name="raNr" select="count(preceding::dictScrap[@rend='ra']) + 1" />
+    <xsl:variable name="raId" select="concat('ra',$raNr)" />
     <div class="redensart">
+      <xsl:comment>start <xsl:value-of select="$raId" /></xsl:comment>
       <span class="redensart-begin">
         <xsl:text>Redensart: </xsl:text>
       </span>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+      <xsl:comment>end <xsl:value-of select="$raId" /></xsl:comment>
     </div>
   </xsl:template>
 
@@ -349,11 +357,15 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='bdv']" mode="html_fulltext">
+    <xsl:variable name="bdvNumber" select="count(preceding::dictScrap[@rend='bdv']) + 1" />
+    <xsl:variable name="bdvId" select="concat('bdv', $bdvNumber)" />
     <div class="bdv">
+      <xsl:comment>start <xsl:value-of select="$bdvId" /></xsl:comment>
       <span class="bdv-begin">
         <xsl:text>Bedeutungsverwandt: </xsl:text>
       </span>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+      <xsl:comment>end <xsl:value-of select="$bdvId" /></xsl:comment>
     </div>
   </xsl:template>
 
@@ -389,11 +401,15 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='ref']" mode="html_fulltext">
+    <xsl:variable name="refNumber" select="count(preceding::dictScrap[@rend='ref']) + 1" />
+    <xsl:variable name="refId" select="concat('zursache', $refNumber)" />
     <div class="dict-ref">
+      <xsl:comment>start <xsl:value-of select="$refId" /></xsl:comment>
       <span class="dict-ref-begin">
         <xsl:text>Zur Sache: </xsl:text>
       </span>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+      <xsl:comment>end <xsl:value-of select="$refId" /></xsl:comment>
     </div>
   </xsl:template>
 
@@ -468,86 +484,92 @@
 
 
   <xsl:template match="sense">
-    <xsl:variable name="currentSenseId" select="count(preceding-sibling::sense) + 1" />
-    <!--doc>
-      <field name="type">bedeutung</field>
-      <field name="id">
-        <xsl:value-of select="$currentArticleId" />
-        <xsl:text>_</xsl:text>
-        <xsl:value-of select="$currentSenseId" />
-      </field>
-      <field name="ref_id">
-        <xsl:value-of select="$currentArticleId" />
-      </field>
-      <field name="sense_number">
-        <xsl:value-of select="$currentSenseId" />
-      </field-->
-      <field name="def">
-        <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
-        <xsl:apply-templates select="def" mode="html_fulltext" />
-        <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
-      </field>
-      <field name="def_text">
-        <xsl:value-of select="def" />
-      </field>
-      <xsl:apply-templates select="dictScrap[@rend='bdv']/ref" />
+      <xsl:apply-templates select="def" />
+      <xsl:apply-templates select="dictScrap[@rend='bdv']" />
       <xsl:apply-templates select="dictScrap[@rend='sv']/ref" />
       <xsl:apply-templates select="dictScrap[@rend='ggs']/ref" />
       <xsl:apply-templates select=".//cit" />
-      <xsl:if test="dictScrap[@rend='phras' or @rend='ra']">
-        <field name="phras">
-          <xsl:value-of select="dictScrap[@rend='phras' or @rend='ra']" />
-        </field>
-      </xsl:if>
-      <xsl:if test="dictScrap[@rend='ref']">
-        <field name="zursache">
-          <xsl:value-of select="dictScrap[@rend='ref']" />
-        </field>
-      </xsl:if>
       <xsl:if test="dictScrap[@rend='synt']">
         <field name="synt">
           <xsl:value-of select="dictScrap[@rend='synt']" />
         </field>
       </xsl:if>
-      <xsl:if test="dictScrap[@rend='stw']">
-        <xsl:for-each select="dictScrap[@rend='stw']">
-          <field name="stw">
-            <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
-            <xsl:apply-templates select="." mode="html_fulltext" />
-            <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
-          </field>
-          <field name="stw_text">
-            <xsl:value-of select="." />
-          </field>
-        </xsl:for-each>
-      </xsl:if>
-      <xsl:if test="dictScrap[@rend='wbg']">
-        <field name="wbg">
-          <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
-          <xsl:apply-templates select="dictScrap[@rend='wbg']" mode="html_fulltext" />
-          <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
-        </field>
-        <field name="wbg_text">
-          <xsl:value-of select="dictScrap[@rend='wbg']" />
-        </field>
-      </xsl:if>
+      <xsl:apply-templates select="dictScrap[@rend='phras']" />
+      <xsl:apply-templates select="dictScrap[@rend='ra']" />
+      <xsl:apply-templates select="dictScrap[@rend='stw']" />
+      <xsl:apply-templates select="dictScrap[@rend='ref']" />
+      <xsl:apply-templates select="dictScrap[@rend='wbg']" />
       <xsl:if test="dictScrap[@rend='wbv']">
         <field name="wbv">
           <xsl:value-of select="dictScrap[@rend='wbv']" />
         </field>
       </xsl:if>
-    <!--/doc-->
   </xsl:template>
 
-  <xsl:template match="dictScrap[@rend='bdv']/ref">
-    <xsl:if test="not(number(.))">
-      <field name="bdv_id">
-        <xsl:value-of select="@target" />
-      </field>
-      <field name="bdv">
-        <xsl:value-of select="." />
-      </field>
-    </xsl:if>
+  <xsl:template match="def">
+    <field name="def">
+      <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+      <xsl:apply-templates select="." mode="html_fulltext" />
+      <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+    </field>
+    <field name="def_text">
+      <xsl:value-of select="." />
+    </field>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='stw']">
+    <field name="stw">
+      <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+      <xsl:apply-templates select="." mode="html_fulltext" />
+      <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+    </field>
+    <field name="stw_text">
+      <xsl:value-of select="." />
+    </field>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='phras' or @rend='ra']">
+    <field name="phras">
+      <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+      <xsl:apply-templates select="." mode="html_fulltext" />
+      <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+    </field>
+    <field name="phras_text">
+      <xsl:value-of select="." />
+    </field>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='ref']">
+    <field name="zursache">
+      <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+      <xsl:apply-templates select="." mode="html_fulltext" />
+      <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+    </field>
+    <field name="zursache_text">
+      <xsl:value-of select="." />
+    </field>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='wbg']">
+    <field name="wbg">
+      <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+      <xsl:apply-templates select="." mode="html_fulltext" />
+      <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+    </field>
+    <field name="wbg_text">
+      <xsl:value-of select="." />
+    </field>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='bdv']">
+    <field name="bdv">
+      <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+      <xsl:apply-templates select="." mode="html_fulltext" />
+      <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+    </field>
+    <field name="bdv_text">
+      <xsl:value-of select="ref" />
+    </field>
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='sv']/ref">

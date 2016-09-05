@@ -29,6 +29,19 @@ public class EmbeddedSolrTest {
 		solr.printResults();
 	}
 
+
+	// @Test
+	public void shouldHighlightBdv() throws Exception {
+		String[][] doc = { { "bdv", "bla</span>" }, { "artikel", "<span>bla</span>" } };
+		solr.addDocument(doc);
+
+		String[][] extraParams = { { "hl.q", "bdv:bla" } };
+		solr.askByQuery(extraParams, "bdv:bla", "/selecthl");
+
+		assertEquals(1, results());
+		assertHighlighted("bdv", "bla");
+	}
+
 	@Test
 	public void shouldRemoveDash() throws Exception {
 		String[][] doc = { { "artikel", "legatar(-ius)" } };
