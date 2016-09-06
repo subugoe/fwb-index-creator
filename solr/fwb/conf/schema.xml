@@ -66,6 +66,7 @@
     <field name="bdv_text" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
 
     <field name="subvoce" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="subvoce_text" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="sense_subvoce_exact" type="text_de_exact" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="ggs" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="ggs_text" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
@@ -75,11 +76,13 @@
     <field name="zursache" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="zursache_text" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="synt" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="synt_text" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="stw" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="stw_text" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="wbg" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="wbg_text" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="wbv" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="wbv_text" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
 
     <!-- Bibliographie -->
     <field name="source_page" type="string" indexed="true" stored="true" required="false" multiValued="false" />

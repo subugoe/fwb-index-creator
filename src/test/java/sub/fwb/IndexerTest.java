@@ -155,7 +155,7 @@ public class IndexerTest {
 		String result = outputBaos.toString();
 
 		assertXpathEvaluatesTo("1", "count(//field[@name='bdv'])", result);
-		assertXpathEvaluatesTo("lemma1 lemma2", "//field[@name='bdv_text']", result);
+		assertXpathEvaluatesTo("lemma1, lemma2", "//field[@name='bdv_text']", result);
 	}
 
 	@Test
@@ -208,8 +208,7 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/sense_subvoce.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("sub1", "//field[@name='subvoce'][1]", result);
-		assertXpathEvaluatesTo("", "//field[@name='subvoce'][2]", result);
+		assertXpathEvaluatesTo("Vgl. ferner s. v. sub1, 3.", "//field[@name='subvoce_text']", result);
 	}
 
 	@Test
@@ -225,8 +224,7 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/sense_ggs.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("ggs1", "//field[@name='ggs'][1]", result);
-		assertXpathEvaluatesTo("", "//field[@name='ggs'][2]", result);
+		assertXpathEvaluatesTo("ggs1, 4.", "//field[@name='ggs_text']", result);
 	}
 
 	@Test
@@ -259,7 +257,7 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/sense_syntagma.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathExists("//field[@name='synt']", result);
+		assertXpathEvaluatesTo("this is a syntagma", "//field[@name='synt_text']", result);
 	}
 
 	@Test
@@ -295,7 +293,7 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/sense_wordFormation.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathExists("//field[@name='wbv']", result);
+		assertXpathEvaluatesTo("vgl. lemma.", "//field[@name='wbv_text']", result);
 	}
 
 	@Test

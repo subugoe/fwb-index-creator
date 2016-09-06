@@ -196,11 +196,15 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='ggs']" mode="html_fulltext">
+    <xsl:variable name="ggsNr" select="count(preceding::dictScrap[@rend='ggs']) + 1" />
+    <xsl:variable name="ggsId" select="concat('ggs',$ggsNr)" />
     <div class="ggs">
+      <xsl:comment>start <xsl:value-of select="$ggsId" /></xsl:comment>
       <span class="ggs-begin">
         <xsl:text>Gegensätze: </xsl:text>
       </span>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+      <xsl:comment>end <xsl:value-of select="$ggsId" /></xsl:comment>
     </div>
   </xsl:template>
 
@@ -338,8 +342,12 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='wbv']" mode="html_fulltext_once">
+    <xsl:variable name="wbvNumber" select="count(preceding::dictScrap[@rend='wbv']) + 1" />
+    <xsl:variable name="wbvId" select="concat('wbv', $wbvNumber)" />
     <span class="wbv">
+      <xsl:comment>start <xsl:value-of select="$wbvId" /></xsl:comment>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+      <xsl:comment>end <xsl:value-of select="$wbvId" /></xsl:comment>
     </span>
   </xsl:template>
 
@@ -370,11 +378,15 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='synt']" mode="html_fulltext">
+    <xsl:variable name="syntNumber" select="count(preceding::dictScrap[@rend='synt']) + 1" />
+    <xsl:variable name="syntId" select="concat('synt', $syntNumber)" />
     <div class="synt">
+      <xsl:comment>start <xsl:value-of select="$syntId" /></xsl:comment>
       <span class="synt-begin">
         <xsl:text>Syntagmen: </xsl:text>
       </span>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+      <xsl:comment>end <xsl:value-of select="$syntId" /></xsl:comment>
     </div>
   </xsl:template>
 
@@ -414,11 +426,15 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='sv']" mode="html_fulltext">
+    <xsl:variable name="svNumber" select="count(preceding::dictScrap[@rend='sv']) + 1" />
+    <xsl:variable name="svId" select="concat('subvoce', $svNumber)" />
     <div class="subvoce">
+      <xsl:comment>start <xsl:value-of select="$svId" /></xsl:comment>
       <span class="subvoce-begin">
         <xsl:text>‒ </xsl:text>
       </span>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+      <xsl:comment>end <xsl:value-of select="$svId" /></xsl:comment>
     </div>
   </xsl:template>
 
@@ -486,24 +502,16 @@
   <xsl:template match="sense">
       <xsl:apply-templates select="def" />
       <xsl:apply-templates select="dictScrap[@rend='bdv']" />
-      <xsl:apply-templates select="dictScrap[@rend='sv']/ref" />
-      <xsl:apply-templates select="dictScrap[@rend='ggs']/ref" />
+      <xsl:apply-templates select="dictScrap[@rend='sv']" />
+      <xsl:apply-templates select="dictScrap[@rend='ggs']" />
       <xsl:apply-templates select=".//cit" />
-      <xsl:if test="dictScrap[@rend='synt']">
-        <field name="synt">
-          <xsl:value-of select="dictScrap[@rend='synt']" />
-        </field>
-      </xsl:if>
+      <xsl:apply-templates select="dictScrap[@rend='synt']" />
       <xsl:apply-templates select="dictScrap[@rend='phras']" />
       <xsl:apply-templates select="dictScrap[@rend='ra']" />
       <xsl:apply-templates select="dictScrap[@rend='stw']" />
       <xsl:apply-templates select="dictScrap[@rend='ref']" />
       <xsl:apply-templates select="dictScrap[@rend='wbg']" />
-      <xsl:if test="dictScrap[@rend='wbv']">
-        <field name="wbv">
-          <xsl:value-of select="dictScrap[@rend='wbv']" />
-        </field>
-      </xsl:if>
+      <xsl:apply-templates select="dictScrap[@rend='wbv']" />
   </xsl:template>
 
   <xsl:template match="def">
@@ -513,6 +521,28 @@
       <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
     </field>
     <field name="def_text">
+      <xsl:value-of select="." />
+    </field>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='synt']">
+    <field name="synt">
+      <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+      <xsl:apply-templates select="." mode="html_fulltext" />
+      <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+    </field>
+    <field name="synt_text">
+      <xsl:value-of select="." />
+    </field>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='wbv']">
+    <field name="wbv">
+      <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+      <xsl:apply-templates select="." mode="html_fulltext_once" />
+      <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+    </field>
+    <field name="wbv_text">
       <xsl:value-of select="." />
     </field>
   </xsl:template>
@@ -568,24 +598,30 @@
       <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
     </field>
     <field name="bdv_text">
-      <xsl:value-of select="ref" />
+      <xsl:value-of select="." />
     </field>
   </xsl:template>
 
-  <xsl:template match="dictScrap[@rend='sv']/ref">
-    <xsl:if test="not(number(.))">
-      <field name="subvoce">
-        <xsl:value-of select="." />
-      </field>
-    </xsl:if>
+  <xsl:template match="dictScrap[@rend='ggs']">
+    <field name="ggs">
+      <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+      <xsl:apply-templates select="." mode="html_fulltext" />
+      <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+    </field>
+    <field name="ggs_text">
+      <xsl:value-of select="." />
+    </field>
   </xsl:template>
 
-  <xsl:template match="dictScrap[@rend='ggs']/ref">
-    <xsl:if test="not(number(.))">
-      <field name="ggs">
-        <xsl:value-of select="." />
-      </field>
-    </xsl:if>
+  <xsl:template match="dictScrap[@rend='sv']">
+    <field name="subvoce">
+      <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+      <xsl:apply-templates select="." mode="html_fulltext" />
+      <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+    </field>
+    <field name="subvoce_text">
+      <xsl:value-of select="." />
+    </field>
   </xsl:template>
 
   <xsl:template match="cit[quote]">
@@ -609,40 +645,5 @@
       <xsl:value-of select="./bibl/name/@n" />
     </field>
   </xsl:template>
-
-  <xsl:function name="fwb:print-html-with-spans">
-    <xsl:param name="left" />
-    <xsl:param name="right" />
-    <xsl:if test="$right!=''">
-      <div>
-        <span class="column-left">
-          <xsl:value-of select="$left" />
-        </span>
-        <span class="column-right">
-          <xsl:value-of select="$right" />
-        </span>
-      </div>
-    </xsl:if>
-  </xsl:function>
-
-  <xsl:function name="fwb:print-html-with-link">
-    <xsl:param name="left" />
-    <xsl:param name="right" />
-    <xsl:if test="$right!=''">
-      <div>
-        <span class="column-left">
-          <xsl:value-of select="$left" />
-        </span>
-        <span class="column-right">
-          <a>
-            <xsl:attribute name="href">
-              <xsl:value-of select="$right" />
-            </xsl:attribute>
-            <xsl:value-of select="$right" />
-          </a>
-        </span>
-      </div>
-    </xsl:if>
-  </xsl:function>
 
 </xsl:stylesheet>
