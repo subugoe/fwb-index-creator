@@ -69,6 +69,14 @@ public class SolrTester {
 	}
 
 	@Test
+	public void dollarSignInKindeln() throws Exception {
+		String[][] extraparams = { { "hl.q", "kindeln"} };
+		solr.askByQuery(extraparams, "internal_id:kindeln.s.3v", "/article-hl");
+		// This used to lead to an exception in Matcher class
+		assertEquals(1, results());
+	}
+
+	@Test
 	public void maxClauseCountOver1024() throws Exception {
 
 		solr.askByQuery("artikel_text:*e*", "/selecthl");
