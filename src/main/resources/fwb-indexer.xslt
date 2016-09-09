@@ -85,13 +85,9 @@
     </field>
     <xsl:apply-templates select="dictScrap[@rend='artkopf']/form[@type='neblem']" />
     <xsl:variable name="neblemAreas" select="dictScrap[@rend='artkopf']/form[@type='neblem']/orth" />
-    <xsl:for-each select="$neblemAreas">
-        <xsl:if test=". != ''">
-          <field name="neblem_text">
-            <xsl:value-of select="." />
-          </field>
-        </xsl:if>
-    </xsl:for-each>
+    <field name="neblem_text">
+      <xsl:value-of select="$neblemAreas" />
+    </field>
     <field name="is_reference">
       <xsl:value-of select="not(sense)" />
     </field>

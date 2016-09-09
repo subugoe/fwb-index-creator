@@ -186,9 +186,8 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/neblemAreas.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("neblem1, neblem2,", "//field[@name='neblem_text'][1]", result);
-		assertXpathEvaluatesTo("neblemarea2", "//field[@name='neblem_text'][2]", result);
-		assertXpathEvaluatesTo("2", "count(//field[@name='neblem_text'])", result);
+		assertXpathEvaluatesTo("neblem1, neblem2, neblemarea2", "//field[@name='neblem_text'][1]", result);
+		assertXpathEvaluatesTo("1", "count(//field[@name='neblem_text'])", result);
 	}
 
 	@Test
