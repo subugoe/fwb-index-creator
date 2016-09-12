@@ -224,6 +224,7 @@ public class EmbeddedSolrTest {
 
 	private void assertHighlighted(boolean forReal, String fieldName, String... words) {
 		String hlText = solr.getHighlightings().get("1234").get(fieldName).get(0);
+		// System.out.println(hlText);
 		for (String word : words) {
 			String hlWord = "<em>" + word + "</em>";
 			if (forReal) {

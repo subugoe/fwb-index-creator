@@ -29,9 +29,9 @@ public class TeiHtmlComparator {
 		solrString = solrString.replaceAll("\n\\s*", "");
 
 		solrString = extract("<field name=\"artikel\"><!\\[CDATA\\[(.*?)\\]\\]>", solrString);
-		solrString = solrString.replaceAll("<span class=\"sense-number\">.*?</span>", "");
-		solrString = solrString.replaceAll("<span class=\"subvoce-begin\">.*?</span>", "");
-		solrString = solrString.replaceAll("<span class=\"homonym\">.*?</span>", "");
+		solrString = solrString.replaceAll("<div class=\"sense-number\">.*?</div>", "");
+		solrString = solrString.replaceAll("<div class=\"subvoce-begin\">.*?</div>", "");
+		solrString = solrString.replaceAll("<div class=\"homonym\">.*?</div>", "");
 		solrString = solrString.replace("> <", "");
 		solrString = solrString.replaceAll(
 				"(Bedeutungsverwandt: |Syntagmen: |Quellenzitate: |Belegstellenangaben: |Gegensätze: |Phraseme: |Wortbildungen: |Zur Sache: |Redensart: )",

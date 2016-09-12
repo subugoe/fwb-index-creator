@@ -142,10 +142,10 @@ public class IndexerTest {
 		assertXpathEvaluatesTo("Definition one.", "//field[@name='def_text'][1]", result);
 		assertXpathEvaluatesTo("Definition two.", "//field[@name='def_text'][2]", result);
 		assertXpathEvaluatesTo(
-				"<div id=\"sense1\" class=\"definition\"><!--start sense1--><span class=\"sense-number\">1. </span>Definition one.<!--end sense1--></div>",
+				"<div id=\"sense1\" class=\"definition\"><!--start sense1--><div class=\"sense-number\">1. </div>Definition one.<!--end sense1--></div>",
 				"//field[@name='def'][1]", result);
 		assertXpathEvaluatesTo(
-				"<div id=\"sense2\" class=\"definition\"><!--start sense2--><span class=\"sense-number\">2. </span>Definition two.<!--end sense2--></div>",
+				"<div id=\"sense2\" class=\"definition\"><!--start sense2--><div class=\"sense-number\">2. </div>Definition two.<!--end sense2--></div>",
 				"//field[@name='def'][2]", result);
 	}
 
@@ -166,7 +166,7 @@ public class IndexerTest {
 		assertXpathEvaluatesTo("source_11", "//field[@name='definition_source_id']", result);
 		assertXpathEvaluatesTo("source_22", "//field[@name='definition_source_instance']", result);
 		assertXpathEvaluatesTo(
-				"<span class=\"quote\" id=\"quote1\"><!--start quote1-->A quote.<!--end quote1--></span>",
+				"<div class=\"quote\" id=\"quote1\"><!--start quote1-->A quote.<!--end quote1--></div>",
 				"//field[@name='zitat']", result);
 		assertXpathEvaluatesTo("A quote.", "//field[@name='zitat_text']", result);
 	}
@@ -176,7 +176,7 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/neblem.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("<span class=\"neblem\"><!--start neblem1-->neblem1, neblem2,<!--end neblem1--></span> ",
+		assertXpathEvaluatesTo("<div class=\"neblem\"><!--start neblem1-->neblem1, neblem2,<!--end neblem1--></div> ",
 				"//field[@name='neblem'][1]", result);
 		assertXpathEvaluatesTo("1", "count(//field[@name='neblem'])", result);
 	}
@@ -195,9 +195,9 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/neblemAreas.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("<span class=\"neblem\"><!--start neblem1-->neblem1, neblem2,<!--end neblem1--></span> ",
+		assertXpathEvaluatesTo("<div class=\"neblem\"><!--start neblem1-->neblem1, neblem2,<!--end neblem1--></div> ",
 				"//field[@name='neblem'][1]", result);
-		assertXpathEvaluatesTo("<span class=\"neblem\"><!--start neblem2-->neblemarea2<!--end neblem2--></span> ",
+		assertXpathEvaluatesTo("<div class=\"neblem\"><!--start neblem2-->neblemarea2<!--end neblem2--></div> ",
 				"//field[@name='neblem'][2]", result);
 		assertXpathEvaluatesTo("2", "count(//field[@name='neblem'])", result);
 	}
@@ -340,7 +340,7 @@ public class IndexerTest {
 
 	@After
 	public void afterEachTest() {
-		System.out.println(outputBaos.toString());
+		// System.out.println(outputBaos.toString());
 	}
 
 	@Test

@@ -3,7 +3,7 @@
   xpath-default-namespace="http://www.tei-c.org/ns/1.0" xmlns:fwb="http://sub.fwb.de"
   xmlns:saxon="http://saxon.sf.net/" exclude-result-prefixes="fwb">
 
-  <xsl:output method="xml" indent="yes" saxon:suppress-indentation="div span a" />
+  <xsl:output method="xml" indent="yes" saxon:suppress-indentation="div a" />
   <xsl:strip-space elements="*" />
 
   <xsl:param name="previousArticleId" />
@@ -153,9 +153,9 @@
     <xsl:variable name="homonym" select="ancestor::entry/@n" />
     <div class="lemma">
       <xsl:if test="$homonym">
-        <span class="homonym">
+        <div class="homonym">
           <xsl:value-of select="$homonym" />
-        </span>
+        </div>
       </xsl:if>
       <xsl:value-of select="orth" />
     </div>
@@ -164,11 +164,11 @@
   <xsl:template match="form[@type='neblem']" mode="html_fulltext">
     <xsl:variable name="neblemNr" select="count(preceding::form[@type='neblem']) + 1" />
     <xsl:variable name="neblemId" select="concat('neblem',$neblemNr)" />
-    <span class="neblem">
+    <div class="neblem">
       <xsl:comment>start <xsl:value-of select="$neblemId" /></xsl:comment>
       <xsl:value-of select="orth" />
       <xsl:comment>end <xsl:value-of select="$neblemId" /></xsl:comment>
-    </span>
+    </div>
     <xsl:text> </xsl:text>
   </xsl:template>
 
@@ -183,9 +183,9 @@
     <xsl:variable name="phrasId" select="concat('phras',$phrasNr)" />
     <div class="phras">
       <xsl:comment>start <xsl:value-of select="$phrasId" /></xsl:comment>
-      <span class="phras-begin">
+      <div class="phras-begin">
         <xsl:text>Phraseme: </xsl:text>
-      </span>
+      </div>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
       <xsl:comment>end <xsl:value-of select="$phrasId" /></xsl:comment>
     </div>
@@ -196,9 +196,9 @@
     <xsl:variable name="ggsId" select="concat('ggs',$ggsNr)" />
     <div class="ggs">
       <xsl:comment>start <xsl:value-of select="$ggsId" /></xsl:comment>
-      <span class="ggs-begin">
+      <div class="ggs-begin">
         <xsl:text>Gegensätze: </xsl:text>
-      </span>
+      </div>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
       <xsl:comment>end <xsl:value-of select="$ggsId" /></xsl:comment>
     </div>
@@ -209,9 +209,9 @@
     <xsl:variable name="raId" select="concat('ra',$raNr)" />
     <div class="redensart">
       <xsl:comment>start <xsl:value-of select="$raId" /></xsl:comment>
-      <span class="redensart-begin">
+      <div class="redensart-begin">
         <xsl:text>Redensart: </xsl:text>
-      </span>
+      </div>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
       <xsl:comment>end <xsl:value-of select="$raId" /></xsl:comment>
     </div>
@@ -222,45 +222,45 @@
   </xsl:template>
 
   <xsl:template match="hi[@rendition='it']" mode="html_fulltext">
-    <span class="italic">
+    <div class="italic">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
-    </span>
+    </div>
   </xsl:template>
 
   <xsl:template match="hi[@rendition='hoch']" mode="html_fulltext">
-    <span class="higher-and-smaller">
+    <div class="higher-and-smaller">
       <xsl:value-of select="." />
-    </span>
+    </div>
   </xsl:template>
 
   <xsl:template match="hi[@rendition='tief']" mode="html_fulltext">
-    <span class="deep">
+    <div class="deep">
       <xsl:value-of select="." />
-    </span>
+    </div>
   </xsl:template>
 
   <xsl:template match="hi[@rendition='rect']" mode="html_fulltext">
-    <span class="rect">
+    <div class="rect">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
-    </span>
+    </div>
   </xsl:template>
 
   <xsl:template match="hi[@rendition='sc']" mode="html_fulltext">
-    <span class="small-capitals">
+    <div class="small-capitals">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
-    </span>
+    </div>
   </xsl:template>
 
   <xsl:template match="hi[@rendition='b']" mode="html_fulltext">
-    <span class="bold">
+    <div class="bold">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
-    </span>
+    </div>
   </xsl:template>
 
   <xsl:template match="hi[@rendition='wide']" mode="html_fulltext">
-    <span class="wide">
+    <div class="wide">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
-    </span>
+    </div>
   </xsl:template>
 
   <xsl:template match="lb" mode="html_fulltext">
@@ -268,15 +268,15 @@
   </xsl:template>
 
   <xsl:template match="gram[@type='wortart']" mode="html_fulltext">
-    <span class="type-of-word">
+    <div class="type-of-word">
       <xsl:value-of select="." />
-    </span>
+    </div>
   </xsl:template>
 
   <xsl:template match="gram[@type='flex']" mode="html_fulltext">
-    <span class="flex">
+    <div class="flex">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
-    </span>
+    </div>
   </xsl:template>
 
   <xsl:template match="oRef" mode="html_fulltext">
@@ -300,11 +300,11 @@
         </a>
       </xsl:when>
       <xsl:otherwise>
-        <span class="italic">
+        <div class="italic">
           <a href="{@target}">
             <xsl:value-of select="." />
           </a>
-        </span>
+        </div>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -325,10 +325,10 @@
     <div id="{$senseAnchor}" class="definition">
       <xsl:comment>start <xsl:value-of select="$senseAnchor" /></xsl:comment>
       <xsl:if test="count(//sense) gt 1">
-        <span class="sense-number">
+        <div class="sense-number">
           <xsl:value-of select="$senseNumber" />
           <xsl:text>. </xsl:text>
-        </span>
+        </div>
       </xsl:if>
       <xsl:apply-templates select="text()|*" mode="html_fulltext" />
       <xsl:apply-templates select="following-sibling::dictScrap[@rend='wbv']"
@@ -340,11 +340,11 @@
   <xsl:template match="dictScrap[@rend='wbv']" mode="html_fulltext_once">
     <xsl:variable name="wbvNumber" select="count(preceding::dictScrap[@rend='wbv']) + 1" />
     <xsl:variable name="wbvId" select="concat('wbv', $wbvNumber)" />
-    <span class="wbv">
+    <div class="wbv">
       <xsl:comment>start <xsl:value-of select="$wbvId" /></xsl:comment>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
       <xsl:comment>end <xsl:value-of select="$wbvId" /></xsl:comment>
-    </span>
+    </div>
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='wbv']" mode="html_fulltext">
@@ -365,9 +365,9 @@
     <xsl:variable name="bdvId" select="concat('bdv', $bdvNumber)" />
     <div class="bdv">
       <xsl:comment>start <xsl:value-of select="$bdvId" /></xsl:comment>
-      <span class="bdv-begin">
+      <div class="bdv-begin">
         <xsl:text>Bedeutungsverwandt: </xsl:text>
-      </span>
+      </div>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
       <xsl:comment>end <xsl:value-of select="$bdvId" /></xsl:comment>
     </div>
@@ -378,9 +378,9 @@
     <xsl:variable name="syntId" select="concat('synt', $syntNumber)" />
     <div class="synt">
       <xsl:comment>start <xsl:value-of select="$syntId" /></xsl:comment>
-      <span class="synt-begin">
+      <div class="synt-begin">
         <xsl:text>Syntagmen: </xsl:text>
-      </span>
+      </div>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
       <xsl:comment>end <xsl:value-of select="$syntId" /></xsl:comment>
     </div>
@@ -391,9 +391,9 @@
     <xsl:variable name="wbgId" select="concat('wbg', $wbgNumber)" />
     <div class="wbg">
       <xsl:comment>start <xsl:value-of select="$wbgId" /></xsl:comment>
-      <span class="wbg-begin">
+      <div class="wbg-begin">
         <xsl:text>Wortbildungen: </xsl:text>
-      </span>
+      </div>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
       <xsl:comment>end <xsl:value-of select="$wbgId" /></xsl:comment>
     </div>
@@ -401,9 +401,9 @@
 
   <xsl:template match="dictScrap[@rend='cit']" mode="html_fulltext">
     <div class="citations">
-      <span class="citations-begin">
+      <div class="citations-begin">
         <xsl:text>Quellenzitate: </xsl:text>
-      </span>
+      </div>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
   </xsl:template>
@@ -413,9 +413,9 @@
     <xsl:variable name="refId" select="concat('zursache', $refNumber)" />
     <div class="dict-ref">
       <xsl:comment>start <xsl:value-of select="$refId" /></xsl:comment>
-      <span class="dict-ref-begin">
+      <div class="dict-ref-begin">
         <xsl:text>Zur Sache: </xsl:text>
-      </span>
+      </div>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
       <xsl:comment>end <xsl:value-of select="$refId" /></xsl:comment>
     </div>
@@ -426,9 +426,9 @@
     <xsl:variable name="svId" select="concat('subvoce', $svNumber)" />
     <div class="subvoce">
       <xsl:comment>start <xsl:value-of select="$svId" /></xsl:comment>
-      <span class="subvoce-begin">
+      <div class="subvoce-begin">
         <xsl:text>‒ </xsl:text>
-      </span>
+      </div>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
       <xsl:comment>end <xsl:value-of select="$svId" /></xsl:comment>
     </div>
@@ -458,38 +458,38 @@
   </xsl:template>
 
   <xsl:template match="name" mode="html_fulltext">
-    <span class="name">
+    <div class="name">
       <xsl:value-of select="." />
-    </span>
+    </div>
   </xsl:template>
 
   <xsl:template match="citedRange" mode="html_fulltext">
-    <span class="cited-range">
+    <div class="cited-range">
       <xsl:value-of select="." />
-    </span>
+    </div>
   </xsl:template>
 
   <xsl:template match="region|date" mode="html_fulltext">
-    <span class="{local-name()}">
+    <div class="{local-name()}">
       <xsl:value-of select="." />
-    </span>
+    </div>
   </xsl:template>
 
   <xsl:template match="quote" mode="html_fulltext">
     <xsl:variable name="quoteNr" select="count(preceding::quote) + 1" />
     <xsl:variable name="quoteId" select="concat('quote',$quoteNr)" />
-    <span class="quote" id="{$quoteId}">
+    <div class="quote" id="{$quoteId}">
       <xsl:comment>start <xsl:value-of select="$quoteId" /></xsl:comment>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
       <xsl:comment>end <xsl:value-of select="$quoteId" /></xsl:comment>
-    </span>
+    </div>
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='bls']" mode="html_fulltext">
     <div class="bls">
-      <span class="bls-begin">
+      <div class="bls-begin">
         <xsl:text>Belegstellenangaben: </xsl:text>
-      </span>
+      </div>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
   </xsl:template>

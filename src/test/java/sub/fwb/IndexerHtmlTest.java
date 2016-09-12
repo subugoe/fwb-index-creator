@@ -66,7 +66,7 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/neblem.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("neblem1, neblem2,", "//span[@class='neblem']", html);
+		assertXpathEvaluatesTo("neblem1, neblem2,", "//div[@class='neblem']", html);
 	}
 
 	@Test
@@ -75,7 +75,7 @@ public class IndexerHtmlTest {
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
 		assertXpathExists("//div[@class='phras']", html);
-		assertXpathExists("//span[@class='phras-begin']", html);
+		assertXpathExists("//div[@class='phras-begin']", html);
 	}
 
 	@Test
@@ -84,7 +84,7 @@ public class IndexerHtmlTest {
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
 		assertXpathExists("//div[@class='ggs']", html);
-		assertXpathExists("//span[@class='ggs-begin']", html);
+		assertXpathExists("//div[@class='ggs-begin']", html);
 	}
 
 	@Test
@@ -93,7 +93,7 @@ public class IndexerHtmlTest {
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
 		assertXpathExists("//div[@class='redensart']", html);
-		assertXpathExists("//span[@class='redensart-begin']", html);
+		assertXpathExists("//div[@class='redensart-begin']", html);
 	}
 
 	@Test
@@ -101,13 +101,13 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/highlightings.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("italic", "//span[@class='italic']", html);
-		assertXpathEvaluatesTo("hoch", "//span[@class='higher-and-smaller']", html);
-		assertXpathEvaluatesTo("tief", "//span[@class='deep']", html);
-		assertXpathEvaluatesTo("rect", "//span[@class='rect']", html);
-		assertXpathEvaluatesTo("sc", "//span[@class='small-capitals']", html);
-		assertXpathEvaluatesTo("bold", "//span[@class='bold']", html);
-		assertXpathEvaluatesTo("wide", "//span[@class='wide']", html);
+		assertXpathEvaluatesTo("italic", "//div[@class='italic']", html);
+		assertXpathEvaluatesTo("hoch", "//div[@class='higher-and-smaller']", html);
+		assertXpathEvaluatesTo("tief", "//div[@class='deep']", html);
+		assertXpathEvaluatesTo("rect", "//div[@class='rect']", html);
+		assertXpathEvaluatesTo("sc", "//div[@class='small-capitals']", html);
+		assertXpathEvaluatesTo("bold", "//div[@class='bold']", html);
+		assertXpathEvaluatesTo("wide", "//div[@class='wide']", html);
 	}
 
 	@Test
@@ -123,8 +123,8 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/grammar.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("Art", "//span[@class='type-of-word']", html);
-		assertXpathEvaluatesTo("-Ø", "//span[@class='flex']", html);
+		assertXpathEvaluatesTo("Art", "//div[@class='type-of-word']", html);
+		assertXpathEvaluatesTo("-Ø", "//div[@class='flex']", html);
 	}
 
 	@Test
@@ -159,8 +159,8 @@ public class IndexerHtmlTest {
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
 		assertXpathExists("//div[@class='sense']", html);
-		assertXpathExists("//span[@class='sense-number' and text()='1. ']", html);
-		assertXpathExists("//span[@class='sense-number' and text()='2. ']", html);
+		assertXpathExists("//div[@class='sense-number' and text()='1. ']", html);
+		assertXpathExists("//div[@class='sense-number' and text()='2. ']", html);
 	}
 
 	@Test
@@ -168,7 +168,7 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/senseWithWbv.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("Wortbildungsverweis", "//div[@class='definition']/span[@class='wbv']", html);
+		assertXpathEvaluatesTo("Wortbildungsverweis", "//div[@class='definition']/div[@class='wbv']", html);
 	}
 
 	@Test
@@ -185,15 +185,15 @@ public class IndexerHtmlTest {
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
 		assertXpathExists("//div[@class='bdv']", html);
-		assertXpathExists("//span[@class='bdv-begin']", html);
+		assertXpathExists("//div[@class='bdv-begin']", html);
 		assertXpathExists("//div[@class='synt']", html);
-		assertXpathExists("//span[@class='synt-begin']", html);
+		assertXpathExists("//div[@class='synt-begin']", html);
 		assertXpathExists("//div[@class='wbg']", html);
-		assertXpathExists("//span[@class='wbg-begin']", html);
+		assertXpathExists("//div[@class='wbg-begin']", html);
 		assertXpathExists("//div[@class='dict-ref']", html);
-		assertXpathExists("//span[@class='dict-ref-begin']", html);
+		assertXpathExists("//div[@class='dict-ref-begin']", html);
 		assertXpathExists("//div[@class='subvoce']", html);
-		assertXpathExists("//span[@class='subvoce-begin']", html);
+		assertXpathExists("//div[@class='subvoce-begin']", html);
 	}
 
 	@Test
@@ -202,13 +202,13 @@ public class IndexerHtmlTest {
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
 		assertXpathExists("//div[@class='citations']", html);
-		assertXpathExists("//span[@class='citations-begin']", html);
+		assertXpathExists("//div[@class='citations-begin']", html);
 		assertXpathExists("//div[@class='citation']", html);
 		assertXpathEvaluatesTo("Name", "//a[@class='name citation-source_link']", html);
-		assertXpathEvaluatesTo("13, 20 ", "//span[@class='cited-range']", html);
-		assertXpathEvaluatesTo("Region", "//span[@class='region']", html);
-		assertXpathEvaluatesTo("1599", "//span[@class='date']", html);
-		assertXpathExists("//span[@class='quote' and @id='quote1']", html);
+		assertXpathEvaluatesTo("13, 20 ", "//div[@class='cited-range']", html);
+		assertXpathEvaluatesTo("Region", "//div[@class='region']", html);
+		assertXpathEvaluatesTo("1599", "//div[@class='date']", html);
+		assertXpathExists("//div[@class='quote' and @id='quote1']", html);
 		assertXpathEvaluatesTo("Miller", "//a[@href='/source/source_xyu']", html);
 	}
 
@@ -217,7 +217,7 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/cite.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathExists("//span[@class='quote' and @id='quote1']", html);
+		assertXpathExists("//div[@class='quote' and @id='quote1']", html);
 		assertXpathEvaluatesTo("Miller", "//a[@href='/source/source_xyu']", html);
 	}
 
@@ -226,7 +226,6 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/definitionWithName.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("", "//span", html);
 		assertXpathEvaluatesTo("Meier", "//a[@class='name citation-source_link']", html);
 	}
 
@@ -236,7 +235,7 @@ public class IndexerHtmlTest {
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
 		assertXpathExists("//div[@class='bls']", html);
-		assertXpathExists("//span[@class='bls-begin']", html);
+		assertXpathExists("//div[@class='bls-begin']", html);
 		assertXpathExists("//div[@class='citation']", html);
 	}
 
@@ -255,8 +254,8 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/refsItalicOrNot.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("lemma", "//span[@class='italic']/a", html);
-		assertXpathEvaluatesTo("1", "//div/a", html);
+		assertXpathEvaluatesTo("lemma", "//div[@class='italic']/a", html);
+		assertXpathEvaluatesTo("1", "//div[@class='article-head']/a", html);
 	}
 
 	@Test
@@ -264,7 +263,7 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/homonym.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("2", "//span[@class='homonym']", html);
+		assertXpathEvaluatesTo("2", "//div[@class='homonym']", html);
 	}
 
 	@Test
@@ -272,7 +271,7 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/withoutHomonym.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("", "//span[@class='homonym']", html);
+		assertXpathEvaluatesTo("", "//div[@class='homonym']", html);
 	}
 
 	@After
