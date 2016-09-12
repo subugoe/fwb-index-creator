@@ -29,6 +29,19 @@ public class IndexerHtmlTest {
 		outputBaos = new ByteArrayOutputStream();
 	}
 
+	@After
+	public void afterEachTest() {
+		 System.out.println(outputBaos.toString());
+	}
+
+	@Test
+	public void shouldIgnoreEmptyRegion() throws Exception {
+		xslt.transform("src/test/resources/html/emptyRegion.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("0", "count(//div[@class='region'])", html);
+	}
+
 	@Test
 	public void shouldMakeHtmlField() throws Exception {
 		xslt.transform("src/test/resources/html/articleField.xml", outputBaos);
@@ -272,11 +285,6 @@ public class IndexerHtmlTest {
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
 		assertXpathEvaluatesTo("", "//div[@class='homonym']", html);
-	}
-
-	@After
-	public void afterEachTest() {
-		// System.out.println(outputBaos.toString());
 	}
 
 	private String extractHtmlField(String s, int number) {

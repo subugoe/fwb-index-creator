@@ -140,13 +140,13 @@
   </xsl:template>
 
   <xsl:template match="*" mode="html_fulltext">
-    <missing>
+    <!--missing>
       <xsl:value-of select="local-name()" />
       <xsl:text>, </xsl:text>
       <xsl:value-of select="@rend" />
       <xsl:text>: </xsl:text>
       <xsl:value-of select="text()" />
-    </missing>
+    </missing-->
   </xsl:template>
 
   <xsl:template match="form[@type='lemma']" mode="html_fulltext">
@@ -221,43 +221,43 @@
     <xsl:value-of select="." />
   </xsl:template>
 
-  <xsl:template match="hi[@rendition='it']" mode="html_fulltext">
+  <xsl:template match="hi[@rendition='it' and .//text()]" mode="html_fulltext">
     <div class="italic">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
   </xsl:template>
 
-  <xsl:template match="hi[@rendition='hoch']" mode="html_fulltext">
+  <xsl:template match="hi[@rendition='hoch' and .//text()]" mode="html_fulltext">
     <div class="higher-and-smaller">
       <xsl:value-of select="." />
     </div>
   </xsl:template>
 
-  <xsl:template match="hi[@rendition='tief']" mode="html_fulltext">
+  <xsl:template match="hi[@rendition='tief' and .//text()]" mode="html_fulltext">
     <div class="deep">
       <xsl:value-of select="." />
     </div>
   </xsl:template>
 
-  <xsl:template match="hi[@rendition='rect']" mode="html_fulltext">
+  <xsl:template match="hi[@rendition='rect' and (.//text() or .//*)]" mode="html_fulltext">
     <div class="rect">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
   </xsl:template>
 
-  <xsl:template match="hi[@rendition='sc']" mode="html_fulltext">
+  <xsl:template match="hi[@rendition='sc' and .//text()]" mode="html_fulltext">
     <div class="small-capitals">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
   </xsl:template>
 
-  <xsl:template match="hi[@rendition='b']" mode="html_fulltext">
+  <xsl:template match="hi[@rendition='b' and .//text()]" mode="html_fulltext">
     <div class="bold">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
   </xsl:template>
 
-  <xsl:template match="hi[@rendition='wide']" mode="html_fulltext">
+  <xsl:template match="hi[@rendition='wide' and .//text()]" mode="html_fulltext">
     <div class="wide">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
@@ -267,13 +267,13 @@
     <xsl:text> / </xsl:text>
   </xsl:template>
 
-  <xsl:template match="gram[@type='wortart']" mode="html_fulltext">
+  <xsl:template match="gram[@type='wortart' and .//text()]" mode="html_fulltext">
     <div class="type-of-word">
       <xsl:value-of select="." />
     </div>
   </xsl:template>
 
-  <xsl:template match="gram[@type='flex']" mode="html_fulltext">
+  <xsl:template match="gram[@type='flex' and .//text()]" mode="html_fulltext">
     <div class="flex">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
@@ -463,19 +463,25 @@
     </div>
   </xsl:template>
 
-  <xsl:template match="citedRange" mode="html_fulltext">
+  <xsl:template match="citedRange[.//text()]" mode="html_fulltext">
     <div class="cited-range">
       <xsl:value-of select="." />
     </div>
   </xsl:template>
 
-  <xsl:template match="region|date" mode="html_fulltext">
-    <div class="{local-name()}">
+  <xsl:template match="region[.//text()]" mode="html_fulltext">
+    <div class="region">
       <xsl:value-of select="." />
     </div>
   </xsl:template>
 
-  <xsl:template match="quote" mode="html_fulltext">
+  <xsl:template match="date[.//text()]" mode="html_fulltext">
+    <div class="date">
+      <xsl:value-of select="." />
+    </div>
+  </xsl:template>
+
+  <xsl:template match="quote[.//text()]" mode="html_fulltext">
     <xsl:variable name="quoteNr" select="count(preceding::quote) + 1" />
     <xsl:variable name="quoteId" select="concat('quote',$quoteNr)" />
     <div class="quote" id="{$quoteId}">
@@ -510,7 +516,7 @@
       <xsl:apply-templates select="dictScrap[@rend='wbv']" />
   </xsl:template>
 
-  <xsl:template match="def">
+  <xsl:template match="def[.//text()]">
     <field name="def">
       <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
       <xsl:apply-templates select="." mode="html_fulltext" />
