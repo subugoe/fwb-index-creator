@@ -75,6 +75,16 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
+	public void shouldFilterNonletters() throws Exception {
+		String[][] doc = { { "artikel", "bla" } };
+		solr.addDocument(doc);
+
+		solr.askByQuery("artikel:#+bl,;.", "/search");
+
+		assertEquals(1, results());
+	}
+
+	@Test
 	public void shouldSearchInCitations() throws Exception {
 		String[][] doc = { { "zitat", "únser" } };
 		solr.addDocument(doc);
