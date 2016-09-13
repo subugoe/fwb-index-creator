@@ -452,6 +452,7 @@
       <xsl_text>source_</xsl_text>
       <xsl:value-of select="@n" />
     </xsl:variable>
+    <xsl:text> </xsl:text>
     <a class="name citation-source_link" href="/source/{$currentCitationId}">
       <xsl:value-of select="." />
     </a>
