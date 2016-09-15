@@ -231,6 +231,9 @@
     <div class="higher-and-smaller">
       <xsl:value-of select="." />
     </div>
+    <xsl:if test="following-sibling::form[@type='neblem']">
+      <xsl:text> </xsl:text>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template match="hi[@rendition='tief' and .//text()]" mode="html_fulltext">
