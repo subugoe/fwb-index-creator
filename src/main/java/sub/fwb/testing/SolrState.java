@@ -54,9 +54,9 @@ public class SolrState {
 		solrQueryString = query;
 		SolrQuery solrQuery = new SolrQuery(query);
 		solrQuery.setRequestHandler(requestHandler);
-		solrQuery.set("fl", "lemma,score");
+		solrQuery.set("fl", "lemma,score,id");
 		solrQuery.set("rows", "500");
-		solrQuery.set("hl.fl", "artikel_text,zitat,zitat_text,bdv");
+		solrQuery.set("hl.fl", "artikel_text,zitat,zitat_text,bdv,artikel");
 		for (String[] parameter : extraParams) {
 			solrQuery.set(parameter[0], parameter[1]);
 		}
@@ -68,6 +68,10 @@ public class SolrState {
 
 	public String lemma(int resultNumber) {
 		return (String) docList.get(resultNumber - 1).getFieldValue("lemma");
+	}
+
+	public String id(int resultNumber) {
+		return (String) docList.get(resultNumber - 1).getFieldValue("id");
 	}
 
 	public Map<String, Map<String, List<String>>> getHighlightings() {
@@ -93,7 +97,7 @@ public class SolrState {
 		System.out.println(solrQueryString);
 		System.out.println(docList.getNumFound() + " results");
 		for (int i = 0; i < 4; i++) {
-			if (i < docList.getNumFound()) {
+			if (i < docList.size()) {
 				SolrDocument doc = docList.get(i);
 				System.out.println(doc.getFieldValue("lemma") + "\t" + doc.getFieldValue("score"));
 			}
