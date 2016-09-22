@@ -116,30 +116,29 @@ public class EmbeddedSolrTest {
 
 	@Test
 	public void shouldHighlightChristDifferently() throws Exception {
-		String[][] doc = { { "artikel_text", "christ krist" }, { "zitat", "christ krist" } };
+		String[][] doc = { { "artikel", "christ krist" }, { "artikel_text", "christ krist" }, { "zitat", "christ krist" }, { "zitat_text", "christ krist" } };
 		solr.addDocument(doc);
 
-		String[][] extraParams = { { "hl", "on" }, { "hl.requireFieldMatch", "true" } };
-		solr.ask(extraParams, "christ");
+		solr.askByQuery("christ", "/search");
 
 		assertEquals(1, results());
 		assertHighlighted("artikel_text", "christ");
 		assertNotHighlighted("artikel_text", "krist");
-		assertHighlighted("zitat", "christ", "krist");
+		assertHighlighted("zitat_text", "christ", "krist");
 	}
 
 	@Test
 	public void shouldHighlightArticleAndCitationDifferently() throws Exception {
-		String[][] doc = { { "artikel_text", "und vnd" }, { "zitat", "und vnd" } };
+		String[][] doc = { { "artikel", "und vnd" }, { "zitat", "und vnd" }, { "artikel_text", "und vnd" }, { "zitat_text", "und vnd" } };
 		solr.addDocument(doc);
 
 		String[][] extraParams = { { "hl", "on" } };
-		solr.ask(extraParams, "und");
+		solr.askByQuery(extraParams, "und", "/search");
 
 		assertEquals(1, results());
 		assertHighlighted("artikel_text", "und");
 		assertNotHighlighted("artikel_text", "vnd");
-		assertHighlighted("zitat", "und", "vnd");
+		assertHighlighted("zitat_text", "und", "vnd");
 	}
 
 	@Test
@@ -210,7 +209,7 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "lemma", "my|lemma" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("lemma:mylemma");
+		solr.askByQuery("lemma:mylemma", "/search");
 
 		assertEquals(1, results());
 		assertEquals("my|lemma", lemma(1));

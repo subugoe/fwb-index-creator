@@ -28,14 +28,10 @@ public class SolrState {
 
 	public void ask(String[][] extraParams, String... userInputs) throws Exception {
 		String generatedSolrQuery = "";
-		for (String inputValue : userInputs) {
-			if (inputValue.startsWith("\"")) {
-				generatedSolrQuery += inputValue + " " + "+artikel_text:" + inputValue + " ";
-			} else {
-				generatedSolrQuery += inputValue + " *" + inputValue + "* " + "+artikel_text:*" + inputValue + "* ";
-			}
+		for (String s : userInputs) {
+			generatedSolrQuery += s + " ";
 		}
-		askByQuery(extraParams, generatedSolrQuery);
+		askByQuery(extraParams, generatedSolrQuery, "/list");
 	}
 
 	public void askByQuery(String query) throws Exception {

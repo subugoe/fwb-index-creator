@@ -199,7 +199,7 @@ public class SolrTester {
 
 		solr.ask("imbs");
 
-		assertEquals(23, results());
+		assertEquals(29, results());
 		assertEquals("imbs", lemma(1));
 		assertEquals("imbis", lemma(2));
 		assertBestResultsContainWordPart("imbs");
@@ -210,7 +210,7 @@ public class SolrTester {
 
 		solr.ask("imbis");
 
-		assertEquals(31, results());
+		assertEquals(34, results());
 		assertEquals("imbis", lemma(1));
 		assertBestResultsContainWordPart("imbis");
 	}
@@ -220,7 +220,7 @@ public class SolrTester {
 
 		solr.ask("gericht");
 
-		assertEquals(1950, results());
+		assertEquals(1953, results());
 		assertEquals("landgericht", lemma(1));
 		assertBestResultsContainWordPart("gericht");
 	}
@@ -240,7 +240,7 @@ public class SolrTester {
 
 		solr.ask("essen");
 
-		assertEquals(2551, results());
+		assertEquals(5431, results());
 		assertEquals("geniessen", lemma(1));
 		assertBestResultsContainWordPart("essen");
 	}
@@ -270,7 +270,7 @@ public class SolrTester {
 
 		solr.ask("leben");
 
-		assertEquals(1602, results());
+		assertEquals(1648, results());
 		assertEquals("leben", lemma(1));
 		assertEquals("leben", lemma(2));
 		assertBestResultsContainWordPart("leben");
@@ -281,7 +281,7 @@ public class SolrTester {
 
 		solr.ask("christ");
 
-		assertEquals(1563, results());
+		assertEquals(2082, results());
 		assertEquals("christ", lemma(1));
 		assertBestResultsContainWordPart("christ");
 	}
