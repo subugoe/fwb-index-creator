@@ -120,13 +120,28 @@ public class SolrTester {
 		Map<String, Long> sortedSimple = sortByValue(simpleCharsMap);
 		System.out.println("Einfache: (" + sortedSimple.size() + ")");
 		for (Map.Entry<String, Long> entry : sortedSimple.entrySet()) {
-			System.out.println(entry.getKey() + " : " + entry.getValue());
+			System.out.println(entry.getKey() + " : " + entry.getValue() + " - " + getUnicode(entry.getKey()));
 		}
+		System.out.println();
 		Map<String, Long> sortedComb = sortByValue(combCharsMap);
 		System.out.println("Mit combining: (" + sortedComb.size() + ")");
 		for (Map.Entry<String, Long> entry : sortedComb.entrySet()) {
-			System.out.println(entry.getKey() + " : " + entry.getValue());
+			System.out.println(entry.getKey() + " : " + entry.getValue() + " - " + getUnicode(entry.getKey()));
 		}
+	}
+
+	private String getUnicode(String s) {
+		String unicode = "";
+		for (int i = 0; i < s.length(); i++) {
+			String hexCode = Integer.toHexString(Character.codePointAt(s, i));
+			int fillCount = 4 - hexCode.length();
+			String zeroes = "";
+			for (int j = 0; j < fillCount; j++) {
+				zeroes += "0";
+			}
+			unicode += "U+" + zeroes + hexCode.toUpperCase() + " ";
+		}
+		return unicode;
 	}
 
 	private <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
