@@ -30,13 +30,13 @@ public class EmbeddedSolrTest {
 	}
 
 
-	// @Test
-	public void shouldHighlightBdv() throws Exception {
-		String[][] doc = { { "bdv", "bla</span>" }, { "artikel", "<span>bla</span>" } };
+	@Test
+	public void shouldHighlightInsideHtml() throws Exception {
+		String[][] doc = { { "bdv", "<div>bla</div>" } };
 		solr.addDocument(doc);
 
-		String[][] extraParams = { { "hl.q", "bdv:bla" } };
-		solr.askByQuery(extraParams, "bdv:bla", "/selecthl");
+		String[][] extraParams = { { "hl", "on" } };
+		solr.select(extraParams, "bdv:bla");
 
 		assertEquals(1, results());
 		assertHighlighted("bdv", "bla");
@@ -47,7 +47,7 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "artikel", "legatar(-ius)" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("legatarius", "/search");
+		solr.search("legatarius");
 
 		assertEquals(1, results());
 	}
@@ -57,7 +57,7 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "zitat", "das" }, { "zitat_text", "das" }, { "artikel_text", "tes das" } , { "artikel", "tes das" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("das", "/search");
+		solr.search("das");
 
 		assertEquals(1, results());
 		assertNotHighlighted("artikel_text", "tes");
@@ -68,7 +68,7 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "zitat", "und" }, { "zitat_text", "und" }, { "artikel_text", "und" } , { "artikel", "und" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("vnd", "/search");
+		solr.search("vnd");
 
 		assertEquals(1, results());
 		assertHighlighted("artikel_text", "und");
@@ -79,7 +79,7 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "artikel", "bla" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("artikel:#+bl,;.", "/search");
+		solr.search("artikel:#+bl,;.");
 
 		assertEquals(1, results());
 	}
@@ -89,7 +89,7 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "zitat", "únser" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("unser", "/search");
+		solr.search("unser");
 
 		assertEquals(1, results());
 	}
@@ -99,7 +99,7 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "zitat", "únser" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("zitat:unser");
+		solr.select("zitat:unser");
 
 		assertEquals(1, results());
 	}
@@ -109,7 +109,7 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "zitat", "svͤlen" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("zitat:svlen");
+		solr.select("zitat:svlen");
 
 		assertEquals(1, results());
 	}
@@ -119,7 +119,7 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "artikel", "christ krist" }, { "artikel_text", "christ krist" }, { "zitat", "christ krist" }, { "zitat_text", "christ krist" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("christ", "/search");
+		solr.search("christ");
 
 		assertEquals(1, results());
 		assertHighlighted("artikel_text", "christ");
@@ -132,8 +132,7 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "artikel", "und vnd" }, { "zitat", "und vnd" }, { "artikel_text", "und vnd" }, { "zitat_text", "und vnd" } };
 		solr.addDocument(doc);
 
-		String[][] extraParams = { { "hl", "on" } };
-		solr.askByQuery(extraParams, "und", "/search");
+		solr.search("und");
 
 		assertEquals(1, results());
 		assertHighlighted("artikel_text", "und");
@@ -146,7 +145,7 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "zitat", "wvnde" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("zitat:*unt*");
+		solr.select("zitat:*unt*");
 
 		assertEquals(1, results());
 	}
@@ -156,7 +155,7 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "zitat", "vnd katze" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("zitat:(+und +unt +vnt +vnd +katze +chatze +qatze +catze +gedza)");
+		solr.select("zitat:(+und +unt +vnt +vnd +katze +chatze +qatze +catze +gedza)");
 
 		assertEquals(1, results());
 	}
@@ -166,7 +165,7 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "artikel_text", "bär" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("artikel_text:bar");
+		solr.select("artikel_text:bar");
 
 		assertEquals(1, results());
 	}
@@ -176,7 +175,7 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "artikel_text", "test abc" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("artikel_text:test");
+		solr.select("artikel_text:test");
 
 		assertEquals(1, results());
 	}
@@ -186,7 +185,7 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "artikel_text", "test |" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("artikel_text:|");
+		solr.select("artikel_text:|");
 
 		assertEquals(1, results());
 	}
@@ -196,11 +195,11 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "artikel_text", "& test1, ›test2‹" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("artikel_text:test1");
+		solr.select("artikel_text:test1");
 		assertEquals(1, results());
-		solr.askByQuery("artikel_text:test2");
+		solr.select("artikel_text:test2");
 		assertEquals(1, results());
-		solr.askByQuery("artikel_text:&");
+		solr.select("artikel_text:&");
 		assertEquals(0, results());
 	}
 
@@ -209,7 +208,7 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "lemma", "my|lemma" } };
 		solr.addDocument(doc);
 
-		solr.askByQuery("lemma:mylemma", "/search");
+		solr.search("lemma:mylemma");
 
 		assertEquals(1, results());
 		assertEquals("my|lemma", lemma(1));

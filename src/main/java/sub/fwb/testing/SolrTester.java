@@ -57,7 +57,7 @@ public class SolrTester {
 	@Test
 	public void es() throws Exception {
 
-		solr.askByQuery("artikel_text:es");
+		solr.select("artikel_text:es");
 
 		// String s = "";
 		// for (int i = 1; i <= results(); i++) {
@@ -75,12 +75,13 @@ public class SolrTester {
 		Set<String> combiningChars = new HashSet<>();
 		Map<String, Long> combCharsMap = new HashMap<>();
 		Map<String, Long> simpleCharsMap = new HashMap<>();
-		String[][] extraParams = { { "hl.fragsize", "1" }, { "rows", "1" } };
+		String[][] extraParams = { { "hl", "on" }, { "hl.fragsize", "1" }, { "rows", "1" } };
+		String[][] extraParamsNoHl = { { "rows", "1" } };
 		String knownCharsInIndex = "\\-\\|()\\[\\]\\\\⁽⁾a-zA-Z0-9_äöüß";
 		String knownCharsInHtml = "\\p{Z}\\-\\|()\\[\\]\\\\⁽⁾a-zA-Z0-9_äöüß<>\\/‒\\&\"\\s′`″”∣%«»‛\\$⅓⅙⅔·⅕#˄˚{}¼¾©@‚°=½§…℔*₰¶⸗˺˹„“+–?!;›‹\\.,’·‘:";
 
 		String q = "artikel:/.*[^" + knownCharsInIndex + "].*/";
-		solr.askByQuery(extraParams, q, "/selecthl");
+		solr.select(extraParams, q);
 
 		while (results() > 0) {
 			String hlText = solr.getHighlightings().get(solr.id(1)).get("artikel").get(0);
@@ -99,12 +100,12 @@ public class SolrTester {
 				}
 			}
 			String query = "-lemma:(leib ban abziehen ausgehen) artikel:/.*[^" + knownCharsInIndex + "].*/";
-			solr.askByQuery(extraParams, query, "/selecthl");
+			solr.select(extraParams, query);
 		}
 		for (String comb : combiningChars) {
 			for (char ch = 'a'; ch <= 'z'; ch++) {
 				String query = "artikel:*" + ch + comb + "*";
-				solr.askByQuery(extraParams, query, "/select");
+				solr.select(extraParamsNoHl, query);
 				if (results() > 0) {
 					combCharsMap.put("" + ch + comb, results());
 				}
@@ -112,7 +113,7 @@ public class SolrTester {
 		}
 		for (String simple : simpleChars) {
 			String query = "artikel:*" + simple + "*";
-			solr.askByQuery(extraParams, query, "/select");
+			solr.select(extraParamsNoHl, query);
 			if (results() > 0) {
 				simpleCharsMap.put(simple, results());
 			}
@@ -163,7 +164,7 @@ public class SolrTester {
 	@Test
 	public void negatedQueryShouldCoverAllTerms() throws Exception {
 
-		solr.askByQuery(
+		solr.select(
 				"artikel:/.*[^\\|()\\[\\]\\-⁽⁾a-z0-9äöüßoͤúv́aͤñÿu͂Øůaͧuͥóoͮàïêŷǔıͤēëâôeͣîûwͦýãæáéòõœv̈èu̇ŭāōùēīíūėm̃Γͤŭẽũśŏǒǎǔẅẹìǹăṣẏẙẹσĕĩẃåg̮ńỹěçṅȳňṡćęъčẘịǧḥṁạṙľu֔b].*/");
 
 		assertEquals(0, results());
@@ -172,7 +173,7 @@ public class SolrTester {
 	@Test
 	public void dollarSignInKindeln() throws Exception {
 		String[][] extraparams = { { "hl.q", "kindeln" } };
-		solr.askByQuery(extraparams, "internal_id:kindeln.s.3v", "/article-hl");
+		solr.ask(extraparams, "internal_id:kindeln.s.3v", "/article-hl");
 		// This used to lead to an exception in Matcher class
 		assertEquals(1, results());
 	}
@@ -180,15 +181,15 @@ public class SolrTester {
 	@Test
 	public void maxClauseCountOver1024() throws Exception {
 
-		solr.askByQuery("artikel_text:*e*", "/selecthl");
+		solr.search("artikel:*e*");
 
-		assertEquals(40578, results());
+		assertEquals(40586, results());
 	}
 
 	@Test
 	public void dashLach() throws Exception {
 
-		solr.askByQuery("-lach", "/search");
+		solr.search("-lach");
 
 		assertEquals(5, results());
 		assertEquals("-lach", lemma(1));
@@ -197,7 +198,7 @@ public class SolrTester {
 	@Test
 	public void imbs() throws Exception {
 
-		solr.ask("imbs");
+		solr.list("imbs");
 
 		assertEquals(29, results());
 		assertEquals("imbs", lemma(1));
@@ -208,7 +209,7 @@ public class SolrTester {
 	@Test
 	public void imbis() throws Exception {
 
-		solr.ask("imbis");
+		solr.list("imbis");
 
 		assertEquals(34, results());
 		assertEquals("imbis", lemma(1));
@@ -218,7 +219,7 @@ public class SolrTester {
 	@Test
 	public void gericht() throws Exception {
 
-		solr.ask("gericht");
+		solr.list("gericht");
 
 		assertEquals(1953, results());
 		assertEquals("landgericht", lemma(1));
@@ -228,7 +229,7 @@ public class SolrTester {
 	@Test
 	public void phrase() throws Exception {
 
-		solr.ask("abziehen", "\"Ziesemer, Gr.\"");
+		solr.list("abziehen \"Ziesemer, Gr.\"");
 
 		assertEquals(24, results());
 		assertEquals("abziehen", lemma(1));
@@ -238,7 +239,7 @@ public class SolrTester {
 	@Test
 	public void essen() throws Exception {
 
-		solr.ask("essen");
+		solr.list("essen");
 
 		assertEquals(5431, results());
 		assertEquals("geniessen", lemma(1));
@@ -248,7 +249,7 @@ public class SolrTester {
 	@Test
 	public void imbisBergman() throws Exception {
 
-		solr.ask("imbis", "bergman");
+		solr.list("imbis bergman");
 
 		assertEquals(1, results());
 		assertEquals("geben", lemma(1));
@@ -257,7 +258,7 @@ public class SolrTester {
 	@Test
 	public void bergleuteBergman() throws Exception {
 
-		solr.ask("bergleute", "bergman");
+		solr.list("bergleute bergman");
 
 		assertEquals(5, results());
 		assertEquals("bergman", lemma(1));
@@ -268,7 +269,7 @@ public class SolrTester {
 	@Test
 	public void leben() throws Exception {
 
-		solr.ask("leben");
+		solr.list("leben");
 
 		assertEquals(1648, results());
 		assertEquals("leben", lemma(1));
@@ -279,7 +280,7 @@ public class SolrTester {
 	@Test
 	public void christ() throws Exception {
 
-		solr.ask("christ");
+		solr.list("christ");
 
 		assertEquals(2082, results());
 		assertEquals("christ", lemma(1));

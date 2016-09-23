@@ -22,37 +22,27 @@ public class SolrState {
 		solrServerClient = newSolrThing;
 	}
 
-	public void ask(String... userInputs) throws Exception {
-		ask(new String[][] {}, userInputs);
+	public void list(String userInputs) throws Exception {
+		ask(new String[][] {}, userInputs, "/list");
 	}
 
-	public void ask(String[][] extraParams, String... userInputs) throws Exception {
-		String generatedSolrQuery = "";
-		for (String s : userInputs) {
-			generatedSolrQuery += s + " ";
-		}
-		askByQuery(extraParams, generatedSolrQuery, "/list");
+	public void select(String query) throws Exception {
+		ask(new String[][] {}, query, "/select");
 	}
 
-	public void askByQuery(String query) throws Exception {
-		askByQuery(query, "/select");
+	public void select(String[][] extraParams, String query) throws Exception {
+		ask(extraParams, query, "/select");
 	}
 
-	public void askByQuery(String[][] extraParams, String query) throws Exception {
-		askByQuery(extraParams, query, "/select");
+	public void search(String query) throws Exception {
+		ask(new String[][] {}, query, "/search");
 	}
 
-	public void askByQuery(String query, String requestHandler) throws Exception {
-		askByQuery(new String[][] {}, query, requestHandler);
-	}
-
-	public void askByQuery(String[][] extraParams, String query, String requestHandler) throws Exception {
+	public void ask(String[][] extraParams, String query, String requestHandler) throws Exception {
 		solrQueryString = query;
 		SolrQuery solrQuery = new SolrQuery(query);
 		solrQuery.setRequestHandler(requestHandler);
-		solrQuery.set("fl", "lemma,score,id");
 		solrQuery.set("rows", "500");
-		solrQuery.set("hl.fl", "artikel_text,zitat,zitat_text,bdv,artikel");
 		for (String[] parameter : extraParams) {
 			solrQuery.set(parameter[0], parameter[1]);
 		}
@@ -83,7 +73,7 @@ public class SolrState {
 
 	public int askForNumberOfLemmas(String wordPart) throws Exception {
 		SolrState tempSolr = new SolrState(solrServerClient);
-		tempSolr.askByQuery("lemma:*" + wordPart + "*");
+		tempSolr.select("lemma:*" + wordPart + "*");
 
 		return (int) tempSolr.results();
 	}
