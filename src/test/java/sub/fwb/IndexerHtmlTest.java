@@ -31,7 +31,7 @@ public class IndexerHtmlTest {
 
 	@After
 	public void afterEachTest() {
-		 System.out.println(outputBaos.toString());
+		// System.out.println(outputBaos.toString());
 	}
 
 	@Test

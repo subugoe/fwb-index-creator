@@ -22,23 +22,27 @@ public class SolrState {
 		solrServerClient = newSolrThing;
 	}
 
-	public void list(String userInputs) throws Exception {
+	public void list(String userInputs) {
 		ask(new String[][] {}, userInputs, "/list");
 	}
 
-	public void select(String query) throws Exception {
+	public void select(String query) {
 		ask(new String[][] {}, query, "/select");
 	}
 
-	public void select(String[][] extraParams, String query) throws Exception {
+	public void select(String[][] extraParams, String query) {
 		ask(extraParams, query, "/select");
 	}
 
-	public void search(String query) throws Exception {
+	public void search(String query) {
 		ask(new String[][] {}, query, "/search");
 	}
 
-	public void ask(String[][] extraParams, String query, String requestHandler) throws Exception {
+	public void articleHl(String[][] extraParams, String query) {
+		ask(extraParams, query, "/article-hl");
+	}
+
+	private void ask(String[][] extraParams, String query, String requestHandler) {
 		solrQueryString = query;
 		SolrQuery solrQuery = new SolrQuery(query);
 		solrQuery.setRequestHandler(requestHandler);
@@ -46,7 +50,12 @@ public class SolrState {
 		for (String[] parameter : extraParams) {
 			solrQuery.set(parameter[0], parameter[1]);
 		}
-		QueryResponse response = solrServerClient.query(solrQuery);
+		QueryResponse response;
+		try {
+			response = solrServerClient.query(solrQuery);
+		} catch (Exception e) {
+			throw new RuntimeException("Could not execute '" + query + "'", e);
+		}
 
 		docList = response.getResults();
 		highlightings = response.getHighlighting();
@@ -71,7 +80,7 @@ public class SolrState {
 		return docList.getNumFound();
 	}
 
-	public int askForNumberOfLemmas(String wordPart) throws Exception {
+	public int askForNumberOfLemmas(String wordPart) {
 		SolrState tempSolr = new SolrState(solrServerClient);
 		tempSolr.select("lemma:*" + wordPart + "*");
 

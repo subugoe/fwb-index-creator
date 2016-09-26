@@ -29,7 +29,6 @@ public class EmbeddedSolrTest {
 		solr.printResults();
 	}
 
-
 	@Test
 	public void shouldHighlightInsideHtml() throws Exception {
 		String[][] doc = { { "bdv", "<div>bla</div>" } };
@@ -54,7 +53,8 @@ public class EmbeddedSolrTest {
 
 	@Test
 	public void shouldNotHighlightTes() throws Exception {
-		String[][] doc = { { "zitat", "das" }, { "zitat_text", "das" }, { "artikel_text", "tes das" } , { "artikel", "tes das" } };
+		String[][] doc = { { "zitat", "das" }, { "zitat_text", "das" }, { "artikel_text", "tes das" },
+				{ "artikel", "tes das" } };
 		solr.addDocument(doc);
 
 		solr.search("das");
@@ -65,7 +65,8 @@ public class EmbeddedSolrTest {
 
 	@Test
 	public void shouldHighlightQuote() throws Exception {
-		String[][] doc = { { "zitat", "und" }, { "zitat_text", "und" }, { "artikel_text", "und" } , { "artikel", "und" } };
+		String[][] doc = { { "zitat", "und" }, { "zitat_text", "und" }, { "artikel_text", "und" },
+				{ "artikel", "und" } };
 		solr.addDocument(doc);
 
 		solr.search("vnd");
@@ -99,7 +100,7 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "zitat", "únser" } };
 		solr.addDocument(doc);
 
-		solr.select("zitat:unser");
+		solr.list("zitat:unser");
 
 		assertEquals(1, results());
 	}
@@ -109,14 +110,15 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "zitat", "svͤlen" } };
 		solr.addDocument(doc);
 
-		solr.select("zitat:svlen");
+		solr.search("zitat:svlen");
 
 		assertEquals(1, results());
 	}
 
 	@Test
 	public void shouldHighlightChristDifferently() throws Exception {
-		String[][] doc = { { "artikel", "christ krist" }, { "artikel_text", "christ krist" }, { "zitat", "christ krist" }, { "zitat_text", "christ krist" } };
+		String[][] doc = { { "artikel", "christ krist" }, { "artikel_text", "christ krist" },
+				{ "zitat", "christ krist" }, { "zitat_text", "christ krist" } };
 		solr.addDocument(doc);
 
 		solr.search("christ");
@@ -129,7 +131,8 @@ public class EmbeddedSolrTest {
 
 	@Test
 	public void shouldHighlightArticleAndCitationDifferently() throws Exception {
-		String[][] doc = { { "artikel", "und vnd" }, { "zitat", "und vnd" }, { "artikel_text", "und vnd" }, { "zitat_text", "und vnd" } };
+		String[][] doc = { { "artikel", "und vnd" }, { "zitat", "und vnd" }, { "artikel_text", "und vnd" },
+				{ "zitat_text", "und vnd" } };
 		solr.addDocument(doc);
 
 		solr.search("und");
@@ -145,7 +148,7 @@ public class EmbeddedSolrTest {
 		String[][] doc = { { "zitat", "wvnde" } };
 		solr.addDocument(doc);
 
-		solr.select("zitat:*unt*");
+		solr.search("zitat:unt");
 
 		assertEquals(1, results());
 	}
