@@ -30,6 +30,44 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
+	public void shouldHighlightBdvOnly() throws Exception {
+		String[][] doc = { { "artikel", "imbis <!--start bdv1--><div>imbisinbdv</div><!--end bdv1-->" },
+				{ "bdv", "<!--start bdv1--><div>imbisinbdv</div><!--end bdv1-->" } };
+		solr.addDocument(doc);
+
+		String[][] extraParams = { { "hl.q", "bdv:imbis" } };
+		solr.articleHl(extraParams, "id:1234");
+
+		assertEquals(1, results());
+		assertNotHighlighted("artikel", "imbis");
+		assertHighlighted("artikel", "imbisinbdv");
+	}
+
+	@Test
+	public void shouldHighlightInArticle() throws Exception {
+		String[][] doc = { { "artikel", "imbis" } };
+		solr.addDocument(doc);
+
+		String[][] extraParams = { { "hl.q", "imbis" } };
+		solr.articleHl(extraParams, "id:1234");
+
+		assertEquals(1, results());
+		assertHighlighted("artikel", "imbis");
+	}
+
+	@Test
+	public void shouldOverwriteArticleHighlighting() throws Exception {
+		String[][] doc = { { "artikel", "bla" }, { "bdv", "bla" }, { "artikel_text", "different" },
+				{ "bdv_text", "bla" } };
+		solr.addDocument(doc);
+
+		solr.search("bdv:bla");
+
+		assertEquals(1, results());
+		assertHighlighted("artikel_text", "bla");
+	}
+
+	@Test
 	public void shouldHighlightInsideHtml() throws Exception {
 		String[][] doc = { { "bdv", "<div>bla</div>" } };
 		solr.addDocument(doc);
