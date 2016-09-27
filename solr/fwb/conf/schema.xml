@@ -144,13 +144,13 @@
     <fieldType name="text_de" class="solr.TextField" positionIncrementGap="100">
       <analyzer type="index">
         <charFilter class="solr.HTMLStripCharFilterFactory" />
-        <tokenizer class="solr.PatternTokenizerFactory" pattern="[‒&amp;&lt;&gt;&quot;\p{Z}\s′`″”∣%«»‛\$⅓⅙⅔·⅕#˄˚\{\}\\¼¾©@‚°=½§…℔*₰¶⸗˺˹„“+–\/?!;›‹\.,’·‘:]+" />
+        <tokenizer class="solr.PatternTokenizerFactory" pattern="[‒&amp;&lt;&gt;&quot;&apos;\p{Z}\s′`″”∣%«»‛\$⅓⅙⅔·⅕#˄˚\{\}\\¼¾©@‚°=½§…℔*₰¶⸗˺˹„“+–\/?!;›‹\.,’·‘:]+" />
         <filter class="solr.LowerCaseFilterFactory" />
         <filter class="sub.fwb.UmlautFilterFactory" file="umlaut_mappings.txt" />
         <filter class="sub.fwb.LemmaNormalizingFilterFactory" />
       </analyzer>
       <analyzer type="query">
-        <tokenizer class="solr.PatternTokenizerFactory" pattern="[‒&amp;&lt;&gt;&quot;\p{Z}\s′`″”∣%«»‛\$⅓⅙⅔·⅕#˄˚\{\}\\¼¾©@‚°=½§…℔*₰¶⸗˺˹„“+–\/?!;›‹\.,’·‘:]+" />
+        <tokenizer class="solr.PatternTokenizerFactory" pattern="[‒&amp;&lt;&gt;&quot;&apos;\p{Z}\s′`″”∣%«»‛\$⅓⅙⅔·⅕#˄˚\{\}\\¼¾©@‚°=½§…℔*₰¶⸗˺˹„“+–\/?!;›‹\.,’·‘:]+" />
         <filter class="solr.LowerCaseFilterFactory" />
       </analyzer>
     </fieldType>

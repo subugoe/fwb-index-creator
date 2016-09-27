@@ -30,7 +30,7 @@ public class FwbCharsSearcher {
 		String[][] extraParams = { { "hl", "on" }, { "hl.fragsize", "1" }, { "rows", "1" } };
 		String[][] extraParamsNoHl = { { "rows", "1" } };
 		String knownCharsInIndex = "\\-\\|()\\[\\]\\\\⁽⁾a-zA-Z0-9_äöüß";
-		String knownCharsInHtml = "\\p{Z}\\-\\|()\\[\\]\\\\⁽⁾a-zA-Z0-9_äöüß<>\\/‒\\&\"\\s′`″”∣%«»‛\\$⅓⅙⅔·⅕#˄˚{}¼¾©@‚°=½§…℔*₰¶⸗˺˹„“+–?!;›‹\\.,’·‘:";
+		String knownCharsInHtml = "\\p{Z}\\-\\|()\\[\\]\\\\⁽⁾a-zA-Z0-9_äöüß<>\\/‒\\&\"\\s′`″”∣%«»‛\\$⅓⅙⅔·⅕#˄˚{}¼¾©@‚°=½§…℔*₰¶⸗˺˹„“+–?!;›‹\\.,’·‘:'";
 
 		String q = "artikel:/.*[^" + knownCharsInIndex + "].*/";
 		solr.select(extraParams, q);

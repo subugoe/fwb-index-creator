@@ -67,8 +67,6 @@ public class SolrTester {
 	public void maxClauseCountOver1024() throws Exception {
 
 		solr.search("artikel:*e*");
-
-		assertEquals(40586, results());
 	}
 
 	@Test
@@ -106,8 +104,8 @@ public class SolrTester {
 
 		solr.list("gericht");
 
-		assertEquals(1953, results());
-		assertEquals("landgericht", lemma(1));
+		assertEquals(1955, results());
+		assertEquals("gerichtsacten", lemma(1));
 		assertBestResultsContainWordPart("gericht");
 	}
 
@@ -126,7 +124,7 @@ public class SolrTester {
 
 		solr.list("essen");
 
-		assertEquals(5431, results());
+		assertEquals(5432, results());
 		assertEquals("geniessen", lemma(1));
 		assertBestResultsContainWordPart("essen");
 	}

@@ -79,7 +79,8 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/neblem.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("neblem1, neblem2,", "//div[@class='neblem']", html);
+		assertXpathEvaluatesTo("2", "//div[@class='higher-and-smaller']", html);
+		assertXpathEvaluatesTo("2neblem1, neblem2,", "//div[@class='neblem']", html);
 	}
 
 	@Test

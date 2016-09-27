@@ -6,7 +6,7 @@
         <sense>
           <dictScrap rend="bdv">Bdv</dictScrap>
           <dictScrap rend="synt">Synt</dictScrap>
-          <dictScrap rend="wbg">Wbg</dictScrap>
+          <dictScrap rend="wbg"><re type="re.wbg" subtype="mat">Wbg</re></dictScrap>
           <dictScrap rend="ref">dictRef</dictScrap>
           <dictScrap rend="sv">Subvoce</dictScrap>
         </sense>

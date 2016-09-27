@@ -36,7 +36,7 @@ public class TeiHtmlComparatorTest {
 	@Test
 	public void test2() throws IOException {
 		
-		File tei = new File("/home/dennis/temp/in_tei08/i/imb/imbis.imbis.s.0m.xml");
+		File tei = new File("/home/dennis/temp/in_tei09/i/imb/imbis.imbis.s.0m.xml");
 		File solr = new File("/home/dennis/temp/out/imbis.imbis.s.0m.xml");
 		
 		TeiHtmlComparator comparator = new TeiHtmlComparator();

@@ -83,8 +83,8 @@
       <xsl:variable name="typeValueWithTail" select="substring-after($wordTypes, concat($wordTypeId, ':'))" />
       <xsl:value-of select="substring-before($typeValueWithTail, '###')" />
     </field>
-    <xsl:apply-templates select="dictScrap[@rend='artkopf']/form[@type='neblem']" />
-    <xsl:variable name="neblemAreas" select="dictScrap[@rend='artkopf']/form[@type='neblem']/orth" />
+    <xsl:apply-templates select="dictScrap[@rend='artkopf']/re[@type='re.neblem']" />
+    <xsl:variable name="neblemAreas" select="dictScrap[@rend='artkopf']/re[@type='re.neblem']" />
     <field name="neblem_text">
       <xsl:value-of select="$neblemAreas" />
     </field>
@@ -93,7 +93,7 @@
     </field>
   </xsl:template>
 
-  <xsl:template match="form[@type='neblem']">
+  <xsl:template match="re[@type='re.neblem']">
     <field name="neblem">
       <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
       <xsl:apply-templates select="." mode="html_fulltext" />
@@ -161,12 +161,12 @@
     </div>
   </xsl:template>
 
-  <xsl:template match="form[@type='neblem']" mode="html_fulltext">
-    <xsl:variable name="neblemNr" select="count(preceding::form[@type='neblem']) + 1" />
+  <xsl:template match="re[@type='re.neblem']" mode="html_fulltext">
+    <xsl:variable name="neblemNr" select="count(preceding::re[@type='re.neblem']) + 1" />
     <xsl:variable name="neblemId" select="concat('neblem',$neblemNr)" />
     <div class="neblem">
       <xsl:comment>start <xsl:value-of select="$neblemId" /></xsl:comment>
-      <xsl:value-of select="orth" />
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
       <xsl:comment>end <xsl:value-of select="$neblemId" /></xsl:comment>
     </div>
     <xsl:text> </xsl:text>
@@ -397,6 +397,10 @@
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
       <xsl:comment>end <xsl:value-of select="$wbgId" /></xsl:comment>
     </div>
+  </xsl:template>
+
+  <xsl:template match="re[@type='re.wbg']" mode="html_fulltext">
+    <xsl:apply-templates select="*|text()" mode="html_fulltext" />
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='cit']" mode="html_fulltext">

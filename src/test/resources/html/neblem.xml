@@ -4,9 +4,7 @@
     <body>
       <entry>
         <dictScrap rend="artkopf">
-          <form type="neblem">
-            <orth>neblem1, neblem2,</orth>
-          </form>
+          <re type="re.neblem"><hi rendition="hoch">2</hi>neblem1, neblem2,</re>
         </dictScrap>
       </entry>
     </body>
