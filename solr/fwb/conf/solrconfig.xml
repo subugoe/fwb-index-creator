@@ -164,7 +164,7 @@
       <str name="df">artikel</str>
       <str name="wt">json</str>
       <str name="json.nl">flat</str>
-      <str name="fl">artikel,id,internal_id,def</str>
+      <str name="fl">artikel,id,internal_id,def_text</str>
     </lst>
   </requestHandler>
 
