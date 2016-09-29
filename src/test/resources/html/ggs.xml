@@ -3,7 +3,9 @@
   <text>
     <body>
       <entry>
-        <dictScrap rend="ggs">Ggs</dictScrap>
+        <sense>
+          <dictScrap rend="ggs"><ref type="mat" target="ggs">Ggs</ref>, other text</dictScrap>
+        </sense>
       </entry>
     </body>
   </text>

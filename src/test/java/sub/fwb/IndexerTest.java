@@ -27,6 +27,11 @@ public class IndexerTest {
 		outputBaos = new ByteArrayOutputStream();
 	}
 
+	@After
+	public void afterEachTest() {
+		// System.out.println(outputBaos.toString());
+	}
+
 	@Test
 	public void shouldTransformPrintedSource() throws Exception {
 		xslt.transform("src/test/resources/printedSource.xml", outputBaos);
@@ -223,7 +228,8 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/sense_ggs.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("ggs1, 4.", "//field[@name='ggs_text']", result);
+		assertXpathEvaluatesTo("ggs1, ggs2", "//field[@name='ggs_text']", result);
+		assertXpathEvaluatesTo("2", "count(//field[@name='ggs'])", result);
 	}
 
 	@Test
@@ -337,11 +343,6 @@ public class IndexerTest {
 		String result = outputBaos.toString();
 
 		assertXpathEvaluatesTo("2", "//field[@name='homonym']", result);
-	}
-
-	@After
-	public void afterEachTest() {
-		// System.out.println(outputBaos.toString());
 	}
 
 	@Test
