@@ -4,7 +4,7 @@
     <body>
       <entry>
         <sense>
-          <dictScrap rend="bdv"><ref target="related_id_1">lemma1</ref>, <ref target="related_id_2">lemma2</ref></dictScrap>
+          <dictScrap rend="bdv"><ref target="related_id_1">lemma1</ref>; <ref target="related_id_2">lemma2</ref></dictScrap>
         </sense>
       </entry>
     </body>

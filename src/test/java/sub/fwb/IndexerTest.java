@@ -29,7 +29,7 @@ public class IndexerTest {
 
 	@After
 	public void afterEachTest() {
-		// System.out.println(outputBaos.toString());
+		 System.out.println(outputBaos.toString());
 	}
 
 	@Test
@@ -159,7 +159,7 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/relatedArticles.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("1", "count(//field[@name='bdv'])", result);
+		assertXpathEvaluatesTo("2", "count(//field[@name='bdv'])", result);
 		assertXpathEvaluatesTo("lemma1, lemma2", "//field[@name='bdv_text']", result);
 	}
 

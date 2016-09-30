@@ -226,6 +226,32 @@
     </div>
   </xsl:template>
 
+  <xsl:template match="dictScrap[@rend='bdv']/ref[not(matches(@target, '_s\d+$') and number(.))]" mode="html_fulltext">
+    <xsl:variable name="bdvNr" select="count(preceding::ref[not(matches(@target, '_s\d+$') and number(.))]) + 1" />
+    <xsl:variable name="bdvId" select="concat('bdv',$bdvNr)" />
+    <div style="display: inline">
+      <xsl:comment>start <xsl:value-of select="$bdvId" /></xsl:comment>
+      <xsl:choose>
+        <xsl:when test="contains(@target, '#') and number(.)">
+          <xsl:variable name="linkStart" select="concat(substring-before(@target, '#'), '#')" />
+          <xsl:variable name="linkEnd" select="concat('sense', text())" />
+          <xsl:variable name="link" select="concat($linkStart, $linkEnd)" />
+          <a href="{$link}">
+            <xsl:value-of select="." />
+          </a>
+        </xsl:when>
+        <xsl:otherwise>
+          <div class="italic">
+            <a href="{@target}">
+              <xsl:value-of select="." />
+            </a>
+          </div>
+        </xsl:otherwise>
+      </xsl:choose>
+      <xsl:comment>end <xsl:value-of select="$bdvId" /></xsl:comment>
+    </div>
+  </xsl:template>
+
   <xsl:template match="dictScrap[@rend='ra']" mode="html_fulltext">
     <xsl:variable name="raNr" select="count(preceding::dictScrap[@rend='ra']) + 1" />
     <xsl:variable name="raId" select="concat('ra',$raNr)" />
@@ -383,15 +409,11 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='bdv']" mode="html_fulltext">
-    <xsl:variable name="bdvNumber" select="count(preceding::dictScrap[@rend='bdv']) + 1" />
-    <xsl:variable name="bdvId" select="concat('bdv', $bdvNumber)" />
     <div class="bdv">
-      <xsl:comment>start <xsl:value-of select="$bdvId" /></xsl:comment>
       <div class="bdv-begin">
         <xsl:text>Bedeutungsverwandt: </xsl:text>
       </div>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
-      <xsl:comment>end <xsl:value-of select="$bdvId" /></xsl:comment>
     </div>
   </xsl:template>
 
@@ -621,14 +643,23 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='bdv']">
-    <field name="bdv">
-      <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
-      <xsl:apply-templates select="." mode="html_fulltext" />
-      <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
-    </field>
+    <xsl:for-each select="ref[not(matches(@target, '_s\d+$') and number(.))]">
+      <field name="bdv">
+        <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+        <xsl:apply-templates select="." mode="html_fulltext" />
+        <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+      </field>
+    </xsl:for-each>
     <field name="bdv_text">
-      <xsl:value-of select="." />
+      <xsl:apply-templates select="ref[not(matches(@target, '_s\d+$') and number(.))]" />
     </field>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='bdv']/ref">
+    <xsl:if test="preceding-sibling::ref">
+      <xsl:text>, </xsl:text>
+    </xsl:if>
+    <xsl:value-of select="text()" />
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='ggs']">
