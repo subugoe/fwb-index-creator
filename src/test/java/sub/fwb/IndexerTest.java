@@ -290,8 +290,9 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/sense_wordFormation.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("2formation ›meaning‹.", "//field[@name='wbg_text']", result);
-		assertXpathEvaluatesTo("<div class=\"wbg\"><!--start wbg1--><div class=\"wbg-begin\">Wortbildungen: </div><div class=\"higher-and-smaller\">2</div>formation ›meaning‹.<!--end wbg1--></div>", "//field[@name='wbg']", result);
+		assertXpathEvaluatesTo("formation, bla", "//field[@name='wbg_text']", result);
+		assertXpathEvaluatesTo("2", "count(//field[@name='wbg'])", result);
+		//assertXpathEvaluatesTo("<div class=\"wbg\"><!--start wbg1--><div class=\"wbg-begin\">Wortbildungen: </div><div class=\"higher-and-smaller\">2</div>formation ›meaning‹.<!--end wbg1--></div>", "//field[@name='wbg']", result);
 	}
 
 	@Test

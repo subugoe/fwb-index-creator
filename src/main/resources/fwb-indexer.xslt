@@ -200,6 +200,15 @@
     </div>
   </xsl:template>
 
+  <xsl:template match="dictScrap[@rend='wbg']" mode="html_fulltext">
+    <div class="wbg">
+      <div class="wbg-begin">
+        <xsl:text>Wortbildungen: </xsl:text>
+      </div>
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </div>
+  </xsl:template>
+
   <xsl:template match="dictScrap[@rend='ggs']/ref[not(matches(@target, '_s\d+$') and number(.))]" mode="html_fulltext">
     <xsl:variable name="ggsNr" select="count(preceding::ref[not(matches(@target, '_s\d+$') and number(.))]) + 1" />
     <xsl:variable name="ggsId" select="concat('ggs',$ggsNr)" />
@@ -249,6 +258,42 @@
         </xsl:otherwise>
       </xsl:choose>
       <xsl:comment>end <xsl:value-of select="$bdvId" /></xsl:comment>
+    </div>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='wbg']/ref[not(matches(@target, '_s\d+$') and number(.))]" mode="html_fulltext">
+    <xsl:variable name="wbgNr" select="count(preceding::ref[not(matches(@target, '_s\d+$') and number(.))]) + count(preceding::re[@type='re.wbg']) + 1" />
+    <xsl:variable name="wbgId" select="concat('wbg',$wbgNr)" />
+    <div style="display: inline">
+      <xsl:comment>start <xsl:value-of select="$wbgId" /></xsl:comment>
+      <xsl:choose>
+        <xsl:when test="contains(@target, '#') and number(.)">
+          <xsl:variable name="linkStart" select="concat(substring-before(@target, '#'), '#')" />
+          <xsl:variable name="linkEnd" select="concat('sense', text())" />
+          <xsl:variable name="link" select="concat($linkStart, $linkEnd)" />
+          <a href="{$link}">
+            <xsl:value-of select="." />
+          </a>
+        </xsl:when>
+        <xsl:otherwise>
+          <div class="italic">
+            <a href="{@target}">
+              <xsl:value-of select="." />
+            </a>
+          </div>
+        </xsl:otherwise>
+      </xsl:choose>
+      <xsl:comment>end <xsl:value-of select="$wbgId" /></xsl:comment>
+    </div>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='wbg']/re[@type='re.wbg']" mode="html_fulltext">
+    <xsl:variable name="wbgNr" select="count(preceding::ref[not(matches(@target, '_s\d+$') and number(.))]) + count(preceding::re[@type='re.wbg']) + 1" />
+    <xsl:variable name="wbgId" select="concat('wbg',$wbgNr)" />
+    <div style="display: inline">
+      <xsl:comment>start <xsl:value-of select="$wbgId" /></xsl:comment>
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+      <xsl:comment>end <xsl:value-of select="$wbgId" /></xsl:comment>
     </div>
   </xsl:template>
 
@@ -428,23 +473,6 @@
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
       <xsl:comment>end <xsl:value-of select="$syntId" /></xsl:comment>
     </div>
-  </xsl:template>
-
-  <xsl:template match="dictScrap[@rend='wbg']" mode="html_fulltext">
-    <xsl:variable name="wbgNumber" select="count(preceding::dictScrap[@rend='wbg']) + 1" />
-    <xsl:variable name="wbgId" select="concat('wbg', $wbgNumber)" />
-    <div class="wbg">
-      <xsl:comment>start <xsl:value-of select="$wbgId" /></xsl:comment>
-      <div class="wbg-begin">
-        <xsl:text>Wortbildungen: </xsl:text>
-      </div>
-      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
-      <xsl:comment>end <xsl:value-of select="$wbgId" /></xsl:comment>
-    </div>
-  </xsl:template>
-
-  <xsl:template match="re[@type='re.wbg']" mode="html_fulltext">
-    <xsl:apply-templates select="*|text()" mode="html_fulltext" />
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='cit']" mode="html_fulltext">
@@ -632,14 +660,30 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='wbg']">
-    <field name="wbg">
-      <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
-      <xsl:apply-templates select="." mode="html_fulltext" />
-      <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
-    </field>
+    <xsl:for-each select="re[@type='re.wbg'] | ref[not(matches(@target, '_s\d+$') and number(.))]">
+      <field name="wbg">
+        <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+        <xsl:apply-templates select="." mode="html_fulltext" />
+        <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+      </field>
+    </xsl:for-each>
     <field name="wbg_text">
-      <xsl:value-of select="." />
+      <xsl:apply-templates select="re[@type='re.wbg'] | ref[not(matches(@target, '_s\d+$') and number(.))]" />
     </field>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='wbg']/re">
+    <xsl:if test="preceding-sibling::re">
+      <xsl:text>, </xsl:text>
+    </xsl:if>
+    <xsl:value-of select="text()" />
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='wbg']/ref">
+    <xsl:if test="preceding-sibling::ref or preceding-sibling::re">
+      <xsl:text>, </xsl:text>
+    </xsl:if>
+    <xsl:value-of select="text()" />
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='bdv']">
