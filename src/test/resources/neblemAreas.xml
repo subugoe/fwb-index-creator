@@ -4,7 +4,7 @@
     <body>
       <entry>
         <dictScrap rend="artkopf">
-          <re type="re.neblem">neblem1, neblem2,</re>, <re type="re.neblem">neblemarea2</re>
+          <re type="re.neblem">neblem1, neblem2,</re> <re type="re.neblem">neblemarea2</re>
         </dictScrap>
       </entry>
     </body>

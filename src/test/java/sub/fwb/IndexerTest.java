@@ -161,6 +161,7 @@ public class IndexerTest {
 
 		assertXpathEvaluatesTo("2", "count(//field[@name='bdv'])", result);
 		assertXpathEvaluatesTo("lemma1, lemma2", "//field[@name='bdv_text']", result);
+		assertXpathEvaluatesTo("<div class=\"highlight-boundary\"><!--start bdv2--><div class=\"italic\"><a href=\"related_id_2\">lemma2</a></div><!--end bdv2--></div>", "//field[@name='bdv'][2]", result);
 	}
 
 	@Test
@@ -181,9 +182,13 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/neblem.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("<div class=\"neblem\"><!--start neblem1-->neblem1, neblem2,<!--end neblem1--></div> ",
+		assertXpathEvaluatesTo("2", "count(//field[@name='neblem'])", result);
+		assertXpathEvaluatesTo("<div class=\"neblem\"><!--start neblem1-->neblem1, <!--end neblem1--></div> ",
 				"//field[@name='neblem'][1]", result);
-		assertXpathEvaluatesTo("1", "count(//field[@name='neblem'])", result);
+		assertXpathEvaluatesTo("<div class=\"neblem\"><!--start neblem2-->neblem2,<!--end neblem2--></div> ",
+				"//field[@name='neblem'][2]", result);
+		assertXpathEvaluatesTo("neblem1,  neblem2, some text ",
+				"//field[@name='artikel_text']", result);
 	}
 
 	@Test
@@ -230,6 +235,7 @@ public class IndexerTest {
 
 		assertXpathEvaluatesTo("ggs1, ggs2", "//field[@name='ggs_text']", result);
 		assertXpathEvaluatesTo("2", "count(//field[@name='ggs'])", result);
+		assertXpathEvaluatesTo("<div class=\"highlight-boundary\"><!--start ggs2--><div class=\"italic\"><a href=\"ggs2.s.*\">ggs2</a></div><!--end ggs2--></div>", "//field[@name='ggs'][2]", result);
 	}
 
 	@Test
@@ -292,7 +298,8 @@ public class IndexerTest {
 
 		assertXpathEvaluatesTo("formation, bla", "//field[@name='wbg_text']", result);
 		assertXpathEvaluatesTo("2", "count(//field[@name='wbg'])", result);
-		//assertXpathEvaluatesTo("<div class=\"wbg\"><!--start wbg1--><div class=\"wbg-begin\">Wortbildungen: </div><div class=\"higher-and-smaller\">2</div>formation ›meaning‹.<!--end wbg1--></div>", "//field[@name='wbg']", result);
+		assertXpathEvaluatesTo("<div class=\"highlight-boundary\"><!--start wbg1--><div class=\"higher-and-smaller\">2</div>formation<!--end wbg1--></div>", "//field[@name='wbg'][1]", result);
+		assertXpathEvaluatesTo("<div class=\"highlight-boundary\"><!--start wbg2--><div class=\"italic\"><a href=\"bla.h1.0m\">bla</a></div><!--end wbg2--></div>", "//field[@name='wbg'][2]", result);
 	}
 
 	@Test
@@ -318,7 +325,7 @@ public class IndexerTest {
 		String result = outputBaos.toString();
 
 		assertXpathEvaluatesTo(
-				"mylemma, die. definition. Name, 346, 35 (reg., M. 14. Jh.) A quote. before space after space. line break. ",
+				"test_lemma, myneblem, die. definition. Name, 346, 35 (reg., M. 14. Jh.) A quote. before space after space. line break. ",
 				"//field[@name='artikel_text']", result);
 	}
 

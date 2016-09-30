@@ -4,8 +4,9 @@
     <body>
       <entry xml:id="mylemma.s.1f">
         <form type="lemma">
-          <orth>mylemma,</orth>
+          <orth>test_lemma,</orth>
         </form>
+        <re type="re.neblem">myneblem,</re>
         
         <dictScrap rend="artkopf"><gram type="wortart"><hi rendition="it">die</hi></gram>.</dictScrap>
         

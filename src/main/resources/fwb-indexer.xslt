@@ -84,9 +84,8 @@
       <xsl:value-of select="substring-before($typeValueWithTail, '###')" />
     </field>
     <xsl:apply-templates select="dictScrap[@rend='artkopf']/re[@type='re.neblem']" />
-    <xsl:variable name="neblemAreas" select="dictScrap[@rend='artkopf']/re[@type='re.neblem']" />
     <field name="neblem_text">
-      <xsl:value-of select="$neblemAreas" />
+      <xsl:value-of select="dictScrap[@rend='artkopf']/re[@type='re.neblem']" />
     </field>
     <field name="is_reference">
       <xsl:value-of select="not(sense)" />
@@ -121,7 +120,7 @@
   <xsl:template match="text()" mode="fulltext">
     <xsl:value-of select="replace(., '\p{Z}+', ' ')" />
     <xsl:variable name="tag" select="local-name(parent::*)" />
-    <xsl:variable name="tagsFollowedBySpace" select="($tag = 'orth' or $tag = 'dictScrap' or $tag = 'def' or $tag = 'bibl' or $tag = 'quote') and not(following-sibling::*)" />
+    <xsl:variable name="tagsFollowedBySpace" select="($tag = 're' or $tag = 'orth' or $tag = 'dictScrap' or $tag = 'def' or $tag = 'bibl' or $tag = 'quote') and not(following-sibling::*)" />
     <xsl:variable name="afterLastCitedRange" select="$tag = 'citedRange' and not(parent::*/following-sibling::*)" />
     <xsl:variable name="beforeLineBreak" select="local-name(following-sibling::*[1]) = 'lb'" />
     <xsl:if test="$tagsFollowedBySpace or $afterLastCitedRange or $beforeLineBreak">
@@ -212,7 +211,7 @@
   <xsl:template match="dictScrap[@rend='ggs']/ref[not(matches(@target, '_s\d+$') and number(.))]" mode="html_fulltext">
     <xsl:variable name="ggsNr" select="count(preceding::ref[not(matches(@target, '_s\d+$') and number(.))]) + 1" />
     <xsl:variable name="ggsId" select="concat('ggs',$ggsNr)" />
-    <div style="display: inline">
+    <div class="highlight-boundary">
       <xsl:comment>start <xsl:value-of select="$ggsId" /></xsl:comment>
       <xsl:choose>
         <xsl:when test="contains(@target, '#') and number(.)">
@@ -238,7 +237,7 @@
   <xsl:template match="dictScrap[@rend='bdv']/ref[not(matches(@target, '_s\d+$') and number(.))]" mode="html_fulltext">
     <xsl:variable name="bdvNr" select="count(preceding::ref[not(matches(@target, '_s\d+$') and number(.))]) + 1" />
     <xsl:variable name="bdvId" select="concat('bdv',$bdvNr)" />
-    <div style="display: inline">
+    <div class="highlight-boundary">
       <xsl:comment>start <xsl:value-of select="$bdvId" /></xsl:comment>
       <xsl:choose>
         <xsl:when test="contains(@target, '#') and number(.)">
@@ -264,7 +263,7 @@
   <xsl:template match="dictScrap[@rend='wbg']/ref[not(matches(@target, '_s\d+$') and number(.))]" mode="html_fulltext">
     <xsl:variable name="wbgNr" select="count(preceding::ref[not(matches(@target, '_s\d+$') and number(.))]) + count(preceding::re[@type='re.wbg']) + 1" />
     <xsl:variable name="wbgId" select="concat('wbg',$wbgNr)" />
-    <div style="display: inline">
+    <div class="highlight-boundary">
       <xsl:comment>start <xsl:value-of select="$wbgId" /></xsl:comment>
       <xsl:choose>
         <xsl:when test="contains(@target, '#') and number(.)">
@@ -290,7 +289,7 @@
   <xsl:template match="dictScrap[@rend='wbg']/re[@type='re.wbg']" mode="html_fulltext">
     <xsl:variable name="wbgNr" select="count(preceding::ref[not(matches(@target, '_s\d+$') and number(.))]) + count(preceding::re[@type='re.wbg']) + 1" />
     <xsl:variable name="wbgId" select="concat('wbg',$wbgNr)" />
-    <div style="display: inline">
+    <div class="highlight-boundary">
       <xsl:comment>start <xsl:value-of select="$wbgId" /></xsl:comment>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
       <xsl:comment>end <xsl:value-of select="$wbgId" /></xsl:comment>

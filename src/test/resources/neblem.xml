@@ -3,9 +3,7 @@
   <text>
     <body>
       <entry>
-        <dictScrap rend="artkopf">
-          <re type="re.neblem">neblem1, neblem2,</re>
-        </dictScrap>
+        <dictScrap rend="artkopf"><re type="re.neblem">neblem1, </re><re type="re.neblem">neblem2,</re>some text</dictScrap>
       </entry>
     </body>
   </text>
