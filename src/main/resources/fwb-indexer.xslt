@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xpath-default-namespace="http://www.tei-c.org/ns/1.0" xmlns:fwb="http://sub.fwb.de"
-  xmlns:saxon="http://saxon.sf.net/" exclude-result-prefixes="fwb">
+  xmlns:saxon="http://saxon.sf.net/" exclude-result-prefixes="fwb saxon">
 
   <xsl:output method="xml" indent="yes" saxon:suppress-indentation="div a" />
   <xsl:strip-space elements="*" />
@@ -749,6 +749,19 @@
     <field name="zitat_text">
       <xsl:value-of select="quote//text()" />
     </field>
+    <xsl:apply-templates select=".//region | .//date" />
+  </xsl:template>
+
+  <xsl:template match="cit//region">
+    <field name="region">
+      <xsl:value-of select="text()" />
+    </field>
+  </xsl:template>
+
+  <xsl:template match="cit//date">
+    <field name="datum">
+      <xsl:value-of select="text()" />
+    </field>
   </xsl:template>
 
   <xsl:template match="cit[not(quote)]">
@@ -756,6 +769,7 @@
       <xsl:text>source_</xsl:text>
       <xsl:value-of select="./bibl/name/@n" />
     </field>
+    <xsl:apply-templates select=".//region | .//date" />
   </xsl:template>
 
 </xsl:stylesheet>

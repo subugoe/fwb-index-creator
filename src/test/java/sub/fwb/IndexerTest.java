@@ -33,6 +33,15 @@ public class IndexerTest {
 	}
 
 	@Test
+	public void shouldCreateRegionAndDate() throws Exception {
+		xslt.transform("src/test/resources/dateAndRegion.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("Region", "//field[@name='region']", result);
+		assertXpathEvaluatesTo("1500", "//field[@name='datum']", result);
+	}
+
+	@Test
 	public void shouldTransformPrintedSource() throws Exception {
 		xslt.transform("src/test/resources/printedSource.xml", outputBaos);
 		String result = outputBaos.toString();

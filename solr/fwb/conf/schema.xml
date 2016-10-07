@@ -45,11 +45,14 @@
     <field name="article_previous_id" type="string" indexed="false" stored="true" required="false" multiValued="false" />
     <field name="article_previous_lemma" type="string" indexed="false" stored="true" required="false" multiValued="false" />
 
+    <field name="region" type="string" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="datum" type="string" indexed="true" stored="true" required="false" multiValued="true" />
+
     <field name="def" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="def_text" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="sense_number" type="int" indexed="true" stored="true" required="false" multiValued="false" />
     <!-- referenzierte Quellenangabe -->
-    <field name="definition_source_id" type="string" indexed="false" stored="true" required="false" multiValued="true" />
+    <field name="definition_source_id" type="string" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="zitat_text" type="text_old_german" indexed="true" stored="true" required="false" multiValued="true"
        termVectors="true"
        termPositions="true"
