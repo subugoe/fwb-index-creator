@@ -25,7 +25,6 @@
     <field name="wortart" type="string" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="neblem" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="neblem_text" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
-    <field name="neblem_exact" type="text_de_exact" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="etym" type="text_de" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="head_comment" type="text_de" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="article_version" type="string" indexed="false" stored="true" required="false" multiValued="false" />
@@ -70,10 +69,8 @@
 
     <field name="subvoce" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="subvoce_text" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
-    <field name="sense_subvoce_exact" type="text_de_exact" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="ggs" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="ggs_text" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
-    <field name="sense_antonym_exact" type="text_de_exact" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="phras" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="phras_text" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="zursache" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
@@ -107,7 +104,8 @@
 
     <dynamicField name="*_suggest" type="phrase_suggest" indexed="true" stored="true" multiValued="true" required="false" />
     <dynamicField name="*_facet" type="string" indexed="true" stored="true" multiValued="true" required="false" />
-    <dynamicField name="*_exact" type="text_de_exact" indexed="true" stored="true" required="false" termVectors="true" termOffsets="true" />
+    <dynamicField name="*_exakt" type="text_de_exakt" indexed="true" stored="true" multiValued="true" required="false" 
+        termVectors="true" termPositions="true" termOffsets="true" />
 
   </fields>
 
@@ -115,19 +113,33 @@
 
   <copyField source="lemma" dest="all_suggest" />
 
-  <!--copyField source="artikel" dest="artikel_exact" />
-  <copyField source="artikel_text" dest="artikel_text_exact" />
-  <copyField source="def" dest="def_exact" />
-  <copyField source="lemma" dest="lemma_exact" />
-  <copyField source="neblem" dest="neblem_exact" />
-  <copyField source="subvoce" dest="sense_subvoce_exact" />
-  <copyField source="ggs" dest="sense_antonym_exact" />
-  <copyField source="phras" dest="phras_exact" />
-  <copyField source="zursache" dest="zursache_exact" />
-  <copyField source="synt" dest="synt_exact" />
-  <copyField source="swt" dest="swt_exact" />
-  <copyField source="wbg" dest="wbg_exact" />
-  <copyField source="wbv" dest="wbv_exact" /-->
+  <copyField source="artikel" dest="artikel_exakt" />
+  <copyField source="artikel_text" dest="artikel_text_exakt" />
+  <copyField source="lemma" dest="lemma_exakt" />
+  <copyField source="neblem" dest="neblem_exakt" />
+  <copyField source="neblem_text" dest="neblem_text_exakt" />
+  <copyField source="def" dest="def_exakt" />
+  <copyField source="def_text" dest="def_text_exakt" />
+  <copyField source="bdv" dest="bdv_exakt" />
+  <copyField source="bdv_text" dest="bdv_text_exakt" />
+  <copyField source="subvoce" dest="subvoce_exakt" />
+  <copyField source="subvoce_text" dest="subvoce_text_exakt" />
+  <copyField source="ggs" dest="ggs_exakt" />
+  <copyField source="ggs_text" dest="ggs_text_exakt" />
+  <copyField source="phras" dest="phras_exakt" />
+  <copyField source="phras_text" dest="phras_text_exakt" />
+  <copyField source="zursache" dest="zursache_exakt" />
+  <copyField source="zursache_text" dest="zursache_text_exakt" />
+  <copyField source="synt" dest="synt_exakt" />
+  <copyField source="synt_text" dest="synt_text_exakt" />
+  <copyField source="stw" dest="stw_exakt" />
+  <copyField source="stw_text" dest="stw_text_exakt" />
+  <copyField source="wbg" dest="wbg_exakt" />
+  <copyField source="wbg_text" dest="wbg_text_exakt" />
+  <copyField source="wbv" dest="wbv_exakt" />
+  <copyField source="wbv_text" dest="wbv_text_exakt" />
+  <copyField source="zitat" dest="zitat_exakt" />
+  <copyField source="zitat_text" dest="zitat_text_exakt" />
 
   <types>
     <fieldType name="umlauts" class="solr.TextField">
@@ -155,6 +167,16 @@
       <analyzer type="query">
         <tokenizer class="solr.PatternTokenizerFactory" pattern="[‒&amp;&lt;&gt;&quot;&apos;\p{Z}\s′`″”∣%«»‛\$⅓⅙⅔·⅕#˄˚\{\}\\¼¾©@‚°=½§…℔*₰¶⸗˺˹„“+–\/?!;›‹\.,’·‘:]+" />
         <filter class="solr.LowerCaseFilterFactory" />
+      </analyzer>
+    </fieldType>
+
+    <fieldType name="text_de_exakt" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <charFilter class="solr.HTMLStripCharFilterFactory" />
+        <tokenizer class="solr.PatternTokenizerFactory" pattern="[‒&amp;&lt;&gt;&quot;&apos;\p{Z}\s′`″”∣%«»‛\$⅓⅙⅔·⅕#˄˚\{\}\\¼¾©@‚°=½§…℔*₰¶⸗˺˹„“+–\/?!;›‹\.,’·‘:]+" />
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.PatternTokenizerFactory" pattern="[‒&amp;&lt;&gt;&quot;&apos;\p{Z}\s′`″”∣%«»‛\$⅓⅙⅔·⅕#˄˚\{\}\\¼¾©@‚°=½§…℔*₰¶⸗˺˹„“+–\/?!;›‹\.,’·‘:]+" />
       </analyzer>
     </fieldType>
 
@@ -200,16 +222,6 @@
         <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="ß" replacement="s" />
         <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="ss" replacement="s" />
         <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="sz" replacement="s" />
-      </analyzer>
-    </fieldType>
-
-    <fieldType name="text_de_exact" class="solr.TextField" positionIncrementGap="100">
-      <analyzer type="index">
-        <charFilter class="solr.HTMLStripCharFilterFactory" />
-        <tokenizer class="solr.StandardTokenizerFactory" />
-      </analyzer>
-      <analyzer type="query">
-        <tokenizer class="solr.StandardTokenizerFactory" />
       </analyzer>
     </fieldType>
 

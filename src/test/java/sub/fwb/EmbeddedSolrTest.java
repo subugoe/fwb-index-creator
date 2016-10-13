@@ -30,6 +30,55 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
+	public void shouldHighlightOnlyExactTerm() throws Exception {
+		String[][] doc = { { "zitat", "Imbis imbis" }, { "zitat_text", "Imbis imbis" }, { "artikel", "Imbis imbis" },
+				{ "artikel_text", "Imbis imbis" } };
+		solr.addDocument(doc);
+
+		solr.search("EXAKT Imbis");
+		assertEquals(1, results());
+		assertHighlighted("artikel_text", "Imbis");
+		assertNotHighlighted("artikel_text", "imbis");
+	}
+
+	@Test
+	public void shouldFindOnlyExactTerm() throws Exception {
+		String[][] doc = { { "zitat", "Imbis" }, { "zitat_text", "Imbis" }, { "artikel", "Imbis" },
+				{ "artikel_text", "Imbis" } };
+		solr.addDocument(doc);
+
+		solr.search("EXAKT Imbis");
+		assertEquals(1, results());
+
+		solr.search("EXAKT imbis");
+		assertEquals(0, results());
+	}
+
+	@Test
+	public void shouldHighlightOnlyExactMatchInCitation() throws Exception {
+		String[][] doc = { { "zitat", "Imbis imbis" }, { "zitat_text", "Imbis imbis" } };
+		solr.addDocument(doc);
+
+		solr.search("zitat:Imbis EXAKT");
+		assertEquals(1, results());
+
+		assertHighlighted("artikel_text", "Imbis");
+		assertNotHighlighted("artikel_text", "imbis");
+	}
+
+	@Test
+	public void shouldFindOnlyExactInCitation() throws Exception {
+		String[][] doc = { { "zitat", "Imbis" }, { "zitat_text", "Imbis" } };
+		solr.addDocument(doc);
+
+		solr.search("EXAKT zitat:Imbis");
+		assertEquals(1, results());
+
+		solr.search("EXAKT zitat:imbis");
+		assertEquals(0, results());
+	}
+
+	@Test
 	public void shouldHighlightBdvOnly() throws Exception {
 		String[][] doc = { { "artikel", "imbis <!--start bdv1--><div>imbisinbdv</div><!--end bdv1-->" },
 				{ "bdv", "<!--start bdv1--><div>imbisinbdv</div><!--end bdv1-->" } };
