@@ -55,6 +55,19 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
+	public void shouldListOnlyExactTerm() throws Exception {
+		String[][] doc = { { "zitat", "Imbis" }, { "zitat_text", "Imbis" }, { "artikel", "Imbis" },
+				{ "artikel_text", "Imbis" } };
+		solr.addDocument(doc);
+
+		solr.list("EXAKT Imbis");
+		assertEquals(1, results());
+
+		solr.search("EXAKT imbis");
+		assertEquals(0, results());
+	}
+
+	@Test
 	public void shouldFindOnlyExactTerm() throws Exception {
 		String[][] doc = { { "zitat", "Imbis" }, { "zitat_text", "Imbis" }, { "artikel", "Imbis" },
 				{ "artikel_text", "Imbis" } };
