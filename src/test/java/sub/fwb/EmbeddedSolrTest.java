@@ -30,6 +30,19 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
+	public void shouldHighlightExactInArticle() throws Exception {
+		String[][] doc = { { "artikel", "imbis IMBIS" } };
+		solr.addDocument(doc);
+
+		String[][] extraParams = { { "hl.q", "IMBIS EXAKT" } };
+		solr.articleHl(extraParams, "id:1234");
+
+		assertEquals(1, results());
+		assertHighlighted("artikel", "IMBIS");
+		assertNotHighlighted("artikel", "imbis");
+	}
+
+	@Test
 	public void shouldHighlightOnlyExactTerm() throws Exception {
 		String[][] doc = { { "zitat", "Imbis imbis" }, { "zitat_text", "Imbis imbis" }, { "artikel", "Imbis imbis" },
 				{ "artikel_text", "Imbis imbis" } };
