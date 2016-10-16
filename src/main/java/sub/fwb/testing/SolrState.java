@@ -10,6 +10,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
+import org.noggit.JSONUtil;
 
 public class SolrState {
 
@@ -76,6 +77,10 @@ public class SolrState {
 		return highlightings;
 	}
 
+	public String jsonHighlights() {
+		return JSONUtil.toJSON(highlightings);
+	}
+
 	public long results() {
 		return docList.getNumFound();
 	}
@@ -96,6 +101,10 @@ public class SolrState {
 				SolrDocument doc = docList.get(i);
 				System.out.println(doc.getFieldValue("lemma") + "\t" + doc.getFieldValue("score"));
 			}
+		}
+		if (highlightings != null && !highlightings.isEmpty()) {
+			System.out.println("hl:");
+			System.out.println(jsonHighlights());
 		}
 	}
 
