@@ -106,6 +106,7 @@ public class SolrState {
 			System.out.println("hl:");
 			System.out.println(jsonHighlights());
 		}
+		System.out.println(JSONUtil.toJSON(docList));
 	}
 
 	public void printQueryString() {

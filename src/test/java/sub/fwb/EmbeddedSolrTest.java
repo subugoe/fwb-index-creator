@@ -29,6 +29,16 @@ public class EmbeddedSolrTest {
 		solr.printResults();
 	}
 
+	//@Test
+	public void shouldGenerateSnippetForLemma() throws Exception {
+		String[][] doc = { { "lemma", "imbis" }, { "artikel", "imbis" }, { "artikel_text", "imbis" } };
+		solr.addDocument(doc);
+
+		solr.search("lemma:imbis");
+		assertEquals(1, results());
+
+	}
+
 	@Test
 	public void shouldHighlightExactInArticle() throws Exception {
 		String[][] doc = { { "artikel", "imbis IMBIS" } };
