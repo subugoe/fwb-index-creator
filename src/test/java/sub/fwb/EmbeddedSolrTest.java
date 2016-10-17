@@ -29,14 +29,34 @@ public class EmbeddedSolrTest {
 		solr.printResults();
 	}
 
-	//@Test
-	public void shouldGenerateSnippetForLemma() throws Exception {
+	@Test
+	public void shouldGenerateNormalHlSnippet() throws Exception {
+		String[][] doc = { { "lemma", "imbis" }, { "artikel", "imbis" }, { "artikel_text", "imbis" } };
+		solr.addDocument(doc);
+
+		solr.search("lemma:imbis imbis");
+		assertEquals(1, results());
+		assertHighlighted("artikel_text", "imbis");
+	}
+
+	@Test
+	public void shouldGenerateUnhighlightedSnippetForExactLemma() throws Exception {
+		String[][] doc = { { "lemma", "imbis" }, { "artikel", "imbis" }, { "artikel_text", "imbis" } };
+		solr.addDocument(doc);
+
+		solr.search("EXAKT lemma:imbis");
+		assertEquals(1, results());
+		assertNotHighlighted("artikel_text", "imbis");
+	}
+
+	@Test
+	public void shouldGenerateUnhighlightedSnippetForLemma() throws Exception {
 		String[][] doc = { { "lemma", "imbis" }, { "artikel", "imbis" }, { "artikel_text", "imbis" } };
 		solr.addDocument(doc);
 
 		solr.search("lemma:imbis");
 		assertEquals(1, results());
-
+		assertNotHighlighted("artikel_text", "imbis");
 	}
 
 	@Test
@@ -360,7 +380,7 @@ public class EmbeddedSolrTest {
 		String hlText = solr.getHighlightings().get("1234").get(fieldName).get(0);
 		// System.out.println(hlText);
 		for (String word : words) {
-			String hlWord = "<em>" + word + "</em>";
+			String hlWord = "<span class=\"highlight\">" + word + "</span>";
 			if (forReal) {
 				assertThat(hlText, containsString(hlWord));
 			} else {

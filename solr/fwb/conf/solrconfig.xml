@@ -102,6 +102,8 @@
       <str name="json.nl">flat</str>
       <str name="hl">true</str>
       <str name="hl.requireFieldMatch">true</str>
+      <str name="hl.simple.pre"><![CDATA[<span class="highlight">]]></str>
+      <str name="hl.simple.post"><![CDATA[</span>]]></str>
     </lst>
     <arr name="last-components">
       <str>adapt-snippet-highlight</str>
@@ -141,8 +143,8 @@
       <str name="hl.preserveMulti">true</str>
     </lst>
     <lst name="defaults">
-      <str name="hl.simple.pre"><![CDATA[<em>]]></str>
-      <str name="hl.simple.post"><![CDATA[</em>]]></str>
+      <str name="hl.simple.pre"><![CDATA[<span class="highlight">]]></str>
+      <str name="hl.simple.post"><![CDATA[</span>]]></str>
       <str name="omitHeader">false</str>
       <str name="echoParams">all</str>
       <str name="wt">json</str>
@@ -177,8 +179,8 @@
       <str name="df">artikel</str>
 
       <str name="hl.fl">artikel,bdv</str>
-      <str name="hl.simple.pre"><![CDATA[<em>]]></str>
-      <str name="hl.simple.post"><![CDATA[</em>]]></str>
+      <str name="hl.simple.pre"><![CDATA[<span class="highlight">]]></str>
+      <str name="hl.simple.post"><![CDATA[</span>]]></str>
     </lst>
   </requestHandler>
 
