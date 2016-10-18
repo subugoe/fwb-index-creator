@@ -29,14 +29,42 @@ public class EmbeddedSolrTest {
 		solr.printResults();
 	}
 
+	// @Test
+	public void shouldGenerateHlSnippetForLemmaWithOR() throws Exception {
+		String[][] doc = { { "lemma", "imbis" }, { "artikel", "imbis" },
+				{ "artikel_text", "imbis" } };
+		String[][] doc2 = { { "id", "5678"}, { "lemma", "test" }, { "artikel", "test bla" },
+				{ "artikel_text", "test bla" } };
+		solr.addDocument(doc);
+		solr.addDocument(doc2);
+
+		solr.search("lemma:imbis OR bla");
+		assertEquals(1, results());
+		assertNotHighlighted("artikel_text", "imbis", "bla", "imbisgast");
+	}
+
 	@Test
-	public void shouldGenerateNormalHlSnippet() throws Exception {
-		String[][] doc = { { "lemma", "imbis" }, { "artikel", "imbis" }, { "artikel_text", "imbis" } };
+	public void shouldGenerateUnhighlightedSnippetForTwoLemmas() throws Exception {
+		String[][] doc = { { "lemma", "imbis bla" }, { "artikel", "imbis bla imbisgast" },
+				{ "artikel_text", "imbis bla imbisgast" } };
 		solr.addDocument(doc);
 
-		solr.search("lemma:imbis imbis");
+		solr.search("lemma:imbis lemma:bla");
 		assertEquals(1, results());
-		assertHighlighted("artikel_text", "imbis");
+		assertNotHighlighted("artikel_text", "imbis", "bla", "imbisgast");
+	}
+
+	@Test
+	public void shouldGenerateHlSnippetWithoutLemma() throws Exception {
+		String[][] doc = { { "lemma", "imbis" }, { "artikel", "imbis imbisgast ward" },
+				{ "artikel_text", "imbis imbisgast ward" } };
+		solr.addDocument(doc);
+
+		solr.search("lemma:imbis AND (ward)");
+		assertEquals(1, results());
+		assertHighlighted("artikel_text", "ward");
+		assertNotHighlighted("artikel_text", "imbis");
+		assertNotHighlighted("artikel_text", "imbisgast");
 	}
 
 	@Test
