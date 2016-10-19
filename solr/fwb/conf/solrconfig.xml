@@ -92,7 +92,7 @@
       <str name="defType">edismax</str>
       <str name="df">artikel</str>
       <str name="facet">true</str>
-      <str name="hl.fl">neblem_text,def_text,bdv_text,zitat_text,phras_text,wbv_text,ggs_text,stw_text,synt_text,wbg_text,zursache_text,subvoce_text,artikel_text</str>
+      <str name="hl.fl">lemma_text,neblem_text,def_text,bdv_text,zitat_text,phras_text,wbv_text,ggs_text,stw_text,synt_text,wbg_text,zursache_text,subvoce_text,artikel_text</str>
     </lst>
     <lst name="defaults">
       <str name="facet.field">wortart</str>

@@ -22,6 +22,10 @@
        termVectors="true"
        termPositions="true"
        termOffsets="true" />
+    <field name="lemma_text" type="text_de" indexed="true" stored="true" required="false" multiValued="false" 
+       termVectors="true"
+       termPositions="true"
+       termOffsets="true" />
     <field name="wortart" type="string" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="neblem" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="neblem_text" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
@@ -116,6 +120,8 @@
   <copyField source="artikel" dest="artikel_exakt" />
   <copyField source="artikel_text" dest="artikel_text_exakt" />
   <copyField source="lemma" dest="lemma_exakt" />
+  <copyField source="artikel_text" dest="lemma_text" />
+  <copyField source="artikel_text" dest="lemma_text_exakt" />
   <copyField source="neblem" dest="neblem_exakt" />
   <copyField source="neblem_text" dest="neblem_text_exakt" />
   <copyField source="def" dest="def_exakt" />

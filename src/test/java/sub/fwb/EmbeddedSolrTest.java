@@ -29,7 +29,7 @@ public class EmbeddedSolrTest {
 		solr.printResults();
 	}
 
-	// @Test
+	@Test
 	public void shouldGenerateHlSnippetForLemmaWithOR() throws Exception {
 		String[][] doc = { { "lemma", "imbis" }, { "artikel", "imbis" },
 				{ "artikel_text", "imbis" } };
@@ -39,8 +39,22 @@ public class EmbeddedSolrTest {
 		solr.addDocument(doc2);
 
 		solr.search("lemma:imbis OR bla");
+		assertEquals(2, results());
+		assertNotHighlighted("artikel_text", "imbis");
+	}
+
+	@Test
+	public void shouldGenerateHlSnippetForLemmaWithNOT() throws Exception {
+		String[][] doc = { { "lemma", "imbis" }, { "artikel", "imbis" },
+				{ "artikel_text", "imbis" } };
+		String[][] doc2 = { { "id", "5678"}, { "lemma", "test" }, { "artikel", "test bla" },
+				{ "artikel_text", "test bla" } };
+		solr.addDocument(doc);
+		solr.addDocument(doc2);
+
+		solr.search("lemma:imbis NOT (bla)");
 		assertEquals(1, results());
-		assertNotHighlighted("artikel_text", "imbis", "bla", "imbisgast");
+		assertNotHighlighted("artikel_text", "imbis");
 	}
 
 	@Test
