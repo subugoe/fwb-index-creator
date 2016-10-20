@@ -30,6 +30,18 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
+	public void shouldNotHighlightLonelyParenthesis() throws Exception {
+		String[][] doc = { { "artikel", "imbis)" },
+				{ "artikel_text", "imbis)" } };
+		solr.addDocument(doc);
+
+		solr.search("imbis");
+		assertEquals(1, results());
+		assertNotHighlighted("artikel_text", "imbis)");
+		assertHighlighted("artikel_text", "imbis");
+	}
+
+	@Test
 	public void shouldGenerateHlSnippetForLemmaWithOR() throws Exception {
 		String[][] doc = { { "lemma", "imbis" }, { "artikel", "imbis" },
 				{ "artikel_text", "imbis" } };
