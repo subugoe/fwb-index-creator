@@ -1,11 +1,11 @@
 # for all words
-ä:a
-Ä:A
-ö:o
-Ö:O
-ü:u
-Ü:U
-ß:s
+ä:a,ae
+Ä:A,Ae
+ö:o,oe
+Ö:O,Oe
+ü:u,ue
+Ü:U,Ue
+
 ú:u
 ñ:n
 Ø:0

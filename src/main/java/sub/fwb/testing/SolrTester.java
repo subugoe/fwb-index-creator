@@ -30,6 +30,15 @@ public class SolrTester {
 	}
 
 	@Test
+	public void laerm() throws Exception {
+
+		solr.list("lemma:laerm");
+
+		assertEquals(4, results());
+		assertEquals("lärm", lemma(1));
+	}
+
+	@Test
 	public void complexPhrase() throws Exception {
 
 		solr.list("\"imbi* ward\"");
@@ -124,9 +133,10 @@ public class SolrTester {
 
 		solr.list("essen");
 
-		assertEquals(5432, results());
+		assertEquals(5899, results());
 		assertEquals("geniessen", lemma(1));
-		assertBestResultsContainWordPart("essen");
+		// also finds "begrüssen"
+		// assertBestResultsContainWordPart("essen");
 	}
 
 	@Test
