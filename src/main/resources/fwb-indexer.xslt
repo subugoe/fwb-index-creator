@@ -527,7 +527,9 @@
       <xsl_text>source_</xsl_text>
       <xsl:value-of select="@n" />
     </xsl:variable>
-    <xsl:text> </xsl:text>
+    <xsl:if test="not(../..[@rend='artkopf'])">
+      <xsl:text> </xsl:text>
+    </xsl:if>
     <a class="name citation-source_link" href="/source/{$currentCitationId}">
       <xsl:value-of select="." />
     </a>

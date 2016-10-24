@@ -35,6 +35,14 @@ public class IndexerHtmlTest {
 	}
 
 	@Test
+	public void shouldNotAddSpaceAfterParenthesis() throws Exception {
+		xslt.transform("src/test/resources/html/spaces_articleHead.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("bla (Lexer)", "//div[@class='article-head']", html);
+	}
+
+	@Test
 	public void shouldIgnoreEmptyRegion() throws Exception {
 		xslt.transform("src/test/resources/html/emptyRegion.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
