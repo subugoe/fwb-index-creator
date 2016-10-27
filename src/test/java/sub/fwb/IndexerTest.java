@@ -33,6 +33,14 @@ public class IndexerTest {
 	}
 
 	@Test
+	public void shouldCreateSortKey() throws Exception {
+		xslt.transform("src/test/resources/sortkey.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("abc", "//field[@name='sortkey']", result);
+	}
+
+	@Test
 	public void shouldCreateRegionAndDate() throws Exception {
 		xslt.transform("src/test/resources/dateAndRegion.xml", outputBaos);
 		String result = outputBaos.toString();

@@ -78,6 +78,9 @@
         </xsl:otherwise>
       </xsl:choose>
     </field>
+    <field name="sortkey">
+      <xsl:value-of select="@sortKey" />
+    </field>
     <field name="wortart">
       <xsl:variable name="wordTypeId" select="fwb:getWordTypeId(@xml:id)" />
       <xsl:variable name="typeValueWithTail" select="substring-after($wordTypes, concat($wordTypeId, ':'))" />
