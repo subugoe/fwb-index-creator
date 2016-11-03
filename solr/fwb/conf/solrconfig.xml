@@ -93,6 +93,7 @@
       <str name="df">artikel</str>
       <str name="facet">true</str>
       <str name="hl.fl">lemma_text,neblem_text,def_text,bdv_text,zitat_text,phras_text,wbv_text,ggs_text,stw_text,synt_text,wbg_text,zursache_text,subvoce_text,artikel_text</str>
+      <!--int name="timeAllowed">100</int-->
     </lst>
     <lst name="defaults">
       <str name="facet.field">wortart</str>
@@ -149,7 +150,7 @@
       <str name="echoParams">all</str>
       <str name="wt">json</str>
       <str name="json.nl">flat</str>
-      <str name="fl">id,internal_id,def_text</str>
+      <str name="fl">id,internal_id,def_text,sortkey</str>
     </lst>
     <arr name="last-components">
       <str>adapt-article-highlight</str>
@@ -166,7 +167,7 @@
       <str name="df">artikel</str>
       <str name="wt">json</str>
       <str name="json.nl">flat</str>
-      <str name="fl">artikel,id,internal_id,def_text</str>
+      <str name="fl">artikel,id,internal_id,def_text,sortkey</str>
     </lst>
   </requestHandler>
 
