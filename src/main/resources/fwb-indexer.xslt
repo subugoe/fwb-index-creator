@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xpath-default-namespace="http://www.tei-c.org/ns/1.0" xmlns:fwb="http://sub.fwb.de"
-  xmlns:saxon="http://saxon.sf.net/" exclude-result-prefixes="fwb saxon">
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:saxon="http://saxon.sf.net/" exclude-result-prefixes="fwb saxon xs">
 
   <xsl:output method="xml" indent="yes" saxon:suppress-indentation="div a" />
   <xsl:strip-space elements="*" />
@@ -417,12 +418,14 @@
   <xsl:template match="def" mode="html_fulltext">
     <xsl:variable name="senseNumber" select="count(preceding::sense) + 1" />
     <xsl:variable name="senseAnchor" select="concat('sense', $senseNumber)" />
+    <xsl:variable name="senseRendNumber" select="parent::sense/@rend" />
     <div id="{$senseAnchor}" class="definition">
       <xsl:comment>start <xsl:value-of select="$senseAnchor" /></xsl:comment>
-      <xsl:if test="count(//sense) gt 1">
+      <xsl:if test="$senseRendNumber">
         <div class="sense-number">
-          <xsl:value-of select="$senseNumber" />
-          <xsl:text>. </xsl:text>
+          <xsl:call-template name="printRendNumbers">
+            <xsl:with-param name="rendNumberString" select="$senseRendNumber" />
+          </xsl:call-template>
         </div>
       </xsl:if>
       <xsl:apply-templates select="text()|*" mode="html_fulltext" />
@@ -430,6 +433,25 @@
         mode="html_fulltext_once" />
       <xsl:comment>end <xsl:value-of select="$senseAnchor" /></xsl:comment>
     </div>
+  </xsl:template>
+
+  <xsl:template name="printRendNumbers">
+    <xsl:param name="rendNumberString" />
+    <xsl:choose>
+      <xsl:when test="number($rendNumberString)">
+        <xsl:value-of select="$rendNumberString" />
+        <xsl:text>. </xsl:text>
+      </xsl:when>
+      <xsl:when test="contains($rendNumberString, '-')">
+        <xsl:variable name="from" select="substring-before($rendNumberString, '-')" />
+        <xsl:variable name="to" select="substring-after($rendNumberString, '-')" />
+        <xsl:variable name="numbersList" as="xs:integer*" >
+          <xsl:sequence select="xs:integer($from) to xs:integer($to)" />
+        </xsl:variable>
+        <xsl:value-of select="$numbersList" separator=".; "/>
+        <xsl:text>., </xsl:text>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='wbv']" mode="html_fulltext_once">
@@ -583,6 +605,9 @@
 
 
   <xsl:template match="sense">
+    <field name="rend">
+      <xsl:value-of select="@rend" />
+    </field>
       <xsl:apply-templates select="def" />
       <xsl:apply-templates select="dictScrap[@rend='bdv']" />
       <xsl:apply-templates select="dictScrap[@rend='sv']" />

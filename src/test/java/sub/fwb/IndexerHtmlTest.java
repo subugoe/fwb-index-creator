@@ -31,7 +31,16 @@ public class IndexerHtmlTest {
 
 	@After
 	public void afterEachTest() {
-		// System.out.println(outputBaos.toString());
+		 System.out.println(outputBaos.toString());
+	}
+
+	@Test
+	public void shouldTakeCorrectSenseRanges() throws Exception {
+		xslt.transform("src/test/resources/html/senseWithRange.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("1.; 2.; 3.; 4., ", "//div[@id='sense1']/div[@class='sense-number']", html);
+		assertXpathEvaluatesTo("5. ", "//div[@id='sense2']/div[@class='sense-number']", html);
 	}
 
 	@Test

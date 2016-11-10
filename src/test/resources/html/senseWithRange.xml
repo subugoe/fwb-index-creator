@@ -3,11 +3,13 @@
   <text>
     <body>
       <entry>
-        <sense rend="1">
-          <def>Definition one.</def>
+        <!-- Bedeutung 1.; 2.; 3.; 4.,  -->
+        <sense xml:id="test.s.1f_s1-4" rend="1-4">
+          <def>def 1-4</def>
         </sense>
-        <sense rend="2">
-          <def>Definition two.</def>
+        <!-- Bedeutung 5.  -->
+        <sense xml:id="test.s.1f_s5" rend="5">
+          <def>def 5</def>
         </sense>
       </entry>
     </body>

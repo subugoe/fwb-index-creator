@@ -3,10 +3,10 @@
   <text>
     <body>
       <entry>
-        <sense>
+        <sense rend="1">
           <def>Definition one.</def>
         </sense>
-        <sense>
+        <sense rend="2">
           <def>Definition two.</def>
         </sense>
       </entry>

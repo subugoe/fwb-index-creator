@@ -11,6 +11,9 @@
     <!-- artikel / bedeutung / quelle -->
     <field name="type" type="string" indexed="true" stored="true" required="true" multiValued="false" />
 
+    <!-- TODO: delete or rename this -->
+    <field name="rend" type="string" indexed="true" stored="true" required="false" multiValued="true" />
+
     <!-- Artikel (type=artikel) -->
     <field name="printed_source" type="string" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="volume" type="string" indexed="true" stored="true" required="false" multiValued="false" />
