@@ -605,9 +605,6 @@
 
 
   <xsl:template match="sense">
-    <field name="rend">
-      <xsl:value-of select="@rend" />
-    </field>
       <xsl:apply-templates select="def" />
       <xsl:apply-templates select="dictScrap[@rend='bdv']" />
       <xsl:apply-templates select="dictScrap[@rend='sv']" />
@@ -631,6 +628,29 @@
     <field name="def_text">
       <xsl:value-of select="." />
     </field>
+    <xsl:if test="parent::sense/@rend and parent::sense/@rend != 'bedzif'">
+      <field name="def_number">
+        <xsl:call-template name="printDefinitionNumber">
+          <xsl:with-param name="rendNumber" select="parent::sense/@rend" />
+        </xsl:call-template>
+      </field>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template name="printDefinitionNumber">
+    <xsl:param name="rendNumber" />
+    <xsl:choose>
+      <xsl:when test="number($rendNumber)">
+        <xsl:value-of select="$rendNumber" />
+        <xsl:text>.</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains($rendNumber, '-')">
+        <xsl:value-of select="substring-before($rendNumber, '-')" />
+        <xsl:text>.-</xsl:text>
+        <xsl:value-of select="substring-after($rendNumber, '-')" />
+        <xsl:text>.</xsl:text>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='synt']">

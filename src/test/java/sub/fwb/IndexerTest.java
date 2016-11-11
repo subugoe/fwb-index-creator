@@ -33,6 +33,24 @@ public class IndexerTest {
 	}
 
 	@Test
+	public void shouldIgnoreDefinitionNumbersIfNotPresent() throws Exception {
+		xslt.transform("src/test/resources/defNumbers_wrong.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("0", "count(//field[@name='def_number'])", result);
+		assertXpathEvaluatesTo("1", "count(//field[@name='def_text'])", result);
+	}
+
+	@Test
+	public void shouldCreateDefinitionNumbers() throws Exception {
+		xslt.transform("src/test/resources/defNumbers.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("1.-4.", "//field[@name='def_number'][1]", result);
+		assertXpathEvaluatesTo("5.", "//field[@name='def_number'][2]", result);
+	}
+
+	@Test
 	public void shouldCreateSortKey() throws Exception {
 		xslt.transform("src/test/resources/sortkey.xml", outputBaos);
 		String result = outputBaos.toString();

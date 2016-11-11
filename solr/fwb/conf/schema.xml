@@ -11,9 +11,6 @@
     <!-- artikel / bedeutung / quelle -->
     <field name="type" type="string" indexed="true" stored="true" required="true" multiValued="false" />
 
-    <!-- TODO: delete or rename this -->
-    <field name="rend" type="string" indexed="true" stored="true" required="false" multiValued="true" />
-
     <!-- Artikel (type=artikel) -->
     <field name="printed_source" type="string" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="volume" type="string" indexed="true" stored="true" required="false" multiValued="false" />
@@ -57,6 +54,7 @@
 
     <field name="def" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="def_text" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
+    <field name="def_number" type="string" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="sense_number" type="int" indexed="true" stored="true" required="false" multiValued="false" />
     <!-- referenzierte Quellenangabe -->
     <field name="definition_source_id" type="string" indexed="true" stored="true" required="false" multiValued="true" />
