@@ -39,8 +39,8 @@ public class TeiHtmlComparator {
 		solrString = removeTags(solrString);
 		solrString = solrString.replaceAll("\\s+", "").trim();
 
-		// System.out.println(teiString);
-		// System.out.println(solrString);
+		 System.out.println(teiString);
+		 System.out.println(solrString);
 
 		try {
 			assertEquals("File: " + tei.getName(), teiString, solrString);

@@ -35,6 +35,14 @@ public class IndexerHtmlTest {
 	}
 
 	@Test
+	public void shouldProcessComplexDefinitions() throws Exception {
+		xslt.transform("src/test/resources/html/complexDefinitions.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("Zu a): ", "//div[@class='bblock']", html);
+	}
+
+	@Test
 	public void shouldTakeCorrectSenseRanges() throws Exception {
 		xslt.transform("src/test/resources/html/senseWithRange.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);

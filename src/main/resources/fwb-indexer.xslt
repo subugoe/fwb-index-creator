@@ -313,6 +313,12 @@
     </div>
   </xsl:template>
 
+  <xsl:template match="dictScrap[@rend='BBlock']" mode="html_fulltext">
+    <div class="bblock">
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </div>
+  </xsl:template>
+
   <xsl:template match="text()" mode="html_fulltext">
     <xsl:value-of select="." />
   </xsl:template>
@@ -418,9 +424,11 @@
   <xsl:template match="def" mode="html_fulltext">
     <xsl:variable name="senseNumber" select="count(preceding::sense) + 1" />
     <xsl:variable name="senseAnchor" select="concat('sense', $senseNumber)" />
+    <xsl:variable name="defNumber" select="count(preceding::def) + 1" />
+    <xsl:variable name="defAnchor" select="concat('sense', $defNumber)" />
     <xsl:variable name="senseRendNumber" select="parent::sense/@rend" />
     <div id="{$senseAnchor}" class="definition">
-      <xsl:comment>start <xsl:value-of select="$senseAnchor" /></xsl:comment>
+      <xsl:comment>start <xsl:value-of select="$defAnchor" /></xsl:comment>
       <xsl:if test="$senseRendNumber">
         <div class="sense-number">
           <xsl:call-template name="printRendNumbers">
@@ -431,7 +439,7 @@
       <xsl:apply-templates select="text()|*" mode="html_fulltext" />
       <xsl:apply-templates select="following-sibling::dictScrap[@rend='wbv']"
         mode="html_fulltext_once" />
-      <xsl:comment>end <xsl:value-of select="$senseAnchor" /></xsl:comment>
+      <xsl:comment>end <xsl:value-of select="$defAnchor" /></xsl:comment>
     </div>
   </xsl:template>
 
