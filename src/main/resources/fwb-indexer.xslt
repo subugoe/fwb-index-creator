@@ -162,6 +162,13 @@
       </xsl:if>
       <xsl:value-of select="orth" />
     </div>
+    <xsl:apply-templates select="num" mode="html_fulltext" />
+  </xsl:template>
+
+  <xsl:template match="num" mode="html_fulltext">
+    <div class="roman-number">
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </div>
   </xsl:template>
 
   <xsl:template match="re[@type='re.neblem']" mode="html_fulltext">
@@ -297,6 +304,12 @@
       <xsl:comment>start <xsl:value-of select="$wbgId" /></xsl:comment>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
       <xsl:comment>end <xsl:value-of select="$wbgId" /></xsl:comment>
+    </div>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='ipLiPkt']" mode="html_fulltext">
+    <div class="info-list-item">
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
   </xsl:template>
 

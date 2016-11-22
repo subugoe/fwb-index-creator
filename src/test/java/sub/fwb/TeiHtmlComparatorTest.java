@@ -32,12 +32,32 @@ public class TeiHtmlComparatorTest {
 		comparator.compareTexts(tei, solr);
 	}
 
-	//@Ignore
+	@Ignore
 	@Test
 	public void test2() throws IOException {
 		
 		File tei = new File("/home/dennis/temp/in_tei11/b/bes/besetzung.besetzung.s.1f.xml");
 		File solr = new File("/home/dennis/temp/out/besetzung.besetzung.s.1f.xml");
+		
+		TeiHtmlComparator comparator = new TeiHtmlComparator();
+		comparator.compareTexts(tei, solr);
+	}
+
+	//@Test
+	public void test3() throws IOException {
+		
+		File tei = new File("/home/dennis/temp/in_tei11/b/bar/baren.bären.rI.3vu.xml");
+		File solr = new File("/home/dennis/temp/out/baren.bären.rI.3vu.xml");
+		
+		TeiHtmlComparator comparator = new TeiHtmlComparator();
+		comparator.compareTexts(tei, solr);
+	}
+
+	//@Test
+	public void test4() throws IOException {
+		
+		File tei = new File("/home/dennis/temp/in_tei11/g/gut/gut.gut.s.4adj.xml");
+		File solr = new File("/home/dennis/temp/out/gut.gut.s.4adj.xml");
 		
 		TeiHtmlComparator comparator = new TeiHtmlComparator();
 		comparator.compareTexts(tei, solr);

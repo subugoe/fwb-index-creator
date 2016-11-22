@@ -35,6 +35,22 @@ public class IndexerHtmlTest {
 	}
 
 	@Test
+	public void shouldConvertListItems() throws Exception {
+		xslt.transform("src/test/resources/html/listItems.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("I", "//div[@class='roman-number']", html);
+	}
+
+	@Test
+	public void shouldConvertRomanNumber() throws Exception {
+		xslt.transform("src/test/resources/html/romanNumber.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("I", "//div[@class='roman-number']", html);
+	}
+
+	@Test
 	public void shouldProcessComplexDefinitions() throws Exception {
 		xslt.transform("src/test/resources/html/complexDefinitions.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
