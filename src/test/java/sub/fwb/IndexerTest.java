@@ -33,6 +33,15 @@ public class IndexerTest {
 	}
 
 	@Test
+	public void shouldMakeWbgForListItems() throws Exception {
+		xslt.transform("src/test/resources/sense_wbgList.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("3", "count(//field[@name='wbg'])", result);
+		assertXpathEvaluatesTo("3", "count(//field[@name='wbg_text'])", result);
+	}
+
+	@Test
 	public void shouldIgnoreDefinitionNumbersIfNotPresent() throws Exception {
 		xslt.transform("src/test/resources/defNumbers_wrong.xml", outputBaos);
 		String result = outputBaos.toString();
@@ -333,7 +342,7 @@ public class IndexerTest {
 
 		assertXpathEvaluatesTo("formation, bla", "//field[@name='wbg_text']", result);
 		assertXpathEvaluatesTo("2", "count(//field[@name='wbg'])", result);
-		assertXpathEvaluatesTo("<div class=\"highlight-boundary\"><!--start wbg1--><div class=\"higher-and-smaller\">2</div>formation<!--end wbg1--></div>", "//field[@name='wbg'][1]", result);
+		assertXpathEvaluatesTo("<div class=\"highlight-boundary\"><div class=\"italic\"><!--start wbg1--><div class=\"higher-and-smaller\">2</div>formation<!--end wbg1--></div></div>", "//field[@name='wbg'][1]", result);
 		assertXpathEvaluatesTo("<div class=\"highlight-boundary\"><!--start wbg2--><div class=\"italic\"><a href=\"bla.h1.0m\">bla</a></div><!--end wbg2--></div>", "//field[@name='wbg'][2]", result);
 	}
 

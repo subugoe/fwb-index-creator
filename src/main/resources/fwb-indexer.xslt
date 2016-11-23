@@ -297,13 +297,15 @@
     </div>
   </xsl:template>
 
-  <xsl:template match="dictScrap[@rend='wbg']/re[@type='re.wbg']" mode="html_fulltext">
+  <xsl:template match="re[@type='re.wbg']" mode="html_fulltext">
     <xsl:variable name="wbgNr" select="count(preceding::ref[not(matches(@target, '_s\d+$') and number(.))]) + count(preceding::re[@type='re.wbg']) + 1" />
     <xsl:variable name="wbgId" select="concat('wbg',$wbgNr)" />
     <div class="highlight-boundary">
-      <xsl:comment>start <xsl:value-of select="$wbgId" /></xsl:comment>
-      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
-      <xsl:comment>end <xsl:value-of select="$wbgId" /></xsl:comment>
+      <div class="italic">
+        <xsl:comment>start <xsl:value-of select="$wbgId" /></xsl:comment>
+        <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+        <xsl:comment>end <xsl:value-of select="$wbgId" /></xsl:comment>
+      </div>
     </div>
   </xsl:template>
 
@@ -636,6 +638,7 @@
       <xsl:apply-templates select="dictScrap[@rend='ra']" />
       <xsl:apply-templates select="dictScrap[@rend='stw']" />
       <xsl:apply-templates select="dictScrap[@rend='ref']" />
+      <xsl:apply-templates select="dictScrap[@rend='ipLiPkt']" />
       <xsl:apply-templates select="dictScrap[@rend='wbg']" />
       <xsl:apply-templates select="dictScrap[@rend='wbv']" />
   </xsl:template>
@@ -742,7 +745,27 @@
     </field>
   </xsl:template>
 
+  <xsl:template match="dictScrap[@rend='ipLiPkt']">
+    <xsl:for-each select="re[@type='re.wbg']">
+      <field name="wbg">
+        <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+        <xsl:apply-templates select="." mode="html_fulltext" />
+        <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+      </field>
+    </xsl:for-each>
+    <field name="wbg_text">
+      <xsl:apply-templates select="re[@type='re.wbg']" />
+    </field>
+  </xsl:template>
+
   <xsl:template match="dictScrap[@rend='wbg']/re">
+    <xsl:if test="preceding-sibling::re">
+      <xsl:text>, </xsl:text>
+    </xsl:if>
+    <xsl:value-of select="text()" />
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='ipLiPkt']/re">
     <xsl:if test="preceding-sibling::re">
       <xsl:text>, </xsl:text>
     </xsl:if>

@@ -36,10 +36,11 @@ public class IndexerHtmlTest {
 
 	@Test
 	public void shouldConvertListItems() throws Exception {
-		xslt.transform("src/test/resources/html/listItems.xml", outputBaos);
+		xslt.transform("src/test/resources/html/wbgListItems.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("I", "//div[@class='roman-number']", html);
+		assertXpathEvaluatesTo("item1", "//div[@class='info-list-item'][1]/div[@class='highlight-boundary']", html);
+		assertXpathEvaluatesTo("item2", "//div[@class='info-list-item'][2]/div[@class='highlight-boundary']", html);
 	}
 
 	@Test
