@@ -52,7 +52,7 @@ public class SolrTester {
 
 		solr.select("artikel_text:es");
 
-		assertEquals(4446, results());
+		assertEquals(4638, results());
 	}
 
 	@Test
@@ -83,7 +83,7 @@ public class SolrTester {
 
 		solr.search("-lach");
 
-		assertEquals(5, results());
+		assertEquals(8, results());
 		assertEquals("-lach", lemma(1));
 	}
 
@@ -92,7 +92,7 @@ public class SolrTester {
 
 		solr.list("imbs");
 
-		assertEquals(29, results());
+		assertEquals(30, results());
 		assertEquals("imbs", lemma(1));
 		assertEquals("imbis", lemma(2));
 		assertBestResultsContainWordPart("imbs");
@@ -113,7 +113,7 @@ public class SolrTester {
 
 		solr.list("gericht");
 
-		assertEquals(1955, results());
+		assertEquals(2025, results());
 		assertEquals("gerichtsacten", lemma(1));
 		assertBestResultsContainWordPart("gericht");
 	}
@@ -123,7 +123,7 @@ public class SolrTester {
 
 		solr.list("abziehen \"Ziesemer, Gr.\"");
 
-		assertEquals(24, results());
+		assertEquals(27, results());
 		assertEquals("abziehen", lemma(1));
 		assertBestResultsContainWordPart("abziehen");
 	}
@@ -133,7 +133,7 @@ public class SolrTester {
 
 		solr.list("essen");
 
-		assertEquals(5899, results());
+		assertEquals(6100, results());
 		assertEquals("geniessen", lemma(1));
 		// also finds "begrüssen"
 		// assertBestResultsContainWordPart("essen");
@@ -164,7 +164,7 @@ public class SolrTester {
 
 		solr.list("leben");
 
-		assertEquals(1648, results());
+		assertEquals(1702, results());
 		assertEquals("leben", lemma(1));
 		assertEquals("leben", lemma(2));
 		assertBestResultsContainWordPart("leben");
@@ -175,7 +175,7 @@ public class SolrTester {
 
 		solr.list("christ");
 
-		assertEquals(2082, results());
+		assertEquals(2158, results());
 		assertEquals("christ", lemma(1));
 		assertBestResultsContainWordPart("christ");
 	}
