@@ -34,6 +34,14 @@ public class IndexerHtmlTest {
 		 System.out.println(outputBaos.toString());
 	}
 
+	// @Test
+	public void shouldPutTogetherCitationsAndBls() throws Exception {
+		xslt.transform("src/test/resources/html/citationAndBls.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("Belege: ", "//div[@class='citations-begin']", html);
+	}
+
 	@Test
 	public void shouldConvertListItems() throws Exception {
 		xslt.transform("src/test/resources/html/wbgListItems.xml", outputBaos);
