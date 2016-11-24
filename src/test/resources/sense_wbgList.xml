@@ -8,6 +8,7 @@
           <dictScrap rend="ipLiPkt"><re type="re.wbg" subtype="non">item1</re> ›bla1‹, </dictScrap>
           <dictScrap rend="ipLiPkt"><re type="re.wbg" subtype="non">item2</re> ›bla2‹, </dictScrap>
           <dictScrap rend="wbg"><re type="re.wbg" subtype="mat">Wbg</re></dictScrap>
+          <dictScrap rend="BBlock">Zu <re type="re.wbg" subtype="non">bblock</re>: </dictScrap>
         </sense>
       </entry>
     </body>

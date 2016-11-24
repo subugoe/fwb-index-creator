@@ -37,8 +37,8 @@ public class IndexerTest {
 		xslt.transform("src/test/resources/sense_wbgList.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("3", "count(//field[@name='wbg'])", result);
-		assertXpathEvaluatesTo("3", "count(//field[@name='wbg_text'])", result);
+		assertXpathEvaluatesTo("4", "count(//field[@name='wbg'])", result);
+		assertXpathEvaluatesTo("4", "count(//field[@name='wbg_text'])", result);
 	}
 
 	@Test

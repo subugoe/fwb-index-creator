@@ -640,6 +640,7 @@
       <xsl:apply-templates select="dictScrap[@rend='ref']" />
       <xsl:apply-templates select="dictScrap[@rend='ipLiPkt']" />
       <xsl:apply-templates select="dictScrap[@rend='wbg']" />
+      <xsl:apply-templates select="dictScrap[@rend='BBlock']" />
       <xsl:apply-templates select="dictScrap[@rend='wbv']" />
   </xsl:template>
 
@@ -758,6 +759,19 @@
     </field>
   </xsl:template>
 
+  <xsl:template match="dictScrap[@rend='BBlock']">
+    <xsl:for-each select="re[@type='re.wbg']">
+      <field name="wbg">
+        <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+        <xsl:apply-templates select="." mode="html_fulltext" />
+        <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+      </field>
+    </xsl:for-each>
+    <field name="wbg_text">
+      <xsl:apply-templates select="re[@type='re.wbg']" />
+    </field>
+  </xsl:template>
+
   <xsl:template match="dictScrap[@rend='wbg']/re">
     <xsl:if test="preceding-sibling::re">
       <xsl:text>, </xsl:text>
@@ -766,6 +780,13 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='ipLiPkt']/re">
+    <xsl:if test="preceding-sibling::re">
+      <xsl:text>, </xsl:text>
+    </xsl:if>
+    <xsl:value-of select="text()" />
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='BBlock']/re">
     <xsl:if test="preceding-sibling::re">
       <xsl:text>, </xsl:text>
     </xsl:if>
