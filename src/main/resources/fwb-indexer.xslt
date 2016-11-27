@@ -328,12 +328,6 @@
     </div>
   </xsl:template>
 
-  <xsl:template match="dictScrap[@rend='BBlock']" mode="html_fulltext">
-    <div class="bblock">
-      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
-    </div>
-  </xsl:template>
-
   <xsl:template match="text()" mode="html_fulltext">
     <xsl:value-of select="." />
   </xsl:template>
@@ -523,12 +517,86 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='cit']" mode="html_fulltext">
+    <xsl:call-template name="printCitationsHeader" />
     <div class="citations">
-      <div class="citations-begin">
-        <xsl:text>Quellenzitate: </xsl:text>
-      </div>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='bls']" mode="html_fulltext">
+    <xsl:call-template name="printBlsHeader" />
+    <div class="bls">
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </div>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='BBlock']" mode="html_fulltext">
+    <xsl:call-template name="printBblockHeader" />
+    <div class="bblock">
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </div>
+  </xsl:template>
+
+  <xsl:template name="printCitationsHeader">
+    <xsl:variable name="isNotInsideBblock" select="not(preceding-sibling::dictScrap[@rend='BBlock'])" />
+    <xsl:variable name="possibleBlsNode" select="following-sibling::*[1]" />
+    <xsl:variable name="noBlsNode" select="empty($possibleBlsNode) or $possibleBlsNode/@rend != 'bls'" />
+    <xsl:if test="$isNotInsideBblock">
+      <xsl:variable name="headerText">
+        <xsl:choose>
+          <xsl:when test="count(cit) = 1 and $noBlsNode">
+            <xsl:text>Beleg: </xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>Belege: </xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+      <div class="citations-begin">
+        <xsl:value-of select="$headerText" />
+      </div>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template name="printBlsHeader">
+    <xsl:variable name="isNotInsideBblock" select="not(preceding-sibling::dictScrap[@rend='BBlock'])" />
+    <xsl:variable name="possibleCitNode" select="preceding-sibling::*[1]" />
+    <xsl:variable name="noCitNode" select="empty($possibleCitNode) or $possibleCitNode/@rend != 'cit'" />
+    <xsl:if test="$noCitNode and $isNotInsideBblock">
+      <xsl:variable name="headerText">
+        <xsl:choose>
+          <xsl:when test="count(cit) = 1">
+            <xsl:text>Beleg: </xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>Belege: </xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+      <div class="citations-begin">
+        <xsl:value-of select="$headerText" />
+      </div>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template name="printBblockHeader">
+    <xsl:variable name="isFirstBblock" select=". = ../dictScrap[@rend='BBlock'][1]" />
+    <xsl:variable name="citCount" select="count(../dictScrap/cit)" />
+    <xsl:if test="$isFirstBblock">
+      <xsl:variable name="headerText">
+        <xsl:choose>
+          <xsl:when test="$citCount = 1">
+            <xsl:text>Beleg: </xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>Belege: </xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+      <div class="citations-begin">
+        <xsl:value-of select="$headerText" />
+      </div>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='ref']" mode="html_fulltext">
@@ -614,15 +682,6 @@
       <xsl:comment>start <xsl:value-of select="$quoteId" /></xsl:comment>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
       <xsl:comment>end <xsl:value-of select="$quoteId" /></xsl:comment>
-    </div>
-  </xsl:template>
-
-  <xsl:template match="dictScrap[@rend='bls']" mode="html_fulltext">
-    <div class="bls">
-      <div class="bls-begin">
-        <xsl:text>Belegstellenangaben: </xsl:text>
-      </div>
-      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
   </xsl:template>
 

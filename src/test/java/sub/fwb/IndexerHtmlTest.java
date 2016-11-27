@@ -34,7 +34,32 @@ public class IndexerHtmlTest {
 		 System.out.println(outputBaos.toString());
 	}
 
-	// @Test
+	@Test
+	public void shouldMakeHeaderForOneBls() throws Exception {
+		xslt.transform("src/test/resources/html/bls.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("Beleg: ", "//div[@class='citations-begin']", html);
+	}
+
+	@Test
+	public void shouldMakeHeaderForOneCitation() throws Exception {
+		xslt.transform("src/test/resources/html/cite.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("Beleg: ", "//div[@class='citations-begin']", html);
+	}
+
+	@Test
+	public void shouldPutTogetherCitationsAndBlsWithBblocks() throws Exception {
+		xslt.transform("src/test/resources/html/citationAndBlsAndBblock.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("Belege: ", "//div[@class='citations-begin']", html);
+		assertXpathEvaluatesTo("1", "count(//div[@class='citations-begin'])", html);
+	}
+
+	@Test
 	public void shouldPutTogetherCitationsAndBls() throws Exception {
 		xslt.transform("src/test/resources/html/citationAndBls.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
@@ -299,7 +324,6 @@ public class IndexerHtmlTest {
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
 		assertXpathExists("//div[@class='bls']", html);
-		assertXpathExists("//div[@class='bls-begin']", html);
 		assertXpathExists("//div[@class='citation']", html);
 	}
 
