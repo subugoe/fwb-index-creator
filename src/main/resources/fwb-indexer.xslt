@@ -524,68 +524,25 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='bls']" mode="html_fulltext">
-    <xsl:call-template name="printBlsHeader" />
+    <xsl:call-template name="printCitationsHeader" />
     <div class="bls">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='BBlock']" mode="html_fulltext">
-    <xsl:call-template name="printBblockHeader" />
+    <xsl:call-template name="printCitationsHeader" />
     <div class="bblock">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
   </xsl:template>
 
   <xsl:template name="printCitationsHeader">
-    <xsl:variable name="isNotInsideBblock" select="not(preceding-sibling::dictScrap[@rend='BBlock'])" />
-    <xsl:variable name="possibleBlsNode" select="following-sibling::*[1]" />
-    <xsl:variable name="noBlsNode" select="empty($possibleBlsNode) or $possibleBlsNode/@rend != 'bls'" />
-    <xsl:if test="$isNotInsideBblock">
+    <xsl:variable name="isFirst" select="not(preceding-sibling::dictScrap[@rend='BBlock' or @rend='cit' or @rend='bls'])" />
+    <xsl:if test="$isFirst">
       <xsl:variable name="headerText">
         <xsl:choose>
-          <xsl:when test="count(cit) = 1 and $noBlsNode">
-            <xsl:text>Beleg: </xsl:text>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:text>Belege: </xsl:text>
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:variable>
-      <div class="citations-begin">
-        <xsl:value-of select="$headerText" />
-      </div>
-    </xsl:if>
-  </xsl:template>
-
-  <xsl:template name="printBlsHeader">
-    <xsl:variable name="isNotInsideBblock" select="not(preceding-sibling::dictScrap[@rend='BBlock'])" />
-    <xsl:variable name="possibleCitNode" select="preceding-sibling::*[1]" />
-    <xsl:variable name="noCitNode" select="empty($possibleCitNode) or $possibleCitNode/@rend != 'cit'" />
-    <xsl:if test="$noCitNode and $isNotInsideBblock">
-      <xsl:variable name="headerText">
-        <xsl:choose>
-          <xsl:when test="count(cit) = 1">
-            <xsl:text>Beleg: </xsl:text>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:text>Belege: </xsl:text>
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:variable>
-      <div class="citations-begin">
-        <xsl:value-of select="$headerText" />
-      </div>
-    </xsl:if>
-  </xsl:template>
-
-  <xsl:template name="printBblockHeader">
-    <xsl:variable name="isFirstBblock" select=". = ../dictScrap[@rend='BBlock'][1]" />
-    <xsl:variable name="citCount" select="count(../dictScrap/cit)" />
-    <xsl:if test="$isFirstBblock">
-      <xsl:variable name="headerText">
-        <xsl:choose>
-          <xsl:when test="$citCount = 1">
+          <xsl:when test="count(../dictScrap/cit) = 1">
             <xsl:text>Beleg: </xsl:text>
           </xsl:when>
           <xsl:otherwise>

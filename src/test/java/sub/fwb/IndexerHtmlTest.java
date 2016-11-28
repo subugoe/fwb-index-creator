@@ -35,6 +35,15 @@ public class IndexerHtmlTest {
 	}
 
 	@Test
+	public void shouldMakeHeaderForBlsInFront() throws Exception {
+		xslt.transform("src/test/resources/html/citationAndBlsInFront.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("Beleg: ", "//div[@class='citations-begin']", html);
+		assertXpathEvaluatesTo("1", "count(//div[@class='citations-begin'])", html);
+	}
+
+	@Test
 	public void shouldMakeHeaderForOneBls() throws Exception {
 		xslt.transform("src/test/resources/html/bls.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
