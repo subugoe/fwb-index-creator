@@ -532,7 +532,7 @@
 
   <xsl:template match="dictScrap[@rend='BBlock']" mode="html_fulltext">
     <xsl:call-template name="printCitationsHeader" />
-    <div class="bblock">
+    <div class="citations-block">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
   </xsl:template>
