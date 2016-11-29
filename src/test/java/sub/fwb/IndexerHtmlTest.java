@@ -35,6 +35,14 @@ public class IndexerHtmlTest {
 	}
 
 	@Test
+	public void shouldPrintNumberForFirstDefinitionOnly() throws Exception {
+		xslt.transform("src/test/resources/html/twoDefinitions.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("1", "count(//div[@class='sense-number'])", html);
+	}
+
+	@Test
 	public void shouldMakeHeaderForBlsInFront() throws Exception {
 		xslt.transform("src/test/resources/html/citationAndBlsInFront.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
@@ -106,8 +114,8 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/senseWithRange.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("1.; 2.; 3.; 4., ", "//div[@id='sense1']/div[@class='sense-number']", html);
-		assertXpathEvaluatesTo("5. ", "//div[@id='sense2']/div[@class='sense-number']", html);
+		assertXpathEvaluatesTo("1.; 2.; 3.; 4., ", "//div[@id='sense1']//div[@class='sense-number']", html);
+		assertXpathEvaluatesTo("5. ", "//div[@id='sense2']//div[@class='sense-number']", html);
 	}
 
 	@Test
@@ -239,7 +247,7 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/sense.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathExists("//div[@class='sense']", html);
+		assertXpathExists("//div[@class='sense' and @id='sense1']", html);
 		assertXpathEvaluatesTo("my definition", "//div[@class='definition']", html);
 	}
 
@@ -341,7 +349,7 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/anchors.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("sense1", "//div[@class='definition']/@id", html);
+		assertXpathEvaluatesTo("sense1", "//div[@class='sense']/@id", html);
 		assertXpathEvaluatesTo("mylemma#sense2", "//a[1]/@href", html);
 		assertXpathEvaluatesTo("#sense12", "//a[2]/@href", html);
 	}

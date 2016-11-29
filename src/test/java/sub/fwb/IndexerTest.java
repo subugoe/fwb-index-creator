@@ -33,6 +33,15 @@ public class IndexerTest {
 	}
 
 	@Test
+	public void shouldGenerateOneDefinition() throws Exception {
+		xslt.transform("src/test/resources/defNumbers_twoDefs.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("1", "count(//field[@name='def_text'])", result);
+		assertXpathEvaluatesTo("1", "count(//field[@name='def_number'])", result);
+	}
+
+	@Test
 	public void shouldMakeWbgForListItems() throws Exception {
 		xslt.transform("src/test/resources/sense_wbgList.xml", outputBaos);
 		String result = outputBaos.toString();
@@ -191,10 +200,10 @@ public class IndexerTest {
 		assertXpathEvaluatesTo("Definition one.", "//field[@name='def_text'][1]", result);
 		assertXpathEvaluatesTo("Definition two.", "//field[@name='def_text'][2]", result);
 		assertXpathEvaluatesTo(
-				"<div id=\"sense1\" class=\"definition\"><!--start sense1--><div class=\"sense-number\">1. </div>Definition one.<!--end sense1--></div>",
+				"<div class=\"definition\"><!--start def1--><div class=\"sense-number\">1. </div>Definition one.<!--end def1--></div>",
 				"//field[@name='def'][1]", result);
 		assertXpathEvaluatesTo(
-				"<div id=\"sense2\" class=\"definition\"><!--start sense2--><div class=\"sense-number\">2. </div>Definition two.<!--end sense2--></div>",
+				"<div class=\"definition\"><!--start def2--><div class=\"sense-number\">2. </div>Definition two.<!--end def2--></div>",
 				"//field[@name='def'][2]", result);
 	}
 

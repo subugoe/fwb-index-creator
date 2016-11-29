@@ -425,20 +425,21 @@
   </xsl:template>
 
   <xsl:template match="sense" mode="html_fulltext">
-    <div class="sense">
+    <xsl:variable name="senseNumber" select="count(preceding::sense) + 1" />
+    <xsl:variable name="senseAnchor" select="concat('sense', $senseNumber)" />
+    <div id="{$senseAnchor}" class="sense">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
   </xsl:template>
 
   <xsl:template match="def" mode="html_fulltext">
-    <xsl:variable name="senseNumber" select="count(preceding::sense) + 1" />
-    <xsl:variable name="senseAnchor" select="concat('sense', $senseNumber)" />
     <xsl:variable name="defNumber" select="count(preceding::def) + 1" />
-    <xsl:variable name="defAnchor" select="concat('sense', $defNumber)" />
+    <xsl:variable name="defAnchor" select="concat('def', $defNumber)" />
     <xsl:variable name="senseRendNumber" select="parent::sense/@rend" />
-    <div id="{$senseAnchor}" class="definition">
+    <div class="definition">
       <xsl:comment>start <xsl:value-of select="$defAnchor" /></xsl:comment>
-      <xsl:if test="$senseRendNumber">
+      <xsl:variable name="isFirst" select="not(preceding-sibling::def)" />
+      <xsl:if test="$senseRendNumber and $isFirst">
         <div class="sense-number">
           <xsl:call-template name="printRendNumbers">
             <xsl:with-param name="rendNumberString" select="$senseRendNumber" />
@@ -644,7 +645,8 @@
 
 
   <xsl:template match="sense">
-      <xsl:apply-templates select="def" />
+      <xsl:apply-templates select="def[.//text()]" />
+      <xsl:call-template name="printDefTextAndNumber" />
       <xsl:apply-templates select="dictScrap[@rend='bdv']" />
       <xsl:apply-templates select="dictScrap[@rend='sv']" />
       <xsl:apply-templates select="dictScrap[@rend='ggs']" />
@@ -660,22 +662,27 @@
       <xsl:apply-templates select="dictScrap[@rend='wbv']" />
   </xsl:template>
 
+  <xsl:template name="printDefTextAndNumber">
+    <xsl:if test="def[.//text()]">
+      <field name="def_text">
+        <xsl:value-of select="def" separator=" " />
+      </field>
+    </xsl:if>
+    <xsl:if test="@rend and @rend != 'bedzif'">
+      <field name="def_number">
+        <xsl:call-template name="printDefinitionNumber">
+          <xsl:with-param name="rendNumber" select="@rend" />
+        </xsl:call-template>
+      </field>
+    </xsl:if>
+  </xsl:template>
+
   <xsl:template match="def[.//text()]">
     <field name="def">
       <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
       <xsl:apply-templates select="." mode="html_fulltext" />
       <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
     </field>
-    <field name="def_text">
-      <xsl:value-of select="." />
-    </field>
-    <xsl:if test="parent::sense/@rend and parent::sense/@rend != 'bedzif'">
-      <field name="def_number">
-        <xsl:call-template name="printDefinitionNumber">
-          <xsl:with-param name="rendNumber" select="parent::sense/@rend" />
-        </xsl:call-template>
-      </field>
-    </xsl:if>
   </xsl:template>
 
   <xsl:template name="printDefinitionNumber">
