@@ -98,7 +98,7 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/complexDefinitions.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("Zu a): ", "//div[@class='bblock']", html);
+		assertXpathEvaluatesTo("Zu a): ", "//div[@class='citations-block']", html);
 	}
 
 	@Test
