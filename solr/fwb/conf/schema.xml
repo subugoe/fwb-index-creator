@@ -18,6 +18,7 @@
     <!-- ID aus dem TEI -->
     <field name="internal_id" type="string" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="sortkey" type="string" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="roman_number" type="string" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="homonym" type="int" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="lemma" type="text_de" indexed="true" stored="true" required="false" multiValued="false" 
        termVectors="true"

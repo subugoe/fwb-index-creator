@@ -33,6 +33,14 @@ public class IndexerTest {
 	}
 
 	@Test
+	public void shouldCreateFieldForRomanNumber() throws Exception {
+		xslt.transform("src/test/resources/romanNumber.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("I", "//field[@name='roman_number']", result);
+	}
+
+	@Test
 	public void shouldGenerateOneDefinition() throws Exception {
 		xslt.transform("src/test/resources/defNumbers_twoDefs.xml", outputBaos);
 		String result = outputBaos.toString();

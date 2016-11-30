@@ -98,7 +98,7 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/romanNumber.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("I", "//div[@class='roman-number']", html);
+		assertXpathEvaluatesTo(" I", "//div[@class='roman-number']", html);
 	}
 
 	@Test

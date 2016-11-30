@@ -65,6 +65,11 @@
         <xsl:value-of select="@n" />
       </field>
     </xsl:if>
+    <xsl:if test="form[@type='lemma']/num">
+      <field name="roman_number">
+        <xsl:value-of select="form[@type='lemma']/num" />
+      </field>
+    </xsl:if>
     <xsl:variable name="lemma" select="normalize-space(replace(form[@type='lemma']/orth,'\p{Z}+', ' '))" />
     <field name="lemma">
       <xsl:choose>
@@ -124,7 +129,7 @@
   <xsl:template match="text()" mode="fulltext">
     <xsl:value-of select="replace(., '\p{Z}+', ' ')" />
     <xsl:variable name="tag" select="local-name(parent::*)" />
-    <xsl:variable name="tagsFollowedBySpace" select="($tag = 're' or $tag = 'orth' or $tag = 'dictScrap' or $tag = 'def' or $tag = 'bibl' or $tag = 'quote') and not(following-sibling::*)" />
+    <xsl:variable name="tagsFollowedBySpace" select="($tag = 'num' or $tag = 're' or $tag = 'orth' or $tag = 'dictScrap' or $tag = 'def' or $tag = 'bibl' or $tag = 'quote') and not(following-sibling::*)" />
     <xsl:variable name="afterLastCitedRange" select="$tag = 'citedRange' and not(parent::*/following-sibling::*)" />
     <xsl:variable name="beforeLineBreak" select="local-name(following-sibling::*[1]) = 'lb'" />
     <xsl:if test="$tagsFollowedBySpace or $afterLastCitedRange or $beforeLineBreak">
@@ -161,12 +166,13 @@
         </div>
       </xsl:if>
       <xsl:value-of select="orth" />
+      <xsl:apply-templates select="num" mode="html_fulltext" />
     </div>
-    <xsl:apply-templates select="num" mode="html_fulltext" />
   </xsl:template>
 
   <xsl:template match="num" mode="html_fulltext">
     <div class="roman-number">
+      <xsl:text> </xsl:text>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
   </xsl:template>
