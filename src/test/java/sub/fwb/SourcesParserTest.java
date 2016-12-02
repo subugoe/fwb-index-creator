@@ -18,12 +18,12 @@ public class SourcesParserTest {
 	public void tearDown() throws Exception {
 	}
 
-	@Test
+	// @Test
 	public void test() throws Exception {
 		SourcesParser parser = new SourcesParser();
-		// parser.convertExcelToXml(new
-		// File("/home/dennis/temp/FWB-Quellenliste.xlsx"),
-		// new File(System.getProperty("java.io.tmpdir"), "sourcesList.xml"));
+		parser.convertExcelToXml(new
+		File("/home/dennis/temp/quellen.xlsx"),
+		new File(System.getProperty("java.io.tmpdir"), "sourcesList.xml"));
 	}
 
 }

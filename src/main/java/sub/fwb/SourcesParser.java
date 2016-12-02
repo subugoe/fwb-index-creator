@@ -45,6 +45,8 @@ public class SourcesParser {
 			buffer.append("<field name=\"source_html\"><![CDATA[");
 			buffer.append("<div class=\"source-details\">\n");
 
+			appendHeader(asString(row.getCell(2)), buffer);
+
 			appendRowOfSpans("Bibliographie: ", asString(row.getCell(15)), buffer);
 			appendRowOfSpans("Zitierweise: ", asString(row.getCell(16)), buffer);
 
@@ -108,6 +110,11 @@ public class SourcesParser {
 			}
 		}
 		return result;
+	}
+
+	private void appendHeader(String strongListField, StringBuffer buffer) {
+		String entryValue = extractUsingRegex("\\$c(.*?)#", strongListField).get(0);
+		buffer.append("  <div class=\"source-details-header\">" + entryValue + "</div>\n");
 	}
 
 	private void appendRowOfSpans(String left, String right, StringBuffer buffer) {
