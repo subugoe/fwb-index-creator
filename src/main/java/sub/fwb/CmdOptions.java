@@ -24,7 +24,6 @@ public class CmdOptions {
 
 	public File teiInputDir;
 	public File inputExcel;
-	public File inputWordTypes;
 	public File solrXmlDir;
 	public String solrUrl;
 
@@ -36,7 +35,6 @@ public class CmdOptions {
 		options.addOption("test", false, "Execute some test searches on the Solr index");
 		options.addOption("teidir", true, "Input directory with TEI files - use with: -convert, -compare");
 		options.addOption("excel", true, "File containing sources - use with: -convert");
-		options.addOption("wordtypes", true, "Text file containing word type mappings - use with: -convert");
 		options.addOption("solrxmldir", true,
 				"Output directory for Solr index files - use with: -convert, -compare, -upload");
 		options.addOption("solr", true, "URL of the Solr core - use with: -upload, -test");
@@ -62,7 +60,6 @@ public class CmdOptions {
 			boolean allRequiredPresent = true;
 			allRequiredPresent &= parsedOptions.hasOption("teidir");
 			allRequiredPresent &= parsedOptions.hasOption("excel");
-			allRequiredPresent &= parsedOptions.hasOption("wordtypes");
 			allRequiredPresent &= parsedOptions.hasOption("solrxmldir");
 
 			if (!allRequiredPresent) {
@@ -72,7 +69,6 @@ public class CmdOptions {
 			}
 			teiInputDir = new File(parsedOptions.getOptionValue("teidir"));
 			inputExcel = new File(parsedOptions.getOptionValue("excel"));
-			inputWordTypes = new File(parsedOptions.getOptionValue("wordtypes"));
 			solrXmlDir = new File(parsedOptions.getOptionValue("solrxmldir"));
 			makeSureThatExists(solrXmlDir);
 		}

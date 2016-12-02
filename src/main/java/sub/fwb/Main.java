@@ -67,7 +67,8 @@ public class Main {
 		Xslt xslt = new Xslt(xsltStream);
 
 		WordTypesGenerator wordTyper = new WordTypesGenerator();
-		String wordTypesList = wordTyper.prepareForXslt(o.inputWordTypes);
+		InputStream wordTypes = Main.class.getResourceAsStream("/wordtypes.txt");
+		String wordTypesList = wordTyper.prepareForXslt(wordTypes);
 		xslt.setParameter("wordTypes", wordTypesList);
 
 		ArrayList<File> allFiles = new ArrayList<File>();
