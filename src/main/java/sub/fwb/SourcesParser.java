@@ -59,10 +59,10 @@ public class SourcesParser {
 			if (!digi.isEmpty()) {
 				links.put("Digitalisat online", digi);
 			}
-			String pdf = asString(row.getCell(10));
-			if (!pdf.isEmpty()) {
-				links.put("PDF", pdf);
-			}
+//			String pdf = asString(row.getCell(10));
+//			if (!pdf.isEmpty()) {
+//				links.put("PDF", pdf);
+//			}
 
 			if (!links.isEmpty()) {
 				appendRowWithLinks(links, buffer);
