@@ -7,13 +7,7 @@
   <xsl:output method="xml" indent="yes" saxon:suppress-indentation="div a" />
   <xsl:strip-space elements="*" />
 
-  <xsl:param name="previousArticleId" />
   <xsl:param name="currentArticleId" />
-  <xsl:param name="nextArticleId" />
-
-  <xsl:param name="previousLemma" />
-  <xsl:param name="nextLemma" />
-
   <xsl:param name="wordTypes" />
 
   <xsl:template match="/">
@@ -22,18 +16,6 @@
         <field name="type">artikel</field>
         <field name="id">
           <xsl:value-of select="$currentArticleId" />
-        </field>
-        <field name="article_previous_id">
-          <xsl:value-of select="$previousArticleId" />
-        </field>
-        <field name="article_previous_lemma">
-          <xsl:value-of select="$previousLemma" />
-        </field>
-        <field name="article_next_id">
-          <xsl:value-of select="$nextArticleId" />
-        </field>
-        <field name="article_next_lemma">
-          <xsl:value-of select="$nextLemma" />
         </field>
         <xsl:apply-templates select="//teiHeader//sourceDesc/bibl" />
         <xsl:apply-templates select="//body/entry" />

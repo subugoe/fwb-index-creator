@@ -45,10 +45,6 @@
     <!-- true bei Artikeln die *.ref* -->
     <field name="is_reference" type="boolean" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="unblocking_date" type="date" indexed="true" stored="true" required="false" multiValued="false" />
-    <field name="article_next_id" type="string" indexed="false" stored="true" required="false" multiValued="false" />
-    <field name="article_next_lemma" type="string" indexed="false" stored="true" required="false" multiValued="false" />
-    <field name="article_previous_id" type="string" indexed="false" stored="true" required="false" multiValued="false" />
-    <field name="article_previous_lemma" type="string" indexed="false" stored="true" required="false" multiValued="false" />
 
     <field name="region" type="string" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="datum" type="string" indexed="true" stored="true" required="false" multiValued="true" />

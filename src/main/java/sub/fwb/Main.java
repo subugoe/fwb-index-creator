@@ -81,15 +81,6 @@ public class Main {
 			if (currentId % 2000 == 0 || currentId == allFiles.size()) {
 				System.out.print(" ..." + currentId);
 			}
-			if (i > 0) {
-				addFileParametersToXslt("previous", (currentId - 1) + "", allFiles.get(i - 1), xslt);
-			}
-			if (i < allFiles.size() - 1) {
-				addFileParametersToXslt("next", (currentId + 1) + "", allFiles.get(i + 1), xslt);
-			} else {
-				xslt.setParameter("nextArticleId", "");
-				xslt.setParameter("nextLemma", "");
-			}
 			xslt.setParameter("currentArticleId", currentId + "");
 			xslt.transform(currentFile.getAbsolutePath(),
 					new FileOutputStream(new File(o.solrXmlDir, currentFile.getName())));
@@ -164,12 +155,4 @@ public class Main {
 		}
 	}
 
-	private void addFileParametersToXslt(String previousOrNext, String id, File file, Xslt xslt) {
-		xslt.setParameter(previousOrNext + "ArticleId", id);
-
-		String fileName = file.getName();
-		int indexOfFirstDot = fileName.indexOf('.');
-		String lemma = fileName.substring(0, indexOfFirstDot);
-		xslt.setParameter(previousOrNext + "Lemma", lemma);
-	}
 }
