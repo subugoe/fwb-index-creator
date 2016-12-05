@@ -29,6 +29,7 @@
        termPositions="true"
        termOffsets="true" />
     <field name="wortart" type="string" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="wortart_allgemein" type="string" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="neblem" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="neblem_text" type="text_de" indexed="true" stored="true" required="false" multiValued="true" />
     <field name="etym" type="text_de" indexed="true" stored="true" required="false" multiValued="false" />

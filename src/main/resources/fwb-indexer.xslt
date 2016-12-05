@@ -9,6 +9,7 @@
 
   <xsl:param name="currentArticleId" />
   <xsl:param name="wordTypes" />
+  <xsl:param name="generalWordTypes" />
 
   <xsl:template match="/">
     <add>
@@ -69,9 +70,13 @@
     <field name="sortkey">
       <xsl:value-of select="@sortKey" />
     </field>
+    <xsl:variable name="wordTypeId" select="fwb:getWordTypeId(@xml:id)" />
     <field name="wortart">
-      <xsl:variable name="wordTypeId" select="fwb:getWordTypeId(@xml:id)" />
       <xsl:variable name="typeValueWithTail" select="substring-after($wordTypes, concat($wordTypeId, ':'))" />
+      <xsl:value-of select="substring-before($typeValueWithTail, '###')" />
+    </field>
+    <field name="wortart_allgemein">
+      <xsl:variable name="typeValueWithTail" select="substring-after($generalWordTypes, concat($wordTypeId, ':'))" />
       <xsl:value-of select="substring-before($typeValueWithTail, '###')" />
     </field>
     <xsl:apply-templates select="dictScrap[@rend='artkopf']/re[@type='re.neblem']" />

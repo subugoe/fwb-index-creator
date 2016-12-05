@@ -4,6 +4,7 @@ import static org.custommonkey.xmlunit.XMLAssert.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.junit.After;
@@ -30,6 +31,23 @@ public class IndexerTest {
 	@After
 	public void afterEachTest() {
 		 System.out.println(outputBaos.toString());
+	}
+
+	@Test
+	public void shouldCreateWordTypeFields() throws Exception {
+		WordTypesGenerator wordTyper = new WordTypesGenerator();
+		InputStream wordTypes = Main.class.getResourceAsStream("/wordtypes.txt");
+		String wordTypesList = wordTyper.prepareForXslt(wordTypes);
+		xslt.setParameter("wordTypes", wordTypesList);
+		InputStream generalWordTypes = Main.class.getResourceAsStream("/wordtypes_general.txt");
+		String generalWordTypesList = wordTyper.prepareForXslt(generalWordTypes);
+		xslt.setParameter("generalWordTypes", generalWordTypesList);
+
+		xslt.transform("src/test/resources/wordType.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("Maskulinum", "//field[@name='wortart']", result);
+		assertXpathEvaluatesTo("Substantiv", "//field[@name='wortart_allgemein']", result);
 	}
 
 	@Test

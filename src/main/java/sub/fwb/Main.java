@@ -70,6 +70,9 @@ public class Main {
 		InputStream wordTypes = Main.class.getResourceAsStream("/wordtypes.txt");
 		String wordTypesList = wordTyper.prepareForXslt(wordTypes);
 		xslt.setParameter("wordTypes", wordTypesList);
+		InputStream generalWordTypes = Main.class.getResourceAsStream("/wordtypes_general.txt");
+		String generalWordTypesList = wordTyper.prepareForXslt(generalWordTypes);
+		xslt.setParameter("generalWordTypes", generalWordTypesList);
 
 		ArrayList<File> allFiles = new ArrayList<File>();
 		fillListWithFiles(allFiles, o.teiInputDir);
