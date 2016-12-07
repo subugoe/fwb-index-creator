@@ -4,7 +4,7 @@
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:saxon="http://saxon.sf.net/" exclude-result-prefixes="fwb saxon xs">
 
-  <xsl:output method="xml" indent="yes" saxon:suppress-indentation="div a" />
+  <xsl:output method="xml" indent="yes" saxon:suppress-indentation="div a ul li h1 h2" />
   <xsl:strip-space elements="*" />
 
   <xsl:param name="currentArticleId" />
@@ -303,9 +303,7 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='ipLiPkt']" mode="html_fulltext">
-    <div class="info-list-item">
-      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
-    </div>
+    <xsl:apply-templates select="*|text()" mode="html_fulltext" />
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='ra']" mode="html_fulltext">
@@ -421,7 +419,36 @@
     <xsl:variable name="senseNumber" select="count(preceding::sense) + 1" />
     <xsl:variable name="senseAnchor" select="concat('sense', $senseNumber)" />
     <div id="{$senseAnchor}" class="sense">
-      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+      <xsl:for-each-group select="*" 
+        group-adjacent="if (self::dictScrap[@rend='ipLiPkt']) then 1
+         else if (self::dictScrap[@rend='BBlock' or @rend='cit' or @rend='bls' or @rend='sv']) then 2
+         else 3">
+        <xsl:choose>
+          <xsl:when test="current-grouping-key() = 1">
+            <ul class="info-list">
+              <xsl:for-each select="current-group()">
+                <li>
+                  <xsl:apply-templates select="." mode="html_fulltext" />
+                </li>
+              </xsl:for-each>
+            </ul>
+          </xsl:when>
+          <xsl:when test="current-grouping-key() = 2">
+            <section class="citations-block">
+              <xsl:for-each-group select="current-group()" group-starting-with="dictScrap[@rend='BBlock']">
+                <div class="citations-subblock">
+                  <xsl:apply-templates select="current-group()" mode="html_fulltext" />
+                </div>
+              </xsl:for-each-group>
+            </section>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:for-each select="current-group()">
+              <xsl:apply-templates select="." mode="html_fulltext" />
+            </xsl:for-each>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:for-each-group>
     </div>
   </xsl:template>
 
@@ -526,9 +553,9 @@
 
   <xsl:template match="dictScrap[@rend='BBlock']" mode="html_fulltext">
     <xsl:call-template name="printCitationsHeader" />
-    <div class="citations-block">
+    <h2>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
-    </div>
+    </h2>
   </xsl:template>
 
   <xsl:template name="printCitationsHeader">
@@ -544,9 +571,9 @@
           </xsl:otherwise>
         </xsl:choose>
       </xsl:variable>
-      <div class="citations-begin">
+      <h1>
         <xsl:value-of select="$headerText" />
-      </div>
+      </h1>
     </xsl:if>
   </xsl:template>
 
