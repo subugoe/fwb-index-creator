@@ -96,7 +96,7 @@
       <int name="timeAllowed">15000</int>
     </lst>
     <lst name="defaults">
-      <str name="facet.field">wortart</str>
+      <str name="facet.field">wortart_allgemein</str>
       <str name="omitHeader">false</str>
       <str name="echoParams">all</str>
       <str name="wt">json</str>
