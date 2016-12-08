@@ -544,11 +544,18 @@
     </div>
   </xsl:template>
 
-  <xsl:template match="dictScrap[@rend='bls']" mode="html_fulltext">
+  <xsl:template match="dictScrap[@rend='bls' and cit]" mode="html_fulltext">
     <xsl:call-template name="printCitationsHeader" />
     <div class="bls">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
+  </xsl:template>
+
+  <xsl:template match="dictScrap[@rend='bls' and not(cit)]" mode="html_fulltext">
+    <xsl:call-template name="printCitationsHeader" />
+    <p>
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </p>
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='BBlock']" mode="html_fulltext">

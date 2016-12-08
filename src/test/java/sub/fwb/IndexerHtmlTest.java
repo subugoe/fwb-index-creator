@@ -35,6 +35,14 @@ public class IndexerHtmlTest {
 	}
 
 	@Test
+	public void shouldMakeParagraphOutOfBlsWithoutCit() throws Exception {
+		xslt.transform("src/test/resources/html/blsWithoutCit.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("No cit here.", "//p", html);
+	}
+
+	@Test
 	public void shouldPutAllCitationsAndSubvoceInSection() throws Exception {
 		xslt.transform("src/test/resources/html/citationAndBlsAndBblock.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
