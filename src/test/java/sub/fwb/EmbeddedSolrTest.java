@@ -105,12 +105,14 @@ public class EmbeddedSolrTest {
 
 	@Test
 	public void shouldGenerateUnhighlightedSnippetForLemma() throws Exception {
-		String[][] doc = { { "lemma", "imbis" }, { "artikel", "imbis" }, { "artikel_text", "imbis" } };
+		String[][] doc = { { "lemma", "imbis" }, { "artikel", "imbis, Nomen" }, { "artikel_text", "imbis, Nomen" } };
 		solr.addDocument(doc);
 
 		solr.search("lemma:imbis");
 		assertEquals(1, results());
-		assertNotHighlighted("artikel_text", "imbis");
+		String hlText = assertNotHighlighted("artikel_text", "Nomen");
+		// the lemma itself must not be repeated in the snippet, it doesn't look good in the search results
+		assertEquals("Nomen", hlText);
 	}
 
 	@Test
@@ -422,15 +424,15 @@ public class EmbeddedSolrTest {
 		return solr.results();
 	}
 
-	private void assertHighlighted(String fieldName, String... words) {
-		assertHighlighted(true, fieldName, words);
+	private String assertHighlighted(String fieldName, String... words) {
+		return assertHighlighted(true, fieldName, words);
 	}
 
-	private void assertNotHighlighted(String fieldName, String... words) {
-		assertHighlighted(false, fieldName, words);
+	private String assertNotHighlighted(String fieldName, String... words) {
+		return assertHighlighted(false, fieldName, words);
 	}
 
-	private void assertHighlighted(boolean forReal, String fieldName, String... words) {
+	private String assertHighlighted(boolean forReal, String fieldName, String... words) {
 		String hlText = solr.getHighlightings().get("1234").get(fieldName).get(0);
 		// System.out.println(hlText);
 		for (String word : words) {
@@ -441,6 +443,7 @@ public class EmbeddedSolrTest {
 				assertThat(hlText, not(containsString(hlWord)));
 			}
 		}
+		return hlText;
 	}
 
 }
