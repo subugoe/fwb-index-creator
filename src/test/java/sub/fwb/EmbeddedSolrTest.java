@@ -30,6 +30,17 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
+	public void shouldFindTermWithCaret() throws Exception {
+		String[][] doc = { { "artikel", "imbisgast" },
+				{ "artikel_text", "imbisgast" } };
+		solr.addDocument(doc);
+
+		solr.search("^imbis");
+		assertEquals(1, results());
+		assertHighlighted("artikel_text", "imbisgast");
+	}
+
+	@Test
 	public void shouldNotHighlightLonelyParenthesis() throws Exception {
 		String[][] doc = { { "artikel", "imbis)" },
 				{ "artikel_text", "imbis)" } };
