@@ -109,7 +109,7 @@ public class SourcesParser {
 				throw new RuntimeException("Unknown cell type: " + cell.getCellType() + ".");
 			}
 		}
-		return result;
+		return result.replace("<", "&lt;").replace(">", "&gt;");
 	}
 
 	private void appendHeader(String strongListField, StringBuffer buffer) {
