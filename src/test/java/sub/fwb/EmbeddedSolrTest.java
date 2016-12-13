@@ -30,6 +30,18 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
+	public void shouldRemoveSpecialCharsFromFrontAndBackInSnippet() throws Exception {
+		String[][] doc = { { "artikel", ",)/‹.]- ;: test (,/[- ;:" },
+				{ "artikel_text", ",)/‹.]- ;: test (,/[- ;:" } };
+		solr.addDocument(doc);
+
+		solr.search("test");
+		assertEquals(1, results());
+		String hlSnippet = assertHighlighted("artikel_text", "test");
+		assertEquals("<span class=\"highlight\">test</span>", hlSnippet);
+	}
+
+	@Test
 	public void shouldFindTermWithCaret() throws Exception {
 		String[][] doc = { { "artikel", "imbisgast" },
 				{ "artikel_text", "imbisgast" } };
