@@ -689,6 +689,10 @@
       <xsl:apply-templates select="dictScrap[@rend='wbv']" />
   </xsl:template>
 
+  <xsl:template match="lb">
+    <xsl:text> / </xsl:text>
+  </xsl:template>
+
   <xsl:template name="printDefTextAndNumber">
     <xsl:if test="def[.//text()]">
       <field name="def_text">
@@ -912,7 +916,7 @@
       <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
     </field>
     <field name="zitat_text">
-      <xsl:value-of select="quote//text()" />
+      <xsl:apply-templates select="quote//* | quote//text()" />
     </field>
     <xsl:apply-templates select=".//region | .//date" />
   </xsl:template>

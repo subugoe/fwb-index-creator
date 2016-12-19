@@ -34,6 +34,14 @@ public class IndexerTest {
 	}
 
 	@Test
+	public void shouldNotCollapseLinebreak() throws Exception {
+		xslt.transform("src/test/resources/citationWithLinebreak.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("firstline / secondline", "//field[@name='zitat_text']", result);
+	}
+
+	@Test
 	public void shouldCreateWordTypeFields() throws Exception {
 		WordTypesGenerator wordTyper = new WordTypesGenerator();
 		InputStream wordTypes = Main.class.getResourceAsStream("/wordtypes.txt");
