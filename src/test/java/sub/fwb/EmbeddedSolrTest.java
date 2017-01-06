@@ -30,6 +30,30 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
+	public void shouldSuggestWithParenthesis() throws Exception {
+		String[][] doc = { { "id", "1" }, { "lemma", "ampt(s)kleid" } };
+		solr.addDocument(doc);
+		String[][] doc2 = { { "id", "2" }, { "lemma", "amptimbis" } };
+		solr.addDocument(doc2);
+
+		solr.suggest("ampt(");
+		assertEquals("ampt(s)kleid", solr.suggestion(1));
+		assertEquals("amptimbis", solr.suggestion(2));
+	}
+
+	@Test
+	public void shouldSuggest() throws Exception {
+		String[][] doc = { { "id", "1" }, { "lemma", "test1" } };
+		solr.addDocument(doc);
+		String[][] doc2 = { { "id", "2" }, { "lemma", "test2" } };
+		solr.addDocument(doc2);
+
+		solr.suggest("test");
+		assertEquals("test1", solr.suggestion(1));
+		assertEquals("test2", solr.suggestion(2));
+	}
+
+	@Test
 	public void shouldRemoveSpecialCharsFromFrontAndBackInSnippet() throws Exception {
 		String[][] doc = { { "artikel", ",)/‹.]- ;: test (,/[- ;:" },
 				{ "artikel_text", ",)/‹.]- ;: test (,/[- ;:" } };

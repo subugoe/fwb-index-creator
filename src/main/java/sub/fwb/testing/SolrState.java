@@ -18,6 +18,7 @@ public class SolrState {
 	private String solrQueryString = "";
 	private SolrDocumentList docList;
 	private Map<String, Map<String, List<String>>> highlightings;
+	private List<String> suggestions;
 
 	public SolrState(SolrClient newSolrThing) {
 		solrServerClient = newSolrThing;
@@ -43,6 +44,10 @@ public class SolrState {
 		ask(extraParams, query, "/article-hl");
 	}
 
+	public void suggest(String query) {
+		ask(new String[][] {}, query, "/suggest");
+	}
+
 	private void ask(String[][] extraParams, String query, String requestHandler) {
 		solrQueryString = query;
 		SolrQuery solrQuery = new SolrQuery(query);
@@ -60,6 +65,9 @@ public class SolrState {
 
 		docList = response.getResults();
 		highlightings = response.getHighlighting();
+		if (response.getSpellCheckResponse() != null) {
+			suggestions = response.getSpellCheckResponse().getSuggestions().get(0).getAlternatives();
+		}
 	}
 
 	public String lemma(int resultNumber) {
@@ -85,6 +93,10 @@ public class SolrState {
 		return docList.getNumFound();
 	}
 
+	public String suggestion(int number) {
+		return suggestions.get(number - 1);
+	}
+
 	public int askForNumberOfLemmas(String wordPart) {
 		SolrState tempSolr = new SolrState(solrServerClient);
 		tempSolr.select("lemma:*" + wordPart + "*");
@@ -95,16 +107,21 @@ public class SolrState {
 	public void printResults() {
 		System.out.println();
 		System.out.println(solrQueryString);
-		System.out.println(docList.getNumFound() + " results");
-		for (int i = 0; i < 4; i++) {
-			if (i < docList.size()) {
-				SolrDocument doc = docList.get(i);
-				System.out.println(doc.getFieldValue("lemma") + "\t" + doc.getFieldValue("score"));
+		if (docList != null) {
+			System.out.println(docList.getNumFound() + " results");
+			for (int i = 0; i < 4; i++) {
+				if (i < docList.size()) {
+					SolrDocument doc = docList.get(i);
+					System.out.println(doc.getFieldValue("lemma") + "\t" + doc.getFieldValue("score"));
+				}
 			}
 		}
 		if (highlightings != null && !highlightings.isEmpty()) {
 			System.out.println("hl:");
 			System.out.println(jsonHighlights());
+		}
+		if (suggestions != null) {
+			System.out.println("suggest: " + suggestions);
 		}
 		// System.out.println(JSONUtil.toJSON(docList));
 	}
