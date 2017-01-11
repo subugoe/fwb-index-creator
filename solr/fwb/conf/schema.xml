@@ -106,7 +106,8 @@
     <!-- enable nested documents -->
     <field name="_root_" type="string" indexed="true" stored="false" />
 
-    <dynamicField name="*_suggest" type="phrase_suggest" indexed="true" stored="true" multiValued="true" required="false" />
+    <field name="all_suggest" type="phrase_suggest" indexed="true" stored="false" multiValued="false" required="false" />
+
     <dynamicField name="*_facet" type="string" indexed="true" stored="true" multiValued="true" required="false" />
     <dynamicField name="*_exakt" type="text_de_exakt" indexed="true" stored="true" multiValued="true" required="false" 
         termVectors="true" termPositions="true" termOffsets="true" />
