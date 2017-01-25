@@ -34,6 +34,14 @@ public class IndexerTest {
 	}
 
 	@Test
+	public void shouldAddSpaceBetweenNumberAndWord() throws Exception {
+		xslt.transform("src/test/resources/homonymInSnippet.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("zu 1 otherlemma", "//field[@name='artikel_text']", result);
+	}
+
+	@Test
 	public void shouldNotCollapseLinebreak() throws Exception {
 		xslt.transform("src/test/resources/citationWithLinebreak.xml", outputBaos);
 		String result = outputBaos.toString();

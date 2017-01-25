@@ -35,6 +35,14 @@ public class IndexerHtmlTest {
 	}
 
 	@Test
+	public void shouldPreserveSpaceBetweenCitationLinks() throws Exception {
+		xslt.transform("src/test/resources/html/spaceAfterCitationLink.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("1, 122; Dwb", "//div[@class='article-head']", html);
+	}
+
+	@Test
 	public void shouldMakeParagraphOutOfBlsWithoutCit() throws Exception {
 		xslt.transform("src/test/resources/html/blsWithoutCit.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);

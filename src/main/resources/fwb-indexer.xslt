@@ -113,6 +113,11 @@
     </field>
   </xsl:template>
 
+  <xsl:template match="hi[@rendition='hoch' and number(.)]" mode="fulltext">
+    <xsl:value-of select="." />
+    <xsl:text> </xsl:text>
+  </xsl:template>
+
   <xsl:template match="text()" mode="fulltext">
     <xsl:value-of select="replace(., '\p{Z}+', ' ')" />
     <xsl:variable name="tag" select="local-name(parent::*)" />
@@ -617,6 +622,9 @@
   </xsl:template>
 
   <xsl:template match="bibl" mode="html_fulltext">
+    <xsl:if test="preceding-sibling::*[1]/local-name() = 'bibl'">
+      <xsl:text> </xsl:text>
+    </xsl:if>
     <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     <xsl:if test="following-sibling::quote">
       <xsl:text>: </xsl:text>
