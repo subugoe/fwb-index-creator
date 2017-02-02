@@ -139,6 +139,7 @@ public class Uploader {
 	public void commitToSolr() throws SolrServerException, IOException {
 		flushDocs();
 		solr.commit();
+		solr.optimize();
 	}
 
 	public void rollbackChanges() {
