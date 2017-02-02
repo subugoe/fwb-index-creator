@@ -371,7 +371,7 @@
   </xsl:template>
 
   <xsl:template match="lb" mode="html_fulltext">
-    <xsl:text> / </xsl:text>
+    <xsl:text> | </xsl:text>
   </xsl:template>
 
   <xsl:template match="gram[@type='wortart' and .//text()]" mode="html_fulltext">

@@ -18,7 +18,7 @@ public class TeiHtmlComparator {
 		teiString = extract("<body>(.*?)</body>", teiString);
 		teiString = teiString.replace("<oRef/>", "-");
 		teiString = teiString.replace("<quote>", ": ");
-		teiString = teiString.replace("<lb/>", " / ");
+		teiString = teiString.replace("<lb/>", " | ");
 		teiString = teiString.replace("> <", "");
 		// need to replace the accidental occurrences
 		teiString = teiString.replaceAll("(Zur Sache: |Syntagmen: |Redensart: |Phraseme: |Beleg: |Belege: )", "");

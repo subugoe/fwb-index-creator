@@ -246,7 +246,7 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/linebreak.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo(" / ", "//div[@class='article-head']", html);
+		assertXpathEvaluatesTo(" | ", "//div[@class='article-head']", html);
 	}
 
 	@Test
