@@ -35,23 +35,29 @@ public class FwbCharsSearcher {
 		String q = "artikel:/.*[^" + knownCharsInIndex + "].*/";
 		solr.select(extraParams, q);
 
+		String bannedLemmas = "";
 		while (solr.results() > 0) {
-			String hlText = solr.getHighlightings().get(solr.id(1)).get("artikel").get(0);
-			String newChars = hlText.replaceAll("[" + knownCharsInHtml + "]", " ");
-			for (int i = 0; i < newChars.length(); i++) {
-				Character currentChar = newChars.charAt(i);
-				if (!currentChar.equals(" ") && Character.getType(currentChar) == Character.NON_SPACING_MARK) {
-					String charAndCombining = "" + currentChar;
-					combiningChars.add(charAndCombining);
-					knownCharsInIndex += charAndCombining;
-					knownCharsInHtml += charAndCombining;
-				} else if (!currentChar.toString().equals(" ")) {
-					simpleChars.add("" + currentChar);
-					knownCharsInIndex += currentChar;
-					knownCharsInHtml += currentChar;
+			if (solr.getHighlightings().get(solr.id(1)).get("artikel") != null) {
+				String hlText = solr.getHighlightings().get(solr.id(1)).get("artikel").get(0);
+				String newChars = hlText.replaceAll("[" + knownCharsInHtml + "]", " ");
+				for (int i = 0; i < newChars.length(); i++) {
+					Character currentChar = newChars.charAt(i);
+					if (!currentChar.equals(" ") && Character.getType(currentChar) == Character.NON_SPACING_MARK) {
+						String charAndCombining = "" + currentChar;
+						combiningChars.add(charAndCombining);
+						knownCharsInIndex += charAndCombining;
+						knownCharsInHtml += charAndCombining;
+					} else if (!currentChar.toString().equals(" ")) {
+						simpleChars.add("" + currentChar);
+						knownCharsInIndex += currentChar;
+						knownCharsInHtml += currentChar;
+					}
 				}
+			} else {
+				bannedLemmas += "-lemma:" + solr.lemma(1) + " ";
 			}
-			String query = "-lemma:(leib ban abziehen ausgehen) artikel:/.*[^" + knownCharsInIndex + "].*/";
+			String query = bannedLemmas + "artikel:/.*[^" + knownCharsInIndex + "].*/";
+			System.out.println(query);
 			solr.select(extraParams, query);
 		}
 		for (String comb : combiningChars) {
