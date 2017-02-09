@@ -18,8 +18,19 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class SourcesParser {
 
-	private String[] headers = { "sort", "sigle", "kraftliste", "", "", "", "", "", "", "", "pdf", "epdf", "online",
-			"eonline", "permalink", "biblio", "citing", "syptom", "name", "sinnwelt", "kategorien" };
+	private String[] headers = { "A 0 sort", "B 1 sigle", "C 2 kraftliste", "D 3 kurztitel", "E 4 ort und zeit", "F 5",
+			"G 6 raum / ort", "H 7 raum (karte)", "I 8", "J 9 zeit", "K 10 zeit numerisch", "L 11", "M 12 pdf",
+			"N 13 epdf", "O 14 digitalisat online", "P 15 eonline", "Q 16 permalink", "R 17 biblio", "S 18 ppn",
+			"T 19 zitierweise", "U 20 textsorte", "V 21 name", "W 22 sinnwelt", "X 23 klassifikation",
+			"Y 24 kommunikationsintention" };
+
+	private final int SIGLE = 1;
+	private final int KRAFTLISTE = 2;
+	private final int DIGITALISAT_ONLINE = 14;
+	private final int PERMALINK = 16;
+	private final int BIBLIO = 17;
+	private final int ZITIERWEISE = 19;
+	private final int NAME = 21;
 
 	public void convertExcelToXml(File excelFile, File xmlResult) throws IOException {
 		FileInputStream file = new FileInputStream(excelFile);
@@ -37,7 +48,7 @@ public class SourcesParser {
 			buffer.append("<doc>\n");
 			Row row = sheet.getRow(i);
 			buffer.append("<field name=\"type\">quelle</field>\n");
-			String sigle = asString(row.getCell(1));
+			String sigle = asString(row.getCell(SIGLE));
 			buffer.append("<field name=\"id\">source_" + sigle + "</field>\n");
 
 			appendFromStronglist(row, buffer);
@@ -45,21 +56,21 @@ public class SourcesParser {
 			buffer.append("<field name=\"source_html\"><![CDATA[");
 			buffer.append("<div class=\"source-details\">\n");
 
-			appendHeader(asString(row.getCell(2)), buffer);
+			appendHeader(asString(row.getCell(KRAFTLISTE)), buffer);
 
-			appendRowOfSpans("Bibliographie: ", asString(row.getCell(15)), buffer);
-			appendRowOfSpans("Zitierweise: ", asString(row.getCell(16)), buffer);
+			appendRowOfSpans("Bibliographie: ", asString(row.getCell(BIBLIO)), buffer);
+			appendRowOfSpans("Zitierweise: ", asString(row.getCell(ZITIERWEISE)), buffer);
 
 			Map<String, String> links = new HashMap<String, String>();
-			String permalink = asString(row.getCell(14));
+			String permalink = asString(row.getCell(PERMALINK));
 			if (!permalink.isEmpty()) {
 				links.put("Permalink", permalink);
 			}
-			String digi = asString(row.getCell(12));
+			String digi = asString(row.getCell(DIGITALISAT_ONLINE));
 			if (!digi.isEmpty()) {
 				links.put("Digitalisat online", digi);
 			}
-//			String pdf = asString(row.getCell(10));
+//			String pdf = asString(row.getCell(12));
 //			if (!pdf.isEmpty()) {
 //				links.put("PDF", pdf);
 //			}
@@ -80,7 +91,7 @@ public class SourcesParser {
 	}
 
 	private void appendFromStronglist(Row row, StringBuffer buffer) {
-		String entryKind = asString(row.getCell(18));
+		String entryKind = asString(row.getCell(NAME));
 		String fieldName = "";
 		if ("1".equals(entryKind)) {
 			fieldName = "source_author";
@@ -93,7 +104,7 @@ public class SourcesParser {
 		} else {
 			return;
 		}
-		String stronglist = asString(row.getCell(2));
+		String stronglist = asString(row.getCell(KRAFTLISTE));
 		String entryValue = extractUsingRegex("\\$c(.*?)#", stronglist).get(0);
 		buffer.append("<field name=\"" + fieldName + "\"><![CDATA[" + entryValue + "]]></field>\n");
 	}
