@@ -311,6 +311,12 @@
     <xsl:apply-templates select="*|text()" mode="html_fulltext" />
   </xsl:template>
 
+  <xsl:template match="dictScrap[not(@rend)]" mode="html_fulltext">
+    <h3>
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </h3>
+  </xsl:template>
+
   <xsl:template match="dictScrap[@rend='ra']" mode="html_fulltext">
     <xsl:variable name="raNr" select="count(preceding::dictScrap[@rend='ra']) + 1" />
     <xsl:variable name="raId" select="concat('ra',$raNr)" />
@@ -472,7 +478,7 @@
         </div>
       </xsl:if>
       <xsl:apply-templates select="text()|*" mode="html_fulltext" />
-      <xsl:apply-templates select="following-sibling::dictScrap[@rend='wbv']"
+      <xsl:apply-templates select="following-sibling::*[1][@rend='wbv']"
         mode="html_fulltext_once" />
       <xsl:comment>end <xsl:value-of select="$defAnchor" /></xsl:comment>
     </div>
@@ -508,6 +514,9 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='wbv']" mode="html_fulltext">
+    <xsl:if test="not(preceding-sibling::*[1][local-name() = 'def'])">
+      <xsl:apply-templates select="." mode="html_fulltext_once" />
+    </xsl:if>
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='stw']" mode="html_fulltext">

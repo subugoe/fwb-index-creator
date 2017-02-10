@@ -35,6 +35,36 @@ public class IndexerHtmlTest {
 	}
 
 	@Test
+	public void shouldOutputWbvTwice() throws Exception {
+		xslt.transform("src/test/resources/html/definitionWithTwoWbvs.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("2", "count(//div[@class='wbv'])", html);
+		assertXpathEvaluatesTo("Wbv 2", "//div[@class='sense']/div[@class='wbv']", html);
+		// example: bauchstränge femininum
+	}
+
+	@Test
+	public void shouldOutputWbvOnlyOnce() throws Exception {
+		xslt.transform("src/test/resources/html/complexDefWithWbvInside.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("1", "count(//div[@class='wbv'])", html);
+		// example: ausrichtig
+	}
+
+	@Test
+	public void shouldTransformInfoList() throws Exception {
+		xslt.transform("src/test/resources/html/infoList.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("Beispiele: ", "//h3", html);
+		assertXpathEvaluatesTo("wbg bla,", "//ul[@class='info-list']//li[1]", html);
+		assertXpathEvaluatesTo("wbg2 bla2", "//ul[@class='info-list']//li[2]", html);
+		// example: gut adjektiv
+	}
+
+	@Test
 	public void shouldPreserveSpaceBetweenCitationLinks() throws Exception {
 		xslt.transform("src/test/resources/html/spaceAfterCitationLink.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
