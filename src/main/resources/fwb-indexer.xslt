@@ -537,7 +537,7 @@
   <xsl:template match="dictScrap[@rend='bdv']" mode="html_fulltext">
     <div class="bdv">
       <div class="bdv-begin">
-        <xsl:text>Bedeutungsverwandt: </xsl:text>
+        <xsl:text>Bedeutungsverwandte: </xsl:text>
       </div>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
@@ -587,18 +587,8 @@
   <xsl:template name="printCitationsHeader">
     <xsl:variable name="isFirst" select="not(preceding-sibling::dictScrap[@rend='BBlock' or @rend='cit' or @rend='bls'])" />
     <xsl:if test="$isFirst">
-      <xsl:variable name="headerText">
-        <xsl:choose>
-          <xsl:when test="count(../dictScrap/cit) = 1">
-            <xsl:text>Beleg: </xsl:text>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:text>Belege: </xsl:text>
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:variable>
       <h1>
-        <xsl:value-of select="$headerText" />
+        <xsl:text>Belegblock: </xsl:text>
       </h1>
     </xsl:if>
   </xsl:template>

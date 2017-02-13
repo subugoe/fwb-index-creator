@@ -21,7 +21,7 @@ public class TeiHtmlComparator {
 		teiString = teiString.replace("<lb/>", " | ");
 		teiString = teiString.replace("> <", "");
 		// need to replace the accidental occurrences
-		teiString = teiString.replaceAll("(Zur Sache: |Syntagmen: |Redensart: |Phraseme: |Beleg: |Belege: )", "");
+		teiString = teiString.replaceAll("(Zur Sache: |Syntagmen: |Redensart: |Phraseme: )", "");
 		teiString = removeTags(teiString);
 		teiString = teiString.replaceAll("\\s+", "").trim();
 
@@ -34,7 +34,7 @@ public class TeiHtmlComparator {
 		solrString = solrString.replaceAll("<div class=\"homonym\">.*?</div>", "");
 		solrString = solrString.replace("> <", "");
 		solrString = solrString.replaceAll(
-				"(Bedeutungsverwandt: |Syntagmen: |Belege: |Beleg: |Gegensätze: |Phraseme: |Wortbildungen: |Zur Sache: |Redensart: )",
+				"(Bedeutungsverwandte: |Syntagmen: |Belegblock: |Gegensätze: |Phraseme: |Wortbildungen: |Zur Sache: |Redensart: )",
 				"");
 		solrString = removeTags(solrString);
 		solrString = solrString.replaceAll("\\s+", "").trim();

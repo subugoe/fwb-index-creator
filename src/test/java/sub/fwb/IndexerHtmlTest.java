@@ -102,7 +102,7 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/citationAndBlsInFront.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("Beleg: ", "//h1", html);
+		assertXpathEvaluatesTo("Belegblock: ", "//h1", html);
 		assertXpathEvaluatesTo("1", "count(//h1)", html);
 	}
 
@@ -111,7 +111,7 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/bls.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("Beleg: ", "//h1", html);
+		assertXpathEvaluatesTo("Belegblock: ", "//h1", html);
 	}
 
 	@Test
@@ -119,7 +119,7 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/cite.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("Beleg: ", "//h1", html);
+		assertXpathEvaluatesTo("Belegblock: ", "//h1", html);
 	}
 
 	@Test
@@ -127,7 +127,7 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/citationAndBlsAndBblock.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("Belege: ", "//h1", html);
+		assertXpathEvaluatesTo("Belegblock: ", "//h1", html);
 		assertXpathEvaluatesTo("1", "count(//h1)", html);
 	}
 
@@ -136,7 +136,7 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/citationAndBls.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("Belege: ", "//h1", html);
+		assertXpathEvaluatesTo("Belegblock: ", "//h1", html);
 	}
 
 	@Test
