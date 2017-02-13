@@ -312,9 +312,6 @@
   </xsl:template>
 
   <xsl:template match="dictScrap[not(@rend)]" mode="html_fulltext">
-    <h3>
-      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
-    </h3>
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='ra']" mode="html_fulltext">
@@ -436,13 +433,21 @@
          else 3">
         <xsl:choose>
           <xsl:when test="current-grouping-key() = 1">
-            <ul class="info-list">
-              <xsl:for-each select="current-group()">
-                <li>
-                  <xsl:apply-templates select="." mode="html_fulltext" />
-                </li>
-              </xsl:for-each>
-            </ul>
+            <div class="info-list-with-header">
+              <xsl:variable name="pre-sib" select="preceding-sibling::*[1]" />
+              <xsl:if test="$pre-sib[local-name() = 'dictScrap' and not(@rend)]">
+                <h3>
+                  <xsl:apply-templates select="$pre-sib/*|$pre-sib/text()" mode="html_fulltext" />
+                </h3>
+              </xsl:if>
+              <ul class="info-list">
+                <xsl:for-each select="current-group()">
+                  <li>
+                    <xsl:apply-templates select="." mode="html_fulltext" />
+                  </li>
+                </xsl:for-each>
+              </ul>
+            </div>
           </xsl:when>
           <xsl:when test="current-grouping-key() = 2">
             <section class="citations-block">

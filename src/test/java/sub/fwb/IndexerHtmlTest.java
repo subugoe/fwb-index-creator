@@ -58,7 +58,7 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/infoList.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("Beispiele: ", "//h3", html);
+		assertXpathEvaluatesTo("Beispiele: ", "//div[@class='info-list-with-header']/h3", html);
 		assertXpathEvaluatesTo("wbg bla,", "//ul[@class='info-list']//li[1]", html);
 		assertXpathEvaluatesTo("wbg2 bla2", "//ul[@class='info-list']//li[2]", html);
 		// example: gut adjektiv
