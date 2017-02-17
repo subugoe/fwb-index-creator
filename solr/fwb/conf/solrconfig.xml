@@ -143,6 +143,7 @@
       <str name="hl.requireFieldMatch">true</str>
       <str name="hl.maxAnalyzedChars">-1</str>
       <str name="hl.preserveMulti">true</str>
+      <str name="fl">id,internal_id,def_text,def_number,sortkey,homonym,roman_number,lemma</str>
     </lst>
     <lst name="defaults">
       <str name="hl.simple.pre"><![CDATA[<span class="highlight">]]></str>
@@ -151,7 +152,6 @@
       <str name="echoParams">all</str>
       <str name="wt">json</str>
       <str name="json.nl">flat</str>
-      <str name="fl">id,internal_id,def_text,def_number,sortkey,homonym,roman_number</str>
     </lst>
     <arr name="last-components">
       <str>adapt-article-highlight</str>
