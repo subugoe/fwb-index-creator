@@ -35,6 +35,15 @@ public class IndexerHtmlTest {
 	}
 
 	@Test
+	public void shouldNotAddSpaceBeforeLinkInsideCit() throws Exception {
+		xslt.transform("src/test/resources/html/citationWithLink.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo(" [Luther 1545: ", "//div[@class='rect']", html);
+		// example: bewegung
+	}
+
+	@Test
 	public void shouldOutputWbvTwice() throws Exception {
 		xslt.transform("src/test/resources/html/definitionWithTwoWbvs.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);

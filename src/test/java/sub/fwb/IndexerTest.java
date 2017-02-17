@@ -34,6 +34,15 @@ public class IndexerTest {
 	}
 
 	@Test
+	public void shouldGenerateCorrectCitationSnippet() throws Exception {
+		xslt.transform("src/test/resources/citationWithLink.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("pre [Luther 1545: pre_changed] post.", "//field[@name='zitat_text']", result);
+		// example: bewegung
+	}
+
+	@Test
 	public void shouldAddSpaceBetweenNumberAndWord() throws Exception {
 		xslt.transform("src/test/resources/homonymInSnippet.xml", outputBaos);
 		String result = outputBaos.toString();

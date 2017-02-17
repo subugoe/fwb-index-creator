@@ -640,7 +640,7 @@
       <xsl_text>source_</xsl_text>
       <xsl:value-of select="@n" />
     </xsl:variable>
-    <xsl:if test="not(../..[@rend='artkopf'])">
+    <xsl:if test="not(../..[@rend='artkopf']) and not(ancestor::quote)">
       <xsl:text> </xsl:text>
     </xsl:if>
     <a class="name citation-source_link" href="/source/{$currentCitationId}">
@@ -928,7 +928,7 @@
       <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
     </field>
     <field name="zitat_text">
-      <xsl:apply-templates select="quote//* | quote//text()" />
+      <xsl:apply-templates select="quote//lb | quote//text()" />
     </field>
     <xsl:apply-templates select=".//region | .//date" />
   </xsl:template>
