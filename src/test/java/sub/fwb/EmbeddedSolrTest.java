@@ -30,6 +30,15 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
+	public void shouldFindExactComplexPhrase() throws Exception {
+		String[][] doc = { { "artikel", "imbis Ward" } };
+		solr.addDocument(doc);
+
+		solr.search("\"?mbis War*\" EXAKT");
+		assertEquals(1, results());
+	}
+
+	@Test
 	public void shouldSuggestWithParenthesis() throws Exception {
 		String[][] doc = { { "id", "1" }, { "lemma", "ampt(s)kleid" } };
 		solr.addDocument(doc);
