@@ -21,6 +21,7 @@
   </query>
 
   <queryParser name="wildcardphrase" class="sub.fwb.WildcardPhraseQParserPlugin"/>
+  <queryParser name="wildcardphrase_exakt" class="sub.fwb.WildcardPhraseQParserPluginExact"/>
 
   <!-- realtime get handler, guaranteed to return the latest stored fields of any document, without the need to commit or open a new searcher. The current 
     implementation relies on the updateLog feature being enabled. -->

@@ -30,6 +30,15 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
+	public void shouldFindNotExactComplexPhrase() throws Exception {
+		String[][] doc = { { "artikel", "imbis ward" } };
+		solr.addDocument(doc);
+
+		solr.search("\"imbis War*\"");
+		assertEquals(1, results());
+	}
+
+	@Test
 	public void shouldFindExactComplexPhrase() throws Exception {
 		String[][] doc = { { "artikel", "imbis Ward" } };
 		solr.addDocument(doc);
