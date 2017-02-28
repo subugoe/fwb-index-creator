@@ -35,6 +35,15 @@ public class IndexerHtmlTest {
 	}
 
 	@Test
+	public void shouldProduceItalicTypeOfWord() throws Exception {
+		xslt.transform("src/test/resources/html/typeOfWordItalic.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("der", "//div[@class='type-of-word']/div[@class='italic']", html);
+		// example: austag
+	}
+
+	@Test
 	public void shouldNotAddSpaceBeforeLinkInsideCit() throws Exception {
 		xslt.transform("src/test/resources/html/citationWithLink.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
@@ -294,6 +303,7 @@ public class IndexerHtmlTest {
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
 		assertXpathEvaluatesTo("Art", "//div[@class='type-of-word']", html);
+		assertXpathEvaluatesTo("", "//div[@class='type-of-word']/div[@class='italic']", html);
 		assertXpathEvaluatesTo("-Ø", "//div[@class='flex']", html);
 	}
 

@@ -379,7 +379,7 @@
 
   <xsl:template match="gram[@type='wortart' and .//text()]" mode="html_fulltext">
     <div class="type-of-word">
-      <xsl:value-of select="." />
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
     </div>
   </xsl:template>
 
@@ -425,6 +425,16 @@
 
   <xsl:template match="sense" mode="html_fulltext">
     <xsl:variable name="senseNumber" select="count(preceding::sense) + 1" />
+    <!--xsl:variable name="senseNumber">
+      <xsl:choose>
+        <xsl:when test="@rend">
+          <xsl:value-of select="@rend" />
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:text>1</xsl:text>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable-->
     <xsl:variable name="senseAnchor" select="concat('sense', $senseNumber)" />
     <div id="{$senseAnchor}" class="sense">
       <xsl:for-each-group select="*" 
