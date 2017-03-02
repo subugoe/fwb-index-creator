@@ -424,19 +424,25 @@
   </xsl:template>
 
   <xsl:template match="sense" mode="html_fulltext">
-    <xsl:variable name="senseNumber" select="count(preceding::sense) + 1" />
-    <!--xsl:variable name="senseNumber">
+    <xsl:variable name="senseNumbers" as="xs:integer*">
       <xsl:choose>
+        <xsl:when test="@rend and contains(@rend, '-')">
+          <xsl:sequence select="xs:integer(substring-before(@rend, '-')) to xs:integer(substring-after(@rend, '-'))" />
+        </xsl:when>
         <xsl:when test="@rend">
-          <xsl:value-of select="@rend" />
+          <xsl:sequence select="xs:integer(@rend)" />
         </xsl:when>
         <xsl:otherwise>
           <xsl:text>1</xsl:text>
         </xsl:otherwise>
       </xsl:choose>
-    </xsl:variable-->
-    <xsl:variable name="senseAnchor" select="concat('sense', $senseNumber)" />
-    <div id="{$senseAnchor}" class="sense">
+    </xsl:variable>
+    <div class="sense">
+      <xsl:for-each select="$senseNumbers">
+        <span id="sense{.}">
+          <xsl:comment>jump target</xsl:comment>
+        </span>
+      </xsl:for-each>
       <xsl:for-each-group select="*" 
         group-adjacent="if (self::dictScrap[@rend='ipLiPkt']) then 1
          else if (self::dictScrap[@rend='BBlock' or @rend='cit' or @rend='bls' or @rend='sv']) then 2

@@ -187,8 +187,14 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/senseWithRange.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("1.; 2.; 3.; 4., ", "//div[@id='sense1']//div[@class='sense-number']", html);
-		assertXpathEvaluatesTo("5. ", "//div[@id='sense2']//div[@class='sense-number']", html);
+		assertXpathExists("//div[@class='sense'][1]/span[@id='sense1']", html);
+		assertXpathExists("//div[@class='sense'][1]/span[@id='sense2']", html);
+		assertXpathExists("//div[@class='sense'][1]/span[@id='sense3']", html);
+		assertXpathExists("//div[@class='sense'][1]/span[@id='sense4']", html);
+		assertXpathExists("//div[@class='sense'][2]/span[@id='sense5']", html);
+		assertXpathEvaluatesTo("1.; 2.; 3.; 4., ", "//div[span/@id='sense1']//div[@class='sense-number']", html);
+		assertXpathEvaluatesTo("5. ", "//div[span/@id='sense5']//div[@class='sense-number']", html);
+		// example: auszug
 	}
 
 	@Test
@@ -321,7 +327,8 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/sense.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathExists("//div[@class='sense' and @id='sense1']", html);
+		assertXpathExists("//div[@class='sense']", html);
+		assertXpathExists("//span[@id='sense1']", html);
 		assertXpathEvaluatesTo("my definition", "//div[@class='definition']", html);
 	}
 
@@ -423,7 +430,7 @@ public class IndexerHtmlTest {
 		xslt.transform("src/test/resources/html/anchors.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
 
-		assertXpathEvaluatesTo("sense1", "//div[@class='sense']/@id", html);
+		assertXpathEvaluatesTo("sense1", "//div[@class='sense']/span/@id", html);
 		assertXpathEvaluatesTo("mylemma#sense2", "//a[1]/@href", html);
 		assertXpathEvaluatesTo("#sense12", "//a[2]/@href", html);
 	}
