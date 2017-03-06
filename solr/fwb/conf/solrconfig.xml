@@ -5,15 +5,11 @@
   required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
   OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License. -->
 
-<!-- This is a stripped down config file used for a simple example... It is *not* a good example to work from. -->
 <config>
-  <luceneMatchVersion>LUCENE_54</luceneMatchVersion>
-  <lib path="conf/fwb-solr-mods.jar" />
-  <!-- The DirectoryFactory to use for indexes. solr.StandardDirectoryFactory, the default, is filesystem based. solr.RAMDirectoryFactory is memory based, 
-    not persistent, and doesn't work with replication. -->
-  <!-- <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.StandardDirectoryFactory}"/> -->
-  <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}" />
 
+  <luceneMatchVersion>5.4.1</luceneMatchVersion>
+
+  <lib path="conf/fwb-solr-mods.jar" />
 
   <query>
     <enableLazyFieldLoading>true</enableLazyFieldLoading>
@@ -74,36 +70,32 @@
   <requestHandler name="/admin/file" class="solr.admin.ShowFileRequestHandler"/>
 
   <!--
-    These fields must be the same in
-    /search
-    /list
-    /article-hl
-    /select
-
-    Change them here, then copy&paste.
-
-      <str name="qf">lemma^10000 neblem^1000 def^70 bdv^60 zitat^55 phras^45 wbv^45 ggs^25 stw^40 synt^10 wbg^20 zursache^20 subvoce^5</str>
-      <str name="tie">0.01</str>
-
-   -->
-
-  <requestHandler name="/search" class="sub.fwb.ParametersModifyingSearchHandler">
+    Common parameters for the custom search handlers
+  -->
+  <initParams path="/search,/list,/article-hl,/article">
     <lst name="invariants">
       <str name="qf">lemma^10000 neblem^1000 def^70 bdv^60 zitat^55 phras^45 wbv^45 ggs^25 stw^40 synt^10 wbg^20 zursache^20 subvoce^5</str>
       <str name="tie">0.01</str>
-      <str name="fl">lemma,homonym,roman_number,wortart,wortart_allgemein,internal_id,id,score,artikel_text</str>
       <str name="defType">edismax</str>
       <str name="df">artikel</str>
-      <str name="facet">true</str>
-      <str name="hl.fl">lemma_text,neblem_text,def_text,bdv_text,zitat_text,phras_text,wbv_text,ggs_text,stw_text,synt_text,wbg_text,zursache_text,subvoce_text,artikel_text</str>
-      <int name="timeAllowed">15000</int>
     </lst>
     <lst name="defaults">
-      <str name="facet.field">wortart_allgemein</str>
       <str name="omitHeader">false</str>
       <str name="echoParams">all</str>
       <str name="wt">json</str>
       <str name="json.nl">flat</str>
+      <int name="timeAllowed">15000</int>
+    </lst>
+  </initParams>
+
+  <requestHandler name="/search" class="sub.fwb.ParametersModifyingSearchHandler">
+    <lst name="invariants">
+      <str name="fl">lemma,homonym,roman_number,wortart,wortart_allgemein,internal_id,id,score,artikel_text</str>
+      <str name="facet">true</str>
+      <str name="hl.fl">lemma_text,neblem_text,def_text,bdv_text,zitat_text,phras_text,wbv_text,ggs_text,stw_text,synt_text,wbg_text,zursache_text,subvoce_text,artikel_text</str>
+    </lst>
+    <lst name="defaults">
+      <str name="facet.field">wortart_allgemein</str>
       <str name="hl">true</str>
       <str name="hl.requireFieldMatch">true</str>
       <str name="hl.simple.pre"><![CDATA[<span class="highlight">]]></str>
@@ -118,28 +110,14 @@
 
   <requestHandler name="/list" class="sub.fwb.ParametersModifyingSearchHandler">
     <lst name="invariants">
-      <str name="qf">lemma^10000 neblem^1000 def^70 bdv^60 zitat^55 phras^45 wbv^45 ggs^25 stw^40 synt^10 wbg^20 zursache^20 subvoce^5</str>
-      <str name="tie">0.01</str>
       <str name="fl">lemma,homonym,roman_number,wortart,internal_id,id,score</str>
-      <str name="defType">edismax</str>
       <str name="hl">false</str>
       <str name="facet">false</str>
-      <int name="timeAllowed">15000</int>
-    </lst>
-    <lst name="defaults">
-      <str name="omitHeader">false</str>
-      <str name="echoParams">all</str>
-      <str name="wt">json</str>
-      <str name="json.nl">flat</str>
     </lst>
   </requestHandler>
 
   <requestHandler name="/article-hl" class="sub.fwb.HlQueryModifyingSearchHandler">
     <lst name="invariants">
-      <str name="qf">lemma^10000 neblem^1000 def^70 bdv^60 zitat^55 phras^45 wbv^45 ggs^25 stw^40 synt^10 wbg^20 zursache^20 subvoce^5</str>
-      <str name="tie">0.01</str>
-      <str name="defType">edismax</str>
-      <str name="df">artikel</str>
       <str name="hl">true</str>
       <str name="hl.fl">artikel,zitat,neblem,def,wbg,stw,zursache,phras,bdv,ggs,synt,wbv,subvoce</str>
       <str name="hl.fragsize">0</str>
@@ -151,10 +129,6 @@
     <lst name="defaults">
       <str name="hl.simple.pre"><![CDATA[<span class="highlight">]]></str>
       <str name="hl.simple.post"><![CDATA[</span>]]></str>
-      <str name="omitHeader">false</str>
-      <str name="echoParams">all</str>
-      <str name="wt">json</str>
-      <str name="json.nl">flat</str>
     </lst>
     <arr name="last-components">
       <str>adapt-article-highlight</str>
@@ -165,12 +139,6 @@
 
   <requestHandler name="/article" class="solr.SearchHandler">
     <lst name="defaults">
-      <str name="omitHeader">false</str>
-      <str name="echoParams">all</str>
-      <str name="defType">edismax</str>
-      <str name="df">artikel</str>
-      <str name="wt">json</str>
-      <str name="json.nl">flat</str>
       <str name="fl">artikel,id,internal_id,def_text,def_number,sortkey,homonym,roman_number</str>
     </lst>
   </requestHandler>
@@ -203,7 +171,7 @@
     </lst>
   </searchComponent>
 
-  <requestHandler class="solr.SearchHandler" name="/suggest" startup="lazy">
+  <requestHandler class="solr.SearchHandler" name="/suggest">
     <lst name="defaults">
       <str name="spellcheck">true</str>
       <str name="spellcheck.dictionary">suggest</str>
