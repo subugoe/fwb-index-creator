@@ -48,15 +48,21 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
+	public void shouldSuggestSearchedTerm() throws Exception {
+		String[][] doc = { { "id", "1" }, { "lemma", "test" } };
+		solr.addDocument(doc);
+
+		solr.suggest("test");
+		assertEquals("test", solr.suggestion(1));
+	}
+
+	@Test
 	public void shouldSuggestWithParenthesis() throws Exception {
 		String[][] doc = { { "id", "1" }, { "lemma", "ampt(s)kleid" } };
 		solr.addDocument(doc);
-		String[][] doc2 = { { "id", "2" }, { "lemma", "amptimbis" } };
-		solr.addDocument(doc2);
 
-		solr.suggest("ampt(");
+		solr.suggest("ampt(s");
 		assertEquals("ampt(s)kleid", solr.suggestion(1));
-		assertEquals("amptimbis", solr.suggestion(2));
 	}
 
 	@Test
