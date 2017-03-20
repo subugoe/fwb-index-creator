@@ -173,8 +173,8 @@
   <!-- true bei Artikeln die *.ref* -->
   <field name="is_reference" type="boolean" />
   <field name="unblocking_date" type="date" />
-  <field name="region" type="string" />
-  <field name="datum" type="string" />
+  <field name="region" type="string" multiValued="true" />
+  <field name="datum" type="string" multiValued="true" />
 
   <field name="etym" type="text_de" multiValued="false" />
   <field name="head_comment" type="text_de" multiValued="false" />
