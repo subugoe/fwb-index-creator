@@ -186,6 +186,18 @@
     </div>
   </xsl:template>
 
+  <xsl:template match="etym" mode="html_fulltext">
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+  </xsl:template>
+
+  <xsl:template match="lang" mode="html_fulltext">
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+  </xsl:template>
+
+  <xsl:template match="desc" mode="html_fulltext">
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+  </xsl:template>
+
   <xsl:template match="dictScrap[@rend='phras']" mode="html_fulltext">
     <xsl:variable name="phrasNr" select="count(preceding::dictScrap[@rend='phras']) + 1" />
     <xsl:variable name="phrasId" select="concat('phras',$phrasNr)" />
@@ -311,7 +323,7 @@
     <xsl:apply-templates select="*|text()" mode="html_fulltext" />
   </xsl:template>
 
-  <xsl:template match="dictScrap[not(@rend)]" mode="html_fulltext">
+  <xsl:template match="dictScrap[@rend='meta']" mode="html_fulltext">
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='ra']" mode="html_fulltext">
@@ -451,7 +463,7 @@
           <xsl:when test="current-grouping-key() = 1">
             <div class="info-list-with-header">
               <xsl:variable name="pre-sib" select="preceding-sibling::*[1]" />
-              <xsl:if test="$pre-sib[local-name() = 'dictScrap' and not(@rend)]">
+              <xsl:if test="$pre-sib[local-name() = 'dictScrap' and @rend = 'meta']">
                 <h3>
                   <xsl:apply-templates select="$pre-sib/*|$pre-sib/text()" mode="html_fulltext" />
                 </h3>
