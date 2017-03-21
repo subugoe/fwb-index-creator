@@ -74,6 +74,10 @@ public class Main {
 		String generalWordTypesList = wordTyper.prepareForXslt(generalWordTypes);
 		xslt.setParameter("generalWordTypes", generalWordTypesList);
 
+		InputStream subfacetWordTypes = Main.class.getResourceAsStream("/wordtypes_subfacet.txt");
+		String subfacetWordTypesList = wordTyper.prepareForXslt(subfacetWordTypes);
+		xslt.setParameter("subfacetWordTypes", subfacetWordTypesList);
+
 		ArrayList<File> allFiles = new ArrayList<File>();
 		fillListWithFiles(allFiles, o.teiInputDir);
 		Collections.sort(allFiles);

@@ -10,6 +10,7 @@
   <xsl:param name="currentArticleId" />
   <xsl:param name="wordTypes" />
   <xsl:param name="generalWordTypes" />
+  <xsl:param name="subfacetWordTypes" />
 
   <xsl:template match="/">
     <add>
@@ -79,6 +80,17 @@
       <xsl:variable name="typeValueWithTail" select="substring-after($generalWordTypes, concat($wordTypeId, ':'))" />
       <xsl:value-of select="substring-before($typeValueWithTail, '###')" />
     </field>
+    <field name="wortart_facette">
+      <xsl:variable name="typeValueWithTail" select="substring-after($generalWordTypes, concat($wordTypeId, ':'))" />
+      <xsl:value-of select="substring-before($typeValueWithTail, '###')" />
+    </field>
+    <xsl:variable name="typeValueWithTail" select="substring-after($subfacetWordTypes, concat($wordTypeId, ':'))" />
+    <xsl:variable name="typeValue" select="substring-before($typeValueWithTail, '###')" />
+    <xsl:for-each select="tokenize($typeValue,',')">
+      <field name="wortart_subfacette">
+        <xsl:value-of select="." />
+      </field>
+    </xsl:for-each>
     <xsl:apply-templates select="dictScrap[@rend='artkopf']/re[@type='re.neblem']" />
     <field name="neblem_text">
       <xsl:value-of select="dictScrap[@rend='artkopf']/re[@type='re.neblem']" />

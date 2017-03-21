@@ -169,6 +169,8 @@
   <field name="homonym" type="int" />
   <field name="wortart" type="string" />
   <field name="wortart_allgemein" type="string" />
+  <field name="wortart_facette" type="string" />
+  <field name="wortart_subfacette" type="string" multiValued="true" />
   <field name="article_version" type="string" />
   <!-- true bei Artikeln die *.ref* -->
   <field name="is_reference" type="boolean" />
