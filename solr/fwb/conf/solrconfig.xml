@@ -112,7 +112,7 @@
   <requestHandler name="/suggest" class="solr.SearchHandler">
     <lst name="invariants">
       <str name="suggest">true</str>
-      <str name="suggest.dictionary">suggest-dictionary</str>
+      <str name="suggest.dictionary">suggestdictionary</str>
       <str name="suggest.count">10</str>
     </lst>
     <arr name="components">
@@ -122,7 +122,7 @@
 
   <searchComponent name="suggest" class="solr.SuggestComponent">
     <lst name="suggester">
-      <str name="name">suggest-dictionary</str>
+      <str name="name">suggestdictionary</str>
       <str name="lookupImpl">WFSTLookupFactory</str>
       <str name="field">all_suggest</str>
       <str name="buildOnCommit">true</str>
