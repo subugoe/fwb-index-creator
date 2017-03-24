@@ -4,6 +4,7 @@ import static org.custommonkey.xmlunit.XMLAssert.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -59,7 +60,41 @@ public class IndexerTest {
 	}
 
 	@Test
+	public void shouldCreateWordTypeFieldsForReference() throws Exception {
+		addWordTypesToXslt();
+
+		xslt.transform("src/test/resources/wordType_reference.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("0", "count(//field[@name='wortart_subfacette'])", result);
+		assertXpathEvaluatesTo("Verweis", "//field[@name='wortart_facette']", result);
+	}
+
+	@Test
+	public void shouldCreateWordTypeFieldsForFacets() throws Exception {
+		addWordTypesToXslt();
+
+		xslt.transform("src/test/resources/wordType_several.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("Maskulinum", "//field[@name='wortart_subfacette'][1]", result);
+		assertXpathEvaluatesTo("Femininum", "//field[@name='wortart_subfacette'][2]", result);
+		assertXpathEvaluatesTo("Neutrum", "//field[@name='wortart_subfacette'][3]", result);
+		assertXpathEvaluatesTo("Substantiv", "//field[@name='wortart_facette']", result);
+	}
+
+	@Test
 	public void shouldCreateWordTypeFields() throws Exception {
+		addWordTypesToXslt();
+
+		xslt.transform("src/test/resources/wordType.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("Maskulinum", "//field[@name='wortart']", result);
+		assertXpathEvaluatesTo("Substantiv", "//field[@name='wortart_allgemein']", result);
+	}
+
+	private void addWordTypesToXslt() throws IOException {
 		WordTypesGenerator wordTyper = new WordTypesGenerator();
 		InputStream wordTypes = Main.class.getResourceAsStream("/wordtypes.txt");
 		String wordTypesList = wordTyper.prepareForXslt(wordTypes);
@@ -67,12 +102,9 @@ public class IndexerTest {
 		InputStream generalWordTypes = Main.class.getResourceAsStream("/wordtypes_general.txt");
 		String generalWordTypesList = wordTyper.prepareForXslt(generalWordTypes);
 		xslt.setParameter("generalWordTypes", generalWordTypesList);
-
-		xslt.transform("src/test/resources/wordType.xml", outputBaos);
-		String result = outputBaos.toString();
-
-		assertXpathEvaluatesTo("Maskulinum", "//field[@name='wortart']", result);
-		assertXpathEvaluatesTo("Substantiv", "//field[@name='wortart_allgemein']", result);
+		InputStream subfacetWordTypes = Main.class.getResourceAsStream("/wordtypes_subfacet.txt");
+		String subfacetWordTypesList = wordTyper.prepareForXslt(subfacetWordTypes);
+		xslt.setParameter("subfacetWordTypes", subfacetWordTypesList);
 	}
 
 	@Test
