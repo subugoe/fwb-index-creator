@@ -66,7 +66,7 @@ public class SolrState {
 		docList = response.getResults();
 		highlightings = response.getHighlighting();
 		if (response.getSuggesterResponse() != null) {
-			suggestions = response.getSuggesterResponse().getSuggestedTerms().get("suggest-dictionary");
+			suggestions = response.getSuggesterResponse().getSuggestedTerms().get("suggestdictionary");
 		}
 	}
 
