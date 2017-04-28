@@ -35,6 +35,23 @@ public class IndexerHtmlTest {
 	}
 
 	@Test
+	public void shouldProduceZurSacheWithColon() throws Exception {
+		xslt.transform("src/test/resources/html/zurSacheWithoutColon.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("Zur Sache: ", "//div[@class='dict-ref-begin']", html);
+	}
+
+	@Test
+	public void shouldProduceZurSacheWithoutColon() throws Exception {
+		xslt.transform("src/test/resources/html/zurSacheWithColon.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("Zur Sache ", "//div[@class='dict-ref-begin']", html);
+		// example: bachbunge
+	}
+
+	@Test
 	public void shouldProduceItalicTypeOfWord() throws Exception {
 		xslt.transform("src/test/resources/html/typeOfWordItalic.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);

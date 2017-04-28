@@ -627,7 +627,14 @@
     <div class="dict-ref">
       <xsl:comment>start <xsl:value-of select="$refId" /></xsl:comment>
       <div class="dict-ref-begin">
-        <xsl:text>Zur Sache: </xsl:text>
+        <xsl:choose>
+          <xsl:when test="ends-with(normalize-space(text()[1]), ':')">
+            <xsl:text>Zur Sache </xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>Zur Sache: </xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </div>
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
       <xsl:comment>end <xsl:value-of select="$refId" /></xsl:comment>
