@@ -96,13 +96,13 @@ public class IndexerTest {
 
 	private void addWordTypesToXslt() throws IOException {
 		WordTypesGenerator wordTyper = new WordTypesGenerator();
-		InputStream wordTypes = Main.class.getResourceAsStream("/wordtypes.txt");
+		InputStream wordTypes = Xslt.class.getResourceAsStream("/wordtypes.txt");
 		String wordTypesList = wordTyper.prepareForXslt(wordTypes);
 		xslt.setParameter("wordTypes", wordTypesList);
-		InputStream generalWordTypes = Main.class.getResourceAsStream("/wordtypes_general.txt");
+		InputStream generalWordTypes = Xslt.class.getResourceAsStream("/wordtypes_general.txt");
 		String generalWordTypesList = wordTyper.prepareForXslt(generalWordTypes);
 		xslt.setParameter("generalWordTypes", generalWordTypesList);
-		InputStream subfacetWordTypes = Main.class.getResourceAsStream("/wordtypes_subfacet.txt");
+		InputStream subfacetWordTypes = Xslt.class.getResourceAsStream("/wordtypes_subfacet.txt");
 		String subfacetWordTypesList = wordTyper.prepareForXslt(subfacetWordTypes);
 		xslt.setParameter("subfacetWordTypes", subfacetWordTypesList);
 	}
