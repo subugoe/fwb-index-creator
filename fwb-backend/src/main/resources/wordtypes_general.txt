@@ -1,4 +1,4 @@
-something-else:nicht definiert!!!
+something-else:nicht_definiert!!!
 0m:Substantiv
 0mf:Substantiv
 0mn:Substantiv

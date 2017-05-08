@@ -1,4 +1,4 @@
-something-else:nicht definiert!!!
+something-else:nicht_definiert!!!
 0m:Maskulinum
 0mf:Maskulinum,Femininum
 0mn:Maskulinum,Neutrum
@@ -6,11 +6,11 @@ something-else:nicht definiert!!!
 1f:Femininum
 1fn:Femininum,Neutrum
 2n:Neutrum
-2s:unbekanntes Genus
-3v:regelmäßiges Verb
-3vs:starkes Verb
-3vu:unregelmäßiges Verb
-3vwb:schwaches Verb
+2s:unbekanntes_Genus
+3v:regelmäßiges_Verb
+3vs:starkes_Verb
+3vu:unregelmäßiges_Verb
+3vwb:schwaches_Verb
 4adj:Adjektiv
 4adv:Adverb
 4zw:Zahlwort
@@ -22,4 +22,4 @@ something-else:nicht definiert!!!
 7pr:Präposition
 8w:Wortbestandteil
 9ref:
-9u:(unbekannte Wortart)
+9u:unbekannte_Wortart
