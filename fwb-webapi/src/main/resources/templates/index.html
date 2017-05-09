@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	</head>
+	<body>
+		<h1>FWB-Datenimport aus Git</h1>
+		
+		<form method="post" action="importstaging">
+			<span>Email für Logs: </span><input name="mailaddress" type="text" value="test@test.com" />
+			<br />
+			<input type="submit" value="Auf Staging Server importieren" />
+		</form>
+		<br />
+		<form method="post" action="importlive">
+			<!--span style="width:100px; display: inline-block">Solr-URL: </span><input name="solrurl" type="text" value="http://localhost:8983/solr/fwb" /-->
+			<span>Email für Logs: </span><input name="mailaddress" type="text" value="test@test.com" />
+			<br />
+			<input type="submit" value="Auf Live-Server importieren" />
+		</form>
+	</body>
+</html>
