@@ -20,6 +20,7 @@ public class MainController {
 	@RequestMapping(value="/")
 	public String index(Model model) {
 		model.addAttribute("test", "blablub");
+		System.out.println("inside222222222");
 		return "index";
 	}
 
