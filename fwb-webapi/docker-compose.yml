@@ -2,16 +2,14 @@ version: '2'
 services:
   webapi:
     build: .
-    depends_on:
-      - fwbdata
     restart: always
     ports:
       - 9090:8080
     volumes:
-      - ./fwbdata/git:/git
-  fwbdata:
-    build: fwbdata
+      - ./gitclone/git:/git
+  gitclone:
+    build: gitclone
     volumes:
-      - ./fwbdata/git:/git
+      - ./gitclone/git:/git
     
 
