@@ -50,6 +50,7 @@ Inspect the -help output to choose the correct ones.
 The Git repository containing the TEI files must be cloned once before the first usage:
 
 ``` docker-compose build gitclone ```
+
 ``` docker-compose run -e GIT_USER=<user> -e GIT_PASSWORD=<password> gitclone ```
 
   
