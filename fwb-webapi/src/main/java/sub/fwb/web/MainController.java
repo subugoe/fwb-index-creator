@@ -1,5 +1,25 @@
 package sub.fwb.web;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.PullCommand;
+import org.eclipse.jgit.api.errors.CanceledException;
+import org.eclipse.jgit.api.errors.DetachedHeadException;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidConfigurationException;
+import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.api.errors.NoHeadException;
+import org.eclipse.jgit.api.errors.RefNotAdvertisedException;
+import org.eclipse.jgit.api.errors.RefNotFoundException;
+import org.eclipse.jgit.api.errors.TransportException;
+import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,14 +37,21 @@ public class MainController {
 		return ResponseEntity.ok().body("some test");
 	}
 
-	@RequestMapping(value="/")
-	public String index(Model model) {
-		model.addAttribute("test", "blablub");
-		System.out.println("inside222222222");
+	@RequestMapping(value = "/")
+	public String index(Model model) throws IOException, WrongRepositoryStateException, InvalidConfigurationException,
+			DetachedHeadException, InvalidRemoteException, CanceledException, RefNotFoundException,
+			RefNotAdvertisedException, NoHeadException, TransportException, GitAPIException {
+
+		GitWrapper git = new GitWrapper();
+		git.pull();
+		String lastMessage = git.getLastCommitMessage();
+
+		model.addAttribute("commitMessage", lastMessage);
+
 		return "index";
 	}
 
-	@RequestMapping(value="/importstaging")
+	@RequestMapping(value = "/importstaging")
 	public String importstaging(@RequestParam("mailaddress") String mail, Model model) {
 		model.addAttribute("processingMessage", "In Kürze wird ein Bericht verschickt an: " + mail);
 		return "message";

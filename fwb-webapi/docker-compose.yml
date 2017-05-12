@@ -7,9 +7,15 @@ services:
       - 9090:8080
     volumes:
       - ./gitclone/git:/git
+    environment:
+      - GIT_DIR=/git
+    env_file:
+      - .env
   gitclone:
     build: gitclone
     volumes:
       - ./gitclone/git:/git
+    env_file:
+      - .env
     
 
