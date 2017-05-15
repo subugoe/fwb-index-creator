@@ -29,7 +29,7 @@ public class GitWrapper {
 
 	public GitWrapper() throws IOException {
 		String gitDir = System.getenv("GIT_DIR");
-		String path = gitDir + "/fwb-daten/.git";
+		String path = gitDir + "/.git";
 		FileRepositoryBuilder builder = new FileRepositoryBuilder();
 		Repository db = builder.setGitDir(new File(path)).readEnvironment().findGitDir().build();
 		git = Git.wrap(db);

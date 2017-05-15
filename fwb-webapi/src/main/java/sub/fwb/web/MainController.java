@@ -28,8 +28,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import sub.fwb.Importer;
+
 @Controller
 public class MainController {
+
+	private Environment env = new Environment();
+	private Importer importer = new Importer();
 
 	@RequestMapping(method = RequestMethod.GET, value = "/test2")
 	@ResponseBody
@@ -53,6 +58,7 @@ public class MainController {
 
 	@RequestMapping(value = "/importstaging")
 	public String importstaging(@RequestParam("mailaddress") String mail, Model model) {
+		String solrStagingUrl = env.getVariable("SOLR_STAGING_URL");
 		model.addAttribute("processingMessage", "In Kürze wird ein Bericht verschickt an: " + mail);
 		return "message";
 	}

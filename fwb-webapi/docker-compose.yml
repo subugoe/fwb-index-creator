@@ -8,7 +8,7 @@ services:
     volumes:
       - ./gitclone/git:/git
     environment:
-      - GIT_DIR=/git
+      - GIT_DIR=/git/fwb-daten
     env_file:
       - .env
   gitclone:
