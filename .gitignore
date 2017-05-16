@@ -4,3 +4,5 @@ dependency-reduced-pom.xml
 fwb-index-creator.iml
 */solr/fwb/data
 **/fwb-daten/
+log.txt
+solrxml

@@ -5,7 +5,7 @@
 	<body>
 		<h1>FWB-Datenimport aus Git</h1>
 		<br />
-		<h3>Letzter Commit: <span style="color: blue" th:text="${commitMessage}"></span></h3>
+		<h3>Aktueller Commit: <span style="color: blue" th:text="${commitMessage}"></span></h3>
 		<br />
 		<form method="post" action="importstaging">
 			<span>Email für Logs: </span><input name="mailaddress" type="text" value="test@test.com" />
@@ -21,5 +21,10 @@
 			<br />
 			<input type="submit" value="Auf Live-Server importieren" />
 		</form>
+		<br />
+		<br />
+		<br />
+		<h4>Letzter Log:</h4>
+		<pre th:text="${log}"></pre>
 	</body>
 </html>

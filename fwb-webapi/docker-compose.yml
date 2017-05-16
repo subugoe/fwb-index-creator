@@ -7,8 +7,10 @@ services:
       - 9090:8080
     volumes:
       - ./gitclone/git:/git
+      - ./import-files:/import-files
     environment:
       - GIT_DIR=/git/fwb-daten
+      - OUTPUT_DIR=/import-files
     env_file:
       - .env
   gitclone:

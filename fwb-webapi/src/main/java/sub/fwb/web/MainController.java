@@ -35,6 +35,7 @@ public class MainController {
 
 	private Environment env = new Environment();
 	private Importer importer = new Importer();
+	private LogAccess logAccess = new LogAccess();
 
 	@RequestMapping(method = RequestMethod.GET, value = "/test2")
 	@ResponseBody
@@ -53,6 +54,8 @@ public class MainController {
 
 		model.addAttribute("commitMessage", lastMessage);
 
+		model.addAttribute("log", logAccess.getLogContents());
+
 		return "index";
 	}
 
@@ -60,6 +63,8 @@ public class MainController {
 	public String importstaging(@RequestParam("mailaddress") String mail, Model model) {
 		String solrStagingUrl = env.getVariable("SOLR_STAGING_URL");
 		model.addAttribute("processingMessage", "In Kürze wird ein Bericht verschickt an: " + mail);
+		ImporterRunner runner = new ImporterRunner();
+		new Thread(runner).start();
 		return "message";
 	}
 }
