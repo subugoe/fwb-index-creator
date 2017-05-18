@@ -119,7 +119,6 @@ public class Uploader {
 			solr.add(allDocs);
 			allDocs.clear();
 			allDocs = new ArrayList<>();
-			System.out.print(" ..." + ids.size());
 		}
 	}
 
@@ -144,8 +143,6 @@ public class Uploader {
 
 	public void rollbackChanges() {
 		try {
-			System.out.println();
-			System.out.println("Performing a rollback due to errors.");
 			solr.rollback();
 		} catch (SolrServerException | IOException e) {
 			e.printStackTrace();

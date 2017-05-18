@@ -14,6 +14,8 @@ public class Main {
 	public void execute(String[] args) throws Exception {
 		long before = new Date().getTime();
 
+		importer.setLogOutput(System.out);
+
 		o.initOptions(args);
 		if (o.incorrectOptions) {
 			return;

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -17,8 +18,14 @@ import sub.fwb.testing.TeiHtmlComparator;
 
 public class Importer {
 
+	private PrintStream out;
+
+	public void setLogOutput(PrintStream newOut) {
+		out = newOut;
+	}
+
 	public void convertAll(File solrXmlDir, File inputExcel, File teiInputDir) throws Exception {
-		System.out.println("Converting Excel to index file.");
+		out.println("Converting Excel to index file.");
 		SourcesParser sourcesParser = new SourcesParser();
 		File sourcesXml = new File(solrXmlDir, "0-sources.xml");
 		sourcesParser.convertExcelToXml(inputExcel, sourcesXml);
@@ -42,36 +49,31 @@ public class Importer {
 		fillListWithFiles(allFiles, teiInputDir);
 		Collections.sort(allFiles);
 
-		System.out.println("Converting TEIs to index files:");
-		int i = 0;
+		out.println("Converting TEIs to index files:");
+		int currentId = 1;
 		for (File currentFile : allFiles) {
-			int currentId = i + 1;
-			if (currentId % 2000 == 0 || currentId == allFiles.size()) {
-				System.out.print(" ..." + currentId);
-			}
+			printCurrentStatus(currentId, allFiles.size());
 			xslt.setParameter("currentArticleId", currentId + "");
 			xslt.transform(currentFile.getAbsolutePath(),
 					new FileOutputStream(new File(solrXmlDir, currentFile.getName())));
-			i++;
+			currentId++;
 		}
 	}
 
 	public void compareAll(boolean convertToIndexFiles, File teiInputDir, File solrXmlDir) throws IOException {
 		if (convertToIndexFiles) {
-			System.out.println();
-			System.out.println();
+			out.println();
 		}
-		System.out.println("Comparing text from TEIs to HTML text in index files:");
+		out.println("Comparing text from TEIs to HTML text in index files:");
 		TeiHtmlComparator comparator = new TeiHtmlComparator();
 		ArrayList<File> allFiles = new ArrayList<File>();
 		fillListWithFiles(allFiles, teiInputDir);
-		int i = 0;
+		int i = 1;
 		for (File tei : allFiles) {
-			i++;
-			System.out.print(i + " / " + allFiles.size());
+			printCurrentStatus(i, allFiles.size());
 			File solrXml = new File(solrXmlDir, tei.getName());
 			comparator.compareTexts(tei, solrXml);
-			System.out.print("\r");
+			i++;
 		}
 	}
 
@@ -81,34 +83,38 @@ public class Importer {
 			File[] xmls = solrXmlDir.listFiles();
 			uploader.cleanSolr();
 			if (compareTeiAndIndexFiles || convertToIndexFiles) {
-				System.out.println();
-				System.out.println();
+				out.println();
 			}
-			System.out.println("Reloading the core.");
+			out.println("Reloading the core.");
 			uploader.reloadCore();
-			System.out.println("Uploading documents:");
+			out.println("Uploading documents:");
+			int i = 1;
 			for (File x : xmls) {
+				printCurrentStatus(i, xmls.length);
 				uploader.add(x);
+				i++;
 			}
 			uploader.commitToSolr();
 		} catch (SolrServerException | IOException e) {
 			e.printStackTrace();
+			out.println();
+			out.println(e.getMessage());
+			out.println("Performing a rollback due to errors.");
 			uploader.rollbackChanges();
 		}
 	}
 
 	public void runTests(boolean compareTeiAndIndexFiles, boolean convertToIndexFiles, boolean uploadIndexFiles, String solrUrl) {
 		if (compareTeiAndIndexFiles || convertToIndexFiles || uploadIndexFiles) {
-			System.out.println();
-			System.out.println();
+			out.println();
 		}
-		System.out.println("Running test queries:");
+		out.println("Running test queries.");
 		System.setProperty("SOLR_URL_FOR_TESTS", solrUrl);
 		JUnitCore junit = new JUnitCore();
 		Result testResult = junit.run(SolrTester.class);
 		for (Failure fail : testResult.getFailures()) {
-			System.out.println();
-			System.out.println("FAILURE in " + fail.getTestHeader() + ": " + fail.getMessage());
+			out.println();
+			out.println("FAILURE in " + fail.getTestHeader() + ": " + fail.getMessage());
 		}
 	}
 
@@ -123,5 +129,10 @@ public class Importer {
 		}
 	}
 
+	private void printCurrentStatus(int currentNumber, int lastNumber) {
+		if (currentNumber % 10000 == 0 || currentNumber == lastNumber) {
+			out.println(" ..." + currentNumber);
+		}
+	}
 
 }
