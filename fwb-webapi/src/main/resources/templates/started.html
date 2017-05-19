@@ -7,5 +7,12 @@
 		
 		Der Import-Prozess wurde gestartet.
 		<p th:text="${processingMessage}" />
+		<br />
+		<br />
+		<form method="get" action="/">
+			<button type="submit">Log-Ausgabe laden</button>
+		</form>
+		<br />
+		<pre th:text="${log}"></pre>
 	</body>
 </html>

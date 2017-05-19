@@ -1,6 +1,7 @@
 package sub.fwb.web;
 
 import java.io.File;
+import java.io.PrintStream;
 
 import sub.fwb.Importer;
 
@@ -9,6 +10,7 @@ public class ImporterRunner implements Runnable {
 	private Importer importer = new Importer();
 	private LogAccess logAccess = new LogAccess();
 	private Environment env = new Environment();
+	private LockFile lock = new LockFile();
 
 	@Override
 	public void run() {
@@ -24,7 +26,12 @@ public class ImporterRunner implements Runnable {
 		boolean compareTeiAndIndexFiles = true;
 		boolean convertToIndexFiles = true;
 		boolean uploadIndexFiles = true;
+		PrintStream logStream = null;
 		try {
+			logAccess.clear();
+			File logFile = new File(outputDir, "log.txt");
+			logStream = new PrintStream(logFile);
+			importer.setLogOutput(logStream);
 			importer.convertAll(solrXmlDir, inputExcel, teiInputDir);
 			importer.compareAll(convertToIndexFiles, teiInputDir, solrXmlDir);
 			importer.uploadAll(solrUrl, solrXmlDir, compareTeiAndIndexFiles, convertToIndexFiles);
@@ -33,16 +40,21 @@ public class ImporterRunner implements Runnable {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if (logStream != null) {
+				logStream.close();
+			}
+			lock.delete();
 		}
 		
 	}
 
-	private void makeSureThatExists(File outputDir) {
-		if (!outputDir.exists()) {
-			System.out.println("Creating directory: " + outputDir);
-			boolean created = outputDir.mkdir();
+	private void makeSureThatExists(File dir) {
+		if (!dir.exists()) {
+			System.out.println("Creating directory: " + dir);
+			boolean created = dir.mkdir();
 			if (created) {
-				System.out.println(outputDir + " created");
+				System.out.println(dir + " created");
 			}
 		}
 	}

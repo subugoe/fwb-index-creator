@@ -1,10 +1,7 @@
 package sub.fwb.web;
 
-import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.PullCommand;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.api.errors.DetachedHeadException;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -15,11 +12,6 @@ import org.eclipse.jgit.api.errors.RefNotAdvertisedException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
-import org.eclipse.jgit.transport.CredentialsProvider;
-import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,8 +26,8 @@ import sub.fwb.Importer;
 public class MainController {
 
 	private Environment env = new Environment();
-	private Importer importer = new Importer();
 	private LogAccess logAccess = new LogAccess();
+	private LockFile lock = new LockFile();
 
 	@RequestMapping(method = RequestMethod.GET, value = "/test2")
 	@ResponseBody
@@ -48,23 +40,29 @@ public class MainController {
 			DetachedHeadException, InvalidRemoteException, CanceledException, RefNotFoundException,
 			RefNotAdvertisedException, NoHeadException, TransportException, GitAPIException {
 
+		model.addAttribute("log", logAccess.getLogContents());
+		if (lock.exists()) {
+			return "started";
+		}
+
 		GitWrapper git = new GitWrapper();
 		git.pull();
 		String lastMessage = git.getLastCommitMessage();
-
 		model.addAttribute("commitMessage", lastMessage);
-
-		model.addAttribute("log", logAccess.getLogContents());
 
 		return "index";
 	}
 
 	@RequestMapping(value = "/importstaging")
-	public String importstaging(@RequestParam("mailaddress") String mail, Model model) {
-		String solrStagingUrl = env.getVariable("SOLR_STAGING_URL");
+	public String importstaging(@RequestParam("mailaddress") String mail, Model model) throws IOException {
+		if (lock.exists()) {
+			model.addAttribute("log", logAccess.getLogContents());
+			return "started";
+		}
 		model.addAttribute("processingMessage", "In Kürze wird ein Bericht verschickt an: " + mail);
 		ImporterRunner runner = new ImporterRunner();
 		new Thread(runner).start();
-		return "message";
+		lock.create();
+		return "started";
 	}
 }
