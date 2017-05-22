@@ -18,7 +18,7 @@ import sub.fwb.testing.TeiHtmlComparator;
 
 public class Importer {
 
-	private PrintStream out;
+	private PrintStream out = System.out;
 
 	public void setLogOutput(PrintStream newOut) {
 		out = newOut;

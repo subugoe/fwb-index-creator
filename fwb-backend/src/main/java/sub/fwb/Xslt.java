@@ -5,11 +5,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.transform.SourceLocator;
 import javax.xml.transform.stream.StreamSource;
 
+import net.sf.saxon.s9api.MessageListener;
 import net.sf.saxon.s9api.Processor;
 import net.sf.saxon.s9api.QName;
 import net.sf.saxon.s9api.SaxonApiException;
@@ -24,6 +27,7 @@ public class Xslt {
 	private Processor processor = new Processor(false);
 	private XsltExecutable exe;
 	private Map<String, String> parameters = new HashMap<String, String>();
+	private PrintStream errorOut = System.out;
 
 	public Xslt(String xsltPath) throws SaxonApiException, FileNotFoundException {
 		this(new FileInputStream((new File(xsltPath))));
@@ -34,11 +38,15 @@ public class Xslt {
 		exe = comp.compile(new StreamSource(xsltStream));
 	}
 
+	public void setErrorOut(PrintStream newErrorOut) {
+		errorOut = newErrorOut;
+	}
+
 	public void setParameter(String key, String value) {
 		parameters.put(key, value);
 	}
 
-	public void transform(String inputXmlPath, OutputStream outputXmlStream) throws SaxonApiException {
+	public void transform(final String inputXmlPath, OutputStream outputXmlStream) throws SaxonApiException {
 		XdmNode source = processor.newDocumentBuilder().build(new StreamSource(new File(inputXmlPath)));
 		Serializer out = processor.newSerializer();
 		out.setOutputStream(outputXmlStream);
@@ -48,6 +56,12 @@ public class Xslt {
 		}
 		transformer.setInitialContextNode(source);
 		transformer.setDestination(out);
+		transformer.setMessageListener(new MessageListener() {
+			public void message(XdmNode content, boolean terminate, SourceLocator locator) {
+				errorOut.println("WARNING in " + inputXmlPath);
+				errorOut.println("    " + content.getStringValue());
+			}
+		});
 		transformer.transform();
 	}
 }

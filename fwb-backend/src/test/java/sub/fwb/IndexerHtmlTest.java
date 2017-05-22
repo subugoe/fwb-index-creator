@@ -2,9 +2,12 @@ package sub.fwb;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
+import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.containsString;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,6 +19,7 @@ import org.junit.Test;
 public class IndexerHtmlTest {
 
 	private OutputStream outputBaos;
+	private OutputStream errorBaos;
 	private static Xslt xslt;
 
 	@BeforeClass
@@ -27,11 +31,28 @@ public class IndexerHtmlTest {
 	@Before
 	public void beforeEachTest() throws Exception {
 		outputBaos = new ByteArrayOutputStream();
+		errorBaos = new ByteArrayOutputStream();
 	}
 
 	@After
 	public void afterEachTest() {
 		 System.out.println(outputBaos.toString());
+		 System.out.println(errorBaos.toString());
+	}
+
+	@Test
+	public void shouldCauseWarningWithUnknownElement() throws Exception {
+		PrintStream errorStream = new PrintStream(errorBaos);
+		xslt.setErrorOut(errorStream);
+
+		xslt.transform("src/test/resources/html/unknownElement.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("article head, new text", "//*", html);
+
+		String warningMessage = errorBaos.toString();
+		assertThat(warningMessage, containsString("WARNING"));
+		assertThat(warningMessage, containsString("Unknown element <newElement>"));
 	}
 
 	@Test
