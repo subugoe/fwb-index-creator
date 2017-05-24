@@ -152,15 +152,17 @@
   </xsl:template>
 
   <xsl:template match="*" mode="html_fulltext">
-    <xsl:message>
-      <xsl:text>Unknown element &lt;</xsl:text>
-      <xsl:value-of select="local-name()" />
-      <xsl:text>&gt;: </xsl:text>
-      <xsl:value-of select="text()" />
-    </xsl:message>
-    <span class="unknown-element">
-      <xsl:value-of select="text()" />
-    </span>
+    <xsl:if test="text()">
+      <xsl:message>
+        <xsl:text>Unknown element &lt;</xsl:text>
+        <xsl:value-of select="local-name()" />
+        <xsl:text>&gt;: </xsl:text>
+        <xsl:value-of select="text()" />
+      </xsl:message>
+      <span class="unknown-element">
+        <xsl:value-of select="text()" />
+      </span>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template match="form[@type='lemma']" mode="html_fulltext">

@@ -22,16 +22,16 @@ public class Main {
 		}
 
 		if (o.convertToIndexFiles) {
-			importer.convertAll(o.solrXmlDir, o.inputExcel, o.teiInputDir);
+			importer.convertAll(o.inputExcel, o.teiInputDir, o.solrXmlDir);
 		}
 		if (o.compareTeiAndIndexFiles) {
-			importer.compareAll(o.convertToIndexFiles, o.teiInputDir, o.solrXmlDir);
+			importer.compareAll(o.teiInputDir, o.solrXmlDir, o.convertToIndexFiles);
 		}
 		if (o.uploadIndexFiles) {
-			importer.uploadAll(o.solrUrl, o.solrXmlDir, o.compareTeiAndIndexFiles, o.convertToIndexFiles);
+			importer.uploadAll(o.solrXmlDir, o.solrUrl, o.convertToIndexFiles, o.compareTeiAndIndexFiles);
 		}
 		if (o.executeTestSearches) {
-			importer.runTests(o.compareTeiAndIndexFiles, o.convertToIndexFiles, o.uploadIndexFiles, o.solrUrl);
+			importer.runTests(o.solrUrl, o.convertToIndexFiles, o.compareTeiAndIndexFiles, o.uploadIndexFiles);
 		}
 
 		long after = new Date().getTime();

@@ -45,9 +45,14 @@ public class MainController {
 			return "started";
 		}
 
-		GitWrapper git = new GitWrapper();
-		git.pull();
-		String lastMessage = git.getLastCommitMessage();
+		String lastMessage = "";
+		try{
+			GitWrapper git = new GitWrapper();
+			git.pull();
+			lastMessage = git.getLastCommitMessage();
+		} catch(Exception e) {
+			lastMessage = "Not a git directory.";
+		}
 		model.addAttribute("commitMessage", lastMessage);
 
 		return "index";

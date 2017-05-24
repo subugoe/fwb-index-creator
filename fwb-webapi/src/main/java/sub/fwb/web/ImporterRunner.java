@@ -15,12 +15,12 @@ public class ImporterRunner implements Runnable {
 	@Override
 	public void run() {
 		File outputDir = new File(env.getVariable("OUTPUT_DIR"));
-		File solrXmlDir = new File(outputDir, "solrxml");
-		makeSureThatExists(solrXmlDir);
+		String solrXmlDir = new File(outputDir, "solrxml").getAbsolutePath();
+		makeSureThatExists(new File(solrXmlDir));
 		
 		File gitDir = new File(env.getVariable("GIT_DIR"));
-		File inputExcel = new File(gitDir, "FWB-Quellenliste.xlsx");
-		File teiInputDir = gitDir;
+		String inputExcel = new File(gitDir, "FWB-Quellenliste.xlsx").getAbsolutePath();
+		String teiInputDir = gitDir.getAbsolutePath();
 		
 		String solrUrl = env.getVariable("SOLR_STAGING_URL");
 		boolean compareTeiAndIndexFiles = true;
@@ -32,10 +32,10 @@ public class ImporterRunner implements Runnable {
 			File logFile = new File(outputDir, "log.txt");
 			logStream = new PrintStream(logFile);
 			importer.setLogOutput(logStream);
-			importer.convertAll(solrXmlDir, inputExcel, teiInputDir);
-			importer.compareAll(convertToIndexFiles, teiInputDir, solrXmlDir);
-			importer.uploadAll(solrUrl, solrXmlDir, compareTeiAndIndexFiles, convertToIndexFiles);
-			importer.runTests(compareTeiAndIndexFiles, convertToIndexFiles, uploadIndexFiles, solrUrl);
+			importer.convertAll(inputExcel, teiInputDir, solrXmlDir);
+			importer.compareAll(teiInputDir, solrXmlDir, convertToIndexFiles);
+			importer.uploadAll(solrXmlDir, solrUrl, convertToIndexFiles, compareTeiAndIndexFiles);
+			importer.runTests(solrUrl, convertToIndexFiles, compareTeiAndIndexFiles, uploadIndexFiles);
 			System.out.println("Finished.");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

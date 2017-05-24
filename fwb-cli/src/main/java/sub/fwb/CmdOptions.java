@@ -22,9 +22,9 @@ public class CmdOptions {
 	public boolean uploadIndexFiles = false;
 	public boolean executeTestSearches = false;
 
-	public File teiInputDir;
-	public File inputExcel;
-	public File solrXmlDir;
+	public String teiInputDir;
+	public String inputExcel;
+	public String solrXmlDir;
 	public String solrUrl;
 
 	public void initOptions(String[] args) throws UnsupportedEncodingException {
@@ -67,10 +67,10 @@ public class CmdOptions {
 				incorrectOptions = true;
 				return;
 			}
-			teiInputDir = new File(parsedOptions.getOptionValue("teidir"));
-			inputExcel = new File(parsedOptions.getOptionValue("excel"));
-			solrXmlDir = new File(parsedOptions.getOptionValue("solrxmldir"));
-			makeSureThatExists(solrXmlDir);
+			teiInputDir = parsedOptions.getOptionValue("teidir");
+			inputExcel = parsedOptions.getOptionValue("excel");
+			solrXmlDir = parsedOptions.getOptionValue("solrxmldir");
+			makeSureThatExists(new File(solrXmlDir));
 		}
 		compareTeiAndIndexFiles = parsedOptions.hasOption("compare");
 		if (compareTeiAndIndexFiles) {
@@ -83,8 +83,8 @@ public class CmdOptions {
 				incorrectOptions = true;
 				return;
 			}
-			teiInputDir = new File(parsedOptions.getOptionValue("teidir"));
-			solrXmlDir = new File(parsedOptions.getOptionValue("solrxmldir"));
+			teiInputDir = parsedOptions.getOptionValue("teidir");
+			solrXmlDir = parsedOptions.getOptionValue("solrxmldir");
 		}
 		uploadIndexFiles = parsedOptions.hasOption("upload");
 		if (uploadIndexFiles) {
@@ -97,7 +97,7 @@ public class CmdOptions {
 				incorrectOptions = true;
 				return;
 			}
-			solrXmlDir = new File(parsedOptions.getOptionValue("solrxmldir"));
+			solrXmlDir = parsedOptions.getOptionValue("solrxmldir");
 			solrUrl = parsedOptions.getOptionValue("solr");
 		}
 		executeTestSearches = parsedOptions.hasOption("test");

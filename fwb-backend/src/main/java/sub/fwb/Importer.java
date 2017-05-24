@@ -24,11 +24,11 @@ public class Importer {
 		out = newOut;
 	}
 
-	public void convertAll(File solrXmlDir, File inputExcel, File teiInputDir) throws Exception {
+	public void convertAll(String inputExcel, String teiInputDir, String solrXmlDir) throws Exception {
 		out.println("Converting Excel to index file.");
 		SourcesParser sourcesParser = new SourcesParser();
-		File sourcesXml = new File(solrXmlDir, "0-sources.xml");
-		sourcesParser.convertExcelToXml(inputExcel, sourcesXml);
+		File sourcesXml = new File(new File(solrXmlDir), "0-sources.xml");
+		sourcesParser.convertExcelToXml(new File(inputExcel), sourcesXml);
 
 		InputStream xsltStream = Importer.class.getResourceAsStream("/fwb-indexer.xslt");
 		Xslt xslt = new Xslt(xsltStream);
@@ -46,7 +46,7 @@ public class Importer {
 		xslt.setParameter("subfacetWordTypes", subfacetWordTypesList);
 
 		ArrayList<File> allFiles = new ArrayList<File>();
-		fillListWithFiles(allFiles, teiInputDir);
+		fillListWithFiles(allFiles, new File(teiInputDir));
 		Collections.sort(allFiles);
 
 		out.println("Converting TEIs to index files:");
@@ -55,32 +55,32 @@ public class Importer {
 			printCurrentStatus(currentId, allFiles.size());
 			xslt.setParameter("currentArticleId", currentId + "");
 			xslt.transform(currentFile.getAbsolutePath(),
-					new FileOutputStream(new File(solrXmlDir, currentFile.getName())));
+					new FileOutputStream(new File(new File(solrXmlDir), currentFile.getName())));
 			currentId++;
 		}
 	}
 
-	public void compareAll(boolean convertToIndexFiles, File teiInputDir, File solrXmlDir) throws IOException {
+	public void compareAll(String teiInputDir, String solrXmlDir, boolean convertToIndexFiles) throws IOException {
 		if (convertToIndexFiles) {
 			out.println();
 		}
 		out.println("Comparing text from TEIs to HTML text in index files:");
 		TeiHtmlComparator comparator = new TeiHtmlComparator();
 		ArrayList<File> allFiles = new ArrayList<File>();
-		fillListWithFiles(allFiles, teiInputDir);
+		fillListWithFiles(allFiles, new File(teiInputDir));
 		int i = 1;
 		for (File tei : allFiles) {
 			printCurrentStatus(i, allFiles.size());
-			File solrXml = new File(solrXmlDir, tei.getName());
+			File solrXml = new File(new File(solrXmlDir), tei.getName());
 			comparator.compareTexts(tei, solrXml);
 			i++;
 		}
 	}
 
-	public void uploadAll(String solrUrl, File solrXmlDir, boolean compareTeiAndIndexFiles, boolean convertToIndexFiles) {
+	public void uploadAll(String solrXmlDir, String solrUrl, boolean convertToIndexFiles, boolean compareTeiAndIndexFiles) {
 		Uploader uploader = new Uploader(solrUrl);
 		try {
-			File[] xmls = solrXmlDir.listFiles();
+			File[] xmls = new File(solrXmlDir).listFiles();
 			uploader.cleanSolr();
 			if (compareTeiAndIndexFiles || convertToIndexFiles) {
 				out.println();
@@ -104,7 +104,7 @@ public class Importer {
 		}
 	}
 
-	public void runTests(boolean compareTeiAndIndexFiles, boolean convertToIndexFiles, boolean uploadIndexFiles, String solrUrl) {
+	public void runTests(String solrUrl, boolean convertToIndexFiles, boolean compareTeiAndIndexFiles, boolean uploadIndexFiles) {
 		if (compareTeiAndIndexFiles || convertToIndexFiles || uploadIndexFiles) {
 			out.println();
 		}
