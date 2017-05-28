@@ -24,7 +24,8 @@ public class IndexerHtmlTest {
 
 	@BeforeClass
 	public static void beforeAllTests() throws Exception {
-		xslt = new Xslt("src/main/resources/fwb-indexer.xslt");
+		xslt = new Xslt();
+		xslt.setXsltScript("src/main/resources/fwb-indexer.xslt");
 		xslt.setParameter("sourcesListFile", "src/test/resources/sourcesList.xml");
 	}
 

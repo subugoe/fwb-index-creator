@@ -29,17 +29,17 @@ public class Xslt {
 	private Map<String, String> parameters = new HashMap<String, String>();
 	private PrintStream errorOut = System.out;
 
-	public Xslt(String xsltPath) throws SaxonApiException, FileNotFoundException {
-		this(new FileInputStream((new File(xsltPath))));
-	}
-
-	public Xslt(InputStream xsltStream) throws SaxonApiException {
-		XsltCompiler comp = processor.newXsltCompiler();
-		exe = comp.compile(new StreamSource(xsltStream));
-	}
-
 	public void setErrorOut(PrintStream newErrorOut) {
 		errorOut = newErrorOut;
+	}
+
+	public void setXsltScript(String xsltPath) throws SaxonApiException, FileNotFoundException {
+		setXsltScript(new FileInputStream((new File(xsltPath))));
+	}
+
+	public void setXsltScript(InputStream xsltStream) throws SaxonApiException {
+		XsltCompiler comp = processor.newXsltCompiler();
+		exe = comp.compile(new StreamSource(xsltStream));
 	}
 
 	public void setParameter(String key, String value) {

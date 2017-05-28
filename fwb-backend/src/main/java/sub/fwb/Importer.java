@@ -5,8 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.runner.JUnitCore;
@@ -19,6 +19,10 @@ import sub.fwb.testing.TeiHtmlComparator;
 public class Importer {
 
 	private PrintStream out = System.out;
+	private SourcesParser sourcesParser = new SourcesParser();
+	private WordTypesGenerator wordTyper = new WordTypesGenerator();
+	private Xslt xslt = new Xslt();
+	private FileAccess fileAccess = new FileAccess();
 
 	public void setLogOutput(PrintStream newOut) {
 		out = newOut;
@@ -26,14 +30,13 @@ public class Importer {
 
 	public void convertAll(String inputExcel, String teiInputDir, String solrXmlDir) throws Exception {
 		out.println("Converting Excel to index file.");
-		SourcesParser sourcesParser = new SourcesParser();
+
 		File sourcesXml = new File(new File(solrXmlDir), "0-sources.xml");
 		sourcesParser.convertExcelToXml(new File(inputExcel), sourcesXml);
 
 		InputStream xsltStream = Importer.class.getResourceAsStream("/fwb-indexer.xslt");
-		Xslt xslt = new Xslt(xsltStream);
+		xslt.setXsltScript(xsltStream);
 
-		WordTypesGenerator wordTyper = new WordTypesGenerator();
 		InputStream wordTypes = Importer.class.getResourceAsStream("/wordtypes.txt");
 		String wordTypesList = wordTyper.prepareForXslt(wordTypes);
 		xslt.setParameter("wordTypes", wordTypesList);
@@ -45,8 +48,7 @@ public class Importer {
 		String subfacetWordTypesList = wordTyper.prepareForXslt(subfacetWordTypes);
 		xslt.setParameter("subfacetWordTypes", subfacetWordTypesList);
 
-		ArrayList<File> allFiles = new ArrayList<File>();
-		fillListWithFiles(allFiles, new File(teiInputDir));
+		List<File> allFiles = fileAccess.getAllXmlFilesFromDir(new File(teiInputDir));
 		Collections.sort(allFiles);
 
 		out.println("Converting TEIs to index files:");
@@ -66,8 +68,8 @@ public class Importer {
 		}
 		out.println("Comparing text from TEIs to HTML text in index files:");
 		TeiHtmlComparator comparator = new TeiHtmlComparator();
-		ArrayList<File> allFiles = new ArrayList<File>();
-		fillListWithFiles(allFiles, new File(teiInputDir));
+		List<File> allFiles = fileAccess.getAllXmlFilesFromDir(new File(teiInputDir));
+		Collections.sort(allFiles);
 		int i = 1;
 		for (File tei : allFiles) {
 			printCurrentStatus(i, allFiles.size());
@@ -118,21 +120,25 @@ public class Importer {
 		}
 	}
 
-	private void fillListWithFiles(ArrayList<File> allFiles, File currentDir) {
-		File[] currentDirChildren = currentDir.listFiles();
-		for (File child : currentDirChildren) {
-			if (child.isFile() && child.getName().endsWith("xml")) {
-				allFiles.add(child);
-			} else if (child.isDirectory()) {
-				fillListWithFiles(allFiles, child);
-			}
-		}
-	}
-
 	private void printCurrentStatus(int currentNumber, int lastNumber) {
 		if (currentNumber % 10000 == 0 || currentNumber == lastNumber) {
 			out.println(" ..." + currentNumber);
 		}
+	}
+
+
+	// for unit tests
+	void setSourcesParser(SourcesParser newParser) {
+		sourcesParser = newParser;
+	}
+	void setWordTyper(WordTypesGenerator newTyper) {
+		wordTyper = newTyper;
+	}
+	void setXslt(Xslt newXslt) {
+		xslt = newXslt;
+	}
+	void setFileAccess(FileAccess newAccess) {
+		fileAccess = newAccess;
 	}
 
 }
