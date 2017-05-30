@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.*;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -21,6 +22,11 @@ public class EmbeddedSolrTest {
 		container.load();
 		EmbeddedSolrServer solrEmbedded = new EmbeddedSolrServer(container, "fwb");
 		solr = new SolrState(solrEmbedded);
+	}
+
+	@AfterClass
+	public static void afterAllTests() throws Exception {
+		solr.close();
 	}
 
 	@After

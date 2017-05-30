@@ -1,5 +1,6 @@
 package sub.fwb.testing;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -151,6 +152,10 @@ public class SolrState {
 	public void clean() throws Exception {
 		solrServerClient.deleteByQuery("*:*");
 		solrServerClient.commit();
+	}
+
+	public void close() throws IOException {
+		solrServerClient.close();
 	}
 
 }
