@@ -1,6 +1,9 @@
 package sub.fwb;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,5 +20,9 @@ public class FileAccess {
 			}
 		}
 		return xmls;
+	}
+
+	public OutputStream createOutputStream(File dir, String fileName) throws FileNotFoundException {
+		return new FileOutputStream(new File(dir, fileName));
 	}
 }

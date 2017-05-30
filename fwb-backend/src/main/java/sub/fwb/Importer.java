@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Collections;
 import java.util.List;
@@ -56,8 +57,8 @@ public class Importer {
 		for (File currentFile : allFiles) {
 			printCurrentStatus(currentId, allFiles.size());
 			xslt.setParameter("currentArticleId", currentId + "");
-			xslt.transform(currentFile.getAbsolutePath(),
-					new FileOutputStream(new File(new File(solrXmlDir), currentFile.getName())));
+			OutputStream fileOs = fileAccess.createOutputStream(new File(solrXmlDir), currentFile.getName());
+			xslt.transform(currentFile.getAbsolutePath(), fileOs);
 			currentId++;
 		}
 	}
