@@ -24,6 +24,8 @@ public class Importer {
 	private WordTypesGenerator wordTyper = new WordTypesGenerator();
 	private Xslt xslt = new Xslt();
 	private FileAccess fileAccess = new FileAccess();
+	private Uploader uploader = new Uploader();
+
 
 	public void setLogOutput(PrintStream newOut) {
 		out = newOut;
@@ -63,10 +65,8 @@ public class Importer {
 		}
 	}
 
-	public void compareAll(String teiInputDir, String solrXmlDir, boolean convertToIndexFiles) throws IOException {
-		if (convertToIndexFiles) {
-			out.println();
-		}
+	public void compareAll(String teiInputDir, String solrXmlDir) throws IOException {
+		out.println();
 		out.println("Comparing text from TEIs to HTML text in index files:");
 		TeiHtmlComparator comparator = new TeiHtmlComparator();
 		List<File> allFiles = fileAccess.getAllXmlFilesFromDir(new File(teiInputDir));
@@ -80,14 +80,12 @@ public class Importer {
 		}
 	}
 
-	public void uploadAll(String solrXmlDir, String solrUrl, boolean convertToIndexFiles, boolean compareTeiAndIndexFiles) {
-		Uploader uploader = new Uploader(solrUrl);
+	public void uploadAll(String solrXmlDir, String solrUrl) {
+		uploader.setSolrUrl(solrUrl);
 		try {
 			File[] xmls = new File(solrXmlDir).listFiles();
 			uploader.cleanSolr();
-			if (compareTeiAndIndexFiles || convertToIndexFiles) {
-				out.println();
-			}
+			out.println();
 			out.println("Reloading the core.");
 			uploader.reloadCore();
 			out.println("Uploading documents:");
@@ -107,10 +105,8 @@ public class Importer {
 		}
 	}
 
-	public void runTests(String solrUrl, boolean convertToIndexFiles, boolean compareTeiAndIndexFiles, boolean uploadIndexFiles) {
-		if (compareTeiAndIndexFiles || convertToIndexFiles || uploadIndexFiles) {
-			out.println();
-		}
+	public void runTests(String solrUrl) {
+		out.println();
 		out.println("Running test queries.");
 		System.setProperty("SOLR_URL_FOR_TESTS", solrUrl);
 		JUnitCore junit = new JUnitCore();
@@ -140,6 +136,9 @@ public class Importer {
 	}
 	void setFileAccess(FileAccess newAccess) {
 		fileAccess = newAccess;
+	}
+	void setUploader(Uploader newUploader) {
+		uploader = newUploader;
 	}
 
 }

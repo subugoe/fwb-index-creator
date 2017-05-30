@@ -21,7 +21,8 @@ public class UploaderTest {
 
 	// @Test
 	public void test() throws SolrServerException, IOException {
-		Uploader up = new Uploader("http://localhost:8983/solr/fwb");
+		Uploader up = new Uploader();
+		up.setSolrUrl("http://localhost:8983/solr/fwb");
 		up.reloadCore();
 	}
 

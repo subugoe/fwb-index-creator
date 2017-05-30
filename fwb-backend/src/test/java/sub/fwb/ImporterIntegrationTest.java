@@ -36,8 +36,8 @@ public class ImporterIntegrationTest {
 
 		Importer importer = new Importer();
 		importer.convertAll(inputExcel, teiInputDir, solrXmlDir);
-		importer.compareAll(teiInputDir, solrXmlDir, true);
-		importer.uploadAll(solrXmlDir, solrUrl, true, true);
+		importer.compareAll(teiInputDir, solrXmlDir);
+		importer.uploadAll(solrXmlDir, solrUrl);
 
 		SolrQuery solrQuery = new SolrQuery("lemma:test");
 		solrQuery.setRequestHandler("/search");

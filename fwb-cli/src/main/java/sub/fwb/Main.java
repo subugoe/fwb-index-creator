@@ -25,13 +25,13 @@ public class Main {
 			importer.convertAll(o.inputExcel, o.teiInputDir, o.solrXmlDir);
 		}
 		if (o.compareTeiAndIndexFiles) {
-			importer.compareAll(o.teiInputDir, o.solrXmlDir, o.convertToIndexFiles);
+			importer.compareAll(o.teiInputDir, o.solrXmlDir);
 		}
 		if (o.uploadIndexFiles) {
-			importer.uploadAll(o.solrXmlDir, o.solrUrl, o.convertToIndexFiles, o.compareTeiAndIndexFiles);
+			importer.uploadAll(o.solrXmlDir, o.solrUrl);
 		}
 		if (o.executeTestSearches) {
-			importer.runTests(o.solrUrl, o.convertToIndexFiles, o.compareTeiAndIndexFiles, o.uploadIndexFiles);
+			importer.runTests(o.solrUrl);
 		}
 
 		long after = new Date().getTime();

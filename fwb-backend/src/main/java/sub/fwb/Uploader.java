@@ -40,7 +40,7 @@ public class Uploader {
 
 	private Set<String> ids = new HashSet<>();
 
-	public Uploader(String solrUrl) {
+	public void setSolrUrl(String solrUrl) {
 		if ("embedded".equals(solrUrl)) {
 			CoreContainer container = new CoreContainer("solr");
 			container.load();

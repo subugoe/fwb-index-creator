@@ -23,9 +23,6 @@ public class ImporterRunner implements Runnable {
 		String teiInputDir = gitDir.getAbsolutePath();
 		
 		String solrUrl = env.getVariable("SOLR_STAGING_URL");
-		boolean compareTeiAndIndexFiles = true;
-		boolean convertToIndexFiles = true;
-		boolean uploadIndexFiles = true;
 		PrintStream logStream = null;
 		try {
 			logAccess.clear();
@@ -33,9 +30,9 @@ public class ImporterRunner implements Runnable {
 			logStream = new PrintStream(logFile);
 			importer.setLogOutput(logStream);
 			importer.convertAll(inputExcel, teiInputDir, solrXmlDir);
-			importer.compareAll(teiInputDir, solrXmlDir, convertToIndexFiles);
-			importer.uploadAll(solrXmlDir, solrUrl, convertToIndexFiles, compareTeiAndIndexFiles);
-			importer.runTests(solrUrl, convertToIndexFiles, compareTeiAndIndexFiles, uploadIndexFiles);
+			importer.compareAll(teiInputDir, solrXmlDir);
+			importer.uploadAll(solrXmlDir, solrUrl);
+			importer.runTests(solrUrl);
 			System.out.println("Finished.");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
