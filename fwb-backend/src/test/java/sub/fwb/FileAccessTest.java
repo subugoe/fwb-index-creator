@@ -21,7 +21,7 @@ public class FileAccessTest {
 	}
 
 	@Test
-	public void test() {
+	public void shouldGetXmlFiles() {
 		FileAccess access = new FileAccess();
 		List<File> files = access.getAllXmlFilesFromDir(new File("src/test/resources"));
 		assertThat(files.size(), greaterThan(0));

@@ -83,7 +83,7 @@ public class Importer {
 	public void uploadAll(String solrXmlDir, String solrUrl) {
 		uploader.setSolrUrl(solrUrl);
 		try {
-			File[] xmls = new File(solrXmlDir).listFiles();
+			List<File> xmls = fileAccess.getAllXmlFilesFromDir(new File(solrXmlDir));
 			uploader.cleanSolr();
 			out.println();
 			out.println("Reloading the core.");
@@ -91,7 +91,7 @@ public class Importer {
 			out.println("Uploading documents:");
 			int i = 1;
 			for (File x : xmls) {
-				printCurrentStatus(i, xmls.length);
+				printCurrentStatus(i, xmls.size());
 				uploader.add(x);
 				i++;
 			}

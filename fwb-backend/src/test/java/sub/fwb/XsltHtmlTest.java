@@ -16,7 +16,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class IndexerHtmlTest {
+public class XsltHtmlTest {
 
 	private OutputStream outputBaos;
 	private OutputStream errorBaos;
