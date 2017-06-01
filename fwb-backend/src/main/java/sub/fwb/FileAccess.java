@@ -26,4 +26,14 @@ public class FileAccess {
 		return new FileOutputStream(new File(dir, fileName));
 	}
 
+	public void makeSureThatExists(File outputDir) {
+		if (!outputDir.exists()) {
+			System.out.println("Creating directory: " + outputDir);
+			boolean created = outputDir.mkdir();
+			if (created) {
+				System.out.println(outputDir + " created");
+			}
+		}
+	}
+
 }

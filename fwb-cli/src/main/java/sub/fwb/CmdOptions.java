@@ -2,6 +2,7 @@ package sub.fwb;
 
 import java.io.File;
 import java.io.OutputStreamWriter;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
@@ -17,6 +18,8 @@ public class CmdOptions {
 	private Options options = new Options();
 	public boolean incorrectOptions = false;
 	private CommandLine parsedOptions;
+	private PrintStream out = System.out;
+	private FileAccess fileAccess = new FileAccess();
 	public boolean convertToIndexFiles = false;
 	public boolean compareTeiAndIndexFiles = false;
 	public boolean uploadIndexFiles = false;
@@ -42,8 +45,8 @@ public class CmdOptions {
 		try {
 			parsedOptions = parser.parse(options, args);
 		} catch (ParseException e) {
-			System.out.println("Illegal arguments.");
-			System.out.println();
+			out.println("Illegal arguments.");
+			out.println();
 			printHelp();
 			incorrectOptions = true;
 			return;
@@ -63,14 +66,14 @@ public class CmdOptions {
 			allRequiredPresent &= parsedOptions.hasOption("solrxmldir");
 
 			if (!allRequiredPresent) {
-				System.out.println("Missing required arguments for converting.");
+				out.println("Missing required arguments for converting.");
 				incorrectOptions = true;
 				return;
 			}
 			teiInputDir = parsedOptions.getOptionValue("teidir");
 			inputExcel = parsedOptions.getOptionValue("excel");
 			solrXmlDir = parsedOptions.getOptionValue("solrxmldir");
-			makeSureThatExists(new File(solrXmlDir));
+			fileAccess.makeSureThatExists(new File(solrXmlDir));
 		}
 		compareTeiAndIndexFiles = parsedOptions.hasOption("compare");
 		if (compareTeiAndIndexFiles) {
@@ -79,7 +82,7 @@ public class CmdOptions {
 			allRequiredPresent &= parsedOptions.hasOption("solrxmldir");
 
 			if (!allRequiredPresent) {
-				System.out.println("Missing required arguments for comparing.");
+				out.println("Missing required arguments for comparing.");
 				incorrectOptions = true;
 				return;
 			}
@@ -93,7 +96,7 @@ public class CmdOptions {
 			allRequiredPresent &= parsedOptions.hasOption("solr");
 
 			if (!allRequiredPresent) {
-				System.out.println("Missing required arguments for uploading.");
+				out.println("Missing required arguments for uploading.");
 				incorrectOptions = true;
 				return;
 			}
@@ -106,7 +109,7 @@ public class CmdOptions {
 			allRequiredPresent &= parsedOptions.hasOption("solr");
 
 			if (!allRequiredPresent) {
-				System.out.println("Missing required arguments for testing.");
+				out.println("Missing required arguments for testing.");
 				incorrectOptions = true;
 				return;
 			}
@@ -119,24 +122,19 @@ public class CmdOptions {
 		}
 	}
 
-	private void makeSureThatExists(File outputDir) {
-		if (!outputDir.exists()) {
-			System.out.println("Creating directory: " + outputDir);
-			boolean created = outputDir.mkdir();
-			if (created) {
-				System.out.println(outputDir + " created");
-			}
-		}
-	}
-
 	private void printHelp() throws UnsupportedEncodingException {
-		OutputStreamWriter osw = new OutputStreamWriter(System.out, "UTF8");
+		OutputStreamWriter osw = new OutputStreamWriter(out, "UTF8");
 		PrintWriter pw = new PrintWriter(osw);
 		HelpFormatter formatter = new HelpFormatter();
 		formatter.printHelp(pw, HelpFormatter.DEFAULT_WIDTH,
 				"java -jar fwb-indexer.jar -convert -compare -upload -test <options> (any combination of -convert and/or -compare and/or -upload and/or -test is possible)",
 				"", options, HelpFormatter.DEFAULT_LEFT_PAD, HelpFormatter.DEFAULT_DESC_PAD, "");
 		pw.close();
+	}
+
+	// for unit testing
+	void setErrorOutput(PrintStream newOut) {
+		out = newOut;
 	}
 
 }
