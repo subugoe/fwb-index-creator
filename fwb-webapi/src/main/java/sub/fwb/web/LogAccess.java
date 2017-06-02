@@ -11,28 +11,26 @@ public class LogAccess {
 
 	private File logFile;
 
-	public LogAccess() {
+	private void init() {
 		File outputDir = new File(new Environment().getVariable("OUTPUT_DIR"));
 		logFile = new File(outputDir, "log.txt");
+	}
+
+	public String getLogContents() {
+		init();
 		try {
 			if (!logFile.exists()) {
 				FileUtils.writeStringToFile(logFile, "No logs yet");
 			}
-		} catch (IOException e) {
-			throw new RuntimeException("Could not write log file: ", e);
-		}
-	}
-
-	public String getLogContents() {
-		try {
 			return FileUtils.readFileToString(logFile);
 		} catch (IOException e) {
 			e.printStackTrace();
-			return "Could not read log file: " + e.getMessage();
+			return "Could not access log file: " + e.getMessage();
 		}
 	}
 
 	public void clear() {
+		init();
 		try {
 			FileUtils.forceDelete(logFile);
 			FileUtils.touch(logFile);
@@ -42,6 +40,7 @@ public class LogAccess {
 	}
 
 	public void append(String message) {
+		init();
 		PrintStream logOut = null;
 		try {
 			logOut = new PrintStream(logFile);

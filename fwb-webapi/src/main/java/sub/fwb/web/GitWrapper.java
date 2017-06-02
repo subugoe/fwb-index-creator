@@ -27,16 +27,21 @@ public class GitWrapper {
 	private String gitUser;
 	private String gitPassword;
 
-	public GitWrapper() throws IOException {
+	public void init() {
 		String gitDir = System.getenv("GIT_DIR");
 		String path = gitDir + "/.git";
 		FileRepositoryBuilder builder = new FileRepositoryBuilder();
-		Repository db = builder.setGitDir(new File(path)).readEnvironment().findGitDir().build();
-		git = Git.wrap(db);
-		gitUser = System.getenv("GIT_USER");
-		gitPassword = System.getenv("GIT_PASSWORD");
-		if (gitUser == null || gitPassword == null) {
-			throw new RuntimeException("Missing login data for git.");
+		Repository db;
+		try {
+			db = builder.setGitDir(new File(path)).readEnvironment().findGitDir().build();
+			git = Git.wrap(db);
+			gitUser = System.getenv("GIT_USER");
+			gitPassword = System.getenv("GIT_PASSWORD");
+			if (gitUser == null || gitPassword == null) {
+				throw new RuntimeException("Missing login data for git.");
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
 	}
 

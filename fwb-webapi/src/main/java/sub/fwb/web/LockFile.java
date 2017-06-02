@@ -11,20 +11,23 @@ public class LockFile {
 	private Environment env = new Environment();
 	private File lockFilePath;
 
-	public LockFile() {
+	private void init() {
 		File outputDir = new File(env.getVariable("OUTPUT_DIR"));
 		lockFilePath = new File(outputDir, "lock");
 	}
 
 	public void create() throws IOException {
+		init();
 		FileUtils.writeStringToFile(lockFilePath, new Date().toString());
 	}
 
 	public boolean exists() {
+		init();
 		return lockFilePath.exists();
 	}
 
 	public void delete() {
+		init();
 		try {
 			FileUtils.forceDelete(lockFilePath);
 		} catch (IOException e) {
