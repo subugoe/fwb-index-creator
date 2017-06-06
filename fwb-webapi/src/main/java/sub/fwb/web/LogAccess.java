@@ -39,6 +39,17 @@ public class LogAccess {
 		}
 	}
 
+	public PrintStream getOutput() {
+		init();
+		PrintStream logOut = null;
+		try {
+			logOut = new PrintStream(logFile);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return logOut;
+	}
+
 	public void append(String message) {
 		init();
 		PrintStream logOut = null;

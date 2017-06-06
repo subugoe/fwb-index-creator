@@ -79,12 +79,13 @@ public class Importer {
 		}
 	}
 
-	public void uploadAll(String solrXmlDir, String solrUrl) {
+	public void uploadAll(String solrXmlDir, String solrUrl) throws IOException {
 		uploader.setSolrUrl(solrUrl);
 		try {
 			List<File> xmls = fileAccess.getAllXmlFilesFromDir(new File(solrXmlDir));
-			uploader.cleanSolr();
 			out.println();
+			out.println("Cleaning Solr.");
+			uploader.cleanSolr();
 			out.println("Reloading the core.");
 			uploader.reloadCore();
 			out.println("Uploading documents:");
@@ -98,9 +99,9 @@ public class Importer {
 		} catch (SolrServerException | IOException e) {
 			e.printStackTrace();
 			out.println();
-			out.println(e.getMessage());
 			out.println("Performing a rollback due to errors.");
 			uploader.rollbackChanges();
+			throw new IOException(e);
 		}
 	}
 

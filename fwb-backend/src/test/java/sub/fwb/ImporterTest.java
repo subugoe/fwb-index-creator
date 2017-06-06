@@ -4,6 +4,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class ImporterTest {
 		verify(mock.uploader).commitToSolr();
 	}
 
-	@Test
+	@Test(expected=IOException.class)
 	public void shouldFailWhileUploading() throws Exception {
 		doThrow(new SolrServerException("Intentional test exception")).when(mock.uploader).cleanSolr();
 		importer.uploadAll("/output", "http://localhost/solr");
