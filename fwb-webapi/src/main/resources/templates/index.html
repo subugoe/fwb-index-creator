@@ -10,7 +10,7 @@
 		<form method="post" action="importstaging">
 			<span>Email für Logs: </span><input name="mailaddress" type="text" value="test@test.com" />
 			<br />
-			<input type="submit" value="Auf Staging Server importieren" />
+			<input type="submit" value="Auf Staging Server importieren" /> (<span th:text="${SOLR_STAGING_URL}"></span>)
 		</form>
 		<br />
 		<br />
@@ -19,7 +19,7 @@
 			<!--span style="width:100px; display: inline-block">Solr-URL: </span><input name="solrurl" type="text" value="http://localhost:8983/solr/fwb" /-->
 			<span>Email für Logs: </span><input name="mailaddress" type="text" value="test@test.com" />
 			<br />
-			<input type="submit" value="Auf Live-Server importieren" />
+			<input type="submit" value="Auf Live-Server importieren" /> (<span th:text="${SOLR_LIVE_URL}"></span>)
 		</form>
 		<br />
 		<br />

@@ -24,6 +24,7 @@ public class ImporterRunner implements Runnable {
 		PrintStream log = logAccess.getOutput();
 
 		log.println("Starting import (" + new Date() + ")");
+		log.println("Solr URL: " + solrUrl());
 		log.println();
 		try {
 			importer.setLogOutput(log);

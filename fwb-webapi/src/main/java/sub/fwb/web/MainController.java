@@ -39,6 +39,8 @@ public class MainController {
 	@RequestMapping(value = "/")
 	public String index(Model model) throws Exception {
 
+		model.addAttribute("SOLR_STAGING_URL", env.getVariable("SOLR_STAGING_URL"));
+		model.addAttribute("SOLR_LIVE_URL", env.getVariable("SOLR_LIVE_URL"));
 		model.addAttribute("log", logAccess.getLogContents());
 		if (lock.exists()) {
 			return "started";
@@ -80,5 +82,8 @@ public class MainController {
 	}
 	void setImporterRunner(ImporterRunner newRunner) {
 		runner = newRunner;
+	}
+	void setEnvironment(Environment newEnv) {
+		env = newEnv;
 	}
 }
