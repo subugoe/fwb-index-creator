@@ -3,9 +3,12 @@ package sub.fwb;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.FileUtils;
 
 public class FileAccess {
 
@@ -33,6 +36,12 @@ public class FileAccess {
 			if (created) {
 				System.out.println(outputDir + " created");
 			}
+		}
+	}
+
+	public void cleanDir(File dir) throws IOException {
+		if (dir.exists()) {
+			FileUtils.cleanDirectory(dir);
 		}
 	}
 

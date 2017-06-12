@@ -31,6 +31,7 @@ public class Importer {
 	}
 
 	public void convertAll(String inputExcel, String teiInputDir, String solrXmlDir) throws Exception {
+		fileAccess.cleanDir(new File(solrXmlDir));
 		out.println("Converting Excel to index file.");
 
 		File sourcesXml = new File(new File(solrXmlDir), "0-sources.xml");
