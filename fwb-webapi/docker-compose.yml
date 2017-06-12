@@ -12,12 +12,12 @@ services:
       - GIT_DIR=/git/fwb-daten
       - OUTPUT_DIR=/import-files
     env_file:
-      - .env
+      - docker.env
   gitclone:
     build: gitclone
     volumes:
       - ./gitclone/git:/git
     env_file:
-      - .env
+      - docker.env
     
 

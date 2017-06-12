@@ -6,3 +6,4 @@ fwb-index-creator.iml
 **/fwb-daten/
 log.txt
 solrxml
+docker.env
