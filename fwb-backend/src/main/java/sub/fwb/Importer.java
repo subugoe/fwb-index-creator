@@ -39,6 +39,7 @@ public class Importer {
 
 		InputStream xsltStream = Importer.class.getResourceAsStream("/fwb-indexer.xslt");
 		xslt.setXsltScript(xsltStream);
+		xslt.setErrorOut(out);
 
 		InputStream wordTypes = Importer.class.getResourceAsStream("/wordtypes.txt");
 		String wordTypesList = wordTyper.prepareForXslt(wordTypes);
