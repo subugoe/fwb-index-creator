@@ -1,0 +1,6 @@
+version: '2'
+services:
+  compile:
+    build: .
+    volumes:
+      - .:/project    
