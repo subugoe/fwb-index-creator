@@ -1,0 +1,10 @@
+version: '2'
+services:
+  solr:
+    build: .
+    restart: always
+    volumes:
+      - ./solr:/opt/solr/server/solr
+      - ./solr-embedded/fwb/conf:/conf
+    ports:
+      - 8983:8983

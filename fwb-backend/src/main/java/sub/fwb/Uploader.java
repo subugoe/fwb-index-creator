@@ -42,7 +42,7 @@ public class Uploader {
 
 	public void setSolrUrl(String solrUrl) {
 		if ("embedded".equals(solrUrl)) {
-			CoreContainer container = new CoreContainer("solr");
+			CoreContainer container = new CoreContainer("solr-embedded");
 			container.load();
 			solr = new EmbeddedSolrServer(container, "fwb");
 			EmbeddedSolr.instance = solr;

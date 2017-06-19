@@ -18,7 +18,7 @@ public class EmbeddedSolrTest {
 
 	@BeforeClass
 	public static void beforeAllTests() throws Exception {
-		CoreContainer container = new CoreContainer("solr");
+		CoreContainer container = new CoreContainer("solr-embedded");
 		container.load();
 		EmbeddedSolrServer solrEmbedded = new EmbeddedSolrServer(container, "fwb");
 		solr = new SolrState(solrEmbedded);

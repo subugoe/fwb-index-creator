@@ -28,6 +28,8 @@ public class ImporterIntegrationTest {
 		String inputExcel = "src/test/resources/import/sources.xlsx";
 		String teiInputDir = "src/test/resources/import";
 		String solrXmlDir = "target/solrxml";
+
+		/* This is used as a signal to start an embedded Solr in class: */ Uploader u;
 		String solrUrl = "embedded";
 
 		if (new File(solrXmlDir).exists()) {
