@@ -8,6 +8,38 @@ The Schema and other files that must be used to configure Solr can be found in t
 There is also a .jar file that contains some modifications for Solr. You can find its source code here: 
 https://github.com/subugoe/fwb-solr-mods.
 
+## Quick install using docker-compose
+
+- Clone the project and go into its main directory.
+
+- Compile all modules:
+
+``` docker-compose up ```
+
+- Prepare the backend module (Solr):
+
+``` cd fwb-backend ```
+
+``` chmod a+w solr/fwb ```
+
+- Start Solr:
+
+``` docker-compose up -d ```
+
+- Prepare the frontend module (web page):
+
+``` cd ../fwb-webapi ```
+
+``` cp docker.env.dist docker.env ```
+
+- Enter the correct user data and URLs into docker.env:
+
+``` GIT_USER=... ```
+
+- Start the frontend web page:
+
+``` docker-compose up -d ```
+
 ## Compilation
 
 You need Java JDK 7 or higher and Maven 3 or higher.
