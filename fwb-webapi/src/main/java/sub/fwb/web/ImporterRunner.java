@@ -30,7 +30,7 @@ public class ImporterRunner implements Runnable {
 			importer.setLogOutput(log);
 			importer.convertAll(inputExcel(), teiInputDir(), solrXmlDir());
 			importer.compareAll(teiInputDir(), solrXmlDir());
-			importer.uploadAll(solrXmlDir(), solrUrl());
+			importer.uploadAll(solrXmlDir(), solrUrl(), solrCore());
 			importer.runTests(solrUrl());
 		} catch (Exception e) {
 			log.println("ERROR: " + e.getMessage());
@@ -63,6 +63,10 @@ public class ImporterRunner implements Runnable {
 
 	private String solrUrl() {
 		return env.getVariable("SOLR_STAGING_URL");
+	}
+
+	private String solrCore() {
+		return env.getVariable("SOLR_CORE");
 	}
 
 

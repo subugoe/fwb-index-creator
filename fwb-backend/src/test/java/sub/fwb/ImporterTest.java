@@ -39,7 +39,7 @@ public class ImporterTest {
 	public void shouldUpload() throws Exception {
 
 		prepareFileAccess("/output/a.xml", "/output/b.xml");
-		importer.uploadAll("/output", "http://localhost/solr");
+		importer.uploadAll("/output", "http://localhost/solr", "mycore");
 
 		verify(mock.uploader).add(new File("/output/a.xml"));
 		verify(mock.uploader).add(new File("/output/b.xml"));
@@ -49,7 +49,7 @@ public class ImporterTest {
 	@Test(expected=IOException.class)
 	public void shouldFailWhileUploading() throws Exception {
 		doThrow(new SolrServerException("Intentional test exception")).when(mock.uploader).cleanSolr();
-		importer.uploadAll("/output", "http://localhost/solr");
+		importer.uploadAll("/output", "http://localhost/solr", "mycore");
 		
 		verify(mock.uploader).rollbackChanges();
 	}

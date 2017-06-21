@@ -81,8 +81,8 @@ public class Importer {
 		}
 	}
 
-	public void uploadAll(String solrXmlDir, String solrUrl) throws IOException {
-		uploader.setSolrUrl(solrUrl);
+	public void uploadAll(String solrXmlDir, String solrUrl, String core) throws IOException {
+		uploader.setSolrEndpoint(solrUrl, core);
 		try {
 			List<File> xmls = fileAccess.getAllXmlFilesFromDir(new File(solrXmlDir));
 			out.println();

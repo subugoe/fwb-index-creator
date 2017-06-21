@@ -28,6 +28,7 @@ public class ImporterIntegrationTest {
 		String inputExcel = "src/test/resources/import/sources.xlsx";
 		String teiInputDir = "src/test/resources/import";
 		String solrXmlDir = "target/solrxml";
+		String core = "fwb";
 
 		/* This is used as a signal to start an embedded Solr in class: */ Uploader u;
 		String solrUrl = "embedded";
@@ -39,7 +40,7 @@ public class ImporterIntegrationTest {
 		Importer importer = new Importer();
 		importer.convertAll(inputExcel, teiInputDir, solrXmlDir);
 		importer.compareAll(teiInputDir, solrXmlDir);
-		importer.uploadAll(solrXmlDir, solrUrl);
+		importer.uploadAll(solrXmlDir, solrUrl, core);
 
 		SolrQuery solrQuery = new SolrQuery("lemma:test");
 		solrQuery.setRequestHandler("/search");

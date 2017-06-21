@@ -32,7 +32,7 @@ public class Main {
 			importer.compareAll(o.teiInputDir, o.solrXmlDir);
 		}
 		if (o.uploadIndexFiles) {
-			importer.uploadAll(o.solrXmlDir, o.solrUrl);
+			importer.uploadAll(o.solrXmlDir, o.solrUrl, o.core);
 		}
 		if (o.executeTestSearches) {
 			importer.runTests(o.solrUrl);

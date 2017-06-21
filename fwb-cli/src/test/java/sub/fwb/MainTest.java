@@ -32,13 +32,13 @@ public class MainTest {
 	@Test
 	public void shouldExecuteAllStages() throws Exception {
 		String[] args = { "-convert", "-compare", "-upload", "-test", "-excel", "target/sources.xls", "-teidir",
-				"target/teis", "-solrxmldir", "target/output", "-solr", "http://localhost/test" };
+				"target/teis", "-solrxmldir", "target/output", "-solr", "http://localhost/solr", "-core", "mycore" };
 		main.execute(args);
 
 		verify(importerMock).convertAll("target/sources.xls", "target/teis", "target/output");
 		verify(importerMock).compareAll("target/teis", "target/output");
-		verify(importerMock).uploadAll("target/output", "http://localhost/test");
-		verify(importerMock).runTests("http://localhost/test");
+		verify(importerMock).uploadAll("target/output", "http://localhost/solr", "mycore");
+		verify(importerMock).runTests("http://localhost/solr");
 
 		assertThat(mainOutput(), containsString("minutes"));
 	}
@@ -50,16 +50,16 @@ public class MainTest {
 		main.execute(args);
 
 		verify(importerMock).convertAll("target/sources.xls", "target/teis", "target/output");
-		verify(importerMock, times(0)).uploadAll(anyString(), anyString());
+		verify(importerMock, times(0)).uploadAll(anyString(), anyString(), anyString());
 	}
 
 	@Test
 	public void shouldExecuteUpload() throws Exception {
-		String[] args = { "-upload", "-solrxmldir", "target/output", "-solr", "http://localhost/test" };
+		String[] args = { "-upload", "-solrxmldir", "target/output", "-solr", "http://localhost/solr", "-core", "mycore" };
 		main.execute(args);
 
 		verify(importerMock, times(0)).convertAll(anyString(), anyString(), anyString());
-		verify(importerMock).uploadAll("target/output", "http://localhost/test");
+		verify(importerMock).uploadAll("target/output", "http://localhost/solr", "mycore");
 	}
 
 	@Test
@@ -68,7 +68,7 @@ public class MainTest {
 		main.execute(args);
 
 		verify(importerMock, times(0)).convertAll(anyString(), anyString(), anyString());
-		verify(importerMock, times(0)).uploadAll(anyString(), anyString());
+		verify(importerMock, times(0)).uploadAll(anyString(), anyString(), anyString());
 
 		assertThat(mainOutput(), containsString("Illegal arguments"));
 	}

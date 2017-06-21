@@ -36,20 +36,20 @@ public class Uploader {
 	private List<SolrInputDocument> allDocs = new ArrayList<>();
 	private final int MAX_DOCS = 2000;
 	private SolrClient solr;
-	private String coreUrl;
+	private String core;
 
 	private Set<String> ids = new HashSet<>();
 
-	public void setSolrUrl(String solrUrl) {
+	public void setSolrEndpoint(String solrUrl, String coreName) {
 		if ("embedded".equals(solrUrl)) {
 			CoreContainer container = new CoreContainer("solr-embedded");
 			container.load();
-			solr = new EmbeddedSolrServer(container, "fwb");
+			solr = new EmbeddedSolrServer(container, coreName);
 			EmbeddedSolr.instance = solr;
 		} else {
 			solr = new HttpSolrClient(solrUrl);
-			coreUrl = solrUrl;
 		}
+		core = coreName;
 	}
 
 	public void add(File file) throws SolrServerException, IOException {
@@ -127,36 +127,32 @@ public class Uploader {
 
 	private void flushDocs() throws SolrServerException, IOException {
 		if (!allDocs.isEmpty()) {
-			solr.add(allDocs);
+			solr.add(core, allDocs);
 			allDocs.clear();
 			allDocs = new ArrayList<>();
 		}
 	}
 
 	public void cleanSolr() throws SolrServerException, IOException {
-		solr.deleteByQuery("*:*");
+		solr.deleteByQuery(core, "*:*");
 	}
 
 	public void reloadCore() throws SolrServerException, IOException {
-		if (coreUrl != null) {
-			String urlWithoutCore = coreUrl.replaceAll("/[^/]+$", "");
-			String coreName = coreUrl.replaceAll("^.*/", "");
-			CoreAdminRequest adminRequest = new CoreAdminRequest();
-			adminRequest.setAction(CoreAdminAction.RELOAD);
-			adminRequest.setCoreName(coreName);
-			adminRequest.process(new HttpSolrClient(urlWithoutCore));
-		}
+		CoreAdminRequest adminRequest = new CoreAdminRequest();
+		adminRequest.setAction(CoreAdminAction.RELOAD);
+		adminRequest.setCoreName(core);
+		adminRequest.process(solr);
 	}
 
 	public void commitToSolr() throws SolrServerException, IOException {
 		flushDocs();
-		solr.commit();
-		solr.optimize();
+		solr.commit(core);
+		solr.optimize(core);
 	}
 
 	public void rollbackChanges() {
 		try {
-			solr.rollback();
+			solr.rollback(core);
 		} catch (SolrServerException | IOException e) {
 			e.printStackTrace();
 		}

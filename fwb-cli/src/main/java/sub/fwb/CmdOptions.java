@@ -24,11 +24,14 @@ public class CmdOptions {
 	public boolean compareTeiAndIndexFiles = false;
 	public boolean uploadIndexFiles = false;
 	public boolean executeTestSearches = false;
+	public boolean swapCores = false;
 
 	public String teiInputDir;
 	public String inputExcel;
 	public String solrXmlDir;
 	public String solrUrl;
+	public String core;
+	public String swapCore;
 
 	public void initOptions(String[] args) throws UnsupportedEncodingException {
 		options.addOption("help", false, "Print help");
@@ -36,11 +39,15 @@ public class CmdOptions {
 		options.addOption("compare", false, "Compare text from TEIs to Solr XMLs");
 		options.addOption("upload", false, "Upload Solr XMLs to Solr");
 		options.addOption("test", false, "Execute some test searches on the Solr index");
+		options.addOption("swap", false, "Swap the given Solr cores");
 		options.addOption("teidir", true, "Input directory with TEI files - use with: -convert, -compare");
 		options.addOption("excel", true, "File containing sources - use with: -convert");
 		options.addOption("solrxmldir", true,
 				"Output directory for Solr index files - use with: -convert, -compare, -upload");
-		options.addOption("solr", true, "URL of the Solr core - use with: -upload, -test");
+		options.addOption("solr", true, "URL of the Solr instance - use with: -upload, -test, -swap");
+		options.addOption("core", true, "The target core - use with: -upload, -test, -swap");
+		options.addOption("swapcore", true,
+				"The core that will be swapped, usually to become the online core - use with: -swap");
 		CommandLineParser parser = new DefaultParser();
 		try {
 			parsedOptions = parser.parse(options, args);
@@ -94,6 +101,7 @@ public class CmdOptions {
 			boolean allRequiredPresent = true;
 			allRequiredPresent &= parsedOptions.hasOption("solrxmldir");
 			allRequiredPresent &= parsedOptions.hasOption("solr");
+			allRequiredPresent &= parsedOptions.hasOption("core");
 
 			if (!allRequiredPresent) {
 				out.println("Missing required arguments for uploading.");
@@ -102,11 +110,13 @@ public class CmdOptions {
 			}
 			solrXmlDir = parsedOptions.getOptionValue("solrxmldir");
 			solrUrl = parsedOptions.getOptionValue("solr");
+			core = parsedOptions.getOptionValue("core");
 		}
 		executeTestSearches = parsedOptions.hasOption("test");
 		if (executeTestSearches) {
 			boolean allRequiredPresent = true;
 			allRequiredPresent &= parsedOptions.hasOption("solr");
+			allRequiredPresent &= parsedOptions.hasOption("core");
 
 			if (!allRequiredPresent) {
 				out.println("Missing required arguments for testing.");
@@ -114,8 +124,26 @@ public class CmdOptions {
 				return;
 			}
 			solrUrl = parsedOptions.getOptionValue("solr");
+			core = parsedOptions.getOptionValue("core");
 		}
-		if (!convertToIndexFiles && !compareTeiAndIndexFiles && !uploadIndexFiles && !executeTestSearches) {
+		swapCores = parsedOptions.hasOption("swap");
+		if (swapCores) {
+			boolean allRequiredPresent = true;
+			allRequiredPresent &= parsedOptions.hasOption("solr");
+			allRequiredPresent &= parsedOptions.hasOption("core");
+			allRequiredPresent &= parsedOptions.hasOption("swapcore");
+
+			if (!allRequiredPresent) {
+				out.println("Missing required arguments for core swapping.");
+				incorrectOptions = true;
+				return;
+			}
+			solrUrl = parsedOptions.getOptionValue("solr");
+			core = parsedOptions.getOptionValue("core");
+			swapCore = parsedOptions.getOptionValue("swapcore");
+		}
+		if (!convertToIndexFiles && !compareTeiAndIndexFiles && !uploadIndexFiles && !executeTestSearches
+				&& !swapCores) {
 			printHelp();
 			incorrectOptions = true;
 			return;
@@ -127,7 +155,7 @@ public class CmdOptions {
 		PrintWriter pw = new PrintWriter(osw);
 		HelpFormatter formatter = new HelpFormatter();
 		formatter.printHelp(pw, HelpFormatter.DEFAULT_WIDTH,
-				"java -jar fwb-indexer.jar -convert -compare -upload -test <options> (any combination of -convert and/or -compare and/or -upload and/or -test is possible)",
+				"java -jar fwb-indexer.jar -convert -compare -upload -test -swap <options> (any combination of -convert and/or -compare and/or -upload and/or -test and/or -swap is possible)",
 				"", options, HelpFormatter.DEFAULT_LEFT_PAD, HelpFormatter.DEFAULT_DESC_PAD, "");
 		pw.close();
 	}
