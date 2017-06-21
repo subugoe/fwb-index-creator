@@ -3,6 +3,7 @@ target
 dependency-reduced-pom.xml
 fwb-index-creator.iml
 **/fwb/data
+**/fwboffline/data
 **/fwb-daten/
 log.txt
 solrxml
