@@ -35,7 +35,7 @@ public class Main {
 			importer.uploadAll(o.solrXmlDir, o.solrUrl, o.core);
 		}
 		if (o.executeTestSearches) {
-			importer.runTests(o.solrUrl);
+			importer.runTests(o.solrUrl, o.core);
 		}
 
 		timer.setStop(new Date().getTime());

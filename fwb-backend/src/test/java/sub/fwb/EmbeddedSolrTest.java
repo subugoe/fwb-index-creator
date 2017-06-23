@@ -10,18 +10,18 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import sub.fwb.testing.SolrState;
+import sub.fwb.testing.SolrWrapper;
 
 public class EmbeddedSolrTest {
 
-	private static SolrState solr;
+	private static SolrWrapper solr;
 
 	@BeforeClass
 	public static void beforeAllTests() throws Exception {
 		CoreContainer container = new CoreContainer("solr-embedded");
 		container.load();
 		EmbeddedSolrServer solrEmbedded = new EmbeddedSolrServer(container, "fwb");
-		solr = new SolrState(solrEmbedded);
+		solr = new SolrWrapper(solrEmbedded, "fwb");
 	}
 
 	@AfterClass

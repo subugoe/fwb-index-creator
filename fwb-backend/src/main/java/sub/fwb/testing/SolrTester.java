@@ -11,13 +11,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class SolrTester {
-	private static SolrState solr;
+	private static SolrWrapper solr;
 
 	@BeforeClass
 	public static void beforeAllTests() throws Exception {
-		String solrUrl = System.getProperty("SOLR_URL_FOR_TESTS", "http://localhost:8983/solr/fwb");
+		String solrUrl = System.getProperty("SOLR_URL_FOR_TESTS", "http://localhost:8983/solr");
+		String core = System.getProperty("SOLR_CORE_FOR_TESTS", "fwb");
 		SolrClient solrServerClient = new HttpSolrClient(solrUrl);
-		solr = new SolrState(solrServerClient);
+		solr = new SolrWrapper(solrServerClient, core);
 	}
 
 	@After

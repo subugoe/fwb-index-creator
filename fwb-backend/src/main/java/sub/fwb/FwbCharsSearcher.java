@@ -14,14 +14,15 @@ import java.util.TreeSet;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 
-import sub.fwb.testing.SolrState;
+import sub.fwb.testing.SolrWrapper;
 
 public class FwbCharsSearcher {
 
 	public void generateAllFwbChars() {
-		String solrUrl = System.getProperty("SOLR_URL_FOR_TESTS", "http://localhost:8983/solr/fwb");
+		String solrUrl = System.getProperty("SOLR_URL_FOR_TESTS", "http://localhost:8983/solr");
+		String core = System.getProperty("SOLR_CORE_FOR_TESTS", "fwb");
 		SolrClient solrServerClient = new HttpSolrClient(solrUrl);
-		SolrState solr = new SolrState(solrServerClient);
+		SolrWrapper solr = new SolrWrapper(solrServerClient, core);
 
 		Set<String> simpleChars = new TreeSet<>();
 		Set<String> combiningChars = new HashSet<>();

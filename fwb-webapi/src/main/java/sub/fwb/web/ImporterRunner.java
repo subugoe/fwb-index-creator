@@ -31,7 +31,7 @@ public class ImporterRunner implements Runnable {
 			importer.convertAll(inputExcel(), teiInputDir(), solrXmlDir());
 			importer.compareAll(teiInputDir(), solrXmlDir());
 			importer.uploadAll(solrXmlDir(), solrUrl(), solrCore());
-			importer.runTests(solrUrl());
+			importer.runTests(solrUrl(), solrCore());
 		} catch (Exception e) {
 			log.println("ERROR: " + e.getMessage());
 			e.printStackTrace();

@@ -107,10 +107,11 @@ public class Importer {
 		}
 	}
 
-	public void runTests(String solrUrl) {
+	public void runTests(String solrUrl, String core) {
 		out.println();
 		out.println("Running test queries.");
 		System.setProperty("SOLR_URL_FOR_TESTS", solrUrl);
+		System.setProperty("SOLR_CORE_FOR_TESTS", core);
 		JUnitCore junit = new JUnitCore();
 		Result testResult = junit.run(SolrTester.class);
 		for (Failure fail : testResult.getFailures()) {

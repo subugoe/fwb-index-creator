@@ -13,16 +13,18 @@ import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.noggit.JSONUtil;
 
-public class SolrState {
+public class SolrWrapper {
 
 	private SolrClient solrServerClient;
 	private String solrQueryString = "";
 	private SolrDocumentList docList;
 	private Map<String, Map<String, List<String>>> highlightings;
 	private List<String> suggestions;
+	private String core;
 
-	public SolrState(SolrClient newSolrThing) {
+	public SolrWrapper(SolrClient newSolrThing, String solrCore) {
 		solrServerClient = newSolrThing;
+		core = solrCore;
 	}
 
 	public void list(String userInputs) {
@@ -59,7 +61,7 @@ public class SolrState {
 		}
 		QueryResponse response;
 		try {
-			response = solrServerClient.query(solrQuery);
+			response = solrServerClient.query(core, solrQuery);
 		} catch (Exception e) {
 			throw new RuntimeException("Could not execute '" + query + "'", e);
 		}
@@ -99,7 +101,7 @@ public class SolrState {
 	}
 
 	public int askForNumberOfLemmas(String wordPart) {
-		SolrState tempSolr = new SolrState(solrServerClient);
+		SolrWrapper tempSolr = new SolrWrapper(solrServerClient, core);
 		tempSolr.select("lemma:*" + wordPart + "*");
 
 		return (int) tempSolr.results();
@@ -145,13 +147,13 @@ public class SolrState {
 		if (!newDoc.containsKey("lemma")) {
 			newDoc.addField("lemma", "mylemma");
 		}
-		solrServerClient.add(newDoc);
-		solrServerClient.commit();
+		solrServerClient.add(core, newDoc);
+		solrServerClient.commit(core);
 	}
 
 	public void clean() throws Exception {
-		solrServerClient.deleteByQuery("*:*");
-		solrServerClient.commit();
+		solrServerClient.deleteByQuery(core, "*:*");
+		solrServerClient.commit(core);
 	}
 
 	public void close() throws IOException {

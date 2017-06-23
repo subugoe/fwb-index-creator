@@ -38,7 +38,7 @@ public class MainTest {
 		verify(importerMock).convertAll("target/sources.xls", "target/teis", "target/output");
 		verify(importerMock).compareAll("target/teis", "target/output");
 		verify(importerMock).uploadAll("target/output", "http://localhost/solr", "mycore");
-		verify(importerMock).runTests("http://localhost/solr");
+		verify(importerMock).runTests("http://localhost/solr", "mycore");
 
 		assertThat(mainOutput(), containsString("minutes"));
 	}
