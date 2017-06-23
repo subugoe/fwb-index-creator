@@ -24,6 +24,7 @@ public class Importer {
 	private Xslt xslt = new Xslt();
 	private FileAccess fileAccess = new FileAccess();
 	private Uploader uploader = new Uploader();
+	private CoreSwapper swapper = new CoreSwapper();
 
 
 	public void setLogOutput(PrintStream newOut) {
@@ -120,9 +121,20 @@ public class Importer {
 		}
 	}
 
+	public void swapCores(String solrUrl, String core, String swapCore) throws IOException {
+		out.println("    Swapping cores: " + core + " -> " + swapCore);
+		try {
+			swapper.setSolrEndpoint(solrUrl, core);
+			swapper.switchTo(swapCore);
+		} catch (SolrServerException | IOException e) {
+			e.printStackTrace();
+			throw new IOException(e);
+		}
+	}
+
 	private void printCurrentStatus(int currentNumber, int lastNumber) {
 		if (currentNumber % 10000 == 0 || currentNumber == lastNumber) {
-			out.println("    ..." + currentNumber);
+			out.println("    ... " + currentNumber);
 		}
 	}
 
@@ -142,6 +154,9 @@ public class Importer {
 	}
 	void setUploader(Uploader newUploader) {
 		uploader = newUploader;
+	}
+	void setCoreSwapper(CoreSwapper newSwapper) {
+		swapper = newSwapper;
 	}
 
 }
