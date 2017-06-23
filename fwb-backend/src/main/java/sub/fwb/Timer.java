@@ -19,6 +19,6 @@ public class Timer {
 		long seconds = (duration - minutes * 60 * 1000) / 1000;
 		String potentialZero = seconds < 10 ? "0" : "";
 
-		return "Took " + minutes + ":" + potentialZero + seconds + " minutes (" + duration + " milliseconds)";
+		return "Took " + minutes + ":" + potentialZero + seconds + " minutes.";
 	}
 }

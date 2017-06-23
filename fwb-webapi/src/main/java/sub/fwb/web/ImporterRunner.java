@@ -23,8 +23,8 @@ public class ImporterRunner implements Runnable {
 		logAccess.clear();
 		PrintStream log = logAccess.getOutput();
 
-		log.println("Starting import (" + new Date() + ")");
-		log.println("Solr URL: " + solrUrl());
+		log.println("    Starting import (" + new Date() + ")");
+		log.println("    Solr URL: " + solrUrl());
 		log.println();
 		try {
 			importer.setLogOutput(log);
@@ -39,7 +39,7 @@ public class ImporterRunner implements Runnable {
 			lock.delete();
 			timer.setStop(new Date().getTime());
 			log.println();
-			log.println(timer.getDurationMessage());
+			log.println("    " + timer.getDurationMessage());
 			log.close();
 		}
 	}

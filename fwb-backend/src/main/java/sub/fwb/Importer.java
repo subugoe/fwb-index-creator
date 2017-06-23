@@ -32,7 +32,7 @@ public class Importer {
 
 	public void convertAll(String inputExcel, String teiInputDir, String solrXmlDir) throws Exception {
 		fileAccess.cleanDir(new File(solrXmlDir));
-		out.println("Converting Excel to index file.");
+		out.println("    Converting Excel to index file.");
 
 		File sourcesXml = new File(new File(solrXmlDir), "0-sources.xml");
 		sourcesParser.convertExcelToXml(new File(inputExcel), sourcesXml);
@@ -55,7 +55,7 @@ public class Importer {
 		List<File> allFiles = fileAccess.getAllXmlFilesFromDir(new File(teiInputDir));
 		Collections.sort(allFiles);
 
-		out.println("Converting TEIs to index files:");
+		out.println("    Converting TEIs to index files:");
 		int currentId = 1;
 		for (File currentFile : allFiles) {
 			printCurrentStatus(currentId, allFiles.size());
@@ -68,7 +68,7 @@ public class Importer {
 
 	public void compareAll(String teiInputDir, String solrXmlDir) throws IOException {
 		out.println();
-		out.println("Comparing text from TEIs to HTML text in index files:");
+		out.println("    Comparing text from TEIs to HTML text in index files:");
 		TeiHtmlComparator comparator = new TeiHtmlComparator();
 		List<File> allFiles = fileAccess.getAllXmlFilesFromDir(new File(teiInputDir));
 		Collections.sort(allFiles);
@@ -86,11 +86,11 @@ public class Importer {
 		try {
 			List<File> xmls = fileAccess.getAllXmlFilesFromDir(new File(solrXmlDir));
 			out.println();
-			out.println("Cleaning Solr.");
+			out.println("    Cleaning Solr.");
 			uploader.cleanSolr();
-			out.println("Reloading the core.");
+			out.println("    Reloading the core.");
 			uploader.reloadCore();
-			out.println("Uploading documents:");
+			out.println("    Uploading documents:");
 			int i = 1;
 			for (File x : xmls) {
 				printCurrentStatus(i, xmls.size());
@@ -109,7 +109,7 @@ public class Importer {
 
 	public void runTests(String solrUrl, String core) {
 		out.println();
-		out.println("Running test queries.");
+		out.println("    Running test queries.");
 		System.setProperty("SOLR_URL_FOR_TESTS", solrUrl);
 		System.setProperty("SOLR_CORE_FOR_TESTS", core);
 		JUnitCore junit = new JUnitCore();
@@ -122,7 +122,7 @@ public class Importer {
 
 	private void printCurrentStatus(int currentNumber, int lastNumber) {
 		if (currentNumber % 10000 == 0 || currentNumber == lastNumber) {
-			out.println(" ..." + currentNumber);
+			out.println("    ..." + currentNumber);
 		}
 	}
 

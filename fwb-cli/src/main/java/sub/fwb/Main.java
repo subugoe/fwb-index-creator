@@ -42,7 +42,7 @@ public class Main {
 
 		out.println();
 		out.println();
-		out.println(timer.getDurationMessage());
+		out.println("    " + timer.getDurationMessage());
 	}
 
 	// for unit testing

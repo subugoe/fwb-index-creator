@@ -130,7 +130,7 @@ public class SolrWrapper {
 	}
 
 	public void printQueryString() {
-		System.out.println(solrQueryString);
+		System.out.println("    " + solrQueryString);
 	}
 
 	public void addDocument(String[][] documentFields) throws Exception {
