@@ -122,6 +122,7 @@ public class Importer {
 	}
 
 	public void swapCores(String solrUrl, String core, String swapCore) throws IOException {
+		out.println();
 		out.println("    Swapping cores: " + core + " -> " + swapCore);
 		try {
 			swapper.setSolrEndpoint(solrUrl, core);

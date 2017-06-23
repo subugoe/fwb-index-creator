@@ -25,6 +25,10 @@ public class CoreSwapper {
 	}
 
 	public void switchTo(String swapCore) throws SolrServerException, IOException {
+		if (EmbeddedSolr.instance != null) {
+			EmbeddedSolr.instance.deleteByQuery(swapCore, "*:*");
+			EmbeddedSolr.instance.commit(swapCore);
+		}
 		CoreAdminRequest adminRequest = new CoreAdminRequest();
 		adminRequest.setAction(CoreAdminAction.SWAP);
 		adminRequest.setCoreName(core);

@@ -15,12 +15,25 @@ import sub.fwb.testing.EmbeddedSolr;
 
 public class ImporterIntegrationTest {
 
+	private File coreProps1 = new File("solr-embedded/fwb/core.properties");
+	private File coreProps1Copy = new File("solr-embedded/fwb/core.properties.copy");
+	private File coreProps2 = new File("solr-embedded/fwboffline/core.properties");
+	private File coreProps2Copy = new File("solr-embedded/fwboffline/core.properties.copy");
+
 	@Before
 	public void setUp() throws Exception {
+		FileUtils.copyFile(coreProps1, coreProps1Copy);
+		FileUtils.copyFile(coreProps2, coreProps2Copy);
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		if (coreProps1Copy.exists() && coreProps2Copy.exists()) {
+			FileUtils.forceDelete(coreProps1);
+			FileUtils.forceDelete(coreProps2);
+			FileUtils.moveFile(coreProps1Copy, coreProps1);
+			FileUtils.moveFile(coreProps2Copy, coreProps2);
+		}
 	}
 
 	@Test
@@ -28,9 +41,10 @@ public class ImporterIntegrationTest {
 		String inputExcel = "src/test/resources/import/sources.xlsx";
 		String teiInputDir = "src/test/resources/import";
 		String solrXmlDir = "target/solrxml";
-		String core = "fwb";
+		String core = "fwboffline";
+		String swapCore = "fwb";
 
-		/* This is used as a signal to start an embedded Solr in class: */ Uploader u;
+		/* This is used as a signal to start an embedded Solr in classes: */ Uploader u; CoreSwapper c;
 		String solrUrl = "embedded";
 
 		if (new File(solrXmlDir).exists()) {
@@ -41,10 +55,11 @@ public class ImporterIntegrationTest {
 		importer.convertAll(inputExcel, teiInputDir, solrXmlDir);
 		importer.compareAll(teiInputDir, solrXmlDir);
 		importer.uploadAll(solrXmlDir, solrUrl, core);
+		importer.swapCores(solrUrl, core, swapCore);
 
 		SolrQuery solrQuery = new SolrQuery("lemma:test");
 		solrQuery.setRequestHandler("/search");
-		QueryResponse response = EmbeddedSolr.instance.query(solrQuery);
+		QueryResponse response = EmbeddedSolr.instance.query(swapCore, solrQuery);
 		EmbeddedSolr.instance.close();
 
 		assertEquals("test", response.getResults().get(0).getFieldValue("lemma"));
