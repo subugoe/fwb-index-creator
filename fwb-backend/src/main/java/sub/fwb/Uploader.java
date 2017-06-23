@@ -42,10 +42,7 @@ public class Uploader {
 
 	public void setSolrEndpoint(String solrUrl, String coreName) {
 		if ("embedded".equals(solrUrl)) {
-			CoreContainer container = new CoreContainer("solr-embedded");
-			container.load();
-			solr = new EmbeddedSolrServer(container, coreName);
-			EmbeddedSolr.instance = solr;
+			solr = EmbeddedSolr.instance;
 		} else {
 			solr = new HttpSolrClient(solrUrl);
 		}
