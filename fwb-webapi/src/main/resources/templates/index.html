@@ -23,6 +23,14 @@
 			<input type="submit" value="Auf Live-Server importieren" /> (<span th:text="${SOLR_LIVE_URL}"></span>)
 		</form>
 		<br />
+		Aktueller Indexzustand: <span th:text="${currentCoreDate}"></span>
+		<br />
+		Hinweis: Es kann nur zwischen den zwei letzten Zuständen hin- und hergeschaltet werden.
+		<br />
+		<form method="post" action="swapcores">
+			<input type="submit" value="Den vorherigen Zustand wiederherstellen" /> (<span th:text="${previousCoreDate}"></span>)
+		</form>
+		
 		<br />
 		<br />
 		<h4>Letztes Log:</h4>

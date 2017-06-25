@@ -2,24 +2,17 @@ package sub.fwb.web;
 
 import java.io.IOException;
 
-import org.eclipse.jgit.api.errors.CanceledException;
-import org.eclipse.jgit.api.errors.DetachedHeadException;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.InvalidConfigurationException;
-import org.eclipse.jgit.api.errors.InvalidRemoteException;
-import org.eclipse.jgit.api.errors.NoHeadException;
-import org.eclipse.jgit.api.errors.RefNotAdvertisedException;
-import org.eclipse.jgit.api.errors.RefNotFoundException;
-import org.eclipse.jgit.api.errors.TransportException;
-import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.view.RedirectView;
+
+import sub.fwb.CoreSwapper;
 
 
 @Controller
@@ -30,6 +23,7 @@ public class MainController {
 	private LogAccess logAccess = new LogAccess();
 	private LockFile lock = new LockFile();
 	private ImporterRunner runner = new ImporterRunner();
+	private CoreSwapper swapper = new CoreSwapper();
 
 	@RequestMapping(method = RequestMethod.GET, value = "/test2")
 	@ResponseBody
@@ -40,8 +34,10 @@ public class MainController {
 	@RequestMapping(value = "/")
 	public String index(Model model) throws Exception {
 
-		model.addAttribute("SOLR_STAGING_URL", env.getVariable("SOLR_STAGING_URL"));
-		model.addAttribute("SOLR_LIVE_URL", env.getVariable("SOLR_LIVE_URL"));
+		model.addAttribute("SOLR_STAGING_URL", stagingUrl());
+		model.addAttribute("SOLR_LIVE_URL", liveUrl());
+		model.addAttribute("previousCoreDate", coreInfo(importCore()));
+		model.addAttribute("currentCoreDate", coreInfo(onlineCore()));
 		model.addAttribute("log", logAccess.getLogContents());
 		if (lock.exists()) {
 			return "started";
@@ -60,6 +56,34 @@ public class MainController {
 		return "index";
 	}
 
+	private String stagingUrl() {
+		return env.getVariable("SOLR_STAGING_URL");
+	}
+
+	private String liveUrl() {
+		return env.getVariable("SOLR_LIVE_URL");
+	}
+
+	private String importCore() {
+		return env.getVariable("SOLR_IMPORT_CORE");
+	}
+
+	private String onlineCore() {
+		return env.getVariable("SOLR_ONLINE_CORE");
+	}
+
+	private String coreInfo(String core) {
+		swapper.setSolrEndpoint(liveUrl(), core);
+		String coreDate = null;
+		try {
+			coreDate = swapper.getCoreDate();
+		} catch (SolrServerException | IOException e) {
+			e.printStackTrace();
+			coreDate = "unknown";
+		}
+		return coreDate;
+	}
+
 	@RequestMapping(value = "/import")
 	public String importIntoSolr(Model model, @ModelAttribute("solrurl") String solrUrl) throws IOException {
 		if (lock.exists()) {
@@ -70,6 +94,13 @@ public class MainController {
 		new Thread(runner).start();
 		lock.create();
 		return "started";
+	}
+
+	@RequestMapping(value = "/swapcores")
+	public RedirectView swapCores(Model model) throws Exception {
+		swapper.setSolrEndpoint(liveUrl(), onlineCore());
+		swapper.switchTo(importCore());
+		return new RedirectView("/");
 	}
 
 	// for unit testing
@@ -87,5 +118,8 @@ public class MainController {
 	}
 	void setEnvironment(Environment newEnv) {
 		env = newEnv;
+	}
+	void setCoreSwapper(CoreSwapper newSwapper) {
+		swapper = newSwapper;
 	}
 }
