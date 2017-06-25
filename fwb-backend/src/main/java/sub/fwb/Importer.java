@@ -87,11 +87,11 @@ public class Importer {
 		try {
 			List<File> xmls = fileAccess.getAllXmlFilesFromDir(new File(solrXmlDir));
 			out.println();
-			out.println("    Cleaning Solr.");
+			out.println("    Cleaning the import core.");
 			uploader.cleanSolr();
-			out.println("    Reloading the core.");
+			out.println("    Reloading the import core.");
 			uploader.reloadCore();
-			out.println("    Uploading documents:");
+			out.println("    Uploading index files:");
 			int i = 1;
 			for (File x : xmls) {
 				printCurrentStatus(i, xmls.size());
@@ -123,7 +123,7 @@ public class Importer {
 
 	public void swapCores(String solrUrl, String core, String swapCore) throws IOException {
 		out.println();
-		out.println("    Swapping cores: " + core + " -> " + swapCore);
+		out.println("    Switching to the online core: " + core + " -> " + swapCore);
 		try {
 			swapper.setSolrEndpoint(solrUrl, core);
 			swapper.switchTo(swapCore);

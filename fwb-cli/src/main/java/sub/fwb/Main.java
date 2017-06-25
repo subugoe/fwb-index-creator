@@ -37,6 +37,9 @@ public class Main {
 		if (o.executeTestSearches) {
 			importer.runTests(o.solrUrl, o.core);
 		}
+		if (o.swapCores) {
+			importer.swapCores(o.solrUrl, o.core, o.swapCore);
+		}
 
 		timer.setStop(new Date().getTime());
 

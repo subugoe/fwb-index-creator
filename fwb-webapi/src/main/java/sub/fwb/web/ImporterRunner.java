@@ -25,13 +25,16 @@ public class ImporterRunner implements Runnable {
 
 		log.println("    Starting import (" + new Date() + ")");
 		log.println("    Solr URL: " + solrUrl());
+		log.println("    Import core: " + solrImportCore());
+		log.println("    Online core: " + solrOnlineCore());
 		log.println();
 		try {
 			importer.setLogOutput(log);
 			importer.convertAll(inputExcel(), teiInputDir(), solrXmlDir());
 			importer.compareAll(teiInputDir(), solrXmlDir());
-			importer.uploadAll(solrXmlDir(), solrUrl(), solrCore());
-			importer.runTests(solrUrl(), solrCore());
+			importer.uploadAll(solrXmlDir(), solrUrl(), solrImportCore());
+			importer.runTests(solrUrl(), solrImportCore());
+			importer.swapCores(solrUrl(), solrImportCore(), solrOnlineCore());
 		} catch (Exception e) {
 			log.println("ERROR: " + e.getMessage());
 			e.printStackTrace();
@@ -65,8 +68,12 @@ public class ImporterRunner implements Runnable {
 		return env.getVariable("SOLR_STAGING_URL");
 	}
 
-	private String solrCore() {
-		return env.getVariable("SOLR_CORE");
+	private String solrImportCore() {
+		return env.getVariable("SOLR_IMPORT_CORE");
+	}
+
+	private String solrOnlineCore() {
+		return env.getVariable("SOLR_ONLINE_CORE");
 	}
 
 
