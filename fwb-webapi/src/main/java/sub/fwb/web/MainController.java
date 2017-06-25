@@ -15,6 +15,7 @@ import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,12 +60,13 @@ public class MainController {
 		return "index";
 	}
 
-	@RequestMapping(value = "/importstaging")
-	public String importstaging(Model model) throws IOException {
+	@RequestMapping(value = "/import")
+	public String importIntoSolr(Model model, @ModelAttribute("solrurl") String solrUrl) throws IOException {
 		if (lock.exists()) {
 			model.addAttribute("log", logAccess.getLogContents());
 			return "started";
 		}
+		runner.setSolrUrl(solrUrl);
 		new Thread(runner).start();
 		lock.create();
 		return "started";

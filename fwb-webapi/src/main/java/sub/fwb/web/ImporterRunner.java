@@ -16,6 +16,11 @@ public class ImporterRunner implements Runnable {
 	private LockFile lock = new LockFile();
 	private FileAccess fileAccess = new FileAccess();
 	private Timer timer = new Timer();
+	private String solrUrl;
+
+	public void setSolrUrl(String newUrl) {
+		solrUrl = newUrl;
+	}
 
 	@Override
 	public void run() {
@@ -65,7 +70,7 @@ public class ImporterRunner implements Runnable {
 	}
 
 	private String solrUrl() {
-		return env.getVariable("SOLR_STAGING_URL");
+		return solrUrl;
 	}
 
 	private String solrImportCore() {

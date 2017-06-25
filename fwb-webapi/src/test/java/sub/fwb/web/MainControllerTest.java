@@ -38,7 +38,7 @@ public class MainControllerTest {
 	@Test
 	public void shouldShortCircuitWhenStarted() throws Exception {
 		when(mock.lock.exists()).thenReturn(true);
-		mainController.importstaging(mockModel);
+		mainController.importIntoSolr(mockModel, "");
 
 		verify(mock.runner, times(0)).run();
 		verify(mock.lock, times(0)).create();
@@ -47,7 +47,7 @@ public class MainControllerTest {
 	@Test
 	public void shouldStartRunner() throws Exception {
 		when(mock.lock.exists()).thenReturn(false);
-		mainController.importstaging(mockModel);
+		mainController.importIntoSolr(mockModel, "");
 
 		verify(mock.runner).run();
 		verify(mock.lock).create();

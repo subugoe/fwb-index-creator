@@ -7,18 +7,19 @@
 		<br />
 		<h3>Aktueller Commit: <span style="color: blue" th:text="${commitMessage}"></span></h3>
 		<br />
-		<form method="post" action="importstaging">
+		<form method="post" action="import">
 			<span>Email für Logs: </span><input name="mailaddress" type="text" value="test@test.com" />
 			<br />
+			<input type="hidden" name="solrurl" th:value="${SOLR_STAGING_URL}" />
 			<input type="submit" value="Auf Staging Server importieren" /> (<span th:text="${SOLR_STAGING_URL}"></span>)
 		</form>
 		<br />
 		<br />
 		<br />
-		<form method="post" action="importlive">
-			<!--span style="width:100px; display: inline-block">Solr-URL: </span><input name="solrurl" type="text" value="http://localhost:8983/solr/fwb" /-->
+		<form method="post" action="import">
 			<span>Email für Logs: </span><input name="mailaddress" type="text" value="test@test.com" />
 			<br />
+			<input type="hidden" name="solrurl" th:value="${SOLR_LIVE_URL}" />
 			<input type="submit" value="Auf Live-Server importieren" /> (<span th:text="${SOLR_LIVE_URL}"></span>)
 		</form>
 		<br />
