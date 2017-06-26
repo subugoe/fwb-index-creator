@@ -30,7 +30,7 @@ https://github.com/subugoe/fwb-solr-mods.
 
 ``` docker-compose up -d ```
 
-- Prepare the frontend module (web page):
+- Prepare the frontend module (importer web page):
 
 ``` cd ../fwb-webapi ```
 
@@ -44,20 +44,20 @@ https://github.com/subugoe/fwb-solr-mods.
 
 ``` - 4322:8080 ```
 
-- Start the frontend web page:
+- Start the importer web page:
 
 ``` docker-compose up -d ```
 
-## Compilation
+## Compilation without Docker
 
 You need Java JDK 7 or higher and Maven 3 or higher.
 To compile the project, go into its main directory and execute 
 
 ``` mvn clean package ```
 
-The Java executable .jar file will be placed into the target/ directory.
+The Java executable .jar files will be placed into the target/ directories of the two frontend modules (fwb-cli and fwb-webapi).
 
-## Executing the tool
+## Executing the command-line tool
 
 You can execute the tool by typing
 
@@ -84,14 +84,6 @@ The main options are
 There are several secondary options that are required for the main options to execute properly.
 Examples are: directories for input and output files, Solr URL, etc.
 Inspect the -help output to choose the correct ones.
-
-## Using the Web API
-
-The Git repository containing the TEI files must be cloned once before the first usage:
-
-``` docker-compose build gitclone ```
-
-``` docker-compose run -e GIT_USER=<user> -e GIT_PASSWORD=<password> gitclone ```
 
   
   
