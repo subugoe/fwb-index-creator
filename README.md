@@ -22,6 +22,10 @@ https://github.com/subugoe/fwb-solr-mods.
 
 ``` chmod a+w solr/fwb solr/fwboffline solr/*/core.properties ```
 
+- Change the outside port in the docker-compose.yml, in section 'ports', e. g. to 4321:
+
+``` - 4321:8983 ```
+
 - Start Solr:
 
 ``` docker-compose up -d ```
@@ -35,6 +39,10 @@ https://github.com/subugoe/fwb-solr-mods.
 - Enter the correct user data and URLs into docker.env:
 
 ``` GIT_USER=... ```
+
+- Change the outside port in the docker-compose.yml, in section 'ports', e. g. to 4322:
+
+``` - 4322:8080 ```
 
 - Start the frontend web page:
 
