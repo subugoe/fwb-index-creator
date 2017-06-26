@@ -20,7 +20,7 @@ https://github.com/subugoe/fwb-solr-mods.
 
 ``` cd fwb-backend ```
 
-``` chmod a+w solr/fwb solr/fwboffline ```
+``` chmod a+w solr/fwb solr/fwboffline solr/*/core.properties ```
 
 - Start Solr:
 
