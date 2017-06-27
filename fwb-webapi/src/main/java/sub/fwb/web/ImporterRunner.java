@@ -17,9 +17,14 @@ public class ImporterRunner implements Runnable {
 	private FileAccess fileAccess = new FileAccess();
 	private Timer timer = new Timer();
 	private String solrUrl;
+	private String gitMessage;
 
 	public void setSolrUrl(String newUrl) {
 		solrUrl = newUrl;
+	}
+
+	public void setGitMessage(String newMessage) {
+		gitMessage = newMessage;
 	}
 
 	@Override
@@ -29,6 +34,8 @@ public class ImporterRunner implements Runnable {
 		PrintStream log = logAccess.getOutput();
 
 		log.println("    Starting import (" + new Date() + ")");
+		log.println();
+		log.println("    Git commit message: " + gitMessage);
 		log.println("    Solr URL: " + solrUrl());
 		log.println("    Import core: " + solrImportCore());
 		log.println("    Online core: " + solrOnlineCore());

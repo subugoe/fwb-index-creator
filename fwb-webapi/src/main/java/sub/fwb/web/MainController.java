@@ -24,6 +24,7 @@ public class MainController {
 	private LockFile lock = new LockFile();
 	private ImporterRunner runner = new ImporterRunner();
 	private CoreSwapper swapper = new CoreSwapper();
+	private String lastMessage = "";
 
 	@RequestMapping(method = RequestMethod.GET, value = "/test2")
 	@ResponseBody
@@ -43,7 +44,6 @@ public class MainController {
 			return "started";
 		}
 
-		String lastMessage = "";
 		try{
 			git.init();
 			git.pull();
@@ -91,6 +91,7 @@ public class MainController {
 			return "started";
 		}
 		runner.setSolrUrl(solrUrl);
+		runner.setGitMessage(lastMessage);
 		new Thread(runner).start();
 		lock.create();
 		return "started";

@@ -58,8 +58,10 @@ public class Xslt {
 		transformer.setDestination(out);
 		transformer.setMessageListener(new MessageListener() {
 			public void message(XdmNode content, boolean terminate, SourceLocator locator) {
+				errorOut.println();
 				errorOut.println("WARNING in " + inputXmlPath);
-				errorOut.println("    " + content.getStringValue());
+				errorOut.println(content.getStringValue());
+				errorOut.println();
 			}
 		});
 		transformer.transform();
