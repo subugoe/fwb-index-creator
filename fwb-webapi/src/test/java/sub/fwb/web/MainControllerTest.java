@@ -48,6 +48,8 @@ public class MainControllerTest {
 	public void shouldStartRunner() throws Exception {
 		when(mock.lock.exists()).thenReturn(false);
 		mainController.importIntoSolr(mockModel, "");
+		// Give the runner time to be started
+		Thread.sleep(100);
 
 		verify(mock.runner).run();
 		verify(mock.lock).create();
