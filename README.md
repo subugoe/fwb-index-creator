@@ -16,7 +16,7 @@ https://github.com/subugoe/fwb-solr-mods.
 
 ``` docker-compose up ```
 
-- Prepare the backend module (Solr):
+### Backend module (Solr):
 
 ``` cd fwb-backend ```
 
@@ -30,7 +30,7 @@ https://github.com/subugoe/fwb-solr-mods.
 
 ``` docker-compose up -d ```
 
-- Prepare the frontend module (importer web page):
+### Frontend module (importer web interface):
 
 ``` cd ../fwb-webapi ```
 
@@ -47,6 +47,28 @@ https://github.com/subugoe/fwb-solr-mods.
 - Start the importer web page:
 
 ``` docker-compose up -d ```
+
+## Update using docker-compose
+
+- Get the newest version by executing in the project directory:
+
+``` git pull ```
+
+- Compile the whole project (in the main project directory):
+
+``` docker-compose up ```
+
+- Rebuild and restart Solr:
+
+``` cd fwb-backend ```
+
+``` docker-compose up -d --build ```
+
+- OR rebuild and restart the Importer interface:
+
+``` cd fwb-webapi ```
+
+``` docker-compose up -d --build ```
 
 ## Compilation without Docker
 
