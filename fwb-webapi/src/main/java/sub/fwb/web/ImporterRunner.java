@@ -16,11 +16,17 @@ public class ImporterRunner implements Runnable {
 	private LockFile lock = new LockFile();
 	private FileAccess fileAccess = new FileAccess();
 	private Timer timer = new Timer();
+	private Mailer mailer = new Mailer();
 	private String solrUrl;
 	private String gitMessage;
+	private String mailAddress;
 
 	public void setSolrUrl(String newUrl) {
 		solrUrl = newUrl;
+	}
+
+	public void setMailAddressToSendLog(String newAddress) {
+		mailAddress = newAddress;
 	}
 
 	public void setGitMessage(String newMessage) {
@@ -56,6 +62,7 @@ public class ImporterRunner implements Runnable {
 			log.println();
 			log.println("    " + timer.getDurationMessage());
 			log.close();
+			// mailer.sendLog(mailAddress);
 		}
 	}
 
@@ -107,6 +114,9 @@ public class ImporterRunner implements Runnable {
 	}
 	void setTimer(Timer newTimer) {
 		timer = newTimer;
+	}
+	void setMailer(Mailer newMailer) {
+		mailer = newMailer;
 	}
 
 }

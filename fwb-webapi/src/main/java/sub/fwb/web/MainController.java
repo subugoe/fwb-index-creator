@@ -14,7 +14,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import sub.fwb.CoreSwapper;
 
-
 @Controller
 public class MainController {
 
@@ -44,11 +43,11 @@ public class MainController {
 			return "started";
 		}
 
-		try{
+		try {
 			git.init();
 			git.pull();
 			lastMessage = git.getLastCommitMessage();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			lastMessage = "Not a git directory.";
 		}
 		model.addAttribute("commitMessage", lastMessage);
@@ -85,12 +84,14 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/import")
-	public String importIntoSolr(Model model, @ModelAttribute("solrurl") String solrUrl) throws IOException {
+	public String importIntoSolr(Model model, @ModelAttribute("solrurl") String solrUrl,
+			@ModelAttribute("mailaddress") String mailAddress) throws IOException {
 		if (lock.exists()) {
 			model.addAttribute("log", logAccess.getLogContents());
 			return "started";
 		}
 		runner.setSolrUrl(solrUrl);
+		runner.setMailAddressToSendLog(mailAddress);
 		runner.setGitMessage(lastMessage);
 		new Thread(runner).start();
 		lock.create();
@@ -108,18 +109,23 @@ public class MainController {
 	void setGit(GitWrapper newGit) {
 		git = newGit;
 	}
+
 	void setLogAccess(LogAccess newLogAccess) {
 		logAccess = newLogAccess;
 	}
+
 	void setLock(LockFile newLock) {
 		lock = newLock;
 	}
+
 	void setImporterRunner(ImporterRunner newRunner) {
 		runner = newRunner;
 	}
+
 	void setEnvironment(Environment newEnv) {
 		env = newEnv;
 	}
+
 	void setCoreSwapper(CoreSwapper newSwapper) {
 		swapper = newSwapper;
 	}
