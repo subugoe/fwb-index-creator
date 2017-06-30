@@ -8,7 +8,7 @@
 		<h3>Aktueller Commit: <span style="color: blue" th:text="${commitMessage}"></span></h3>
 		<br />
 		<form method="post" action="import">
-			<span>Email für Logs: </span><input name="mailaddress" type="text" value="test@test.com" />
+			<span>Email für Logs: </span><input name="mailaddress" type="text" />
 			<br />
 			<input type="hidden" name="solrurl" th:value="${SOLR_STAGING_URL}" />
 			<input type="submit" value="Auf Staging Server importieren" /> (<span th:text="${SOLR_STAGING_URL}"></span>)
@@ -17,7 +17,7 @@
 		<br />
 		<br />
 		<form method="post" action="import">
-			<span>Email für Logs: </span><input name="mailaddress" type="text" value="test@test.com" />
+			<span>Email für Logs: </span><input name="mailaddress" type="text" />
 			<br />
 			<input type="hidden" name="solrurl" th:value="${SOLR_LIVE_URL}" />
 			<input type="submit" value="Auf Live-Server importieren" /> (<span th:text="${SOLR_LIVE_URL}"></span>)
