@@ -1,5 +1,6 @@
 target
 .*
+!.dockerignore
 dependency-reduced-pom.xml
 fwb-index-creator.iml
 **/fwb/data
