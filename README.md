@@ -26,6 +26,9 @@ https://github.com/subugoe/fwb-solr-mods.
 
 ``` - 4321:8983 ```
 
+- Optional: Change the service name "solr" in the docker-compose.yml to something different. 
+  This is only necessary if you run several Solr instances on the same host.
+
 - Start Solr:
 
 ``` docker-compose up -d ```
