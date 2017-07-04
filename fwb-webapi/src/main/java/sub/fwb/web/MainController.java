@@ -36,6 +36,7 @@ public class MainController {
 
 		model.addAttribute("SOLR_STAGING_URL", stagingUrl());
 		model.addAttribute("SOLR_LIVE_URL", liveUrl());
+		model.addAttribute("GIT_URL", gitUrl());
 		model.addAttribute("previousCoreDate", coreInfo(importCore()));
 		model.addAttribute("currentCoreDate", coreInfo(onlineCore()));
 		model.addAttribute("log", logAccess.getLogContents());
@@ -61,6 +62,10 @@ public class MainController {
 
 	private String liveUrl() {
 		return env.getVariable("SOLR_LIVE_URL");
+	}
+
+	private String gitUrl() {
+		return env.getVariable("GIT_URL");
 	}
 
 	private String importCore() {

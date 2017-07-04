@@ -6,6 +6,8 @@
 		<h1>FWB-Datenimport aus Git</h1>
 		<br />
 		<h3>Aktueller Commit: <span style="color: blue" th:text="${commitMessage}"></span></h3>
+		<div>Git-URL: <span th:text="${GIT_URL}"></span></div>
+		<br />
 		<br />
 		<form method="post" action="import">
 			<span>Email für Logs: </span><input name="mailaddress" type="text" />
@@ -23,7 +25,7 @@
 			<input type="submit" value="Auf Live-Server importieren" /> (<span th:text="${SOLR_LIVE_URL}"></span>)
 		</form>
 		<br />
-		<b>Aktueller Indexzustand: <span th:text="${currentCoreDate}"></span></b>
+		Aktueller Indexzustand des Live-Servers: <b><span th:text="${currentCoreDate}"></span></b>
 		<br />
 		Hinweis: Es kann nur zwischen den zwei letzten Zuständen hin- und hergeschaltet werden.
 		<br />
