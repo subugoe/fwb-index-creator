@@ -20,6 +20,7 @@ public class ImporterRunner implements Runnable {
 	private String solrUrl;
 	private String gitMessage;
 	private String mailAddress;
+	private static final String STOP_MESSAGE = "Import process was stopped manually.";
 
 	public void setSolrUrl(String newUrl) {
 		solrUrl = newUrl;
@@ -48,13 +49,24 @@ public class ImporterRunner implements Runnable {
 		log.println();
 		try {
 			importer.setLogOutput(log);
+			Thread.sleep(10000);
+			checkIfContinue();
 			importer.convertAll(inputExcel(), teiInputDir(), solrXmlDir());
+			checkIfContinue();
 			importer.compareAll(teiInputDir(), solrXmlDir());
+			checkIfContinue();
 			importer.uploadAll(solrXmlDir(), solrUrl(), solrImportCore());
+			checkIfContinue();
 			importer.runTests(solrUrl(), solrImportCore());
+			checkIfContinue();
 			importer.swapCores(solrUrl(), solrImportCore(), solrOnlineCore());
 		} catch (Exception e) {
-			log.println("ERROR: " + e.getMessage());
+			log.println();
+			if ("sleep interrupted".equals(e.getMessage())) {
+				log.println("ERROR: " + STOP_MESSAGE);
+			} else {
+				log.println("ERROR: " + e.getMessage());
+			}
 			e.printStackTrace();
 		} finally {
 			lock.delete();
@@ -63,6 +75,12 @@ public class ImporterRunner implements Runnable {
 			log.println("    " + timer.getDurationMessage());
 			log.close();
 			// mailer.sendLog(mailAddress);
+		}
+	}
+
+	private void checkIfContinue() throws InterruptedException {
+		if (Thread.currentThread().isInterrupted()) {
+			throw new InterruptedException(STOP_MESSAGE);
 		}
 	}
 

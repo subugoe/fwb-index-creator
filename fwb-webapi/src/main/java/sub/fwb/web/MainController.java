@@ -98,7 +98,8 @@ public class MainController {
 		runner.setSolrUrl(solrUrl);
 		runner.setMailAddressToSendLog(mailAddress);
 		runner.setGitMessage(lastMessage);
-		new Thread(runner).start();
+		RunningThread.instance = new Thread(runner);
+		RunningThread.instance.start();
 		lock.create();
 		return "started";
 	}
@@ -108,6 +109,14 @@ public class MainController {
 		swapper.setSolrEndpoint(liveUrl(), onlineCore());
 		swapper.switchTo(importCore());
 		return new RedirectView("/");
+	}
+
+	@RequestMapping(value = "/cancel")
+	public String cancelImport() throws IOException {
+		if (RunningThread.instance != null) {
+			RunningThread.instance.interrupt();
+		}
+		return "stopped";
 	}
 
 	// for unit testing
