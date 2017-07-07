@@ -1,7 +1,10 @@
 package sub.fwb;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -31,7 +34,15 @@ public class CoreSwapper {
 		adminRequest.setAction(CoreAdminAction.STATUS);
 		adminRequest.setCoreName(core);
 		CoreAdminResponse response = adminRequest.process(solr);
-		return response.getCoreStatus().findRecursive(core, "index", "lastModified").toString();
+		Date coreDate = (Date) response.getCoreStatus().findRecursive(core, "index", "lastModified");
+		if (coreDate != null) {
+			DateFormat form = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, Locale.GERMANY);
+			TimeZone timezone = TimeZone.getTimeZone("Europe/Berlin");
+			form.setTimeZone(timezone);
+			return form.format(coreDate);
+		} else {
+			return "leer";
+		}
 	}
 
 	public void switchTo(String swapCore) throws SolrServerException, IOException {

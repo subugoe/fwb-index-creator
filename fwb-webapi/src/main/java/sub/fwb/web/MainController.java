@@ -83,7 +83,7 @@ public class MainController {
 			coreDate = swapper.getCoreDate();
 		} catch (SolrServerException | IOException e) {
 			e.printStackTrace();
-			coreDate = "unknown";
+			coreDate = "unbekannt";
 		}
 		return coreDate;
 	}

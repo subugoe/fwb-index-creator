@@ -2,7 +2,10 @@ package sub.fwb.web;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import sub.fwb.FileAccess;
 import sub.fwb.Importer;
@@ -40,7 +43,7 @@ public class ImporterRunner implements Runnable {
 		logAccess.clear();
 		PrintStream log = logAccess.getOutput();
 
-		log.println("    Starting import (" + new Date() + ")");
+		log.println("    Starting import (" + currentDate() + ")");
 		log.println();
 		log.println("    Git commit message: " + gitMessage);
 		log.println("    Solr URL: " + solrUrl());
@@ -78,6 +81,13 @@ public class ImporterRunner implements Runnable {
 		}
 	}
 
+	private String currentDate() {
+		DateFormat form = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, Locale.GERMANY);
+		TimeZone timezone = TimeZone.getTimeZone("Europe/Berlin");
+		form.setTimeZone(timezone);
+		return form.format(new Date());
+	}
+
 	private void checkIfContinue() throws InterruptedException {
 		if (Thread.currentThread().isInterrupted()) {
 			throw new InterruptedException(STOP_MESSAGE);
@@ -113,26 +123,31 @@ public class ImporterRunner implements Runnable {
 		return env.getVariable("SOLR_ONLINE_CORE");
 	}
 
-
 	// for unit tests
 	void setImporter(Importer newImporter) {
 		importer = newImporter;
 	}
+
 	void setLogAccess(LogAccess newLog) {
 		logAccess = newLog;
 	}
+
 	void setEnv(Environment newEnv) {
 		env = newEnv;
 	}
+
 	void setLockFile(LockFile newLock) {
 		lock = newLock;
 	}
+
 	void setFileAccess(FileAccess newAccess) {
 		fileAccess = newAccess;
 	}
+
 	void setTimer(Timer newTimer) {
 		timer = newTimer;
 	}
+
 	void setMailer(Mailer newMailer) {
 		mailer = newMailer;
 	}
