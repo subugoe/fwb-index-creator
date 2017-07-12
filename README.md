@@ -8,6 +8,11 @@ The Schema and other files that must be used to configure Solr can be found in t
 There is also a .jar file that contains some modifications for Solr. You can find its source code here: 
 https://github.com/subugoe/fwb-solr-mods.
 
+## System requirements
+
+Hardware: 3 GB disk space, 2 GB RAM, 2-core CPU
+Software: Linux, Java 7 + Maven 3 (or Docker + docker-compose)
+
 ## Quick install using docker-compose
 
 - Clone the project and go into its main directory.
