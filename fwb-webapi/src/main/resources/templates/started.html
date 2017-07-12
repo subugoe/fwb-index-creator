@@ -8,13 +8,14 @@
 		Der Import-Prozess wurde gestartet. Die Log-Ausgabe wird in Kürze an die angegebene Mail-Adresse gesendet.
 		<br />
 		<br />
-		<form method="get" action="/">
-			<button type="submit">Aktuelle Log-Ausgabe laden</button>
+		<form method="get" action="cancel">
+			<button type="submit">Import abbrechen</button>
 		</form>
 		<br />
 		<br />
-		<form method="get" action="cancel">
-			<button type="submit">Import abbrechen</button>
+		<br />
+		<form method="get" action="/">
+			<button type="submit">Aktuelle Log-Ausgabe laden</button>
 		</form>
 		<br />
 		<pre th:text="${log}"></pre>
