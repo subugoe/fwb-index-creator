@@ -11,6 +11,7 @@ https://github.com/subugoe/fwb-solr-mods.
 ## System requirements
 
 Hardware: 3 GB disk space, 2 GB RAM, 2-core CPU
+
 Software: Linux, Java 7 + Maven 3 (or Docker + docker-compose)
 
 ## Quick install using docker-compose
