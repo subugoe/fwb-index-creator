@@ -77,7 +77,11 @@ public class Importer {
 		for (File tei : allFiles) {
 			printCurrentStatus(i, allFiles.size());
 			File solrXml = new File(new File(solrXmlDir), tei.getName());
-			comparator.compareTexts(tei, solrXml);
+			try {
+				comparator.compareTexts(tei, solrXml);
+			} catch(AssertionError e) {
+				out.println("WARNING " + e.getMessage());
+			}
 			i++;
 		}
 	}

@@ -4,7 +4,7 @@
     <body>
       <entry>
         <dictScrap rend="artkopf">article head, </dictScrap>
-        <newElement>new text</newElement>
+        <newElement><hi rendition="it">new</hi> text</newElement>
       </entry>
     </body>
   </text>

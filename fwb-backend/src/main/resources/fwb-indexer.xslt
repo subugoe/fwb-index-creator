@@ -152,15 +152,15 @@
   </xsl:template>
 
   <xsl:template match="*" mode="html_fulltext">
-    <xsl:if test="text()">
+    <xsl:if test=".//text()">
       <xsl:message>
         <xsl:text>Unknown element &lt;</xsl:text>
         <xsl:value-of select="local-name()" />
         <xsl:text>&gt;: </xsl:text>
-        <xsl:value-of select="text()" />
+        <xsl:value-of select=".//text()" />
       </xsl:message>
       <span class="unknown-element">
-        <xsl:value-of select="text()" />
+        <xsl:apply-templates select="*|text()" mode="html_fulltext" />
       </span>
     </xsl:if>
   </xsl:template>
