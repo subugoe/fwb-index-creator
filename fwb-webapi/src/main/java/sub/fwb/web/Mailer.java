@@ -11,7 +11,9 @@ public class Mailer {
 
 	public void sendLog(String mailAddress) {
 		try {
-			email.setHostName("localhost");
+			email.setAuthentication("gwdg\\fwbonline", "");
+			email.setHostName("email.gwdg.de");
+			email.setSmtpPort(587);
 			email.setFrom("no-reply@fwb-online.de");
 			email.setSubject("FWB-Importer Logausgabe");
 			email.setMsg(logAccess.getLogContents());
