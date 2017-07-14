@@ -45,9 +45,8 @@ public class TeiHtmlComparator {
 		// System.out.println(solrString);
 
 		try {
-			assertEquals("File: " + tei.getName(), teiString, solrString);
+			assertEquals("in file " + tei.getName() + "\n", teiString, solrString);
 		} catch (AssertionError e) {
-			System.out.println();
 			throw e;
 		}
 	}

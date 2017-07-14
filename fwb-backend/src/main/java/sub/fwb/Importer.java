@@ -80,7 +80,9 @@ public class Importer {
 			try {
 				comparator.compareTexts(tei, solrXml);
 			} catch(AssertionError e) {
+				out.println();
 				out.println("WARNING " + e.getMessage());
+				out.println();
 			}
 			i++;
 		}
