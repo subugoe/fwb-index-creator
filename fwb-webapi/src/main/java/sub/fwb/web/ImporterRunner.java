@@ -77,7 +77,8 @@ public class ImporterRunner implements Runnable {
 			log.println();
 			log.println("    " + timer.getDurationMessage());
 			log.close();
-			// mailer.sendLog(mailAddress);
+			mailer = new Mailer();
+			mailer.sendLog(mailAddress);
 		}
 	}
 

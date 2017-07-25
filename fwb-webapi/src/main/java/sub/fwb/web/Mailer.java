@@ -8,12 +8,12 @@ public class Mailer {
 
 	private LogAccess logAccess = new LogAccess();
 	private Email email = new SimpleEmail();
+	private Environment env = new Environment();
 
 	public void sendLog(String mailAddress) {
 		try {
-			email.setAuthentication("gwdg\\fwbonline", "");
-			email.setHostName("email.gwdg.de");
-			email.setSmtpPort(587);
+			email.setAuthentication(env.getVariable("MAIL_USER"), env.getVariable("MAIL_PASSWORD"));
+			email.setHostName(env.getVariable("MAIL_HOST"));
 			email.setFrom("no-reply@fwb-online.de");
 			email.setSubject("FWB-Importer Logausgabe");
 			email.setMsg(logAccess.getLogContents());
