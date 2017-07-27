@@ -51,18 +51,18 @@ public class ImporterRunner implements Runnable {
 		log.println("    Online core: " + solrOnlineCore());
 		log.println();
 		try {
-//			importer.setLogOutput(log);
-//			Thread.sleep(10000);
-//			checkIfContinue();
-//			importer.convertAll(inputExcel(), teiInputDir(), solrXmlDir());
-//			checkIfContinue();
-//			importer.compareAll(teiInputDir(), solrXmlDir());
-//			checkIfContinue();
-//			importer.uploadAll(solrXmlDir(), solrUrl(), solrImportCore());
-//			checkIfContinue();
-//			importer.runTests(solrUrl(), solrImportCore());
-//			checkIfContinue();
-//			importer.swapCores(solrUrl(), solrImportCore(), solrOnlineCore());
+			importer.setLogOutput(log);
+			Thread.sleep(10000);
+			checkIfContinue();
+			importer.convertAll(inputExcel(), teiInputDir(), solrXmlDir());
+			checkIfContinue();
+			importer.compareAll(teiInputDir(), solrXmlDir());
+			checkIfContinue();
+			importer.uploadAll(solrXmlDir(), solrUrl(), solrImportCore());
+			checkIfContinue();
+			importer.runTests(solrUrl(), solrImportCore());
+			checkIfContinue();
+			importer.swapCores(solrUrl(), solrImportCore(), solrOnlineCore());
 		} catch (Exception e) {
 			log.println();
 			if ("sleep interrupted".equals(e.getMessage())) {
