@@ -12,7 +12,11 @@ public class Mailer {
 
 	public void sendLog(String mailAddress) {
 		try {
-			email.setAuthentication(env.getVariable("MAIL_USER"), env.getVariable("MAIL_PASSWORD"));
+			String user = env.getVariable("MAIL_USER");
+			String password = env.getVariable("MAIL_PASSWORD");
+			if (notEmpty(user) && notEmpty(password)) {
+				email.setAuthentication(user, password);
+			}
 			email.setHostName(env.getVariable("MAIL_HOST"));
 			email.setSmtpPort(587);
 			email.setFrom("no-reply@fwb-online.de");
@@ -25,6 +29,10 @@ public class Mailer {
 			e.printStackTrace();
 			System.out.println("Could not send mail to " + mailAddress + "(" + e.getMessage() + ")");
 		}
+	}
+
+	private boolean notEmpty(String s) {
+		return s != null && !s.isEmpty();
 	}
 
 }
