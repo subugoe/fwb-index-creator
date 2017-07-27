@@ -12,7 +12,7 @@ public class Mailer {
 
 	public void sendLog(String mailAddress) {
 		try {
-			email.setAuthentication(env.getVariable("MAIL_USER"), env.getVariable("MAIL_PASSWORD"));
+//			email.setAuthentication(env.getVariable("MAIL_USER"), env.getVariable("MAIL_PASSWORD"));
 			email.setHostName(env.getVariable("MAIL_HOST"));
 			email.setSmtpPort(587);
 			email.setFrom("no-reply@fwb-online.de");
