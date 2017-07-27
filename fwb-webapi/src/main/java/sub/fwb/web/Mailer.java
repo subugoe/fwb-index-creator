@@ -16,6 +16,7 @@ public class Mailer {
 			email.setHostName(env.getVariable("MAIL_HOST"));
 			email.setSmtpPort(587);
 			email.setFrom("no-reply@fwb-online.de");
+			email.setDebug(true);
 			email.setSubject("FWB-Importer Logausgabe");
 			email.setMsg(logAccess.getLogContents());
 			email.addTo(mailAddress);
