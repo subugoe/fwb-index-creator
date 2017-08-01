@@ -36,6 +36,24 @@ public class XsltTest {
 	}
 
 	@Test
+	public void shouldLeaveSomeGramsAsIs() throws Exception {
+		xslt.transform("src/test/resources/highlightGramWithSibling.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("mylemma, Adj.; zu otherlemma. ›def‹. ", "//field[@name='artikel_text']", result);
+		// example: abschleipfig
+	}
+
+	@Test
+	public void shouldLeaveOutSomeSpacesInSnippets() throws Exception {
+		xslt.transform("src/test/resources/highlightPunctuation.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("mylemma, Adj. ›def‹. 123. ", "//field[@name='artikel_text']", result);
+		// example: absäumig
+	}
+
+	@Test
 	public void shouldGenerateCorrectCitationSnippet() throws Exception {
 		xslt.transform("src/test/resources/citationWithLink.xml", outputBaos);
 		String result = outputBaos.toString();
