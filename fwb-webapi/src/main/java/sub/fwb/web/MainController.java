@@ -119,6 +119,12 @@ public class MainController {
 		return "stopped";
 	}
 
+	@RequestMapping(value = "/restart")
+	public RedirectView deleteLockFile(Model model) throws Exception {
+		lock.delete();
+		return new RedirectView("/");
+	}
+
 	// for unit testing
 	void setGit(GitWrapper newGit) {
 		git = newGit;
