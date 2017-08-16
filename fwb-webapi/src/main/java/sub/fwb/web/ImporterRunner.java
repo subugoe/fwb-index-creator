@@ -52,7 +52,7 @@ public class ImporterRunner implements Runnable {
 		log.println();
 		try {
 			importer.setLogOutput(log);
-			Thread.sleep(10000);
+			Thread.sleep(11000);
 			checkIfContinue();
 			importer.convertAll(inputExcel(), teiInputDir(), solrXmlDir());
 			checkIfContinue();
