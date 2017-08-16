@@ -20,10 +20,13 @@ public class Mailer {
 			email.setHostName(env.getVariable("MAIL_HOST"));
 			email.setSmtpPort(587);
 			email.setFrom("no-reply@fwb-online.de");
-			email.setDebug(true);
+			email.setDebug(false);
 			email.setSubject("FWB-Importer Logausgabe");
 			email.setMsg(logAccess.getLogContents());
-			email.addTo(mailAddress);
+			String[] addresses = mailAddress.split("[,;]");
+			for (String address : addresses) {
+				email.addTo(address);
+			}
 			email.send();
 		} catch (EmailException e) {
 			e.printStackTrace();
