@@ -3,7 +3,7 @@ package sub.fwb;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
 import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -42,7 +42,22 @@ public class XsltHtmlTest {
 	}
 
 	@Test
+	public void shouldCauseOnlyOneWarning() throws Exception {
+		beforeAllTests();
+		PrintStream errorStream = new PrintStream(errorBaos);
+		xslt.setErrorOut(errorStream);
+
+		xslt.transform("src/test/resources/html/unknownElement.xml", outputBaos);
+		xslt.transform("src/test/resources/html/unknownElement2.xml", outputBaos);
+
+		String warningMessage = errorBaos.toString();
+		assertThat(warningMessage, containsString("unknownElement"));
+		assertThat(warningMessage, not(containsString("unknownElement2")));
+	}
+
+	@Test
 	public void shouldCauseWarningWithUnknownElement() throws Exception {
+		beforeAllTests();
 		PrintStream errorStream = new PrintStream(errorBaos);
 		xslt.setErrorOut(errorStream);
 

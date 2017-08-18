@@ -157,8 +157,17 @@
       <xsl:message>
         <xsl:text>Unknown element &lt;</xsl:text>
         <xsl:value-of select="local-name()" />
-        <xsl:text>&gt;: </xsl:text>
-        <xsl:value-of select=".//text()" />
+        <xsl:if test="@rend">
+          <xsl:text> rend="</xsl:text>
+          <xsl:value-of select="@rend" />
+          <xsl:text>"</xsl:text>
+        </xsl:if>
+        <xsl:if test="@type">
+          <xsl:text> type="</xsl:text>
+          <xsl:value-of select="@type" />
+          <xsl:text>"</xsl:text>
+        </xsl:if>
+        <xsl:text>&gt; - first occurrence: </xsl:text>
       </xsl:message>
       <span class="unknown-element">
         <xsl:apply-templates select="*|text()" mode="html_fulltext" />

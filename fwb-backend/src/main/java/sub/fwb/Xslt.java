@@ -7,7 +7,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.transform.SourceLocator;
 import javax.xml.transform.stream.StreamSource;
@@ -28,6 +30,7 @@ public class Xslt {
 	private XsltExecutable exe;
 	private Map<String, String> parameters = new HashMap<String, String>();
 	private PrintStream errorOut = System.out;
+	private Set<String> unknownButProcessedElements = new HashSet<>();
 
 	public void setErrorOut(PrintStream newErrorOut) {
 		errorOut = newErrorOut;
@@ -58,10 +61,16 @@ public class Xslt {
 		transformer.setDestination(out);
 		transformer.setMessageListener(new MessageListener() {
 			public void message(XdmNode content, boolean terminate, SourceLocator locator) {
-				errorOut.println();
-				errorOut.println("WARNING in " + inputXmlPath);
-				errorOut.println(content.getStringValue());
-				errorOut.println();
+				String warnMessage = content.getStringValue();
+				if (unknownButProcessedElements.contains(warnMessage)) {
+					return;
+				} else {
+					unknownButProcessedElements.add(warnMessage);
+					errorOut.println();
+					errorOut.println("WARNING " + warnMessage);
+					errorOut.println(inputXmlPath);
+					errorOut.println();
+				}
 			}
 		});
 		transformer.transform();
