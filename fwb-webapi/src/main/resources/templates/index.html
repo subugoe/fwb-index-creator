@@ -8,6 +8,7 @@
 		<h3>Aktueller Commit: <span style="color: blue" th:text="${commitMessage}"></span></h3>
 		<div>Git-URL: <span th:text="${GIT_URL}"></span></div>
 		<br />
+		<hr />
 		<br />
 		<form method="post" action="import">
 			<span>Email für Logs: </span><input name="mailaddress" type="text" />
@@ -16,7 +17,10 @@
 			<input type="submit" value="Auf Staging Server importieren" /> (<span th:text="${SOLR_STAGING_URL}"></span>)
 		</form>
 		<br />
+		Aktueller Indexzustand des Staging-Servers: <b><span th:text="${currentCoreDateStaging}"></span></b>
 		<br />
+		<br />
+		<hr />
 		<br />
 		<form method="post" action="import">
 			<span>Email für Logs: </span><input name="mailaddress" type="text" />
@@ -34,6 +38,7 @@
 		</form>
 		
 		<br />
+		<hr />
 		<br />
 		<h4>Letztes Log:</h4>
 		<pre th:text="${log}"></pre>

@@ -37,8 +37,9 @@ public class MainController {
 		model.addAttribute("SOLR_STAGING_URL", stagingUrl());
 		model.addAttribute("SOLR_LIVE_URL", liveUrl());
 		model.addAttribute("GIT_URL", gitUrl());
-		model.addAttribute("previousCoreDate", coreInfo(importCore()));
-		model.addAttribute("currentCoreDate", coreInfo(onlineCore()));
+		model.addAttribute("previousCoreDate", coreInfo(liveUrl(), importCore()));
+		model.addAttribute("currentCoreDate", coreInfo(liveUrl(), onlineCore()));
+		model.addAttribute("currentCoreDateStaging", coreInfo(stagingUrl(), onlineCore()));
 		model.addAttribute("log", logAccess.getLogContents());
 		if (lock.exists()) {
 			return "started";
@@ -49,7 +50,8 @@ public class MainController {
 			git.pull();
 			lastMessage = git.getLastCommitMessage();
 		} catch (Exception e) {
-			lastMessage = "Not a git directory.";
+			e.printStackTrace();
+			lastMessage = "Fehler: " + e.getMessage();
 		}
 		model.addAttribute("commitMessage", lastMessage);
 
@@ -76,8 +78,8 @@ public class MainController {
 		return env.getVariable("SOLR_ONLINE_CORE");
 	}
 
-	private String coreInfo(String core) {
-		swapper.setSolrEndpoint(liveUrl(), core);
+	private String coreInfo(String solrUrl, String core) {
+		swapper.setSolrEndpoint(solrUrl, core);
 		String coreDate = null;
 		try {
 			coreDate = swapper.getCoreDate();
