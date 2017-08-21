@@ -10,7 +10,7 @@ public class Mailer {
 	private Email email = new SimpleEmail();
 	private Environment env = new Environment();
 
-	public void sendLog(String mailAddress) {
+	public void sendLog(String mailAddress, String mailSubject) {
 		try {
 			String user = env.getVariable("MAIL_USER");
 			String password = env.getVariable("MAIL_PASSWORD");
@@ -21,7 +21,7 @@ public class Mailer {
 			email.setSmtpPort(587);
 			email.setFrom("no-reply@fwb-online.de");
 			email.setDebug(false);
-			email.setSubject("FWB-Importer Logausgabe");
+			email.setSubject(mailSubject);
 			email.setMsg(logAccess.getLogContents());
 			String[] addresses = mailAddress.split("[,;]");
 			for (String address : addresses) {

@@ -77,8 +77,9 @@ public class ImporterRunner implements Runnable {
 			log.println();
 			log.println("    " + timer.getDurationMessage());
 			log.close();
+			String mailSubject = "FWB: Import endete mit dem Status " + logAccess.getStatusOfLastLog() + " (" + serverName() + ")";
 			mailer = new Mailer();
-			mailer.sendLog(mailAddress);
+			mailer.sendLog(mailAddress, mailSubject);
 		}
 	}
 
@@ -114,6 +115,18 @@ public class ImporterRunner implements Runnable {
 
 	private String solrUrl() {
 		return solrUrl;
+	}
+
+	private String serverName() {
+		String liveUrl = env.getVariable("SOLR_LIVE_URL");
+		String stagingUrl = env.getVariable("SOLR_STAGING_URL");
+		if (solrUrl.equals(liveUrl)) {
+			return "Live-Server";
+		} else if (solrUrl.equals(stagingUrl)) {
+			return "Staging-Server";
+		} else {
+			return "Unknown Server";
+		}
 	}
 
 	private String solrImportCore() {

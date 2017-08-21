@@ -14,7 +14,7 @@
 			<span>Email für Logs: </span><input name="mailaddress" type="text" />
 			<br />
 			<input type="hidden" name="solrurl" th:value="${SOLR_STAGING_URL}" />
-			<input type="submit" value="Auf Staging Server importieren" /> (<span th:text="${SOLR_STAGING_URL}"></span>)
+			<input type="submit" value="Auf Staging-Server importieren" /> (<span th:text="${SOLR_STAGING_URL}"></span>)
 		</form>
 		<br />
 		Aktueller Indexzustand des Staging-Servers: <b><span th:text="${currentCoreDateStaging}"></span></b>

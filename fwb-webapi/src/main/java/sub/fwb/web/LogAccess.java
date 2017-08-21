@@ -29,6 +29,19 @@ public class LogAccess {
 		}
 	}
 
+	public String getStatusOfLastLog() {
+		String log = getLogContents();
+		if (log.contains("ERROR")) {
+			return "ERROR";
+		} else if (log.contains("WARNING")) {
+			return "WARNING";
+		} else if (log.contains("Took") && log.contains("minutes")){
+			return "SUCCESS";
+		} else {
+			return "UNKNOWN";
+		}
+	}
+
 	public void clear() {
 		init();
 		try {
