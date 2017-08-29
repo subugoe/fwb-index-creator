@@ -123,7 +123,7 @@ public class Importer {
 		Result testResult = junit.run(SolrTester.class);
 		for (Failure fail : testResult.getFailures()) {
 			out.println();
-			out.println("FAILURE in " + fail.getTestHeader() + ": " + fail.getMessage());
+			out.println("WARNING in " + fail.getTestHeader() + ": " + fail.getMessage());
 		}
 	}
 
