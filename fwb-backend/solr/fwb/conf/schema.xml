@@ -138,6 +138,8 @@
   <field name="neblem_text" type="text_de" />
   <field name="def" type="text_de" />
   <field name="def_text" type="text_de" />
+  <field name="bed" type="text_de" />
+  <field name="bed_text" type="text_de" />
   <field name="zitat" type="text_old_german" />
   <field name="zitat_text" type="text_old_german" />
   <field name="bdv" type="text_de" />
@@ -222,6 +224,8 @@
   <copyField source="neblem_text" dest="neblem_text_exakt" />
   <copyField source="def" dest="def_exakt" />
   <copyField source="def_text" dest="def_text_exakt" />
+  <copyField source="bed" dest="bed_exakt" />
+  <copyField source="bed_text" dest="bed_text_exakt" />
   <copyField source="bdv" dest="bdv_exakt" />
   <copyField source="bdv_text" dest="bdv_text_exakt" />
   <copyField source="subvoce" dest="subvoce_exakt" />

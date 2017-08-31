@@ -139,7 +139,7 @@ public class XsltTest {
 		xslt.transform("src/test/resources/defNumbers_twoDefs.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("1", "count(//field[@name='def_text'])", result);
+		assertXpathEvaluatesTo("1", "count(//field[@name='bed_text'])", result);
 		assertXpathEvaluatesTo("1", "count(//field[@name='def_number'])", result);
 	}
 
@@ -158,7 +158,7 @@ public class XsltTest {
 		String result = outputBaos.toString();
 
 		assertXpathEvaluatesTo("0", "count(//field[@name='def_number'])", result);
-		assertXpathEvaluatesTo("1", "count(//field[@name='def_text'])", result);
+		assertXpathEvaluatesTo("1", "count(//field[@name='bed_text'])", result);
 	}
 
 	@Test
@@ -291,7 +291,7 @@ public class XsltTest {
 		xslt.transform("src/test/resources/oneSense.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("Definition.", "//field[@name='def_text']", result);
+		assertXpathEvaluatesTo("Definition.", "//field[@name='bed_text']", result);
 	}
 
 	@Test
@@ -299,14 +299,14 @@ public class XsltTest {
 		xslt.transform("src/test/resources/twoSenses.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("Definition one.", "//field[@name='def_text'][1]", result);
-		assertXpathEvaluatesTo("Definition two.", "//field[@name='def_text'][2]", result);
+		assertXpathEvaluatesTo("Definition one.", "//field[@name='bed_text'][1]", result);
+		assertXpathEvaluatesTo("Definition two.", "//field[@name='bed_text'][2]", result);
 		assertXpathEvaluatesTo(
 				"<div class=\"definition\"><!--start def1--><div class=\"sense-number\">1. </div>Definition one.<!--end def1--></div>",
-				"//field[@name='def'][1]", result);
+				"//field[@name='bed'][1]", result);
 		assertXpathEvaluatesTo(
 				"<div class=\"definition\"><!--start def2--><div class=\"sense-number\">2. </div>Definition two.<!--end def2--></div>",
-				"//field[@name='def'][2]", result);
+				"//field[@name='bed'][2]", result);
 	}
 
 	@Test

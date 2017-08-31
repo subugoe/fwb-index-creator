@@ -756,7 +756,7 @@
 
   <xsl:template name="printDefTextAndNumber">
     <xsl:if test="def[.//text()]">
-      <field name="def_text">
+      <field name="bed_text">
         <xsl:value-of select="def" separator=" " />
       </field>
     </xsl:if>
@@ -770,7 +770,7 @@
   </xsl:template>
 
   <xsl:template match="def[.//text()]">
-    <field name="def">
+    <field name="bed">
       <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
       <xsl:apply-templates select="." mode="html_fulltext" />
       <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
