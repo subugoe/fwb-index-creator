@@ -36,6 +36,16 @@ public class XsltTest {
 	}
 
 	@Test
+	public void shouldProduceEtym() throws Exception {
+		xslt.transform("src/test/resources/etym.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("myetym", "//field[@name='etym_text']", result);
+		assertXpathEvaluatesTo("<div class=\"etymology\"><!--start etym1-->myetym<!--end etym1--></div>", "//field[@name='etym']", result);
+		// example: äs
+	}
+
+	@Test
 	public void shouldLeaveSomeGramsAsIs() throws Exception {
 		xslt.transform("src/test/resources/highlightGramWithSibling.xml", outputBaos);
 		String result = outputBaos.toString();

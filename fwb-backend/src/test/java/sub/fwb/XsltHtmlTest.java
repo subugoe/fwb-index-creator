@@ -42,6 +42,33 @@ public class XsltHtmlTest {
 	}
 
 	@Test
+	public void shouldPrintEtymology() throws Exception {
+		xslt.transform("src/test/resources/html/etymWithDescAndLang.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("aus lat. ›desc-test‹.", "//div[@class='etymology']", html);
+		// example: äs
+	}
+
+	@Test
+	public void shouldPrintDescription() throws Exception {
+		xslt.transform("src/test/resources/html/etymWithDescAndLang.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("›desc-test‹", "//div[@class='description']", html);
+		// example: äs
+	}
+
+	@Test
+	public void shouldPrintLanguage() throws Exception {
+		xslt.transform("src/test/resources/html/etymWithDescAndLang.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("lat.", "//div[@class='language']", html);
+		// example: äs
+	}
+
+	@Test
 	public void shouldCauseOnlyOneWarning() throws Exception {
 		beforeAllTests();
 		PrintStream errorStream = new PrintStream(errorBaos);

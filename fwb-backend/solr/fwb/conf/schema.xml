@@ -140,6 +140,8 @@
   <field name="def_text" type="text_de" />
   <field name="bed" type="text_de" />
   <field name="bed_text" type="text_de" />
+  <field name="etym" type="text_de" />
+  <field name="etym_text" type="text_de" />
   <field name="zitat" type="text_old_german" />
   <field name="zitat_text" type="text_old_german" />
   <field name="bdv" type="text_de" />
@@ -180,7 +182,6 @@
   <field name="region" type="string" multiValued="true" />
   <field name="datum" type="string" multiValued="true" />
 
-  <field name="etym" type="text_de" multiValued="false" />
   <field name="head_comment" type="text_de" multiValued="false" />
 
   <field name="def_number" type="string" multiValued="true" />
@@ -226,6 +227,8 @@
   <copyField source="def_text" dest="def_text_exakt" />
   <copyField source="bed" dest="bed_exakt" />
   <copyField source="bed_text" dest="bed_text_exakt" />
+  <copyField source="etym" dest="etym_exakt" />
+  <copyField source="etym_text" dest="etym_text_exakt" />
   <copyField source="bdv" dest="bdv_exakt" />
   <copyField source="bdv_text" dest="bdv_text_exakt" />
   <copyField source="subvoce" dest="subvoce_exakt" />

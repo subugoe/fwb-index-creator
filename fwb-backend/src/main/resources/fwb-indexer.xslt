@@ -95,6 +95,10 @@
     <field name="neblem_text">
       <xsl:value-of select="dictScrap[@rend='artkopf']/re[@type='re.neblem']" />
     </field>
+    <xsl:apply-templates select="dictScrap[@rend='artkopf']/etym" />
+    <field name="etym_text">
+      <xsl:value-of select="dictScrap[@rend='artkopf']/etym" />
+    </field>
     <field name="is_reference">
       <xsl:value-of select="not(sense)" />
     </field>
@@ -102,6 +106,14 @@
 
   <xsl:template match="re[@type='re.neblem']">
     <field name="neblem">
+      <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+      <xsl:apply-templates select="." mode="html_fulltext" />
+      <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+    </field>
+  </xsl:template>
+
+  <xsl:template match="etym">
+    <field name="etym">
       <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
       <xsl:apply-templates select="." mode="html_fulltext" />
       <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
@@ -195,6 +207,18 @@
     </div>
   </xsl:template>
 
+  <xsl:template match="lang" mode="html_fulltext">
+    <div class="language">
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </div>
+  </xsl:template>
+
+  <xsl:template match="desc" mode="html_fulltext">
+    <div class="description">
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </div>
+  </xsl:template>
+
   <xsl:template match="re[@type='re.neblem']" mode="html_fulltext">
     <xsl:variable name="neblemNr" select="count(preceding::re[@type='re.neblem']) + 1" />
     <xsl:variable name="neblemId" select="concat('neblem',$neblemNr)" />
@@ -209,6 +233,16 @@
   <xsl:template match="dictScrap[@rend='artkopf']" mode="html_fulltext">
     <div class="article-head">
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+    </div>
+  </xsl:template>
+
+  <xsl:template match="etym" mode="html_fulltext">
+    <xsl:variable name="etymNr" select="count(preceding::etym) + 1" />
+    <xsl:variable name="etymId" select="concat('etym',$etymNr)" />
+    <div class="etymology">
+      <xsl:comment>start <xsl:value-of select="$etymId" /></xsl:comment>
+      <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+      <xsl:comment>end <xsl:value-of select="$etymId" /></xsl:comment>
     </div>
   </xsl:template>
 
