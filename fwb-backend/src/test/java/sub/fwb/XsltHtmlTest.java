@@ -351,6 +351,8 @@ public class XsltHtmlTest {
 
 		assertXpathExists("//div[@class='ggs']", html);
 		assertXpathExists("//div[@class='ggs-begin']", html);
+		assertXpathEvaluatesTo("", "//span[@class='unknown-element']", html);
+		assertXpathEvaluatesTo("2", "count(//div[@class='highlight-boundary'])", html);
 	}
 
 	@Test

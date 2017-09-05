@@ -36,6 +36,17 @@ public class XsltTest {
 	}
 
 	@Test
+	public void shouldAddReGgs() throws Exception {
+		xslt.transform("src/test/resources/sense_reggs.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("inline-ggs", "//field[@name='ggs_text']", result);
+		assertXpathEvaluatesTo("1", "count(//field[@name='ggs'])", result);
+		assertXpathEvaluatesTo("<div class=\"highlight-boundary\"><!--start reggs1--><div class=\"italic\"><a href=\"ende.s.*\">inline-ggs</a></div><!--end reggs1--></div>", "//field[@name='ggs']", result);
+		//example: anfängen
+	}
+
+	@Test
 	public void shouldProduceEtym() throws Exception {
 		xslt.transform("src/test/resources/etym.xml", outputBaos);
 		String result = outputBaos.toString();

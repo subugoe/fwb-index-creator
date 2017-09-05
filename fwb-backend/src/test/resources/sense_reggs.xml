@@ -4,7 +4,6 @@
     <body>
       <entry>
         <sense>
-          <dictScrap rend="ggs"><ref type="mat" target="ggs">Ggs</ref>, other text</dictScrap>
           <re type="re.ggs"><ref type="nex" target="ende.s.*">inline-ggs</ref></re>
         </sense>
       </entry>
