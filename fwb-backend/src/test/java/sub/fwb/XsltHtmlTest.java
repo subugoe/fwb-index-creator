@@ -42,6 +42,15 @@ public class XsltHtmlTest {
 	}
 
 	@Test
+	public void shouldRecognizeInlineBdv() throws Exception {
+		xslt.transform("src/test/resources/html/bdv.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("", "//span[@class='unknown-element']", html);
+		// example: anfängen
+	}
+
+	@Test
 	public void shouldPrintEtymology() throws Exception {
 		xslt.transform("src/test/resources/html/etymWithDescAndLang.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);

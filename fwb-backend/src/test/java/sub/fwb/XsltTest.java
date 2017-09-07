@@ -36,6 +36,17 @@ public class XsltTest {
 	}
 
 	@Test
+	public void shouldAddReBdv() throws Exception {
+		xslt.transform("src/test/resources/sense_rebdv.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("inline-bdv", "//field[@name='bdv_text']", result);
+		assertXpathEvaluatesTo("1", "count(//field[@name='bdv'])", result);
+		assertXpathEvaluatesTo("<div class=\"highlight-boundary\"><!--start rebdv1--><div class=\"italic\"><a href=\"mybdv.s.0m\">inline-bdv</a></div><!--end rebdv1--></div>", "//field[@name='bdv']", result);
+		//example: anfängen
+	}
+
+	@Test
 	public void shouldAddReGgs() throws Exception {
 		xslt.transform("src/test/resources/sense_reggs.xml", outputBaos);
 		String result = outputBaos.toString();

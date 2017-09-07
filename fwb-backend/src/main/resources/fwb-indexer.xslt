@@ -123,6 +123,17 @@
     </field>
   </xsl:template>
 
+  <xsl:template match="re[@type='re.bdv']">
+    <field name="bdv">
+      <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+      <xsl:apply-templates select="." mode="html_fulltext" />
+      <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+    </field>
+    <field name="bdv_text">
+      <xsl:value-of select=".//text()" />
+    </field>
+  </xsl:template>
+
   <xsl:template match="etym">
     <field name="etym">
       <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
@@ -283,6 +294,10 @@
     <xsl:apply-templates select="*|text()" mode="html_fulltext" />
   </xsl:template>
 
+  <xsl:template match="re[@type='re.bdv']" mode="html_fulltext" >
+    <xsl:apply-templates select="*|text()" mode="html_fulltext" />
+  </xsl:template>
+
   <xsl:template match="re[@type='re.ggs']/ref[not(matches(@target, '_s\d+$') and number(.))]" mode="html_fulltext">
     <xsl:variable name="reggsNr" select="count(preceding::ref) + 1" />
     <xsl:variable name="reggsId" select="concat('reggs',$reggsNr)" />
@@ -306,6 +321,32 @@
         </xsl:otherwise>
       </xsl:choose>
       <xsl:comment>end <xsl:value-of select="$reggsId" /></xsl:comment>
+    </div>
+  </xsl:template>
+
+  <xsl:template match="re[@type='re.bdv']/ref[not(matches(@target, '_s\d+$') and number(.))]" mode="html_fulltext">
+    <xsl:variable name="rebdvNr" select="count(preceding::ref) + 1" />
+    <xsl:variable name="rebdvId" select="concat('rebdv',$rebdvNr)" />
+    <div class="highlight-boundary">
+      <xsl:comment>start <xsl:value-of select="$rebdvId" /></xsl:comment>
+      <xsl:choose>
+        <xsl:when test="contains(@target, '#') and number(.)">
+          <xsl:variable name="linkStart" select="concat(substring-before(@target, '#'), '#')" />
+          <xsl:variable name="linkEnd" select="concat('sense', text())" />
+          <xsl:variable name="link" select="concat($linkStart, $linkEnd)" />
+          <a href="{$link}">
+            <xsl:value-of select="." />
+          </a>
+        </xsl:when>
+        <xsl:otherwise>
+          <div class="italic">
+            <a href="{@target}">
+              <xsl:value-of select="." />
+            </a>
+          </div>
+        </xsl:otherwise>
+      </xsl:choose>
+      <xsl:comment>end <xsl:value-of select="$rebdvId" /></xsl:comment>
     </div>
   </xsl:template>
 
@@ -824,6 +865,7 @@
       <xsl:apply-templates select="dictScrap[@rend='BBlock']" />
       <xsl:apply-templates select="dictScrap[@rend='wbv']" />
       <xsl:apply-templates select=".//re[@type='re.ggs']" />
+      <xsl:apply-templates select=".//re[@type='re.bdv']" />
   </xsl:template>
 
   <xsl:template match="lb">
