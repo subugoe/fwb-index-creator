@@ -791,7 +791,7 @@
   </xsl:template>
 
   <xsl:template match="bibl" mode="html_fulltext">
-    <xsl:if test="preceding-sibling::*[1]/local-name() = 'bibl'">
+    <xsl:if test="preceding-sibling::*[1]/local-name() = 'bibl' and not(parent::etym)">
       <xsl:text> </xsl:text>
     </xsl:if>
     <xsl:apply-templates select="*|text()" mode="html_fulltext" />
