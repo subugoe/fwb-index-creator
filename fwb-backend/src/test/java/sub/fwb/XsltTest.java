@@ -36,6 +36,15 @@ public class XsltTest {
 	}
 
 	@Test
+	public void shouldNotPrintSpaceBetweenWbgs() throws Exception {
+		xslt.transform("src/test/resources/wbg.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("wbg1, wbg2", "//field[@name='artikel_text']", result);
+		//example: blahe
+	}
+
+	@Test
 	public void shouldAddReBdv() throws Exception {
 		xslt.transform("src/test/resources/sense_rebdv.xml", outputBaos);
 		String result = outputBaos.toString();

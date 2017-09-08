@@ -167,7 +167,7 @@
   <xsl:template match="text()" mode="fulltext">
     <xsl:value-of select="replace(., '\p{Z}+', ' ')" />
     <xsl:variable name="tag" select="local-name(parent::*)" />
-    <xsl:variable name="tagsFollowedBySpace" select="($tag = 'num' or $tag = 're' or $tag = 'orth' or $tag = 'dictScrap' or $tag = 'def' or $tag = 'bibl' or $tag = 'quote') and not(following-sibling::*)" />
+    <xsl:variable name="tagsFollowedBySpace" select="($tag = 'num' or $tag = 're' or $tag = 'orth' or $tag = 'dictScrap' or $tag = 'def' or $tag = 'bibl' or $tag = 'quote') and not(following-sibling::*) and not(parent::re[@type='re.wbg'])" />
     <xsl:variable name="gramWithoutSibling" select="$tag = 'gram' and not(parent::*/following-sibling::*)" />
     <xsl:variable name="afterLastCitedRange" select="$tag = 'citedRange' and not(parent::*/following-sibling::*) and not(parent::*/following-sibling::text())" />
     <xsl:variable name="beforeLineBreak" select="local-name(following-sibling::*[1]) = 'lb'" />
