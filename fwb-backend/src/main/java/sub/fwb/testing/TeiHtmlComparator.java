@@ -21,7 +21,9 @@ public class TeiHtmlComparator {
 		teiString = teiString.replace("<lb/>", " | ");
 		teiString = teiString.replace("> <", "");
 		// need to replace the accidental occurrences
-		teiString = teiString.replaceAll("(Zur Sache: |Syntagmen: |Redensart: |Phraseme: )", "");
+		teiString = teiString.replaceAll(
+				"(Bedeutungsverwandte: |Syntagmen: |Belegblock: |Gegensätze: |Phraseme: |Wortbildungen: |Zur Sache: |Redensart: )",
+				"");
 		teiString = teiString.replaceAll("Zur Sache ", "");
 		teiString = removeTags(teiString);
 		teiString = teiString.replaceAll("\\s+", "").trim();
