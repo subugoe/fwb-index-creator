@@ -42,6 +42,15 @@ public class XsltHtmlTest {
 	}
 
 	@Test
+	public void shouldNotInsertSpaceInBibl() throws Exception {
+		xslt.transform("src/test/resources/html/biblInsideEtym.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("aus (Lexer)", "//div[@class='etymology']", html);
+		// example: bleuen
+	}
+
+	@Test
 	public void shouldRecognizeInlineBdv() throws Exception {
 		xslt.transform("src/test/resources/html/bdv.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);

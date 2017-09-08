@@ -805,7 +805,7 @@
       <xsl_text>source_</xsl_text>
       <xsl:value-of select="@n" />
     </xsl:variable>
-    <xsl:if test="not(../..[@rend='artkopf']) and not(ancestor::quote)">
+    <xsl:if test="not(../..[@rend='artkopf']) and not(ancestor::quote) and not(ancestor::etym)">
       <xsl:text> </xsl:text>
     </xsl:if>
     <a class="name citation-source_link" href="/source/{$currentCitationId}">
