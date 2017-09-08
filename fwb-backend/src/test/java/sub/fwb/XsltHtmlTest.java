@@ -42,6 +42,15 @@ public class XsltHtmlTest {
 	}
 
 	@Test
+	public void shouldNotInsertSpaceInDef() throws Exception {
+		xslt.transform("src/test/resources/html/biblInsideDef.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 1);
+
+		assertXpathEvaluatesTo("(Name)", "//div[@class='sense']", html);
+		// example: katzenauge
+	}
+
+	@Test
 	public void shouldNotInsertSpaceInBibl2() throws Exception {
 		xslt.transform("src/test/resources/html/biblInsideEtym2.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);

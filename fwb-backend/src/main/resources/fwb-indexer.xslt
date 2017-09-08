@@ -791,7 +791,7 @@
   </xsl:template>
 
   <xsl:template match="bibl" mode="html_fulltext">
-    <xsl:if test="preceding-sibling::*[1]/local-name() = 'bibl' and not(parent::etym)">
+    <xsl:if test="preceding-sibling::*[1]/local-name() = 'bibl' and not(parent::etym) and not(parent::def)">
       <xsl:text> </xsl:text>
     </xsl:if>
     <xsl:apply-templates select="*|text()" mode="html_fulltext" />
@@ -805,7 +805,7 @@
       <xsl_text>source_</xsl_text>
       <xsl:value-of select="@n" />
     </xsl:variable>
-    <xsl:if test="not(../..[@rend='artkopf']) and not(ancestor::quote) and not(ancestor::etym)">
+    <xsl:if test="not(../..[@rend='artkopf']) and not(ancestor::quote) and not(ancestor::etym) and not(ancestor::def)">
       <xsl:text> </xsl:text>
     </xsl:if>
     <a class="name citation-source_link" href="/source/{$currentCitationId}">
