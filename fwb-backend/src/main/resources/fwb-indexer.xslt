@@ -167,7 +167,8 @@
   <xsl:template match="text()" mode="fulltext">
     <xsl:value-of select="replace(., '\p{Z}+', ' ')" />
     <xsl:variable name="tag" select="local-name(parent::*)" />
-    <xsl:variable name="tagsFollowedBySpace" select="($tag = 'num' or $tag = 're' or $tag = 'orth' or $tag = 'dictScrap' or $tag = 'def' or $tag = 'bibl' or $tag = 'quote') and not(following-sibling::*) and not(parent::re[@type='re.wbg'])" />
+    <xsl:variable name="followingText" select="parent::*/following-sibling::text()" />
+    <xsl:variable name="tagsFollowedBySpace" select="($tag = 'num' or $tag = 're' or $tag = 'orth' or $tag = 'dictScrap' or $tag = 'def' or $tag = 'bibl' or $tag = 'quote') and not(following-sibling::*) and not(parent::re[@type='re.wbg']) and not(matches($followingText[1],'^[,;.]'))" />
     <xsl:variable name="gramWithoutSibling" select="$tag = 'gram' and not(parent::*/following-sibling::*)" />
     <xsl:variable name="afterLastCitedRange" select="$tag = 'citedRange' and not(parent::*/following-sibling::*) and not(parent::*/following-sibling::text())" />
     <xsl:variable name="beforeLineBreak" select="local-name(following-sibling::*[1]) = 'lb'" />
@@ -249,7 +250,10 @@
       <xsl:apply-templates select="*|text()" mode="html_fulltext" />
       <xsl:comment>end <xsl:value-of select="$neblemId" /></xsl:comment>
     </div>
-    <xsl:text> </xsl:text>
+    <xsl:variable name="followingText" select="following-sibling::text()" />
+    <xsl:if test="not(matches($followingText[1], '^[,;.]'))">
+      <xsl:text> </xsl:text>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template match="dictScrap[@rend='artkopf']" mode="html_fulltext">

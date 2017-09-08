@@ -42,6 +42,15 @@ public class XsltHtmlTest {
 	}
 
 	@Test
+	public void shouldNotInsertSpaceAfterNeblemWithComma() throws Exception {
+		xslt.transform("src/test/resources/html/neblemWithComma.xml", outputBaos);
+		String html = extractHtmlField(outputBaos.toString(), 2);
+
+		assertXpathEvaluatesTo("neblem, bla", "//div[@class='article-head']", html);
+		// example: aberacht
+	}
+
+	@Test
 	public void shouldNotInsertSpaceInDef() throws Exception {
 		xslt.transform("src/test/resources/html/biblInsideDef.xml", outputBaos);
 		String html = extractHtmlField(outputBaos.toString(), 1);
