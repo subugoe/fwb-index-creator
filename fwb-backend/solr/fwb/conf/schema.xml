@@ -134,6 +134,7 @@
   <field name="artikel_text" type="text_de" multiValued="false" />
   <field name="lemma" type="text_de" multiValued="false" />
   <field name="lemma_text" type="text_de" multiValued="false" />
+  <field name="sufo" type="text_de" />
   <field name="neblem" type="text_de" />
   <field name="neblem_text" type="text_de" />
   <field name="def" type="text_de" />

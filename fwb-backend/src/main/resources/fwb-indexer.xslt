@@ -20,6 +20,7 @@
           <xsl:value-of select="$currentArticleId" />
         </field>
         <xsl:apply-templates select="//teiHeader//sourceDesc/bibl" />
+        <xsl:apply-templates select="//teiHeader//notesStmt" />
         <xsl:apply-templates select="//body/entry" />
         <xsl:apply-templates select="//body/entry" mode="fulltext" />
         <xsl:apply-templates select="//body/entry" mode="html_fulltext" />
@@ -38,6 +39,14 @@
     <field name="col">
       <xsl:value-of select="biblScope[@type='col']" />
     </field>
+  </xsl:template>
+
+  <xsl:template match="notesStmt">
+    <xsl:for-each select="note[@type='orth.de_DE']">
+      <field name="sufo">
+        <xsl:value-of select="." />
+      </field>
+    </xsl:for-each>
   </xsl:template>
 
   <xsl:template match="entry">

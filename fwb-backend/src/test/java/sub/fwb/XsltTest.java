@@ -36,6 +36,16 @@ public class XsltTest {
 	}
 
 	@Test
+	public void shouldAddSearchForms() throws Exception {
+		xslt.transform("src/test/resources/searchForms.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("form1", "//field[@name='sufo'][1]", result);
+		assertXpathEvaluatesTo("form2", "//field[@name='sufo'][2]", result);
+		//example: ausherre
+	}
+
+	@Test
 	public void shouldNotPrintSpaceBetweenWbgs() throws Exception {
 		xslt.transform("src/test/resources/wbg.xml", outputBaos);
 		String result = outputBaos.toString();
