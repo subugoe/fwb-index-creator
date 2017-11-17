@@ -168,7 +168,7 @@
   <field name="volume" type="string" />
   <field name="col" type="string" />
   <!-- ID aus dem TEI -->
-  <field name="internal_id" type="string" />
+  <field name="internal_id" type="string" multiValued="true" />
   <field name="sortkey" type="string" />
   <field name="roman_number" type="string" />
   <field name="homonym" type="int" />

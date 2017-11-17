@@ -50,9 +50,20 @@
   </xsl:template>
 
   <xsl:template match="entry">
+    <xsl:variable name="internalId" select="@xml:id" />
     <field name="internal_id">
-      <xsl:value-of select="@xml:id" />
+      <xsl:value-of select="$internalId" />
     </field>
+    <xsl:if test="$internalId != ''">
+      <xsl:analyze-string select="$internalId" regex=".*(_[a-zäöüß]_).*">
+        <xsl:matching-substring>
+          <field name="internal_id">
+            <xsl:value-of select="substring-before(., regex-group(1))" />
+            <xsl:value-of select="substring-after(., regex-group(1))" />
+          </field>
+        </xsl:matching-substring>
+      </xsl:analyze-string>
+    </xsl:if>
     <xsl:if test="@n">
       <field name="homonym">
         <xsl:value-of select="@n" />

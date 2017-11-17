@@ -36,6 +36,16 @@ public class XsltTest {
 	}
 
 	@Test
+	public void shouldAddSecondInternalId() throws Exception {
+		xslt.transform("src/test/resources/alternativeInternalId.xml", outputBaos);
+		String result = outputBaos.toString();
+
+		assertXpathEvaluatesTo("ampt_e_.s.0m", "//field[@name='internal_id'][1]", result);
+		assertXpathEvaluatesTo("ampt.s.0m", "//field[@name='internal_id'][2]", result);
+		//example: ampt(e)
+	}
+
+	@Test
 	public void shouldAddSearchForms() throws Exception {
 		xslt.transform("src/test/resources/searchForms.xml", outputBaos);
 		String result = outputBaos.toString();
