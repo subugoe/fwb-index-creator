@@ -54,11 +54,20 @@
     <field name="internal_id">
       <xsl:value-of select="$internalId" />
     </field>
+    <field name="virtual_id">
+      <xsl:value-of select="$internalId" />
+    </field>
     <xsl:if test="$internalId != ''">
       <xsl:analyze-string select="$internalId" regex=".*(_[a-zäöüß]_).*">
         <xsl:matching-substring>
-          <field name="internal_id">
+          <field name="virtual_id">
             <xsl:value-of select="substring-before(., regex-group(1))" />
+            <xsl:value-of select="substring-after(., regex-group(1))" />
+          </field>
+          <field name="virtual_id">
+            <xsl:value-of select="substring-before(., regex-group(1))" />
+            <xsl:variable name="groupLength" select="string-length(regex-group(1))" />
+            <xsl:value-of select="substring(regex-group(1), 2, $groupLength - 2)" />
             <xsl:value-of select="substring-after(., regex-group(1))" />
           </field>
         </xsl:matching-substring>

@@ -37,11 +37,12 @@ public class XsltTest {
 
 	@Test
 	public void shouldAddSecondInternalId() throws Exception {
-		xslt.transform("src/test/resources/alternativeInternalId.xml", outputBaos);
+		xslt.transform("src/test/resources/virtualIds.xml", outputBaos);
 		String result = outputBaos.toString();
 
-		assertXpathEvaluatesTo("ampt_e_.s.0m", "//field[@name='internal_id'][1]", result);
-		assertXpathEvaluatesTo("ampt.s.0m", "//field[@name='internal_id'][2]", result);
+		assertXpathEvaluatesTo("ampt_e_.s.0m", "//field[@name='virtual_id'][1]", result);
+		assertXpathEvaluatesTo("ampt.s.0m", "//field[@name='virtual_id'][2]", result);
+		assertXpathEvaluatesTo("ampte.s.0m", "//field[@name='virtual_id'][3]", result);
 		//example: ampt(e)
 	}
 
