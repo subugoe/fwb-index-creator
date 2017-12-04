@@ -74,7 +74,7 @@
       <str name="hl.requireFieldMatch">true</str>
       <str name="hl.maxAnalyzedChars">-1</str>
       <str name="hl.preserveMulti">true</str>
-      <str name="fl">id,internal_id,bed_text,def_number,sortkey,homonym,roman_number,lemma</str>
+      <str name="fl">id,internal_id,bed_text,def_number,sortkey,homonym,roman_number,lemma,sufo</str>
     </lst>
     <lst name="defaults">
       <str name="hl.simple.pre"><![CDATA[<span class="highlight">]]></str>
@@ -90,7 +90,7 @@
   <!-- Light version of /article-hl without highlightings. Is used for links between articles. -->
   <requestHandler name="/article" class="solr.SearchHandler">
     <lst name="defaults">
-      <str name="fl">artikel,id,internal_id,bed_text,def_number,sortkey,homonym,roman_number,lemma</str>
+      <str name="fl">artikel,id,internal_id,bed_text,def_number,sortkey,homonym,roman_number,lemma,sufo</str>
     </lst>
   </requestHandler>
 
