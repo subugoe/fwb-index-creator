@@ -1,4 +1,6 @@
-This project is deprecated. The latest version is at https://github.com/subugoe/fwb-importer.
+# !!!This project is deprecated!!!
+
+The latest version is at https://github.com/subugoe/fwb-importer.
 
 
 # Index generator for FWB (Frühneuhochdeutsches Wörterbuch)
